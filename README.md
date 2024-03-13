@@ -14,6 +14,12 @@ pnpm install
 pnpm dev
 ```
 
+Before the migration is completed, you need to establish a soft connection for local development.
+```
+ln -s ../../sirius-next ../sirius/node_modules/sirius-next
+ln -s ../../sirius-next ../sirius-eth/node_modules/sirius-next
+```
+
 ### Build
 
 To build all apps and packages, run the following command:
