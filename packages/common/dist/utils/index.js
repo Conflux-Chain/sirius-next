@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
+exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
 const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
     if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
@@ -197,3 +197,30 @@ const formatNumber = (num, opt) => {
     return result;
 };
 exports.formatNumber = formatNumber;
+const roundToFixedPrecision = (number, precision, method = 'ROUND') => {
+    if (typeof number === 'string' && number.includes('<')) {
+        return number;
+    }
+    const regex = /^([+-]?[0-9]*\.?[0-9]+)(\D*)$/;
+    let matches = String(number).match(regex);
+    if (!matches) {
+        matches = [String(number), ''];
+    }
+    const suffix = matches[2];
+    const numberFormat = parseFloat(matches[1] ?? '');
+    const factor = Math.pow(10, precision);
+    let resultNum;
+    switch (method) {
+        case 'FLOOR':
+            resultNum = Math.floor(numberFormat * factor) / factor;
+            break;
+        case 'CEIL':
+            resultNum = Math.ceil(numberFormat * factor) / factor;
+            break;
+        case 'ROUND':
+        default:
+            resultNum = Math.round((numberFormat + Number.EPSILON) * factor) / factor;
+    }
+    return resultNum.toFixed(precision) + suffix;
+};
+exports.roundToFixedPrecision = roundToFixedPrecision;

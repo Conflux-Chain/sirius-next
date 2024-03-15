@@ -13,4 +13,5 @@ export declare const replaceAll: (str: string, find: string, replace: string) =>
  * @todo: 支持负数格式化
  */
 export declare const formatNumber: (num: number | string, opt?: any) => string;
+export declare const roundToFixedPrecision: (number: number | string, precision: number, method?: string) => string;
 //# sourceMappingURL=index.d.ts.map
