@@ -24,6 +24,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "bignumber.js": "^9.1.2"
+    "bignumber.js": "^9.1.2",
+    "dayjs": "^1.11.10"
   }
 }

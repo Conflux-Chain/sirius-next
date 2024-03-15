@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import dayjs from 'dayjs';
 
 export const toThousands = (num: any, delimiter = ",", prevDelimiter = ",") => {
   if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
@@ -150,9 +151,8 @@ export const formatNumber = (num: number | string, opt?: any) => {
   // 6. 格式化整数
   if (intStrFront) {
     // 如果数字长度超过 27 位，则前面的数字用千分符分割
-    int = `${toThousands(intStrFront, option.delimiter)}${
-      option.delimiter
-    }${intStrEndWithUnit}`;
+    int = `${toThousands(intStrFront, option.delimiter)}${option.delimiter
+      }${intStrEndWithUnit}`;
   } else {
     int = intStrEndWithUnit;
   }
@@ -211,7 +211,7 @@ export const roundToFixedPrecision = (
   if (!matches) {
     matches = [String(number), ""];
   }
-  const suffix = matches[2];
+  const suffix = matches[2] || "";
 
   const numberFormat = parseFloat(matches[1] ?? "");
   const factor = Math.pow(10, precision);
@@ -229,4 +229,457 @@ export const roundToFixedPrecision = (
       resultNum = Math.round((numberFormat + Number.EPSILON) * factor) / factor;
   }
   return resultNum.toFixed(precision) + suffix;
+};
+
+export const getPercent = (
+  divisor: number | string,
+  dividend: number | string,
+  precision?: number,
+) => {
+  if (Number(dividend) === 0) return 0 + '%';
+  const bnDivisor = new BigNumber(divisor);
+  const bnDividend = new BigNumber(dividend);
+  const percentageNum = formatNumber(
+    bnDivisor.dividedBy(bnDividend).multipliedBy(100).toNumber(),
+  );
+  if (precision || precision === 0) {
+    const percentageNumPrecision = roundToFixedPrecision(
+      percentageNum,
+      precision,
+    );
+    if (percentageNumPrecision === '100.00') {
+      return '100%';
+    } else if (percentageNumPrecision === '0.00') {
+      return '0%';
+    }
+    return roundToFixedPrecision(percentageNum, precision) + '%';
+  }
+
+  return `${percentageNum}%`;
+};
+
+export const formatTimeStamp = (
+  time: number,
+  type?: 'standard' | 'timezone',
+) => {
+  let result: string;
+  try {
+    switch (type) {
+      case 'standard':
+        result = dayjs(time).format('YYYY-MM-DD HH:mm:ss');
+        break;
+      case 'timezone':
+        result = dayjs(time).format('YYYY-MM-DD HH:mm:ss Z');
+        break;
+      default:
+        result = dayjs(time).format('YYYY-MM-DD HH:mm:ss');
+    }
+  } catch (error) {
+    result = '';
+  }
+  return result;
+};
+
+
+export const fromGdripToDrip = (num: number | string) =>
+  new BigNumber(num).multipliedBy(10 ** 9);
+
+export const fromCfxToDrip = (num: number | string) =>
+  new BigNumber(num).multipliedBy(10 ** 18);
+
+export const formatBalance = (
+  balance: any,
+  decimals = 18,
+  isShowFull = false,
+  opt = {},
+  ltValue?: number | string,
+) => {
+  try {
+    const balanceValue = typeof balance === 'string' ||  typeof balance === 'number' ? new BigNumber(balance) : balance;
+    const num = balanceValue.div(new BigNumber(10).pow(decimals));
+    if (num.eq(0)) {
+      return num.toFixed();
+    }
+    if (isShowFull) {
+      return toThousands(num.toFixed());
+    }
+    if (ltValue && num.lt(ltValue)) {
+      return `<${ltValue}`;
+    }
+    return formatNumber(num.toString(), opt);
+  } catch {
+    return '';
+  }
+};
+
+interface BodyElement extends HTMLBodyElement {
+  createTextRange?(): Range;
+}
+export const selectText = (element: HTMLElement) => {
+  var range: any,
+    selection: any,
+    body = document.body as BodyElement;
+  if (body.createTextRange) {
+    range = body.createTextRange();
+    range.moveToElementText(element);
+    range.select();
+  } else if (window.getSelection) {
+    selection = window.getSelection();
+    range = document.createRange();
+    range.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+};
+
+export const isHash = (str: string) => {
+  return /^0x[0-9a-fA-F]{64}$/.test(str);
+};
+
+export const isBlockHash = async (str: string) => {
+  if (!isHash(str)) return false;
+  let isBlock = true;
+  try {
+    const block: any = await fetch(`/v1/block/${str}`);
+    // server side will return {} when no block found
+    if (!block.hash || block.code !== undefined) isBlock = false;
+  } catch (err) {
+    isBlock = false;
+  }
+
+  return isBlock;
+};
+
+export const isTxHash = async (str: string) => {
+  if (!isHash(str)) return false;
+  return !isBlockHash(str);
+};
+
+export function validURL(str: string) {
+  var pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$',
+    'i',
+  ); // fragment locator
+  return !!pattern.test(str);
+}
+
+export function byteToKb(bytes: number) {
+  return bytes / 1024;
+}
+
+export function isObject(o: any) {
+  return o !== null && typeof o === 'object' && Array.isArray(o) === false;
+}
+
+export function checkInt(value: string | number, type: string) {
+  const num = Number(type.substr(3));
+  const min = new BigNumber(2).pow(num - 1).multipliedBy(-1);
+  const max = new BigNumber(2).pow(num - 1).minus(1);
+  let isType = false;
+  if (typeof value === 'number' && !isNaN(value)) {
+    const valNum = new BigNumber(value);
+    if (
+      valNum.isInteger() &&
+      valNum.isGreaterThanOrEqualTo(min) &&
+      valNum.isLessThanOrEqualTo(max)
+    ) {
+      isType = true;
+    } else {
+      isType = false;
+    }
+  } else {
+    isType = false;
+  }
+  return [isType, num, min.toString(), max.toString()];
+}
+
+export function checkUint(value: string | number, type: string) {
+  const num = Number(type.substr(4));
+  const min = new BigNumber(0);
+  const max = new BigNumber(Math.pow(2, num)).minus(1);
+  let isType = false;
+  if (typeof value === 'number' && !isNaN(value)) {
+    const valNum = new BigNumber(value);
+    if (
+      valNum.isInteger() &&
+      valNum.isGreaterThanOrEqualTo(min) &&
+      valNum.isLessThanOrEqualTo(max)
+    ) {
+      isType = true;
+    } else {
+      isType = false;
+    }
+  } else {
+    isType = false;
+  }
+  return [isType, num, min.toFixed(), max.toFixed()];
+}
+
+export function isHex(num: string, withPrefix = true) {
+  const reg = withPrefix ? /^0x[0-9a-f]*$/i : /^(0x)?[0-9a-f]*$/i;
+  return Boolean(num.match(reg));
+}
+
+export function isEvenLength(str: string) {
+  const length = str.length;
+  return length > 0 && length % 2 === 0;
+}
+
+export function checkBytes(value: string, type: string) {
+  if (type === 'byte') {
+    type = 'bytes1';
+  }
+  const num = Number(type.substr(5));
+  let isBytes = false;
+  if (!value) return [isBytes, num];
+  if (isHex(value) && isEvenLength(value)) {
+    if (num > 0) {
+      const str = value.substr(2);
+      const buffer = Buffer.from(str, 'hex');
+      if (buffer.length === num) {
+        isBytes = true;
+      } else {
+        isBytes = false;
+      }
+    } else {
+      isBytes = true;
+    }
+  } else {
+    isBytes = false;
+  }
+  return [isBytes, num];
+}
+
+export function checkCfxType(value: string | number) {
+  if (isNaN(Number(value))) {
+    return false;
+  }
+  const valNum = new BigNumber(value);
+  if (valNum.isNegative()) {
+    return false;
+  }
+  let index = String(value).indexOf('.');
+  if (index !== -1) {
+    if (String(value).substr(index + 1).length > 18) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return true;
+  }
+}
+
+export const sleep = (timeout: number) =>
+  new Promise(resolve => setTimeout(resolve, timeout));
+
+// get two block interval time
+export const getTimeByBlockInterval = (minuend = 0, subtrahend = 0) => {
+  const seconds = new BigNumber(minuend)
+    .minus(subtrahend)
+    .dividedBy(2)
+    .toNumber();
+  const dayBase = 86400;
+  const hourBase = 3600;
+  const days = Math.floor(seconds / dayBase);
+  const deltaSecond = seconds - days * 86400;
+  const hours = Math.floor(deltaSecond / hourBase);
+  return { days, hours, seconds };
+};
+
+/**
+ *
+ * @param {number|string} data
+ * @returns {boolean}
+ * @example
+ * 0    -> true
+ * .    -> true
+ * 0.   -> true
+ * .0   -> true
+ * 0.0  -> true
+ * 0..0 -> false
+ * x    -> false
+ * e    -> false
+ * @todo support config, such as negative and exponential notation
+ */
+
+/**
+ *
+ * @param {number|string} data
+ * @returns {boolean}
+ * @example
+ * 0    -> true
+ * .    -> false
+ * 11   -> true
+ * 011  -> false
+ * -1   -> false
+ */
+export const isSafeNumberOrNumericStringInput = (data: string) =>
+  /^\d+\.?\d*$|^\.\d*$/.test(data);
+
+export const isZeroOrPositiveInteger = (data: string) => /^(0|[1-9]\d*)$/.test(data);
+
+export const parseString = (v: string) => {
+  if (typeof v === 'string' && !v.startsWith('0x')) {
+    return Buffer.from(v);
+  }
+  return v;
+};
+
+// process datepicker initial value
+export const getInitialDate = (minTimestamp: number, maxTimestamp: number) => {
+  const startDate = dayjs('2020-10-29T00:00:00+08:00');
+  const endDate = dayjs();
+  const innerMinTimestamp = minTimestamp
+    ? dayjs(new Date(parseInt((minTimestamp + '000') as string)))
+    : startDate;
+  const innerMaxTimestamp = maxTimestamp
+    ? dayjs(new Date(parseInt((maxTimestamp + '000') as string)))
+    : endDate;
+  const disabledDateD1 = (date: dayjs.Dayjs) =>
+    date &&
+    (date > innerMaxTimestamp.endOf('day') ||
+      date < startDate.subtract(1, 'day').endOf('day'));
+  const disabledDateD2 = (date: dayjs.Dayjs) =>
+    date &&
+    (date < innerMinTimestamp.subtract(1, 'day').endOf('day') ||
+      date > endDate.endOf('day'));
+
+  return {
+    minT: innerMinTimestamp,
+    maxT: innerMaxTimestamp,
+    dMinT: disabledDateD1,
+    dMaxT: disabledDateD2,
+  };
+};
+
+export const addIPFSGateway = (
+  imgURL: string,
+  IPFSGatewayURL: string,
+): string => {
+  if (
+    typeof imgURL === 'string' &&
+    typeof IPFSGatewayURL === 'string' &&
+    imgURL.startsWith('ipfs://')
+  ) {
+    imgURL = `${IPFSGatewayURL}/${imgURL.replace('ipfs://', 'ipfs/')}`;
+  }
+
+  return imgURL;
+};
+
+
+export const isLikeBigNumber = (obj: any) => {
+  if (obj === null || typeof obj !== 'object') {
+    return false;
+  }
+  return 's' in obj && 'e' in obj && 'c' in obj && Array.isArray(obj.c);
+};
+
+type NestedArray = (string | number | BigNumber | NestedArray)[];
+type NestedObject = {
+  [key: string]: BigNumber | string | NestedObject | NestedObject[];
+};
+export const convertBigNumbersToStrings: any = (input: NestedArray) => {
+  return input.map((item: any) => {
+    if (item instanceof Uint8Array) {
+      return item;
+    }
+    if (Array.isArray(item)) {
+      return convertBigNumbersToStrings(item);
+    } else if (
+      item !== null &&
+      typeof item === 'object' &&
+      !isLikeBigNumber(item)
+    ) {
+      return convertObjBigNumbersToStrings(item);
+    } else if (isLikeBigNumber(item)) {
+      return item.toString(10);
+    } else {
+      return item;
+    }
+  });
+};
+export const convertObjBigNumbersToStrings: any = (input: NestedArray) => {
+  const newObj: NestedObject = {};
+  if (Array.isArray(input)) {
+    return convertBigNumbersToStrings(input);
+  }
+  for (let key in input as any) {
+    if (isLikeBigNumber(input[key])) {
+      newObj[key] = (input[key] as BigNumber).toString(10);
+    } else if (Array.isArray(input[key])) {
+      newObj[key] = convertBigNumbersToStrings(input[key]);
+    } else if (typeof input[key] === 'object') {
+      newObj[key] = convertObjBigNumbersToStrings(input[key] as NestedObject);
+    } else {
+      newObj[key] = input[key];
+    }
+  }
+  return newObj;
+};
+export const constprocessResultArray = (resultArray: NestedArray) => {
+  if (typeof resultArray === 'string') {
+    return resultArray;
+  }
+  const processElement: any = (element: any) => {
+    if (Array.isArray(element)) {
+      return element.map(processElement);
+    } else if (element.type && element.type === 'Buffer') {
+      let result = element.data
+        .map((byte: number) => ('00' + byte.toString(16)).slice(-2))
+        .join('');
+      if (!result.startsWith('0x')) {
+        result = '0x' + result;
+      }
+      return result;
+    } else {
+      return element;
+    }
+  };
+
+  const inputArray = Array.isArray(resultArray) ? resultArray : [resultArray];
+  return inputArray.map(processElement);
+};
+
+export const formatLargeNumber = (number: string | number) => {
+  const num = new BigNumber(number);
+
+  if (num.isNaN()) {
+    return { value: null, unit: '' };
+  }
+
+  const T = new BigNumber(10).pow(12);
+  const P = new BigNumber(10).pow(15);
+  const E = new BigNumber(10).pow(18);
+
+  if (num.isGreaterThanOrEqualTo(E)) {
+    const result = num.dividedBy(E);
+    return {
+      value: result.isNaN() ? null : result.toString(),
+      unit: 'E',
+    };
+  } else if (num.isGreaterThanOrEqualTo(P)) {
+    const result = num.dividedBy(P);
+    return {
+      value: result.isNaN() ? null : result.toString(),
+      unit: 'P',
+    };
+  } else if (num.isGreaterThanOrEqualTo(T)) {
+    const result = num.dividedBy(T);
+    return {
+      value: result.isNaN() ? null : result.toString(),
+      unit: 'T',
+    };
+  } else {
+    return {
+      value: num.toString(),
+      unit: '',
+    };
+  }
 };
