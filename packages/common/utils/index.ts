@@ -683,3 +683,26 @@ export const formatLargeNumber = (number: string | number) => {
     };
   }
 };
+
+const EPS = new BigNumber(1e-6);
+
+export function transferRisk(riskStr:string) {
+  const riskNum = new BigNumber(riskStr);
+
+  if (riskNum.isNaN()) {
+    return '';
+  }
+  // risk > 1e-4*(1+EPS)
+  if (riskNum.isGreaterThan(new BigNumber(1e-4).times(EPS.plus(1)))) {
+    return 'lv3';
+  }
+  // risk > 1e-6*(1+EPS)
+  if (riskNum.isGreaterThan(new BigNumber(1e-6).times(EPS.plus(1)))) {
+    return 'lv2';
+  }
+  // risk > 1e-8*(1+EPS)
+  if (riskNum.isGreaterThan(new BigNumber(1e-8).times(EPS.plus(1)))) {
+    return 'lv1';
+  }
+  return 'lv0';
+}

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
+exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
 const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
@@ -655,3 +655,24 @@ const formatLargeNumber = (number) => {
     }
 };
 exports.formatLargeNumber = formatLargeNumber;
+const EPS = new bignumber_js_1.default(1e-6);
+function transferRisk(riskStr) {
+    const riskNum = new bignumber_js_1.default(riskStr);
+    if (riskNum.isNaN()) {
+        return '';
+    }
+    // risk > 1e-4*(1+EPS)
+    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-4).times(EPS.plus(1)))) {
+        return 'lv3';
+    }
+    // risk > 1e-6*(1+EPS)
+    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-6).times(EPS.plus(1)))) {
+        return 'lv2';
+    }
+    // risk > 1e-8*(1+EPS)
+    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-8).times(EPS.plus(1)))) {
+        return 'lv1';
+    }
+    return 'lv0';
+}
+exports.transferRisk = transferRisk;

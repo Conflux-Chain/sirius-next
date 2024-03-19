@@ -86,5 +86,6 @@ export declare const formatLargeNumber: (number: string | number) => {
     value: string | null;
     unit: string;
 };
+export declare function transferRisk(riskStr: string): "" | "lv3" | "lv2" | "lv1" | "lv0";
 export {};
 //# sourceMappingURL=index.d.ts.map
