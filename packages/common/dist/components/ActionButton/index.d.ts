@@ -4,6 +4,6 @@ interface ButtonProps extends ComponentProps<"div"> {
     loading?: boolean;
     onClick?: VoidFunction;
 }
-export declare const ActionButton: import("react").ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & import("react").RefAttributes<HTMLDivElement>>;
+export declare const ActionButton: import("react").ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & import("react").RefAttributes<unknown>>;
 export {};
 //# sourceMappingURL=index.d.ts.map
