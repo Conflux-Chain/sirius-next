@@ -1,4 +1,4 @@
-import { defineConfig, presetUno } from "unocss";
+import { defineConfig, presetUno, presetIcons } from "unocss";
 import transformerVariantGroup from "@unocss/transformer-variant-group";
 import { handler } from "@unocss/preset-mini/utils";
 
@@ -13,7 +13,13 @@ export default defineConfig({
     [
       /^bg-gradient-(?:repeating-)?linear-(.+)$/,
       ([, s]) => ({
-        "background-image": `linear-gradient${handler.bracket(s!)}`,
+        "background-image": `linear-gradient${handler.bracket(s)}`,
+      }),
+    ],
+    [
+      /^ws-nowrap$/,
+      () => ({
+        "white-space": 'nowrap',
       }),
     ],
   ],
@@ -83,7 +89,12 @@ export default defineConfig({
       normal: "0px 6px 16px 0px #00000014",
     },
   },
-  presets: [presetUno()],
+  presets: [presetUno(), presetIcons({
+    extraProperties: {
+      display: 'inline-block',
+      'vertical-align': 'middle',
+    },
+  })],
   transformers: [
     transformerVariantGroup(),
   ],
