@@ -30,6 +30,7 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@iconify-json/line-md": "^1.1.36",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "^1.12.4",
