@@ -2,6 +2,7 @@
   "name": "sirius-next",
   "version": "0.0.3",
   "private": true,
+  "type": "module",
   "scripts": {
     "test": "turbo run test",
     "build": "turbo build",

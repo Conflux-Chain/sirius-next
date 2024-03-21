@@ -1,4 +1,4 @@
-import { roundToFixedPrecision } from './';
+import { roundToFixedPrecision } from './index';
 
 describe('roundToFixedPrecision', () => {
   // Test default rounding

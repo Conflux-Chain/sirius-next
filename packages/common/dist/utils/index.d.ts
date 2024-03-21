@@ -87,5 +87,12 @@ export declare const formatLargeNumber: (number: string | number) => {
     unit: string;
 };
 export declare function transferRisk(riskStr: string): "" | "lv3" | "lv2" | "lv1" | "lv0";
+export declare const appendApiPrefix: (url: string) => string;
+export declare const simpleGetFetcher: (...args: any[]) => Promise<Response>;
+export declare const useSWRWithGetFecher: (key: string | string[] | null, swrOpts?: {}) => {
+    data: any;
+    error: any;
+    mutate: any;
+};
 export {};
 //# sourceMappingURL=index.d.ts.map
