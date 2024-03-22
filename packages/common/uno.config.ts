@@ -19,7 +19,7 @@ export default defineConfig({
     [
       /^ws-nowrap$/,
       () => ({
-        "white-space": 'nowrap',
+        "white-space": "nowrap",
       }),
     ],
   ],
@@ -87,15 +87,17 @@ export default defineConfig({
     },
     boxShadow: {
       normal: "0px 6px 16px 0px #00000014",
+      card: "0.8571rem 0.5714rem 1.7143rem -0.8571rem rgba(20, 27, 50, 0.12)",
     },
   },
-  presets: [presetUno(), presetIcons({
-    extraProperties: {
-      display: 'inline-block',
-      'vertical-align': 'middle',
-    },
-  })],
-  transformers: [
-    transformerVariantGroup(),
+  presets: [
+    presetUno(),
+    presetIcons({
+      extraProperties: {
+        display: "inline-block",
+        "vertical-align": "middle",
+      },
+    }),
   ],
+  transformers: [transformerVariantGroup()],
 });
