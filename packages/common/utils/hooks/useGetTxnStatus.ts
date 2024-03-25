@@ -1,4 +1,5 @@
 // import { useEffect, useState, useRef } from 'react';
+import { Conflux } from "js-conflux-sdk";
 
 interface TxnLoopOptsType {
     callback?: (data: any) => void;
@@ -7,7 +8,7 @@ interface TxnLoopOptsType {
 }
 
 export const getTransactionLoop = function (
-    CFX: any,
+    CFX: Conflux,
     hash: string,
     outOptions: TxnLoopOptsType,
 ) {
