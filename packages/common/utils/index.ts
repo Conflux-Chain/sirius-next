@@ -1,5 +1,7 @@
 import BigNumber from "bignumber.js";
 import dayjs from 'dayjs';
+import useSWR from 'swr';
+import qs from 'qs';
 
 export const toThousands = (num: any, delimiter = ",", prevDelimiter = ",") => {
   if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
@@ -73,7 +75,7 @@ export const replaceAll = (str: string, find: string, replace: string) => {
  * @todo: 支持整数位小数设置精度
  * @todo: 支持负数格式化
  */
-export const formatNumber = (num: number | string, opt?: any) => {
+export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   // 无法通过 bignumber.js 格式化的不处理
   let bNum = new BigNumber(num).toFixed();
   if (bNum === "NaN") {
@@ -232,8 +234,8 @@ export const roundToFixedPrecision = (
 };
 
 export const getPercent = (
-  divisor: number | string,
-  dividend: number | string,
+  divisor: number | string | BigNumber,
+  dividend: number | string | BigNumber,
   precision?: number,
 ) => {
   if (Number(dividend) === 0) return 0 + '%';
@@ -295,7 +297,7 @@ export const formatBalance = (
   ltValue?: number | string,
 ) => {
   try {
-    const balanceValue = typeof balance === 'string' ||  typeof balance === 'number' ? new BigNumber(balance) : balance;
+    const balanceValue = typeof balance === 'string' || typeof balance === 'number' ? new BigNumber(balance) : balance;
     const num = balanceValue.div(new BigNumber(10).pow(decimals));
     if (num.eq(0)) {
       return num.toFixed();
@@ -647,7 +649,7 @@ export const constprocessResultArray = (resultArray: NestedArray) => {
   return inputArray.map(processElement);
 };
 
-export const formatLargeNumber = (number: string | number) => {
+export const formatLargeNumber = (number: string | number | BigNumber) => {
   const num = new BigNumber(number);
 
   if (num.isNaN()) {
@@ -682,4 +684,96 @@ export const formatLargeNumber = (number: string | number) => {
       unit: '',
     };
   }
+};
+
+const EPS = new BigNumber(1e-6);
+
+export function transferRisk(riskStr: string) {
+  const riskNum = new BigNumber(riskStr);
+
+  if (riskNum.isNaN()) {
+    return '';
+  }
+  // risk > 1e-4*(1+EPS)
+  if (riskNum.isGreaterThan(new BigNumber(1e-4).times(EPS.plus(1)))) {
+    return 'lv3';
+  }
+  // risk > 1e-6*(1+EPS)
+  if (riskNum.isGreaterThan(new BigNumber(1e-6).times(EPS.plus(1)))) {
+    return 'lv2';
+  }
+  // risk > 1e-8*(1+EPS)
+  if (riskNum.isGreaterThan(new BigNumber(1e-8).times(EPS.plus(1)))) {
+    return 'lv1';
+  }
+  return 'lv0';
+}
+
+export const appendApiPrefix = (url: string) => {
+  // for cfx top N
+  if (url.startsWith('/stat/')) {
+    return url;
+  }
+  return `/v1${url}`;
+};
+
+export const simpleGetFetcher = async (...args: any[]) => {
+  let [url, query] = args;
+  if (query) {
+    url = qs.stringify({ url, query });
+  }
+  return await fetch(appendApiPrefix(url), {
+    method: 'get',
+  });
+};
+
+export const useSWRWithGetFecher = (key: string | string[] | null, swrOpts = {}) => {
+  const isTransferReq =
+    (typeof key === 'string' && key.startsWith('/transfer')) ||
+    (Array.isArray(key) &&
+      typeof key[0] === 'string' &&
+      key[0].startsWith('/transfer'));
+
+  const { data, error, mutate }: any = useSWR(key, simpleGetFetcher, { ...swrOpts });
+
+  let tokenAddress: string | string[] = '';
+
+  // deal with token info
+  if (isTransferReq && data && data.list) {
+    tokenAddress = data.list.reduce((acc: string[], trans: { address: string }) => {
+      if (trans.address && !acc.includes(trans.address))
+        acc.push(trans.address);
+      return acc;
+    }, []);
+  }
+
+  const { data: tokenData }: any = useSWR(
+    qs.stringify({
+      url: '/token',
+      query: { addressArray: tokenAddress, fields: 'iconUrl' },
+    }),
+    simpleGetFetcher,
+  );
+
+  if (tokenData && tokenData.list) {
+    const newTransferList = data.list.map((trans: { address: string }) => {
+      if (tokenAddress.includes(trans.address)) {
+        const tokenInfo = tokenData.list.find((t: { address: string }) => t.address === trans.address);
+        if (tokenInfo) return { ...trans, token: { ...tokenInfo } };
+      }
+
+      return trans;
+    });
+
+    return {
+      data: {
+        ...data,
+        list: newTransferList,
+      },
+      error,
+      mutate,
+    };
+  }
+
+  return { data, error, mutate };
 };

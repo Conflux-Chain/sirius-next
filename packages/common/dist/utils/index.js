@@ -3,9 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
+exports.useSWRWithGetFecher = exports.simpleGetFetcher = exports.appendApiPrefix = exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
 const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const dayjs_1 = __importDefault(require("dayjs"));
+const swr_1 = __importDefault(require("swr"));
+const qs_1 = __importDefault(require("qs"));
 const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
     if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
         return "";
@@ -655,3 +657,82 @@ const formatLargeNumber = (number) => {
     }
 };
 exports.formatLargeNumber = formatLargeNumber;
+const EPS = new bignumber_js_1.default(1e-6);
+function transferRisk(riskStr) {
+    const riskNum = new bignumber_js_1.default(riskStr);
+    if (riskNum.isNaN()) {
+        return '';
+    }
+    // risk > 1e-4*(1+EPS)
+    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-4).times(EPS.plus(1)))) {
+        return 'lv3';
+    }
+    // risk > 1e-6*(1+EPS)
+    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-6).times(EPS.plus(1)))) {
+        return 'lv2';
+    }
+    // risk > 1e-8*(1+EPS)
+    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-8).times(EPS.plus(1)))) {
+        return 'lv1';
+    }
+    return 'lv0';
+}
+exports.transferRisk = transferRisk;
+const appendApiPrefix = (url) => {
+    // for cfx top N
+    if (url.startsWith('/stat/')) {
+        return url;
+    }
+    return `/v1${url}`;
+};
+exports.appendApiPrefix = appendApiPrefix;
+const simpleGetFetcher = async (...args) => {
+    let [url, query] = args;
+    if (query) {
+        url = qs_1.default.stringify({ url, query });
+    }
+    return await fetch((0, exports.appendApiPrefix)(url), {
+        method: 'get',
+    });
+};
+exports.simpleGetFetcher = simpleGetFetcher;
+const useSWRWithGetFecher = (key, swrOpts = {}) => {
+    const isTransferReq = (typeof key === 'string' && key.startsWith('/transfer')) ||
+        (Array.isArray(key) &&
+            typeof key[0] === 'string' &&
+            key[0].startsWith('/transfer'));
+    const { data, error, mutate } = (0, swr_1.default)(key, exports.simpleGetFetcher, { ...swrOpts });
+    let tokenAddress = '';
+    // deal with token info
+    if (isTransferReq && data && data.list) {
+        tokenAddress = data.list.reduce((acc, trans) => {
+            if (trans.address && !acc.includes(trans.address))
+                acc.push(trans.address);
+            return acc;
+        }, []);
+    }
+    const { data: tokenData } = (0, swr_1.default)(qs_1.default.stringify({
+        url: '/token',
+        query: { addressArray: tokenAddress, fields: 'iconUrl' },
+    }), exports.simpleGetFetcher);
+    if (tokenData && tokenData.list) {
+        const newTransferList = data.list.map((trans) => {
+            if (tokenAddress.includes(trans.address)) {
+                const tokenInfo = tokenData.list.find((t) => t.address === trans.address);
+                if (tokenInfo)
+                    return { ...trans, token: { ...tokenInfo } };
+            }
+            return trans;
+        });
+        return {
+            data: {
+                ...data,
+                list: newTransferList,
+            },
+            error,
+            mutate,
+        };
+    }
+    return { data, error, mutate };
+};
+exports.useSWRWithGetFecher = useSWRWithGetFecher;
