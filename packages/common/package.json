@@ -20,8 +20,6 @@
     "dayjs": "^1.11.10",
     "js-conflux-sdk": "^2.3.0",
     "qs": "^6.12.0",
-    "qss": "^3.0.0",
-    "query-string": "^9.0.0",
     "react-router-dom": "^6.22.3",
     "swr": "^2.2.5"
   },

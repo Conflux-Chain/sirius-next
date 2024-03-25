@@ -75,7 +75,7 @@ export const replaceAll = (str: string, find: string, replace: string) => {
  * @todo: 支持整数位小数设置精度
  * @todo: 支持负数格式化
  */
-export const formatNumber = (num: number | string, opt?: any) => {
+export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   // 无法通过 bignumber.js 格式化的不处理
   let bNum = new BigNumber(num).toFixed();
   if (bNum === "NaN") {
@@ -234,8 +234,8 @@ export const roundToFixedPrecision = (
 };
 
 export const getPercent = (
-  divisor: number | string,
-  dividend: number | string,
+  divisor: number | string | BigNumber,
+  dividend: number | string | BigNumber,
   precision?: number,
 ) => {
   if (Number(dividend) === 0) return 0 + '%';
@@ -649,7 +649,7 @@ export const constprocessResultArray = (resultArray: NestedArray) => {
   return inputArray.map(processElement);
 };
 
-export const formatLargeNumber = (number: string | number) => {
+export const formatLargeNumber = (number: string | number | BigNumber) => {
   const num = new BigNumber(number);
 
   if (num.isNaN()) {

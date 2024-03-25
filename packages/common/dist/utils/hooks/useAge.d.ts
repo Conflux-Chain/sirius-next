@@ -1,3 +1,2 @@
-/// <reference types="react" />
-export declare const useAge: (format?: string) => (string | import("react").Dispatch<import("react").SetStateAction<string>>)[];
+export declare const useAge: ({ useEffect, useState }: any, format?: string) => any[];
 //# sourceMappingURL=useAge.d.ts.map

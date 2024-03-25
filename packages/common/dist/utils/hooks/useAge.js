@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useAge = void 0;
-const react_1 = require("react");
+// import {useEffect, useState} from 'react';
 const constants_1 = require("../constants");
-const useAge = (format) => {
-    const [ageFormat, toggleAgeFormat] = (0, react_1.useState)(format ||
+const useAge = ({ useEffect, useState }, format) => {
+    const [ageFormat, toggleAgeFormat] = useState(format ||
         localStorage.getItem(constants_1.LOCALSTORAGE_KEYS_MAP.ageFormat) !== 'datetime'
         ? 'age'
         : 'datetime');
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         if (localStorage.getItem(constants_1.LOCALSTORAGE_KEYS_MAP.ageFormat) !== ageFormat) {
             localStorage.setItem(constants_1.LOCALSTORAGE_KEYS_MAP.ageFormat, ageFormat);
         }

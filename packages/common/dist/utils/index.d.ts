@@ -15,9 +15,9 @@ export declare const replaceAll: (str: string, find: string, replace: string) =>
  * @todo: 支持整数位小数设置精度
  * @todo: 支持负数格式化
  */
-export declare const formatNumber: (num: number | string, opt?: any) => string;
+export declare const formatNumber: (num: number | string | BigNumber, opt?: any) => string;
 export declare const roundToFixedPrecision: (number: number | string, precision: number, method?: string) => string;
-export declare const getPercent: (divisor: number | string, dividend: number | string, precision?: number) => string;
+export declare const getPercent: (divisor: number | string | BigNumber, dividend: number | string | BigNumber, precision?: number) => string;
 export declare const formatTimeStamp: (time: number, type?: 'standard' | 'timezone') => string;
 export declare const fromGdripToDrip: (num: number | string) => BigNumber;
 export declare const fromCfxToDrip: (num: number | string) => BigNumber;
@@ -82,7 +82,7 @@ type NestedArray = (string | number | BigNumber | NestedArray)[];
 export declare const convertBigNumbersToStrings: any;
 export declare const convertObjBigNumbersToStrings: any;
 export declare const constprocessResultArray: (resultArray: NestedArray) => unknown[];
-export declare const formatLargeNumber: (number: string | number) => {
+export declare const formatLargeNumber: (number: string | number | BigNumber) => {
     value: string | null;
     unit: string;
 };

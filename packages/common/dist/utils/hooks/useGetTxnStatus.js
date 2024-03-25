@@ -1,7 +1,7 @@
 "use strict";
+// import { useEffect, useState, useRef } from 'react';
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useGetTxnStatus = exports.getTransactionLoop = void 0;
-const react_1 = require("react");
 const getTransactionLoop = function (CFX, hash, outOptions) {
     const options = {
         callback: () => { },
@@ -59,14 +59,14 @@ const getTransactionLoop = function (CFX, hash, outOptions) {
     });
 };
 exports.getTransactionLoop = getTransactionLoop;
-const useGetTxnStatus = (CFX, txnHashs, timeout, // timeout to polling txn status,
+const useGetTxnStatus = ({ useEffect, useState, useRef }, CFX, txnHashs, timeout, // timeout to polling txn status,
 method) => {
     // 0 for success, 1 for error occured, null when the transaction is skipped or not packed.
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [status, setStatus] = (0, react_1.useState)({});
-    const markedHashs = (0, react_1.useRef)({});
+    const [status, setStatus] = useState({});
+    const markedHashs = useRef({});
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         const newHashs = txnHashs.filter(h => !markedHashs.current[h]);
         if (newHashs.length) {
             newHashs.forEach(h => {

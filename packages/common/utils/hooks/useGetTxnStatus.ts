@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+// import { useEffect, useState, useRef } from 'react';
 
 interface TxnLoopOptsType {
     callback?: (data: any) => void;
@@ -63,6 +63,7 @@ export const getTransactionLoop = function (
 };
 
 export const useGetTxnStatus = (
+    { useEffect, useState, useRef }: any,
     CFX: any,
     txnHashs: Array<string>,
     timeout?: number, // timeout to polling txn status,
