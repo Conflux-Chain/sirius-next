@@ -1,7 +1,7 @@
-// import {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import { LOCALSTORAGE_KEYS_MAP } from '../constants';
 
-export const useAge = ({useEffect, useState}: any, format?: string) => {
+export const useAge = (format?: string) => {
   const [ageFormat, toggleAgeFormat] = useState(
     format ||
       localStorage.getItem(LOCALSTORAGE_KEYS_MAP.ageFormat) !== 'datetime'

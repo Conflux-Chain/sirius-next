@@ -1,5 +1,6 @@
-// import { useEffect, useState, useRef } from 'react';
-import { Conflux } from "js-conflux-sdk";
+import { useEffect, useState, useRef } from 'react';
+
+const CFX = (window as any).CFX;
 
 interface TxnLoopOptsType {
     callback?: (data: any) => void;
@@ -8,7 +9,6 @@ interface TxnLoopOptsType {
 }
 
 export const getTransactionLoop = function (
-    CFX: Conflux,
     hash: string,
     outOptions: TxnLoopOptsType,
 ) {
@@ -64,8 +64,6 @@ export const getTransactionLoop = function (
 };
 
 export const useGetTxnStatus = (
-    { useEffect, useState, useRef }: any,
-    CFX: any,
     txnHashs: Array<string>,
     timeout?: number, // timeout to polling txn status,
     method?: any, // getTransactionByHash or getTransactionReceipt,
@@ -81,7 +79,7 @@ export const useGetTxnStatus = (
         if (newHashs.length) {
             newHashs.forEach(h => {
                 markedHashs.current[h] = true;
-                getTransactionLoop(CFX, h, {
+                getTransactionLoop(h, {
                     callback: resp => {
                         setStatus((statusMap: { [key: string]: any }) => {
                             const markedHashsKeys = Object.keys(markedHashs.current);
