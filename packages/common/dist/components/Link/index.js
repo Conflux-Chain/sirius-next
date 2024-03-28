@@ -7,7 +7,7 @@ exports.Link = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = __importDefault(require("react"));
 const react_router_dom_1 = require("react-router-dom");
-exports.Link = react_1.default.memo(({ className, href, ga, children, state, ...others }) => {
+exports.Link = react_1.default.memo(({ className, href, children, state, ...others }) => {
     const history = (0, react_router_dom_1.useHistory)();
     const handleClick = (e) => {
         e.preventDefault();

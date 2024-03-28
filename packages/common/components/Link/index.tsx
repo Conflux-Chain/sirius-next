@@ -4,12 +4,11 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 interface LinkProps {
   className?: string;
   href: string;
-  ga?: { category: string; action: string; label: string };
   state?: any; // Consider typing this more strictly if possible
 }
 
 export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
-  ({ className, href, ga, children, state, ...others }) => {
+  ({ className, href, children, state, ...others }) => {
     const history = useHistory();
 
     const handleClick = (e: MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
@@ -55,12 +54,11 @@ export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
 // interface LinkProps {
 //   className: string;
 //   href: string;
-//   ga?: { category: string; action: string; label: string };
 //   state?: any;
 // }
 
 // export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
-//   ({ className, href, ga, children, state, ...others }) => {
+//   ({ className, href, children, state, ...others }) => {
 //     const navigate = useNavigate();
 
 //     const handleClick = (e: MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {

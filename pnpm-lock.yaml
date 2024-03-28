@@ -145,6 +145,9 @@ importers:
       js-conflux-sdk:
         specifier: ^2.3.0
         version: 2.3.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       qs:
         specifier: ^6.12.0
         version: 6.12.0

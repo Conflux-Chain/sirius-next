@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import useSWR from 'swr';
-import { sendRequest } from '../../utils/httpRequest';
+import { sendRequest } from '../../utils/request';
 import { mergeDeep } from '../../utils'
 import StockTitle from './StockTitle'
 import BreadcrumbNav from './BreadcrumbNav'
@@ -22,7 +22,7 @@ export function StockChartTemplate({options, request}: ChartsProps) {
         request?.query?.intervalType as keyof ScopeType || defaultIntervalType,
     );
 
-    const sendRequests = useCallback(() => {
+    const sendRequestCallback = useCallback(() => {
         return sendRequest({
             url: request.url,
             query: {
@@ -33,7 +33,7 @@ export function StockChartTemplate({options, request}: ChartsProps) {
         });
     }, [request.url, request.query, intervalType, limit, defaultLimit]);
 
-    const { data, isLoading } = useSWR(request.url+intervalType+limit, sendRequests);
+    const { data, isLoading } = useSWR(request.url+intervalType+limit, sendRequestCallback);
 
     const handleCombination: onCombination = (type, limit) => {
         // @ts-ignore
@@ -53,14 +53,13 @@ export function StockChartTemplate({options, request}: ChartsProps) {
         }
     },[isLoading])
 
-    console.log(data)
     const opts = {
         ...mergeDeep(optsOrigin, options),
         legend: {
             enabled: options.series.length > 1,
         },
         series: options.series.map((_:any, i:number) => ({
-            data: request.formatter(data?.data)[i],
+            data: request.formatter(data)[i],
         })),
         intervalType: { value: intervalType },
     }

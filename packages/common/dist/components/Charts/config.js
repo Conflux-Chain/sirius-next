@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.opts = exports.scope = exports.defaultIntervalType = exports.defaultLimit = void 0;
+exports.previewOpts = exports.opts = exports.scope = exports.defaultIntervalType = exports.defaultLimit = void 0;
 const highstock_1 = __importDefault(require("highcharts/highstock"));
 exports.defaultLimit = '365';
 exports.defaultIntervalType = 'day';
@@ -129,9 +129,6 @@ exports.opts = {
         series: {
             dataGrouping: {
                 enabled: false,
-                // dateTimeLabelFormats: {
-                //   week: ['%A, %b %e, %Y'],
-                // },
             },
         },
         area: {
@@ -198,15 +195,6 @@ exports.opts = {
     yAxis: {
         opposite: false,
     },
-    xAxis: {
-        events: {
-        // setExtremes: function () {
-        //   if (!customLimit) {
-        //     setCustomLimit(true);
-        //   }
-        // },
-        },
-    },
     exporting: {
         enabled: true,
         buttons: {
@@ -225,8 +213,24 @@ exports.opts = {
             },
         },
     },
-    subtitle: {
-    //   text: getChartsSubTitle(t(translations.highcharts.subtitle)),
-    }
-    // intervalType: { value: intervalType },
+};
+exports.previewOpts = {
+    title: '',
+    subtitle: '',
+    chart: {
+        height: 240,
+        zoomType: '',
+    },
+    exporting: {
+        enabled: false,
+    },
+    navigator: {
+        enabled: false,
+    },
+    rangeSelector: {
+        enabled: false,
+    },
+    scrollbar: {
+        enabled: false,
+    },
 };

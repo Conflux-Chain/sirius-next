@@ -99,9 +99,6 @@ export declare const opts: {
     yAxis: {
         opposite: boolean;
     };
-    xAxis: {
-        events: {};
-    };
     exporting: {
         enabled: boolean;
         buttons: {
@@ -110,6 +107,25 @@ export declare const opts: {
             };
         };
     };
-    subtitle: {};
+};
+export declare const previewOpts: {
+    title: string;
+    subtitle: string;
+    chart: {
+        height: number;
+        zoomType: string;
+    };
+    exporting: {
+        enabled: boolean;
+    };
+    navigator: {
+        enabled: boolean;
+    };
+    rangeSelector: {
+        enabled: boolean;
+    };
+    scrollbar: {
+        enabled: boolean;
+    };
 };
 //# sourceMappingURL=config.d.ts.map

@@ -242,3 +242,24 @@ export const opts = {
         },
     },
 };
+
+export const previewOpts = {
+    title: '',
+    subtitle: '',
+    chart: {
+        height: 240,
+        zoomType: '',
+    },
+    exporting: {
+        enabled: false,
+    },
+    navigator: {
+        enabled: false,
+    },
+    rangeSelector: {
+        enabled: false,
+    },
+    scrollbar: {
+        enabled: false,
+    },
+}

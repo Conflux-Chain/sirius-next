@@ -16,4 +16,4 @@ interface Config {
 }
 export declare const sendRequest: (config: Config) => Promise<any>;
 export {};
-//# sourceMappingURL=httpRequest.d.ts.map
+//# sourceMappingURL=request.d.ts.map
