@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useSWRWithGetFecher = exports.simpleGetFetcher = exports.appendApiPrefix = exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
+exports.mergeDeep = exports.useSWRWithGetFecher = exports.simpleGetFetcher = exports.appendApiPrefix = exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
 const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const swr_1 = __importDefault(require("swr"));
@@ -736,3 +736,23 @@ const useSWRWithGetFecher = (key, swrOpts = {}) => {
     return { data, error, mutate };
 };
 exports.useSWRWithGetFecher = useSWRWithGetFecher;
+const mergeDeep = (target, source) => {
+    let output = Object.assign({}, target);
+    if (isObject(target) && isObject(source)) {
+        Object.keys(source).forEach((key) => {
+            if (isObject(source[key])) {
+                if (!(key in target)) {
+                    Object.assign(output, { [key]: source[key] });
+                }
+                else {
+                    output[key] = (0, exports.mergeDeep)(target[key], source[key]);
+                }
+            }
+            else {
+                Object.assign(output, { [key]: source[key] });
+            }
+        });
+    }
+    return output;
+};
+exports.mergeDeep = mergeDeep;

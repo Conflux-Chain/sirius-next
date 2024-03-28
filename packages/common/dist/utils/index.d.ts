@@ -94,5 +94,6 @@ export declare const useSWRWithGetFecher: (key: string | string[] | null, swrOpt
     error: any;
     mutate: any;
 };
+export declare const mergeDeep: (target: any, source: any) => any;
 export {};
 //# sourceMappingURL=index.d.ts.map
