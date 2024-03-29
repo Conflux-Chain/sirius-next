@@ -92,14 +92,25 @@ interface Config {
 interface CustomResponse {
     code: number;
     data: any;
+    result: any;
     message: string;
+    status: string;
 }
-export const sendRequest = async (config: Config) => {
-    const res: CustomResponse = await fetch(`${config.url}?${qs.stringify(config.query)}`, {
-        method: config.type || 'GET',
-        body: config.body,
-        headers: config.headers,
-        signal: config.signal,
-    });
-    return res.data;
+export const sendRequestChart = async (config: Config) => {
+    try {
+        const res: CustomResponse = await fetch(`${config.url}?${qs.stringify(config.query)}`, {
+            method: config.type || 'GET',
+            body: config.body,
+            headers: config.headers,
+            signal: config.signal,
+        });
+        const data = {
+            list: res?.data?.list.reverse() || res?.result?.list.reverse() || []
+        }
+        return data;
+    } catch (error) {
+        console.error('Request failed', error);
+        throw error;
+    }
+    
 };

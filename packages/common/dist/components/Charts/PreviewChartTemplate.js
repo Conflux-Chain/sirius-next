@@ -11,14 +11,14 @@ const highcharts_react_official_1 = __importDefault(require("highcharts-react-of
 const swr_1 = __importDefault(require("swr"));
 const PreviewTitle_1 = __importDefault(require("./PreviewTitle"));
 const request_1 = require("../../utils/request");
-const utils_1 = require("../../utils");
+const lodash_1 = __importDefault(require("lodash"));
 const config_1 = require("./config");
 function PreviewChartTemplate({ options, request }) {
     const chart = (0, react_1.useRef)(null);
     const limit = request?.query?.limit || config_1.defaultLimit;
     const intervalType = request?.query?.intervalType || config_1.defaultIntervalType;
     const sendRequestCallback = (0, react_1.useCallback)(() => {
-        return (0, request_1.sendRequest)({
+        return (0, request_1.sendRequestChart)({
             url: request.url,
             query: {
                 ...request.query,
@@ -27,17 +27,20 @@ function PreviewChartTemplate({ options, request }) {
             },
         });
     }, [request.url, request.query, intervalType]);
-    const { data } = (0, swr_1.default)(request.url + intervalType + limit, sendRequestCallback);
-    const opts = {
-        ...(0, utils_1.mergeDeep)(config_1.opts, options, config_1.previewOpts),
-        legend: {
-            enabled: options.series.length > 1,
-        },
-        series: options.series.map((_, i) => ({
-            data: request.formatter(data)[i],
-        })),
-        intervalType: { value: intervalType },
-    };
+    const { data, isLoading } = (0, swr_1.default)(request.url + intervalType + limit, sendRequestCallback);
+    (0, react_1.useEffect)(() => {
+        if (isLoading) {
+            // @ts-ignore
+            chart.current?.chart.showLoading();
+        }
+        else {
+            // @ts-ignore
+            chart.current?.chart.hideLoading();
+        }
+    }, [isLoading]);
+    const optsOrigins = (0, config_1.optsOrigin)({ options, request, data });
+    const opts = lodash_1.default.merge(optsOrigins, options, config_1.previewOpts);
+    opts.intervalType = { value: intervalType };
     return (0, jsx_runtime_1.jsxs)("div", { className: "bg-[#FFFFFF] border border-[#E5E5E5] rounded-lg shadow-sm", children: [(0, jsx_runtime_1.jsx)(PreviewTitle_1.default, { header: opts.header }), (0, jsx_runtime_1.jsx)("div", { className: 'p-[1.2857rem]', children: (0, jsx_runtime_1.jsx)(highcharts_react_official_1.default, { constructorType: 'stockChart', highcharts: highstock_1.default, options: opts, ref: chart }) })] });
 }
 exports.PreviewChartTemplate = PreviewChartTemplate;

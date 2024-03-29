@@ -335,3 +335,54 @@ describe('formatLargeNumber', () => {
         expect((0, index_1.formatLargeNumber)('1234567890123.4567')).toEqual({ value: '1.2345678901234567', unit: 'T' });
     });
 });
+describe('mergeDeep', () => {
+    test('should return an empty object when no arguments are provided', () => {
+        expect((0, index_1.mergeDeep)()).toEqual({});
+    });
+    test('should merge two flat objects', () => {
+        const obj1 = { a: 1, b: 2 };
+        const obj2 = { b: 3, c: 4 };
+        expect((0, index_1.mergeDeep)(obj1, obj2)).toEqual({ a: 1, b: 3, c: 4 });
+    });
+    test('should not change the original objects', () => {
+        const obj1 = { a: 1, b: 2 };
+        const obj2 = { b: 3, c: 4 };
+        (0, index_1.mergeDeep)(obj1, obj2);
+        expect(obj1).toEqual({ a: 1, b: 2 });
+        expect(obj2).toEqual({ b: 3, c: 4 });
+    });
+    test('should merge nested objects', () => {
+        const obj1 = { a: { x: 1 }, b: 2 };
+        const obj2 = { a: { y: 2 }, b: 3 };
+        expect((0, index_1.mergeDeep)(obj1, obj2)).toEqual({ a: { x: 1, y: 2 }, b: 3 });
+    });
+    test('should merge objects with array values', () => {
+        const obj1 = { a: [1, 2], b: 2 };
+        const obj2 = { a: [3, 4], b: 3 };
+        expect((0, index_1.mergeDeep)(obj1, obj2)).toEqual({ a: [1, 2, 3, 4], b: 3 });
+    });
+    test('should merge multiple source objects', () => {
+        const obj1 = { a: 1 };
+        const obj2 = { b: 2 };
+        const obj3 = { c: 3 };
+        expect((0, index_1.mergeDeep)(obj1, obj2, obj3)).toEqual({ a: 1, b: 2, c: 3 });
+    });
+    test('should handle non-object arguments', () => {
+        const obj1 = { a: 1 };
+        const obj2 = null;
+        const obj3 = undefined;
+        const obj4 = { b: 2 };
+        expect((0, index_1.mergeDeep)(obj1, obj2, obj3, obj4)).toEqual({ a: 1, b: 2 });
+    });
+    test('should override values in the order they are provided', () => {
+        const obj1 = { a: { x: 1, y: 1 }, b: 1 };
+        const obj2 = { a: { x: 2 }, b: 2 };
+        const obj3 = { a: { y: 3 }, b: 3 };
+        expect((0, index_1.mergeDeep)(obj1, obj2, obj3)).toEqual({ a: { x: 2, y: 3 }, b: 3 });
+    });
+    test('should merge objects with different structures', () => {
+        const obj1 = { a: { x: 1 }, b: [1, 2] };
+        const obj2 = { a: 1, b: { x: 1 } };
+        expect((0, index_1.mergeDeep)(obj1, obj2)).toEqual({ a: 1, b: { x: 1 } });
+    });
+});

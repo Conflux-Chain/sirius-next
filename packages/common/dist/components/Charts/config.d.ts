@@ -11,6 +11,9 @@ export interface ChartsProps {
         formatter: (data: any) => any;
     };
     options: any;
+    data?: {
+        list: any[];
+    };
 }
 export interface ScopeItemType {
     label: string;
@@ -30,7 +33,7 @@ export type ChartOptionsProps = {
     onCombination: onCombination;
 };
 export declare const scope: ScopeType;
-export declare const opts: {
+export declare const optsOrigin: ({ options, request, data }: ChartsProps) => {
     chart: {
         alignTicks: boolean;
         height: number;
@@ -65,7 +68,7 @@ export declare const opts: {
                     x2: number;
                     y2: number;
                 };
-                stops: (string | number | Highcharts.GradientColorObject | Highcharts.PatternObject | undefined)[][];
+                stops: ((string | number | undefined)[] | (number | Highcharts.ColorType)[])[];
             };
             marker: {
                 radius: number;
@@ -87,6 +90,9 @@ export declare const opts: {
             };
         };
     };
+    legend: {
+        enabled: boolean;
+    };
     tooltip: {
         split: boolean;
         useHTML: boolean;
@@ -99,6 +105,7 @@ export declare const opts: {
     yAxis: {
         opposite: boolean;
     };
+    series: any;
     exporting: {
         enabled: boolean;
         buttons: {

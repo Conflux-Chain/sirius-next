@@ -14,6 +14,8 @@ interface Config {
     headers?: Headers;
     signal?: AbortSignal;
 }
-export declare const sendRequest: (config: Config) => Promise<any>;
+export declare const sendRequestChart: (config: Config) => Promise<{
+    list: any;
+}>;
 export {};
 //# sourceMappingURL=request.d.ts.map

@@ -1,12 +1,11 @@
-import React, { useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import useSWR from 'swr';
 import PreviewTitle from './PreviewTitle'
-import { sendRequest } from '../../utils/request';
-import { mergeDeep } from '../../utils'
-
-import { ChartsProps, opts as optsOrigin, previewOpts,  defaultLimit, defaultIntervalType } from './config';
+import { sendRequestChart } from '../../utils/request';
+import lodash from 'lodash';
+import { ChartsProps, optsOrigin, previewOpts, defaultLimit, defaultIntervalType } from './config';
 
 export function PreviewChartTemplate({options, request}: ChartsProps) {
     
@@ -15,7 +14,7 @@ export function PreviewChartTemplate({options, request}: ChartsProps) {
     const intervalType = request?.query?.intervalType || defaultIntervalType;
 
     const sendRequestCallback = useCallback(() => {
-        return sendRequest({
+        return sendRequestChart({
             url: request.url,
             query: {
                 ...request.query,
@@ -25,19 +24,21 @@ export function PreviewChartTemplate({options, request}: ChartsProps) {
         });
     }, [request.url, request.query, intervalType]);
 
-    const { data } = useSWR(request.url+intervalType+limit, sendRequestCallback);
+    const { data, isLoading } = useSWR(request.url+intervalType+limit, sendRequestCallback);
 
+    useEffect(() => {
+        if (isLoading) {
+            // @ts-ignore
+            chart.current?.chart.showLoading();
+        } else {
+            // @ts-ignore
+            chart.current?.chart.hideLoading();
+        }
+    },[isLoading])
 
-    const opts = {
-        ...mergeDeep(optsOrigin, options, previewOpts),
-        legend: {
-            enabled: options.series.length > 1,
-        },
-        series: options.series.map((_:any, i:number) => ({
-            data: request.formatter(data)[i],
-        })),
-        intervalType: { value: intervalType },
-    }
+    const optsOrigins = optsOrigin({options, request, data});
+    const opts = lodash.merge(optsOrigins, options, previewOpts)
+    opts.intervalType = { value: intervalType }
 
 
     return <div className="bg-[#FFFFFF] border border-[#E5E5E5] rounded-lg shadow-sm">

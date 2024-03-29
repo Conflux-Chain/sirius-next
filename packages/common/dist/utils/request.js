@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendRequest = exports.fetch = void 0;
+exports.sendRequestChart = exports.fetch = void 0;
 const qs_1 = __importDefault(require("qs"));
 const index_1 = require("./index");
 const TIMEOUT_TIMESTAMP = 60000;
@@ -68,13 +68,22 @@ const fetch = (url, options = {}) => {
     return promise;
 };
 exports.fetch = fetch;
-const sendRequest = async (config) => {
-    const res = await (0, exports.fetch)(`${config.url}?${qs_1.default.stringify(config.query)}`, {
-        method: config.type || 'GET',
-        body: config.body,
-        headers: config.headers,
-        signal: config.signal,
-    });
-    return res.data;
+const sendRequestChart = async (config) => {
+    try {
+        const res = await (0, exports.fetch)(`${config.url}?${qs_1.default.stringify(config.query)}`, {
+            method: config.type || 'GET',
+            body: config.body,
+            headers: config.headers,
+            signal: config.signal,
+        });
+        const data = {
+            list: res?.data?.list.reverse() || res?.result?.list.reverse() || []
+        };
+        return data;
+    }
+    catch (error) {
+        console.error('Request failed', error);
+        throw error;
+    }
 };
-exports.sendRequest = sendRequest;
+exports.sendRequestChart = sendRequestChart;

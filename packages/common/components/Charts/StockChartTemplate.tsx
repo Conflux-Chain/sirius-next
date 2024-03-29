@@ -4,13 +4,12 @@ import HighchartsReact from 'highcharts-react-official';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import useSWR from 'swr';
-import { sendRequest } from '../../utils/request';
-import { mergeDeep } from '../../utils'
+import { sendRequestChart } from '../../utils/request';
 import StockTitle from './StockTitle'
 import BreadcrumbNav from './BreadcrumbNav'
 import ChartOptions from './ChartOptions';
-
-import { ChartsProps, opts as optsOrigin, defaultLimit, defaultIntervalType, ScopeType, onCombination } from './config';
+import lodash from 'lodash';
+import { ChartsProps, optsOrigin, defaultLimit, defaultIntervalType, ScopeType, onCombination } from './config';
 
 Exporting(Highcharts);
 ExportData(Highcharts);
@@ -23,7 +22,7 @@ export function StockChartTemplate({options, request}: ChartsProps) {
     );
 
     const sendRequestCallback = useCallback(() => {
-        return sendRequest({
+        return sendRequestChart({
             url: request.url,
             query: {
                 ...request.query,
@@ -53,16 +52,9 @@ export function StockChartTemplate({options, request}: ChartsProps) {
         }
     },[isLoading])
 
-    const opts = {
-        ...mergeDeep(optsOrigin, options),
-        legend: {
-            enabled: options.series.length > 1,
-        },
-        series: options.series.map((_:any, i:number) => ({
-            data: request.formatter(data)[i],
-        })),
-        intervalType: { value: intervalType },
-    }
+    const optsOrigins = optsOrigin({options, request, data});
+    const opts = lodash.merge(optsOrigins, options)
+    opts.intervalType = { value: intervalType }
 
     return <div>
         <BreadcrumbNav breadcrumb={opts.header.breadcrumb}></BreadcrumbNav>

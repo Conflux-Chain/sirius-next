@@ -13,6 +13,9 @@ export interface ChartsProps {
         formatter: (data: any) => any;
     };
     options: any;
+    data?: {
+        list: any[];
+    };
 }
 
 export interface ScopeItemType {
@@ -121,126 +124,137 @@ export const scope: ScopeType = {
     ],
 };
 
-export const opts = {
-    chart: {
-        alignTicks: false,
-        height: 600,
-        animation: false,
-        backgroundColor: null,
-    },
-    credits: {
-        enabled: false,
-    },
-    colors: [
-        '#7cb5ec',
-        '#434348',
-        '#f7a35c',
-        '#2b908f',
-        '#91e8e1',
-        '#90ed7d',
-        '#8085e9',
-        '#f15c80',
-        '#e4d354',
-        '#f45b5b',
-    ],
-    navigator: {
-        enabled: true,
-    },
-    rangeSelector: {
-        enabled: true,
-        buttons: [],
-    },
-    scrollbar: {
-        enabled: true,
-    },
-    plotOptions: {
-        series: {
-            dataGrouping: {
-                enabled: false,
-            },
+export const optsOrigin = ({options, request, data}: ChartsProps) => {
+    return {
+        chart: {
+          alignTicks: false,
+          height: 600,
+          animation: false,
+          backgroundColor: null,
         },
-        area: {
+        credits: {
+          enabled: false,
+        },
+        colors: [
+          '#7cb5ec',
+          '#434348',
+          '#f7a35c',
+          '#2b908f',
+          '#91e8e1',
+          '#90ed7d',
+          '#8085e9',
+          '#f15c80',
+          '#e4d354',
+          '#f45b5b',
+        ],
+        navigator: {
+          enabled: true,
+        },
+        rangeSelector: {
+          enabled: true,
+          buttons: [],
+        },
+        scrollbar: {
+          enabled: true,
+        },
+        plotOptions: {
+          series: {
+            dataGrouping: {
+              enabled: false,
+              // dateTimeLabelFormats: {
+              //   week: ['%A, %b %e, %Y'],
+              // },
+            },
+          },
+          area: {
             fillColor: {
-                linearGradient: {
-                    x1: 0,
-                    y1: 0,
-                    x2: 0,
-                    y2: 1,
-                },
-                stops: [
-                    // @ts-ignore
-                    [0, Highcharts.getOptions().colors[0]],
-                    [
-                        1,
-                        // @ts-ignore
-                        Highcharts.color(Highcharts.getOptions().colors[0])
-                            .setOpacity(0)
-                            .get('rgba'),
-                    ],
+              linearGradient: {
+                x1: 0,
+                y1: 0,
+                x2: 0,
+                y2: 1,
+              },
+              stops: [
+                // @ts-ignore
+                [0, Highcharts.getOptions().colors[0]],
+                [
+                  1,
+                  // @ts-ignore
+                  Highcharts.color(Highcharts.getOptions().colors[0])
+                    .setOpacity(0)
+                    .get('rgba'),
                 ],
+              ],
             },
             marker: {
-                radius: 2,
+              radius: 2,
             },
             lineWidth: 1,
             states: {
-                hover: {
-                    lineWidth: 1,
-                },
+              hover: {
+                lineWidth: 1,
+              },
             },
             threshold: null,
-        },
-        line: {
+          },
+          line: {
             lineWidth: 1,
             states: {
-                hover: {
-                    lineWidth: 1,
-                },
+              hover: {
+                lineWidth: 1,
+              },
             },
+          },
         },
-    },
-    tooltip: {
-        split: false,
-        useHTML: true,
-        headerFormat: `<table>
-          <tr>
-            <th colspan="2" style="font-weight: normal;">{point.key}</th>
-          </tr>
-          <tr style="border-bottom: 1px solid #ccc;">
-            <th style="padding-bottom: 5px;"></th>
-          </tr>
-          `,
-        pointFormat: `
-        <tr><td style="padding-top: 5px;"></td></tr>
-        <tr>
-          <td style="color: {series.color}; padding-right: 10px;">[ {series.name} ]</td>
-          <td style="text-align: right"><b>{point.y}</b></td>  
-        </tr>`,
-        footerFormat: '</table>',
-        shape: 'square',
-        shared: true,
-    },
-    yAxis: {
-        opposite: false,
-    },
-    exporting: {
-        enabled: true,
-        buttons: {
+        legend: {
+          enabled: options.series.length > 1,
+        },
+        tooltip: {
+          split: false,
+          useHTML: true,
+          headerFormat: `<table>
+              <tr>
+                <th colspan="2" style="font-weight: normal;">{point.key}</th>
+              </tr>
+              <tr style="border-bottom: 1px solid #ccc;">
+                <th style="padding-bottom: 5px;"></th>
+              </tr>
+              `,
+          pointFormat: `
+            <tr><td style="padding-top: 5px;"></td></tr>
+            <tr>
+              <td style="color: {series.color}; padding-right: 10px;">[ {series.name} ]</td>
+              <td style="text-align: right"><b>{point.y}</b></td>  
+            </tr>`,
+          footerFormat: '</table>',
+          shape: 'square',
+          shared: true,
+        },
+        yAxis: {
+          opposite: false,
+        },
+        series: options.series.map((_:any, i:number) => ({
+          data: request.formatter(data)[i],
+        })),
+        exporting: {
+          enabled: true,
+          buttons: {
             contextButton: {
-                menuItems: [
-                    'viewFullscreen',
-                    'printChart',
-                    'separator',
-                    'downloadPNG',
-                    'downloadJPEG',
-                    'downloadPDF',
-                    'downloadSVG',
-                    'downloadCSV',
-                    'downloadXLS',
-                ],
+              menuItems: [
+                'viewFullscreen',
+                'printChart',
+                'separator',
+                'downloadPNG',
+                'downloadJPEG',
+                'downloadPDF',
+                'downloadSVG',
+                'downloadCSV',
+                'downloadXLS',
+              ],
             },
+          },
         },
-    },
+      }
 };
 
 export const previewOpts = {
