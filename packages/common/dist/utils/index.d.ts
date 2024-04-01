@@ -94,5 +94,20 @@ export declare const useSWRWithGetFecher: (key: string | string[] | null, swrOpt
     error: any;
     mutate: any;
 };
+export declare const mergeDeep: (...objects: any[]) => any;
+type EventName = string;
+type Callback = (data: any) => void;
+export declare const pubsub: {
+    publish: (eventName: EventName, data: any) => void;
+    subscribe: (eventName: EventName, callback: Callback) => () => void;
+};
+interface ErrorInfoType {
+    url?: string;
+    code?: number;
+    message?: string;
+    data?: string;
+    method?: string;
+}
+export declare const publishRequestError: (e: (Error & ErrorInfoType) | ErrorInfoType, type: 'rpc' | 'http' | 'wallet' | 'code') => void;
 export {};
 //# sourceMappingURL=index.d.ts.map

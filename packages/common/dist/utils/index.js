@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useSWRWithGetFecher = exports.simpleGetFetcher = exports.appendApiPrefix = exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
+exports.publishRequestError = exports.pubsub = exports.mergeDeep = exports.useSWRWithGetFecher = exports.simpleGetFetcher = exports.appendApiPrefix = exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
 const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const swr_1 = __importDefault(require("swr"));
@@ -736,3 +736,87 @@ const useSWRWithGetFecher = (key, swrOpts = {}) => {
     return { data, error, mutate };
 };
 exports.useSWRWithGetFecher = useSWRWithGetFecher;
+const mergeDeep = (...objects) => {
+    return objects.reduce((prev, obj) => {
+        if (isObject(obj)) {
+            Object.keys(obj).forEach((key) => {
+                const pVal = prev[key];
+                const oVal = obj[key];
+                if (Array.isArray(pVal) && Array.isArray(oVal)) {
+                    prev[key] = pVal.concat(oVal);
+                }
+                else if (isObject(pVal) && isObject(oVal)) {
+                    prev[key] = (0, exports.mergeDeep)(pVal, oVal);
+                }
+                else {
+                    prev[key] = oVal;
+                }
+            });
+        }
+        return prev;
+    }, {});
+};
+exports.mergeDeep = mergeDeep;
+const pubSubLib = () => {
+    const subscribers = {};
+    function publish(eventName, data) {
+        const eventSubscribers = subscribers[eventName];
+        if (!Array.isArray(eventSubscribers)) {
+            return;
+        }
+        eventSubscribers.forEach((callback) => {
+            callback(data);
+        });
+    }
+    function subscribe(eventName, callback) {
+        if (!Array.isArray(subscribers[eventName])) {
+            subscribers[eventName] = [];
+        }
+        const eventSubscribers = subscribers[eventName] || [];
+        eventSubscribers.push(callback);
+        const index = eventSubscribers.length - 1;
+        return () => {
+            eventSubscribers.splice(index, 1);
+        };
+    }
+    return {
+        publish,
+        subscribe,
+    };
+};
+exports.pubsub = pubSubLib();
+const isNil = (value) => value === null || value === undefined;
+const publishRequestError = (e, type) => {
+    let detail = '';
+    if (e.code && e.message) {
+        if (type === 'code') {
+            detail = e.message;
+        }
+        else {
+            detail = `Error Code: ${e.code} \n`;
+            if (type === 'http') {
+                const origin = window.location.origin;
+                detail += `Rest Api Url: ${e.url?.includes('https://') ? e.url : origin + e.url} \n`;
+            }
+            if (type === 'rpc') {
+                // detail += `RPC Url: ${RPC_SERVER} \n`;
+                if (!isNil(e.method)) {
+                    detail += `Method: ${e.method} \n`;
+                }
+                if (!isNil(e.data)) {
+                    detail += `Data: ${e.data} \n`;
+                }
+            }
+            detail += `Error Message: ${e.message} \n`;
+        }
+    }
+    exports.pubsub.publish('notify', {
+        type: 'request',
+        option: {
+            code: type === 'rpc' ? 30001 : e.code || 20000, // code is used for title, 20000 means unknown issue
+            message: e.message,
+            detail: detail,
+        },
+    });
+};
+exports.publishRequestError = publishRequestError;

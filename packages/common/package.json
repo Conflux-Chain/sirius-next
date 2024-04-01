@@ -14,13 +14,19 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/lodash": "^4.17.0",
     "@types/qs": "^6.9.14",
+    "@types/react-router-dom": "^5.3.3",
     "bignumber.js": "^9.1.2",
     "clsx": "^2.1.0",
     "dayjs": "^1.11.10",
+    "highcharts": "^10.0.0",
+    "highcharts-react-official": "^3.1.0",
     "js-conflux-sdk": "^2.3.0",
+    "lodash": "^4.17.21",
     "qs": "^6.12.0",
-    "react-router-dom": "^6.22.3",
+    "react-i18next": "^14.1.0",
+    "react-router-dom": "^5.1.2",
     "swr": "^2.2.5"
   },
   "devDependencies": {
