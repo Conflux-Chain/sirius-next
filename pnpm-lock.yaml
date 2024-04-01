@@ -145,6 +145,12 @@ importers:
       highcharts-react-official:
         specifier: ^3.1.0
         version: 3.1.0(highcharts@10.0.0)(react@18.2.0)
+      i18next:
+        specifier: ^23.10.1
+        version: 23.10.1
+      i18next-browser-languagedetector:
+        specifier: ^7.2.1
+        version: 7.2.1
       js-conflux-sdk:
         specifier: ^2.3.0
         version: 2.3.0
@@ -4918,6 +4924,12 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
     dev: true
+
+  /i18next-browser-languagedetector@7.2.1:
+    resolution: {integrity: sha512-h/pM34bcH6tbz8WgGXcmWauNpQupCGr25XPp9cZwZInR9XHSjIFDYp1SIok7zSPsTOMxdvuLyu86V+g2Kycnfw==}
+    dependencies:
+      '@babel/runtime': 7.24.1
+    dev: false
 
   /i18next@23.10.1:
     resolution: {integrity: sha512-NDiIzFbcs3O9PXpfhkjyf7WdqFn5Vq6mhzhtkXzj51aOcNuPNcTwuYNuXCpHsanZGHlHKL35G7huoFeVic1hng==}

@@ -1,0 +1,42 @@
+import { API_HOST_MAP, DOMAIN, IS_STAGE } from '../env-constants';
+import { NETWORK_TYPES } from '../types';
+// import logo from '../../images/cspace/logo.svg';
+export * from './base';
+export { default as ENV_LOCALES_EN } from './locales/en/translation.json';
+export { default as ENV_LOCALES_CN } from './locales/zh_cn/translation.json';
+
+// TODO-core
+export const ENV_NETWORK_ID = 1030;
+export const ENV_NETWORK_TYPE = NETWORK_TYPES.CORE_MAINNET;
+// TODO-core
+export const ENV_API_HOST =
+  API_HOST_MAP.openAPIHost ||
+  (IS_STAGE
+    ? `https://api-stage.confluxscan${DOMAIN}`
+    : `https://api.confluxscan${DOMAIN}`);
+export const ENV_CORE_API_HOST =
+  API_HOST_MAP.secondaryOpenAPIHost ||
+  (IS_STAGE
+    ? `https://api-stage.confluxscan${DOMAIN}`
+    : `https://api.confluxscan${DOMAIN}`);
+export const ENV_CORE_SCAN_HOST =
+  API_HOST_MAP.secondaryBackendAPIHost ||
+  (IS_STAGE
+    ? `https://www-stage.confluxscan${DOMAIN}`
+    : `https://www.confluxscan${DOMAIN}`);
+// TODO-core
+export const ENV_RPC_SERVER =
+  API_HOST_MAP.rpcHost || 'https://main.confluxrpc.com';
+// TODO-core
+export const ENV_WALLET_CONFIG = {
+  chainId: ENV_NETWORK_ID,
+  chainName: 'Conflux coreSpace',
+  rpcUrls: ['https://main.confluxrpc.com'],
+  blockExplorerUrls: ['https://core.confluxscan.io/'],
+  nativeCurrency: {
+    name: 'Conflux',
+    symbol: 'CFX',
+    decimals: 18,
+  },
+};
+// export const ENV_LOGO = logo;
