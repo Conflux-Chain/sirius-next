@@ -19,4 +19,5 @@ export declare const ENV_WALLET_CONFIG: {
         decimals: number;
     };
 };
+export declare const ENV_LOGO: string;
 //# sourceMappingURL=devnet.d.ts.map

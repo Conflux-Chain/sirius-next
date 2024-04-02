@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ENV_THEME = void 0;
-// import imgArrow from '../../images/token/arrow.svg';
+exports.ENV_ICONS = exports.ENV_THEME = void 0;
+const arrow_svg_1 = __importDefault(require("../../images/token/arrow.svg"));
 const baseColor = '#17B38A';
 exports.ENV_THEME = {
     primary: baseColor,
@@ -44,6 +47,6 @@ exports.ENV_THEME = {
     chartTitleColor: '#7789D3',
     chartDetailLinkColor: '#1e3de4',
 };
-// export const ENV_ICONS = {
-//   imgArrow,
-// };
+exports.ENV_ICONS = {
+    imgArrow: arrow_svg_1.default,
+};

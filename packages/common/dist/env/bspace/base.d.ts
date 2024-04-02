@@ -17,4 +17,7 @@ export declare const ENV_THEME: {
     chartTitleColor: string;
     chartDetailLinkColor: string;
 };
+export declare const ENV_ICONS: {
+    imgArrow: string;
+};
 //# sourceMappingURL=base.d.ts.map

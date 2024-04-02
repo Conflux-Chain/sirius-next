@@ -1,6 +1,6 @@
 import { API_HOST_MAP, IS_DEV } from '../env-constants';
 import { NETWORK_TYPES } from '../types';
-// import logo from '../../images/espace/logo.svg';
+import logo from '../../images/espace/logo.svg';
 export * from './base';
 export { default as ENV_LOCALES_EN } from './locales/en/translation.json';
 export { default as ENV_LOCALES_CN } from './locales/zh_cn/translation.json';
@@ -32,4 +32,4 @@ export const ENV_WALLET_CONFIG = {
     decimals: 18,
   },
 };
-// export const ENV_LOGO = logo;
+export const ENV_LOGO = logo;

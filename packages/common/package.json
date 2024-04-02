@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "pnpm build:component && pnpm build:css",
+    "build": "pnpm build:component && pnpm build:css && pnpm build:images",
     "build:component": "tsc",
     "build:css": "unocss",
+    "build:images": "copyfiles images/**/* dist/",
     "dev": "concurrently 'pnpm dev:component' 'pnpm dev:css'",
     "dev:component": "tsc -w",
     "dev:css": "unocss -w",
@@ -19,6 +20,7 @@
     "@types/react-router-dom": "^5.3.3",
     "bignumber.js": "^9.1.2",
     "clsx": "^2.1.0",
+    "copyfiles": "^2.4.1",
     "dayjs": "^1.11.10",
     "highcharts": "^10.0.0",
     "highcharts-react-official": "^3.1.0",
@@ -29,7 +31,8 @@
     "qs": "^6.12.0",
     "react-i18next": "^14.1.0",
     "react-router-dom": "^5.1.2",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "vite": "^5.1.6"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

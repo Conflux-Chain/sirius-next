@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ENV_THEME = void 0;
-// import imgArrow from '../../images/token/arrow-btc.svg';
+exports.ENV_ICONS = exports.ENV_THEME = void 0;
+const arrow_btc_svg_1 = __importDefault(require("../../images/token/arrow-btc.svg"));
 const baseColor = '#F7931A';
 exports.ENV_THEME = {
     primary: baseColor,
@@ -22,6 +25,6 @@ exports.ENV_THEME = {
     chartTitleColor: baseColor,
     chartDetailLinkColor: baseColor,
 };
-// export const ENV_ICONS = {
-//   imgArrow,
-// };
+exports.ENV_ICONS = {
+    imgArrow: arrow_btc_svg_1.default,
+};

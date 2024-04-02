@@ -1,4 +1,4 @@
-// import imgArrow from '../../images/token/arrow-btc.svg';
+import imgArrow from '../../images/token/arrow.svg';
 const baseColor = '#F7931A';
 export const ENV_THEME = {
   primary: baseColor,
@@ -19,6 +19,6 @@ export const ENV_THEME = {
   chartTitleColor: baseColor,
   chartDetailLinkColor: baseColor,
 };
-// export const ENV_ICONS = {
-//   imgArrow,
-// };
+export const ENV_ICONS = {
+  imgArrow,
+};

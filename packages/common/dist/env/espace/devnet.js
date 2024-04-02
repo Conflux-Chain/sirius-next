@@ -17,10 +17,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ENV_WALLET_CONFIG = exports.ENV_RPC_SERVER = exports.ENV_CORE_SCAN_HOST = exports.ENV_CORE_API_HOST = exports.ENV_API_HOST = exports.ENV_NETWORK_TYPE = exports.ENV_NETWORK_ID = exports.ENV_LOCALES_CN = exports.ENV_LOCALES_EN = void 0;
+exports.ENV_LOGO = exports.ENV_WALLET_CONFIG = exports.ENV_RPC_SERVER = exports.ENV_CORE_SCAN_HOST = exports.ENV_CORE_API_HOST = exports.ENV_API_HOST = exports.ENV_NETWORK_TYPE = exports.ENV_NETWORK_ID = exports.ENV_LOCALES_CN = exports.ENV_LOCALES_EN = void 0;
 const env_constants_1 = require("../env-constants");
 const types_1 = require("../types");
-// import logo from '../../images/espace/logo.svg';
+const logo_svg_1 = __importDefault(require("../../images/espace/logo.svg"));
 __exportStar(require("./base"), exports);
 var translation_json_1 = require("./locales/en/translation.json");
 Object.defineProperty(exports, "ENV_LOCALES_EN", { enumerable: true, get: function () { return __importDefault(translation_json_1).default; } });
@@ -49,4 +49,4 @@ exports.ENV_WALLET_CONFIG = {
         decimals: 18,
     },
 };
-// export const ENV_LOGO = logo;
+exports.ENV_LOGO = logo_svg_1.default;
