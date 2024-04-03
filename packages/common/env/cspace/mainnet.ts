@@ -10,9 +10,8 @@ import { default as _ENV_LOCALES_CN_NET } from './locales/zh_cn/translationForDo
 
 import { HIDE_IN_DOT_NET } from '../../utils';
 
-const ENV_LOCALES_EN = _ENV_LOCALES_EN;
-console.log("ENV_LOCALES_EN:", ENV_LOCALES_EN)
-const ENV_LOCALES_CN = _ENV_LOCALES_CN;
+const ENV_LOCALES_EN = HIDE_IN_DOT_NET ? _ENV_LOCALES_EN_NET : _ENV_LOCALES_EN;
+const ENV_LOCALES_CN = HIDE_IN_DOT_NET ? _ENV_LOCALES_CN_NET : _ENV_LOCALES_CN;
 export { ENV_LOCALES_EN, ENV_LOCALES_CN }
 
 // TODO-core
@@ -55,7 +54,7 @@ export const ENV_OPEN_API_HOST =
   (IS_STAGE
     ? `https://api-stage.confluxscan${DOMAIN}`
     : `https://api.confluxscan${DOMAIN}`);
-    
+
 export const ENV_LOGO = logo;
 
 export const ENV_FC_ADDRESS = 'cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2';
