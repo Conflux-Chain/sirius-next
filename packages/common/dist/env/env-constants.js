@@ -4,11 +4,11 @@ exports.API_HOST_MAP = exports.STAGE_FLAG = exports.IS_DEV = exports.IS_STAGE = 
 const constants_1 = require("../utils/constants");
 exports.IS_FOREIGN_HOST = /.io$/.test(window.location.host);
 exports.DOMAIN = exports.IS_FOREIGN_HOST ? '.io' : '.net';
-exports.IS_CSPACE_DEVNET = process.env.REACT_APP_CFX_DEVNET === 'true' ||
+exports.IS_CSPACE_DEVNET = process.env.REACT_APP_CORE_DEVNET === 'true' ||
     /^net8888[.-]/.test(window.location.host);
-exports.IS_CSPACE_TESTNET = process.env.REACT_APP_CFX_TESTNET === 'true' ||
+exports.IS_CSPACE_TESTNET = process.env.REACT_APP_CORE_TESTNET === 'true' ||
     /^testnet[.-]/.test(window.location.hostname);
-exports.IS_CSPACE_MAINNET = process.env.REACT_APP_CFX_MAINNET === 'true' ||
+exports.IS_CSPACE_MAINNET = process.env.REACT_APP_CORE_MAINNET === 'true' ||
     /^www[.-]/.test(window.location.hostname);
 exports.IS_ESPACE_DEVNET = process.env.REACT_APP_EVM_DEVNET === 'true' ||
     /^net[\d]+eth/.test(window.location.host);

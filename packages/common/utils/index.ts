@@ -2,6 +2,7 @@ import BigNumber from "bignumber.js";
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import qs from 'qs';
+import { LOCALSTORAGE_KEYS_MAP } from './constants'
 
 export const toThousands = (num: any, delimiter = ",", prevDelimiter = ",") => {
   if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
@@ -860,9 +861,8 @@ export const publishRequestError = (
       detail = `Error Code: ${e.code} \n`;
       if (type === 'http') {
         const origin = window.location.origin;
-        detail += `Rest Api Url: ${
-          e.url?.includes('https://') ? e.url : origin + e.url
-        } \n`;
+        detail += `Rest Api Url: ${e.url?.includes('https://') ? e.url : origin + e.url
+          } \n`;
       }
       if (type === 'rpc') {
         // detail += `RPC Url: ${RPC_SERVER} \n`;
@@ -886,3 +886,7 @@ export const publishRequestError = (
     },
   });
 };
+
+export const HIDE_IN_DOT_NET =
+  /.net$/.test(window.location.host) &&
+  localStorage.getItem(LOCALSTORAGE_KEYS_MAP.hideInDotNet) !== 'false';

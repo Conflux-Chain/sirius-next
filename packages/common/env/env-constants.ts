@@ -4,13 +4,13 @@ export const IS_FOREIGN_HOST = /.io$/.test(window.location.host);
 export const DOMAIN = IS_FOREIGN_HOST ? '.io' : '.net';
 
 export const IS_CSPACE_DEVNET =
-  process.env.REACT_APP_CFX_DEVNET === 'true' ||
+  process.env.REACT_APP_CORE_DEVNET === 'true' ||
   /^net8888[.-]/.test(window.location.host);
 export const IS_CSPACE_TESTNET =
-  process.env.REACT_APP_CFX_TESTNET === 'true' ||
+  process.env.REACT_APP_CORE_TESTNET === 'true' ||
   /^testnet[.-]/.test(window.location.hostname);
 export const IS_CSPACE_MAINNET =
-  process.env.REACT_APP_CFX_MAINNET === 'true' ||
+  process.env.REACT_APP_CORE_MAINNET === 'true' ||
   /^www[.-]/.test(window.location.hostname);
 
 export const IS_ESPACE_DEVNET =

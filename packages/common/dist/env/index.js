@@ -26,6 +26,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.STAGE_FLAG = exports.IS_STAGE = exports.DOMAIN = exports.IS_FOREIGN_HOST = void 0;
 const CSPACE_MAINNET_CONFIG = __importStar(require("./cspace/mainnet"));
 const CSPACE_TESTNET_CONFIG = __importStar(require("./cspace/testnet"));
 const CSPACE_DEVNET_CONFIG = __importStar(require("./cspace/devnet"));
@@ -71,3 +72,7 @@ const ENV_CONFIG = (() => {
 __exportStar(require("./env-constants"), exports);
 __exportStar(require("./types"), exports);
 exports.default = ENV_CONFIG;
+exports.IS_FOREIGN_HOST = /.io$/.test(window.location.host);
+exports.DOMAIN = exports.IS_FOREIGN_HOST ? '.io' : '.net';
+exports.IS_STAGE = process.env.REACT_APP_DEV === 'true';
+exports.STAGE_FLAG = exports.IS_STAGE ? '-stage' : '';

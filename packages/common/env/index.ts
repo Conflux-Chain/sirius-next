@@ -10,6 +10,7 @@ import * as BSPACE_MAINNET_CONFIG from './bspace/mainnet';
 import * as BSPACE_TESTNET_CONFIG from './bspace/testnet';
 import * as BSPACE_DEVNET_CONFIG from './bspace/devnet';
 
+import { LOCALSTORAGE_KEYS_MAP } from '../utils/constants';
 
 
 import {
@@ -22,12 +23,11 @@ import {
   IS_BSPACE_MAINNET,
   IS_BSPACE_TESTNET,
   IS_BSPACE_DEVNET,
-
 } from './env-constants';
 
 const DEFAULT_NETWORK_CONFIG = ESPACE_MAINNET_CONFIG;
 
-const ENV_CONFIG = (() => {
+const ENV_CONFIG:any = (() => {
   if (IS_CSPACE_MAINNET) {
     return CSPACE_MAINNET_CONFIG;
   } else if (IS_CSPACE_TESTNET) {
@@ -58,3 +58,10 @@ const ENV_CONFIG = (() => {
 export * from './env-constants';
 export * from './types';
 export default ENV_CONFIG;
+
+export const IS_FOREIGN_HOST = /.io$/.test(window.location.host);
+export const DOMAIN = IS_FOREIGN_HOST ? '.io' : '.net';
+
+export const IS_STAGE = process.env.REACT_APP_DEV === 'true';
+
+export const STAGE_FLAG = IS_STAGE ? '-stage' : '';

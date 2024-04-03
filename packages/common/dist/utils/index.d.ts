@@ -109,5 +109,6 @@ interface ErrorInfoType {
     method?: string;
 }
 export declare const publishRequestError: (e: (Error & ErrorInfoType) | ErrorInfoType, type: 'rpc' | 'http' | 'wallet' | 'code') => void;
+export declare const HIDE_IN_DOT_NET: boolean;
 export {};
 //# sourceMappingURL=index.d.ts.map
