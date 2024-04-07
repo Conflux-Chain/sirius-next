@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "pnpm build:component && pnpm build:css",
-    "build:component": "tsc",
+    "build": "pnpm build:lib && pnpm build:css",
+    "build:lib": "tsc",
     "build:css": "unocss",
-    "dev": "concurrently 'pnpm dev:component' 'pnpm dev:css'",
-    "dev:component": "tsc -w",
+    "dev": "concurrently 'pnpm dev:lib' 'pnpm dev:css'",
+    "dev:lib": "tsc -w",
     "dev:css": "unocss -w",
     "generate:component": "turbo gen react-component",
     "lint": "eslint . --max-warnings 0",
@@ -30,6 +30,7 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@iconify-json/line-md": "^1.1.36",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "^1.12.4",
@@ -38,15 +39,15 @@
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
-    "@unocss/cli": "^0.55.7",
-    "@unocss/preset-mini": "^0.55.7",
-    "@unocss/transformer-variant-group": "^0.55.7",
+    "@unocss/cli": "^0.58.6",
+    "@unocss/preset-mini": "^0.58.6",
+    "@unocss/transformer-variant-group": "^0.58.6",
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "react": "^18.2.0",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.2",
-    "unocss": "^0.55.7"
+    "unocss": "^0.58.6"
   }
 }
