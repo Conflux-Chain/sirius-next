@@ -1,11 +1,11 @@
 /* -*- mode: typescript -*- */
-import React from 'react';
+import React from "react";
 interface Props {
   color?: string;
 }
 
-export const DeleteIcon: React.FC<Props> = props => {
-  const { color = '#0054FE' } = props;
+export const DeleteIcon: React.FC<Props> = (props) => {
+  const { color = "#0054FE" } = props;
   return (
     <svg
       width="16px"
