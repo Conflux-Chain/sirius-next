@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LOCALSTORAGE_KEYS_MAP = void 0;
 /**
  * @todo
  * 1. setNFTCacheInfo cacheKey
@@ -9,7 +6,7 @@ exports.LOCALSTORAGE_KEYS_MAP = void 0;
  * @export
  * @enum {number}
  */
-var LOCALSTORAGE_KEYS_MAP;
+export var LOCALSTORAGE_KEYS_MAP;
 (function (LOCALSTORAGE_KEYS_MAP) {
     LOCALSTORAGE_KEYS_MAP["reqProjectConfigMD5"] = "CONFLUX_SCAN_REQ_PROJECT_CONFIG_MD5";
     LOCALSTORAGE_KEYS_MAP["networkId"] = "CONFLUX_SCAN_NETWORK_ID";
@@ -24,4 +21,4 @@ var LOCALSTORAGE_KEYS_MAP;
     LOCALSTORAGE_KEYS_MAP["txPrivateNote"] = "CONFLUX_SCAN_TX_PRIVATE_NOTES";
     LOCALSTORAGE_KEYS_MAP["hideInDotNet"] = "CONFLUX_SCAN_HIDE_IN_DOT_NET";
     LOCALSTORAGE_KEYS_MAP["apis"] = "CONFLUX_SCAN_APIS";
-})(LOCALSTORAGE_KEYS_MAP || (exports.LOCALSTORAGE_KEYS_MAP = LOCALSTORAGE_KEYS_MAP = {}));
+})(LOCALSTORAGE_KEYS_MAP || (LOCALSTORAGE_KEYS_MAP = {}));

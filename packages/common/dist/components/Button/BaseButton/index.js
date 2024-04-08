@@ -1,17 +1,11 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseButton = void 0;
-const jsx_runtime_1 = require("react/jsx-runtime");
-const react_1 = require("react");
-const clsx_1 = __importDefault(require("clsx"));
-exports.BaseButton = (0, react_1.forwardRef)(({ children, className, loading, disabled, onClick, ...props }, ref) => {
+import { jsx as _jsx } from "react/jsx-runtime";
+import { forwardRef, } from "react";
+import clsx from "clsx";
+export const BaseButton = forwardRef(({ children, className, loading, disabled, onClick, ...props }, ref) => {
     const handleClick = (e) => {
         if (loading || disabled)
             return;
         onClick?.(e);
     };
-    return ((0, jsx_runtime_1.jsx)("div", { ref: ref, className: (0, clsx_1.default)("flex-center cursor-pointer", disabled && "cursor-not-allowed", loading && "pointer-events-none", className), onClick: handleClick, ...props, children: children }));
+    return (_jsx("div", { ref: ref, className: clsx("flex-center cursor-pointer", disabled && "cursor-not-allowed", loading && "pointer-events-none", className), onClick: handleClick, ...props, children: children }));
 });

@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendRequestChart = exports.fetch = void 0;
-const qs_1 = __importDefault(require("qs"));
-const index_1 = require("./index");
+import qs from 'qs';
+import { publishRequestError } from './index';
 const TIMEOUT_TIMESTAMP = 60000;
 const checkStatus = (response) => {
     if ((response.status >= 200 && response.status < 300) || response.status === 600) {
@@ -36,7 +30,7 @@ const fetchWithAbort = (url, options = {}) => {
     const promise = new Promise((resolve, reject) => {
         timeoutId = setTimeout(() => {
             controller.abort();
-            (0, index_1.publishRequestError)({ url, code: 408, message: 'Request timeout' }, 'http');
+            publishRequestError({ url, code: 408, message: 'Request timeout' }, 'http');
             reject(new Error('Request timeout'));
         }, timeout);
         window.fetch(url, opts)
@@ -45,11 +39,11 @@ const fetchWithAbort = (url, options = {}) => {
             .then((data) => resolve(data))
             .catch((error) => {
             if (error.name === 'AbortError') {
-                (0, index_1.publishRequestError)({ url, code: 0, message: 'Fetch aborted' }, 'http');
+                publishRequestError({ url, code: 0, message: 'Fetch aborted' }, 'http');
                 reject(new Error('Fetch aborted'));
             }
             else {
-                (0, index_1.publishRequestError)({ url, code: error.status, message: error.message }, 'http');
+                publishRequestError({ url, code: error.status, message: error.message }, 'http');
                 reject(error);
             }
         })
@@ -63,14 +57,13 @@ const fetchWithAbort = (url, options = {}) => {
         },
     };
 };
-const fetch = (url, options = {}) => {
+export const fetch = (url, options = {}) => {
     const { promise } = fetchWithAbort(url, options);
     return promise;
 };
-exports.fetch = fetch;
-const sendRequestChart = async (config) => {
+export const sendRequestChart = async (config) => {
     try {
-        const res = await (0, exports.fetch)(`${config.url}?${qs_1.default.stringify(config.query)}`, {
+        const res = await fetch(`${config.url}?${qs.stringify(config.query)}`, {
             method: config.type || 'GET',
             body: config.body,
             headers: config.headers,
@@ -86,4 +79,3 @@ const sendRequestChart = async (config) => {
         throw error;
     }
 };
-exports.sendRequestChart = sendRequestChart;
