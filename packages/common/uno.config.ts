@@ -40,17 +40,13 @@ export default defineConfig({
       "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
   },
   theme: {
-    // breakpoints: {
-    //   tiny: "350px",
-    //   mini: "375px",
-    //   mobile: "460px",
-    //   sm: "640px",
-    //   md: "768px",
-    //   lg: "1024px",
-    //   xl: "1280px",
-    //   "2xl": "1536px",
-    //   "3xl": "1920px",
-    // },
+    breakpoints: {
+      sm: "768px",
+      md: "1024px",
+      lg: "1280px",
+      xl: "1440px",
+      "2xl": "1920px",
+    },
     colors: {
       blue: {
         dark: "#0077FF",
