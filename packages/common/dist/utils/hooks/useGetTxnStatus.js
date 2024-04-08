@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.useGetTxnStatus = exports.getTransactionLoop = void 0;
-const react_1 = require("react");
+import { useEffect, useState, useRef } from 'react';
 const CFX = window.CFX;
-const getTransactionLoop = function (hash, outOptions) {
+export const getTransactionLoop = function (hash, outOptions) {
     const options = {
         callback: () => { },
         timeout: 2000,
@@ -59,20 +56,19 @@ const getTransactionLoop = function (hash, outOptions) {
         loop();
     });
 };
-exports.getTransactionLoop = getTransactionLoop;
-const useGetTxnStatus = (txnHashs, timeout, // timeout to polling txn status,
+export const useGetTxnStatus = (txnHashs, timeout, // timeout to polling txn status,
 method) => {
     // 0 for success, 1 for error occured, null when the transaction is skipped or not packed.
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [status, setStatus] = (0, react_1.useState)({});
-    const markedHashs = (0, react_1.useRef)({});
+    const [status, setStatus] = useState({});
+    const markedHashs = useRef({});
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         const newHashs = txnHashs.filter(h => !markedHashs.current[h]);
         if (newHashs.length) {
             newHashs.forEach(h => {
                 markedHashs.current[h] = true;
-                (0, exports.getTransactionLoop)(h, {
+                getTransactionLoop(h, {
                     callback: resp => {
                         setStatus((statusMap) => {
                             const markedHashsKeys = Object.keys(markedHashs.current);
@@ -94,4 +90,3 @@ method) => {
         status,
     };
 };
-exports.useGetTxnStatus = useGetTxnStatus;

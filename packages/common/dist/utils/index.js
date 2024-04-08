@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.publishRequestError = exports.pubsub = exports.mergeDeep = exports.useSWRWithGetFecher = exports.simpleGetFetcher = exports.appendApiPrefix = exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
-const bignumber_js_1 = __importDefault(require("bignumber.js"));
-const dayjs_1 = __importDefault(require("dayjs"));
-const swr_1 = __importDefault(require("swr"));
-const qs_1 = __importDefault(require("qs"));
-const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
+import BigNumber from "bignumber.js";
+import dayjs from 'dayjs';
+import useSWR from 'swr';
+import qs from 'qs';
+export const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
     if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
         return "";
     let str = num + "";
@@ -24,8 +18,7 @@ const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
         }
     }, "");
 };
-exports.toThousands = toThousands;
-const getEllipsStr = (str, frontNum, endNum) => {
+export const getEllipsStr = (str, frontNum, endNum) => {
     if (str) {
         const length = str.length;
         if (endNum === 0 && length <= frontNum) {
@@ -37,11 +30,9 @@ const getEllipsStr = (str, frontNum, endNum) => {
     }
     return "";
 };
-exports.getEllipsStr = getEllipsStr;
-const tranferToLowerCase = (str) => {
+export const tranferToLowerCase = (str) => {
     return str ? str.toLowerCase() : "";
 };
-exports.tranferToLowerCase = tranferToLowerCase;
 function hex2asc(pStr) {
     let tempstr = "";
     for (let b = 0; b < pStr.length; b += 2) {
@@ -49,7 +40,7 @@ function hex2asc(pStr) {
     }
     return tempstr;
 }
-const hex2utf8 = (pStr) => {
+export const hex2utf8 = (pStr) => {
     let tempstr = "";
     try {
         tempstr = decodeURIComponent(pStr.replace(/\s+/g, "").replace(/[0-9a-f]{2}/g, "%$&"));
@@ -59,12 +50,10 @@ const hex2utf8 = (pStr) => {
     }
     return tempstr;
 };
-exports.hex2utf8 = hex2utf8;
 // alternative of String.prototype.replaceAll
-const replaceAll = (str, find, replace) => {
+export const replaceAll = (str, find, replace) => {
     return str.replace(new RegExp(find.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&"), "g"), replace);
 };
-exports.replaceAll = replaceAll;
 /**
  * 格式化字符串，向下取整
  * @param {number|string} num 数字或字符串，应尽量使用字符串格式，数字格式如果长度超过 Number.MAX_SAFE_INTEGER 或 Number.MIN_SAFE_INTEGER 可能会有精度损失
@@ -74,9 +63,9 @@ exports.replaceAll = replaceAll;
  * @todo: 支持整数位小数设置精度
  * @todo: 支持负数格式化
  */
-const formatNumber = (num, opt) => {
+export const formatNumber = (num, opt) => {
     // 无法通过 bignumber.js 格式化的不处理
-    let bNum = new bignumber_js_1.default(num).toFixed();
+    let bNum = new BigNumber(num).toFixed();
     if (bNum === "NaN") {
         return "";
     }
@@ -113,7 +102,7 @@ const formatNumber = (num, opt) => {
     // 3.2 获取小数点前 27 位数字 intStrEnd
     let intStrEnd = intStr ? intStr.slice(-27) : 0;
     // 4. intStrEnd 转千分符形式
-    const intStrEndAfterToThousands = (0, exports.toThousands)(intStrEnd, option.delimiter);
+    const intStrEndAfterToThousands = toThousands(intStrEnd, option.delimiter);
     // 5. intStrEnd 添加单位，此处不对数字有效性做验证，即可能值为 100.000，100.000k 或 000.000Y
     let intStrEndWithUnit = "";
     if (option.withUnit === false) {
@@ -156,13 +145,13 @@ const formatNumber = (num, opt) => {
     // 6. 格式化整数
     if (intStrFront) {
         // 如果数字长度超过 27 位，则前面的数字用千分符分割
-        int = `${(0, exports.toThousands)(intStrFront, option.delimiter)}${option.delimiter}${intStrEndWithUnit}`;
+        int = `${toThousands(intStrFront, option.delimiter)}${option.delimiter}${intStrEndWithUnit}`;
     }
     else {
         int = intStrEndWithUnit;
     }
     // 7. 格式化小数
-    decimal = new bignumber_js_1.default(`0.${decimalStr}`).toPrecision(option.precision, 1);
+    decimal = new BigNumber(`0.${decimalStr}`).toPrecision(option.precision, 1);
     // 8. 拼接整数，小数和单位
     let unit = int.slice(-1);
     let intWithoutUnit = int;
@@ -182,8 +171,8 @@ const formatNumber = (num, opt) => {
         unit = "";
         // 8.2 整数位为 0 或无单位整数，拼接小数位
         if (option.keepDecimal) {
-            result = new bignumber_js_1.default(int.toString().replace(/,/g, ""))
-                .plus(new bignumber_js_1.default(decimal))
+            result = new BigNumber(int.toString().replace(/,/g, ""))
+                .plus(new BigNumber(decimal))
                 .toFixed(option.precision, 1);
         }
         else {
@@ -193,14 +182,13 @@ const formatNumber = (num, opt) => {
     }
     // 9. 处理小数部分的 0
     if (!option.keepZero) {
-        result = `${new bignumber_js_1.default((0, exports.replaceAll)(intWithoutUnit, option.delimiter, "")).toFormat()}${unit}`;
+        result = `${new BigNumber(replaceAll(intWithoutUnit, option.delimiter, "")).toFormat()}${unit}`;
     }
     // 10. 格式化千分符
-    result = (0, exports.toThousands)(result);
+    result = toThousands(result);
     return result;
 };
-exports.formatNumber = formatNumber;
-const roundToFixedPrecision = (number, precision, method = "ROUND") => {
+export const roundToFixedPrecision = (number, precision, method = "ROUND") => {
     if (number === "") {
         return "--";
     }
@@ -229,38 +217,36 @@ const roundToFixedPrecision = (number, precision, method = "ROUND") => {
     }
     return resultNum.toFixed(precision) + suffix;
 };
-exports.roundToFixedPrecision = roundToFixedPrecision;
-const getPercent = (divisor, dividend, precision) => {
+export const getPercent = (divisor, dividend, precision) => {
     if (Number(dividend) === 0)
         return 0 + '%';
-    const bnDivisor = new bignumber_js_1.default(divisor);
-    const bnDividend = new bignumber_js_1.default(dividend);
-    const percentageNum = (0, exports.formatNumber)(bnDivisor.dividedBy(bnDividend).multipliedBy(100).toNumber());
+    const bnDivisor = new BigNumber(divisor);
+    const bnDividend = new BigNumber(dividend);
+    const percentageNum = formatNumber(bnDivisor.dividedBy(bnDividend).multipliedBy(100).toNumber());
     if (precision || precision === 0) {
-        const percentageNumPrecision = (0, exports.roundToFixedPrecision)(percentageNum, precision);
+        const percentageNumPrecision = roundToFixedPrecision(percentageNum, precision);
         if (percentageNumPrecision === '100.00') {
             return '100%';
         }
         else if (percentageNumPrecision === '0.00') {
             return '0%';
         }
-        return (0, exports.roundToFixedPrecision)(percentageNum, precision) + '%';
+        return roundToFixedPrecision(percentageNum, precision) + '%';
     }
     return `${percentageNum}%`;
 };
-exports.getPercent = getPercent;
-const formatTimeStamp = (time, type) => {
+export const formatTimeStamp = (time, type) => {
     let result;
     try {
         switch (type) {
             case 'standard':
-                result = (0, dayjs_1.default)(time).format('YYYY-MM-DD HH:mm:ss');
+                result = dayjs(time).format('YYYY-MM-DD HH:mm:ss');
                 break;
             case 'timezone':
-                result = (0, dayjs_1.default)(time).format('YYYY-MM-DD HH:mm:ss Z');
+                result = dayjs(time).format('YYYY-MM-DD HH:mm:ss Z');
                 break;
             default:
-                result = (0, dayjs_1.default)(time).format('YYYY-MM-DD HH:mm:ss');
+                result = dayjs(time).format('YYYY-MM-DD HH:mm:ss');
         }
     }
     catch (error) {
@@ -268,32 +254,28 @@ const formatTimeStamp = (time, type) => {
     }
     return result;
 };
-exports.formatTimeStamp = formatTimeStamp;
-const fromGdripToDrip = (num) => new bignumber_js_1.default(num).multipliedBy(10 ** 9);
-exports.fromGdripToDrip = fromGdripToDrip;
-const fromCfxToDrip = (num) => new bignumber_js_1.default(num).multipliedBy(10 ** 18);
-exports.fromCfxToDrip = fromCfxToDrip;
-const formatBalance = (balance, decimals = 18, isShowFull = false, opt = {}, ltValue) => {
+export const fromGdripToDrip = (num) => new BigNumber(num).multipliedBy(10 ** 9);
+export const fromCfxToDrip = (num) => new BigNumber(num).multipliedBy(10 ** 18);
+export const formatBalance = (balance, decimals = 18, isShowFull = false, opt = {}, ltValue) => {
     try {
-        const balanceValue = typeof balance === 'string' || typeof balance === 'number' ? new bignumber_js_1.default(balance) : balance;
-        const num = balanceValue.div(new bignumber_js_1.default(10).pow(decimals));
+        const balanceValue = typeof balance === 'string' || typeof balance === 'number' ? new BigNumber(balance) : balance;
+        const num = balanceValue.div(new BigNumber(10).pow(decimals));
         if (num.eq(0)) {
             return num.toFixed();
         }
         if (isShowFull) {
-            return (0, exports.toThousands)(num.toFixed());
+            return toThousands(num.toFixed());
         }
         if (ltValue && num.lt(ltValue)) {
             return `<${ltValue}`;
         }
-        return (0, exports.formatNumber)(num.toString(), opt);
+        return formatNumber(num.toString(), opt);
     }
     catch {
         return '';
     }
 };
-exports.formatBalance = formatBalance;
-const selectText = (element) => {
+export const selectText = (element) => {
     var range, selection, body = document.body;
     if (body.createTextRange) {
         range = body.createTextRange();
@@ -308,13 +290,11 @@ const selectText = (element) => {
         selection.addRange(range);
     }
 };
-exports.selectText = selectText;
-const isHash = (str) => {
+export const isHash = (str) => {
     return /^0x[0-9a-fA-F]{64}$/.test(str);
 };
-exports.isHash = isHash;
-const isBlockHash = async (str) => {
-    if (!(0, exports.isHash)(str))
+export const isBlockHash = async (str) => {
+    if (!isHash(str))
         return false;
     let isBlock = true;
     try {
@@ -328,14 +308,12 @@ const isBlockHash = async (str) => {
     }
     return isBlock;
 };
-exports.isBlockHash = isBlockHash;
-const isTxHash = async (str) => {
-    if (!(0, exports.isHash)(str))
+export const isTxHash = async (str) => {
+    if (!isHash(str))
         return false;
-    return !(0, exports.isBlockHash)(str);
+    return !isBlockHash(str);
 };
-exports.isTxHash = isTxHash;
-function validURL(str) {
+export function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
         '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -344,22 +322,19 @@ function validURL(str) {
         '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(str);
 }
-exports.validURL = validURL;
-function byteToKb(bytes) {
+export function byteToKb(bytes) {
     return bytes / 1024;
 }
-exports.byteToKb = byteToKb;
-function isObject(o) {
+export function isObject(o) {
     return o !== null && typeof o === 'object' && Array.isArray(o) === false;
 }
-exports.isObject = isObject;
-function checkInt(value, type) {
+export function checkInt(value, type) {
     const num = Number(type.substr(3));
-    const min = new bignumber_js_1.default(2).pow(num - 1).multipliedBy(-1);
-    const max = new bignumber_js_1.default(2).pow(num - 1).minus(1);
+    const min = new BigNumber(2).pow(num - 1).multipliedBy(-1);
+    const max = new BigNumber(2).pow(num - 1).minus(1);
     let isType = false;
     if (typeof value === 'number' && !isNaN(value)) {
-        const valNum = new bignumber_js_1.default(value);
+        const valNum = new BigNumber(value);
         if (valNum.isInteger() &&
             valNum.isGreaterThanOrEqualTo(min) &&
             valNum.isLessThanOrEqualTo(max)) {
@@ -374,14 +349,13 @@ function checkInt(value, type) {
     }
     return [isType, num, min.toString(), max.toString()];
 }
-exports.checkInt = checkInt;
-function checkUint(value, type) {
+export function checkUint(value, type) {
     const num = Number(type.substr(4));
-    const min = new bignumber_js_1.default(0);
-    const max = new bignumber_js_1.default(Math.pow(2, num)).minus(1);
+    const min = new BigNumber(0);
+    const max = new BigNumber(Math.pow(2, num)).minus(1);
     let isType = false;
     if (typeof value === 'number' && !isNaN(value)) {
-        const valNum = new bignumber_js_1.default(value);
+        const valNum = new BigNumber(value);
         if (valNum.isInteger() &&
             valNum.isGreaterThanOrEqualTo(min) &&
             valNum.isLessThanOrEqualTo(max)) {
@@ -396,18 +370,15 @@ function checkUint(value, type) {
     }
     return [isType, num, min.toFixed(), max.toFixed()];
 }
-exports.checkUint = checkUint;
-function isHex(num, withPrefix = true) {
+export function isHex(num, withPrefix = true) {
     const reg = withPrefix ? /^0x[0-9a-f]*$/i : /^(0x)?[0-9a-f]*$/i;
     return Boolean(num.match(reg));
 }
-exports.isHex = isHex;
-function isEvenLength(str) {
+export function isEvenLength(str) {
     const length = str.length;
     return length > 0 && length % 2 === 0;
 }
-exports.isEvenLength = isEvenLength;
-function checkBytes(value, type) {
+export function checkBytes(value, type) {
     if (type === 'byte') {
         type = 'bytes1';
     }
@@ -435,12 +406,11 @@ function checkBytes(value, type) {
     }
     return [isBytes, num];
 }
-exports.checkBytes = checkBytes;
-function checkCfxType(value) {
+export function checkCfxType(value) {
     if (isNaN(Number(value))) {
         return false;
     }
-    const valNum = new bignumber_js_1.default(value);
+    const valNum = new BigNumber(value);
     if (valNum.isNegative()) {
         return false;
     }
@@ -457,12 +427,10 @@ function checkCfxType(value) {
         return true;
     }
 }
-exports.checkCfxType = checkCfxType;
-const sleep = (timeout) => new Promise(resolve => setTimeout(resolve, timeout));
-exports.sleep = sleep;
+export const sleep = (timeout) => new Promise(resolve => setTimeout(resolve, timeout));
 // get two block interval time
-const getTimeByBlockInterval = (minuend = 0, subtrahend = 0) => {
-    const seconds = new bignumber_js_1.default(minuend)
+export const getTimeByBlockInterval = (minuend = 0, subtrahend = 0) => {
+    const seconds = new BigNumber(minuend)
         .minus(subtrahend)
         .dividedBy(2)
         .toNumber();
@@ -473,7 +441,6 @@ const getTimeByBlockInterval = (minuend = 0, subtrahend = 0) => {
     const hours = Math.floor(deltaSecond / hourBase);
     return { days, hours, seconds };
 };
-exports.getTimeByBlockInterval = getTimeByBlockInterval;
 /**
  *
  * @param {number|string} data
@@ -500,26 +467,23 @@ exports.getTimeByBlockInterval = getTimeByBlockInterval;
  * 011  -> false
  * -1   -> false
  */
-const isSafeNumberOrNumericStringInput = (data) => /^\d+\.?\d*$|^\.\d*$/.test(data);
-exports.isSafeNumberOrNumericStringInput = isSafeNumberOrNumericStringInput;
-const isZeroOrPositiveInteger = (data) => /^(0|[1-9]\d*)$/.test(data);
-exports.isZeroOrPositiveInteger = isZeroOrPositiveInteger;
-const parseString = (v) => {
+export const isSafeNumberOrNumericStringInput = (data) => /^\d+\.?\d*$|^\.\d*$/.test(data);
+export const isZeroOrPositiveInteger = (data) => /^(0|[1-9]\d*)$/.test(data);
+export const parseString = (v) => {
     if (typeof v === 'string' && !v.startsWith('0x')) {
         return Buffer.from(v);
     }
     return v;
 };
-exports.parseString = parseString;
 // process datepicker initial value
-const getInitialDate = (minTimestamp, maxTimestamp) => {
-    const startDate = (0, dayjs_1.default)('2020-10-29T00:00:00+08:00');
-    const endDate = (0, dayjs_1.default)();
+export const getInitialDate = (minTimestamp, maxTimestamp) => {
+    const startDate = dayjs('2020-10-29T00:00:00+08:00');
+    const endDate = dayjs();
     const innerMinTimestamp = minTimestamp
-        ? (0, dayjs_1.default)(new Date(parseInt((minTimestamp + '000'))))
+        ? dayjs(new Date(parseInt((minTimestamp + '000'))))
         : startDate;
     const innerMaxTimestamp = maxTimestamp
-        ? (0, dayjs_1.default)(new Date(parseInt((maxTimestamp + '000'))))
+        ? dayjs(new Date(parseInt((maxTimestamp + '000'))))
         : endDate;
     const disabledDateD1 = (date) => date &&
         (date > innerMaxTimestamp.endOf('day') ||
@@ -534,8 +498,7 @@ const getInitialDate = (minTimestamp, maxTimestamp) => {
         dMaxT: disabledDateD2,
     };
 };
-exports.getInitialDate = getInitialDate;
-const addIPFSGateway = (imgURL, IPFSGatewayURL) => {
+export const addIPFSGateway = (imgURL, IPFSGatewayURL) => {
     if (typeof imgURL === 'string' &&
         typeof IPFSGatewayURL === 'string' &&
         imgURL.startsWith('ipfs://')) {
@@ -543,28 +506,26 @@ const addIPFSGateway = (imgURL, IPFSGatewayURL) => {
     }
     return imgURL;
 };
-exports.addIPFSGateway = addIPFSGateway;
-const isLikeBigNumber = (obj) => {
+export const isLikeBigNumber = (obj) => {
     if (obj === null || typeof obj !== 'object') {
         return false;
     }
     return 's' in obj && 'e' in obj && 'c' in obj && Array.isArray(obj.c);
 };
-exports.isLikeBigNumber = isLikeBigNumber;
-const convertBigNumbersToStrings = (input) => {
+export const convertBigNumbersToStrings = (input) => {
     return input.map((item) => {
         if (item instanceof Uint8Array) {
             return item;
         }
         if (Array.isArray(item)) {
-            return (0, exports.convertBigNumbersToStrings)(item);
+            return convertBigNumbersToStrings(item);
         }
         else if (item !== null &&
             typeof item === 'object' &&
-            !(0, exports.isLikeBigNumber)(item)) {
-            return (0, exports.convertObjBigNumbersToStrings)(item);
+            !isLikeBigNumber(item)) {
+            return convertObjBigNumbersToStrings(item);
         }
-        else if ((0, exports.isLikeBigNumber)(item)) {
+        else if (isLikeBigNumber(item)) {
             return item.toString(10);
         }
         else {
@@ -572,21 +533,20 @@ const convertBigNumbersToStrings = (input) => {
         }
     });
 };
-exports.convertBigNumbersToStrings = convertBigNumbersToStrings;
-const convertObjBigNumbersToStrings = (input) => {
+export const convertObjBigNumbersToStrings = (input) => {
     const newObj = {};
     if (Array.isArray(input)) {
-        return (0, exports.convertBigNumbersToStrings)(input);
+        return convertBigNumbersToStrings(input);
     }
     for (let key in input) {
-        if ((0, exports.isLikeBigNumber)(input[key])) {
+        if (isLikeBigNumber(input[key])) {
             newObj[key] = input[key].toString(10);
         }
         else if (Array.isArray(input[key])) {
-            newObj[key] = (0, exports.convertBigNumbersToStrings)(input[key]);
+            newObj[key] = convertBigNumbersToStrings(input[key]);
         }
         else if (typeof input[key] === 'object') {
-            newObj[key] = (0, exports.convertObjBigNumbersToStrings)(input[key]);
+            newObj[key] = convertObjBigNumbersToStrings(input[key]);
         }
         else {
             newObj[key] = input[key];
@@ -594,8 +554,7 @@ const convertObjBigNumbersToStrings = (input) => {
     }
     return newObj;
 };
-exports.convertObjBigNumbersToStrings = convertObjBigNumbersToStrings;
-const constprocessResultArray = (resultArray) => {
+export const constprocessResultArray = (resultArray) => {
     if (typeof resultArray === 'string') {
         return resultArray;
     }
@@ -619,15 +578,14 @@ const constprocessResultArray = (resultArray) => {
     const inputArray = Array.isArray(resultArray) ? resultArray : [resultArray];
     return inputArray.map(processElement);
 };
-exports.constprocessResultArray = constprocessResultArray;
-const formatLargeNumber = (number) => {
-    const num = new bignumber_js_1.default(number);
+export const formatLargeNumber = (number) => {
+    const num = new BigNumber(number);
     if (num.isNaN()) {
         return { value: null, unit: '' };
     }
-    const T = new bignumber_js_1.default(10).pow(12);
-    const P = new bignumber_js_1.default(10).pow(15);
-    const E = new bignumber_js_1.default(10).pow(18);
+    const T = new BigNumber(10).pow(12);
+    const P = new BigNumber(10).pow(15);
+    const E = new BigNumber(10).pow(18);
     if (num.isGreaterThanOrEqualTo(E)) {
         const result = num.dividedBy(E);
         return {
@@ -656,52 +614,48 @@ const formatLargeNumber = (number) => {
         };
     }
 };
-exports.formatLargeNumber = formatLargeNumber;
-const EPS = new bignumber_js_1.default(1e-6);
-function transferRisk(riskStr) {
-    const riskNum = new bignumber_js_1.default(riskStr);
+const EPS = new BigNumber(1e-6);
+export function transferRisk(riskStr) {
+    const riskNum = new BigNumber(riskStr);
     if (riskNum.isNaN()) {
         return '';
     }
     // risk > 1e-4*(1+EPS)
-    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-4).times(EPS.plus(1)))) {
+    if (riskNum.isGreaterThan(new BigNumber(1e-4).times(EPS.plus(1)))) {
         return 'lv3';
     }
     // risk > 1e-6*(1+EPS)
-    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-6).times(EPS.plus(1)))) {
+    if (riskNum.isGreaterThan(new BigNumber(1e-6).times(EPS.plus(1)))) {
         return 'lv2';
     }
     // risk > 1e-8*(1+EPS)
-    if (riskNum.isGreaterThan(new bignumber_js_1.default(1e-8).times(EPS.plus(1)))) {
+    if (riskNum.isGreaterThan(new BigNumber(1e-8).times(EPS.plus(1)))) {
         return 'lv1';
     }
     return 'lv0';
 }
-exports.transferRisk = transferRisk;
-const appendApiPrefix = (url) => {
+export const appendApiPrefix = (url) => {
     // for cfx top N
     if (url.startsWith('/stat/')) {
         return url;
     }
     return `/v1${url}`;
 };
-exports.appendApiPrefix = appendApiPrefix;
-const simpleGetFetcher = async (...args) => {
+export const simpleGetFetcher = async (...args) => {
     let [url, query] = args;
     if (query) {
-        url = qs_1.default.stringify({ url, query });
+        url = qs.stringify({ url, query });
     }
-    return await fetch((0, exports.appendApiPrefix)(url), {
+    return await fetch(appendApiPrefix(url), {
         method: 'get',
     });
 };
-exports.simpleGetFetcher = simpleGetFetcher;
-const useSWRWithGetFecher = (key, swrOpts = {}) => {
+export const useSWRWithGetFecher = (key, swrOpts = {}) => {
     const isTransferReq = (typeof key === 'string' && key.startsWith('/transfer')) ||
         (Array.isArray(key) &&
             typeof key[0] === 'string' &&
             key[0].startsWith('/transfer'));
-    const { data, error, mutate } = (0, swr_1.default)(key, exports.simpleGetFetcher, { ...swrOpts });
+    const { data, error, mutate } = useSWR(key, simpleGetFetcher, { ...swrOpts });
     let tokenAddress = '';
     // deal with token info
     if (isTransferReq && data && data.list) {
@@ -711,10 +665,10 @@ const useSWRWithGetFecher = (key, swrOpts = {}) => {
             return acc;
         }, []);
     }
-    const { data: tokenData } = (0, swr_1.default)(qs_1.default.stringify({
+    const { data: tokenData } = useSWR(qs.stringify({
         url: '/token',
         query: { addressArray: tokenAddress, fields: 'iconUrl' },
-    }), exports.simpleGetFetcher);
+    }), simpleGetFetcher);
     if (tokenData && tokenData.list) {
         const newTransferList = data.list.map((trans) => {
             if (tokenAddress.includes(trans.address)) {
@@ -735,8 +689,7 @@ const useSWRWithGetFecher = (key, swrOpts = {}) => {
     }
     return { data, error, mutate };
 };
-exports.useSWRWithGetFecher = useSWRWithGetFecher;
-const mergeDeep = (...objects) => {
+export const mergeDeep = (...objects) => {
     return objects.reduce((prev, obj) => {
         if (isObject(obj)) {
             Object.keys(obj).forEach((key) => {
@@ -746,7 +699,7 @@ const mergeDeep = (...objects) => {
                     prev[key] = pVal.concat(oVal);
                 }
                 else if (isObject(pVal) && isObject(oVal)) {
-                    prev[key] = (0, exports.mergeDeep)(pVal, oVal);
+                    prev[key] = mergeDeep(pVal, oVal);
                 }
                 else {
                     prev[key] = oVal;
@@ -756,7 +709,6 @@ const mergeDeep = (...objects) => {
         return prev;
     }, {});
 };
-exports.mergeDeep = mergeDeep;
 const pubSubLib = () => {
     const subscribers = {};
     function publish(eventName, data) {
@@ -784,9 +736,9 @@ const pubSubLib = () => {
         subscribe,
     };
 };
-exports.pubsub = pubSubLib();
+export const pubsub = pubSubLib();
 const isNil = (value) => value === null || value === undefined;
-const publishRequestError = (e, type) => {
+export const publishRequestError = (e, type) => {
     let detail = '';
     if (e.code && e.message) {
         if (type === 'code') {
@@ -810,7 +762,7 @@ const publishRequestError = (e, type) => {
             detail += `Error Message: ${e.message} \n`;
         }
     }
-    exports.pubsub.publish('notify', {
+    pubsub.publish('notify', {
         type: 'request',
         option: {
             code: type === 'rpc' ? 30001 : e.code || 20000, // code is used for title, 20000 means unknown issue
@@ -819,4 +771,3 @@ const publishRequestError = (e, type) => {
         },
     });
 };
-exports.publishRequestError = publishRequestError;
