@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ConvertedToObjectType, TranslationResource } from '../../i18n/types'
+import { ConvertedToObjectType, TranslationResource } from '@repo/i18n/types';
 
 export interface EnvState<T> {
     ENV_CONFIG: T;
