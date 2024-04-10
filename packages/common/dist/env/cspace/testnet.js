@@ -23,12 +23,13 @@ const types_1 = require("../types");
 const logo_testnet_svg_1 = __importDefault(require("../../images/cspace/logo-testnet.svg"));
 __exportStar(require("./base"), exports);
 const translation_json_1 = __importDefault(require("./locales/en/translation.json"));
+const translationForDotNet_json_1 = __importDefault(require("./locales/en/translationForDotNet.json"));
 const translation_json_2 = __importDefault(require("./locales/zh_cn/translation.json"));
-const translationForDotNet_json_1 = __importDefault(require("./locales/zh_cn/translationForDotNet.json"));
+const translationForDotNet_json_2 = __importDefault(require("./locales/zh_cn/translationForDotNet.json"));
 const utils_1 = require("../../utils");
-const ENV_LOCALES_EN = translation_json_1.default;
+const ENV_LOCALES_EN = utils_1.HIDE_IN_DOT_NET ? translationForDotNet_json_1.default : translation_json_1.default;
 exports.ENV_LOCALES_EN = ENV_LOCALES_EN;
-const ENV_LOCALES_CN = utils_1.HIDE_IN_DOT_NET ? translationForDotNet_json_1.default : translation_json_2.default;
+const ENV_LOCALES_CN = utils_1.HIDE_IN_DOT_NET ? translationForDotNet_json_2.default : translation_json_2.default;
 exports.ENV_LOCALES_CN = ENV_LOCALES_CN;
 // TODO-core
 exports.ENV_NETWORK_ID = 1029;
