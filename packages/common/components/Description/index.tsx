@@ -37,7 +37,7 @@ export const Description = ({
       <div
         className={clsx(
           "left",
-          "px-0 lh-[calc(3.2857rem-1.7143rem)] min-w-160px max-w-260px text-#74798c flex-shrink-0",
+          "px-0 lh-1.5714rem min-w-160px max-w-260px text-#74798c flex-shrink-0",
           size === "tiny" ? "py-0.5rem" : "py-0.8571rem",
           size === "small" ? "w-10rem " : vertical ? "w-full" : "w-25%"
         )}
@@ -47,7 +47,7 @@ export const Description = ({
       <div
         className={clsx(
           "right",
-          "py-0.8571rem px-0 lh-[calc(3.2857rem-1.7143rem)] text-#282d30 flex-grow-1 lt-sm:pt-0",
+          "py-0.8571rem px-0 lh-1.5714rem text-#282d30 flex-grow-1 lt-sm:pt-0",
           size === "tiny" ? "py-0.5rem" : "py-0.8571rem",
           vertical && "pt-0"
         )}
