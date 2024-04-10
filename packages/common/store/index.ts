@@ -16,7 +16,7 @@ export const useEnv = create<EnvState<any>>((set) => ({
 }));
 
 export const useI18n = create<I18nState>((set) => ({
-    translations: {} as any,
+    translations: {} as TranslationResource,
     setTranslations: (translations: TranslationResource) => set({ translations }),
 }));
 
