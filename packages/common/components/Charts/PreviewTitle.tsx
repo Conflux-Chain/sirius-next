@@ -5,6 +5,7 @@ interface headerType { title: { text: string }, subtitle: { text: string }, brea
 const Title = ({ header }: { header: headerType } ) => {
     const { t } = useTranslation();
     const { translations } = useI18n()
+    
     return (
         <div className='flex items-start justify-between pt-4 pr-5 pb-0 pl-5'>
             <div>
