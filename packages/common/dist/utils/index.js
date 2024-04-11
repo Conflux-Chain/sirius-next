@@ -1,8 +1,23 @@
+<<<<<<< HEAD
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.HIDE_IN_DOT_NET = exports.publishRequestError = exports.pubsub = exports.mergeDeep = exports.useSWRWithGetFecher = exports.simpleGetFetcher = exports.appendApiPrefix = exports.transferRisk = exports.formatLargeNumber = exports.constprocessResultArray = exports.convertObjBigNumbersToStrings = exports.convertBigNumbersToStrings = exports.isLikeBigNumber = exports.addIPFSGateway = exports.getInitialDate = exports.parseString = exports.isZeroOrPositiveInteger = exports.isSafeNumberOrNumericStringInput = exports.getTimeByBlockInterval = exports.sleep = exports.checkCfxType = exports.checkBytes = exports.isEvenLength = exports.isHex = exports.checkUint = exports.checkInt = exports.isObject = exports.byteToKb = exports.validURL = exports.isTxHash = exports.isBlockHash = exports.isHash = exports.selectText = exports.formatBalance = exports.fromCfxToDrip = exports.fromGdripToDrip = exports.formatTimeStamp = exports.getPercent = exports.roundToFixedPrecision = exports.formatNumber = exports.replaceAll = exports.hex2utf8 = exports.tranferToLowerCase = exports.getEllipsStr = exports.toThousands = void 0;
+const bignumber_js_1 = __importDefault(require("bignumber.js"));
+const dayjs_1 = __importDefault(require("dayjs"));
+const swr_1 = __importDefault(require("swr"));
+const qs_1 = __importDefault(require("qs"));
+const constants_1 = require("./constants");
+const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
+=======
 import BigNumber from "bignumber.js";
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import qs from 'qs';
 export const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
+>>>>>>> main
     if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
         return "";
     let str = num + "";
