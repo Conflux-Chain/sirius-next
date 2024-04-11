@@ -21,7 +21,9 @@ export function PreviewChartTemplate({ options, request }) {
             },
         });
     }, [request.url, request.query, intervalType]);
-    const { data, isLoading } = useSWR(request.url + intervalType + limit, sendRequestCallback);
+    const { data, isLoading } = useSWR(request.url + intervalType + limit, sendRequestCallback, {
+        revalidateOnFocus: false,
+    });
     useEffect(() => {
         if (isLoading) {
             // @ts-ignore
