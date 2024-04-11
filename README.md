@@ -15,6 +15,7 @@ pnpm dev
 ```
 
 Before the migration is completed, you need to establish a soft connection for local development.
+
 ```
 ln -s ../../sirius-next ../sirius/node_modules/sirius-next
 ln -s ../../sirius-next ../sirius-eth/node_modules/sirius-next
@@ -30,10 +31,10 @@ pnpm build
 
 ## 🗂 Directory Structure
 
-| Folder      | Contents                                                                       |
-| ----------- | ------------------------------------------------------------------------------ |
-| `apps/`     | These are applications of different spaces with shared functionality.          |                            
-| `packages/` | These are some public modules.                                                 |
+| Folder      | Contents                                                              |
+| ----------- | --------------------------------------------------------------------- |
+| `apps/`     | These are applications of different spaces with shared functionality. |
+| `packages/` | These are some public modules.                                        |
 
 ## License
 
