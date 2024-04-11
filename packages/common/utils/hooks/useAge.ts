@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { LOCALSTORAGE_KEYS_MAP } from '../constants';
 
 export const useAge = (format?: string) => {

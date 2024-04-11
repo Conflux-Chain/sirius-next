@@ -1,9 +1,9 @@
-import qs from "qs";
-import React, { useState, useRef, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import { useClickAway } from "@cfx-kit/react-utils/dist/hooks.js";
-import clsx from "clsx";
-import Button from "../Button";
+import qs from 'qs';
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useClickAway } from '@cfx-kit/react-utils/dist/hooks.js';
+import clsx from 'clsx';
+import Button from '../Button';
 
 // options example:
 // [
@@ -55,7 +55,7 @@ export const TableSearchDropdown = ({
   keyList = [...new Set(keyList)];
 
   useEffect(() => {
-    const query = qs.parse(location.search || "", {
+    const query = qs.parse(location.search || '', {
       ignoreQueryPrefix: true,
     });
     const realValue2 = options.reduce((prev, curr, index) => {
@@ -77,12 +77,12 @@ export const TableSearchDropdown = ({
     if (onChange) {
       onChange(option.value);
     } else {
-      let { skip, ...query } = qs.parse(location.search || "", {
+      let { skip, ...query } = qs.parse(location.search || '', {
         ignoreQueryPrefix: true,
       });
-      let queryValue = "";
+      let queryValue = '';
 
-      keyList.forEach((k) => {
+      keyList.forEach(k => {
         if (k === option.key) {
           queryValue = query[k] as string;
         }
@@ -94,13 +94,13 @@ export const TableSearchDropdown = ({
         history.push(
           `${location.pathname}${qs.stringify(
             {
-              skip: "0",
+              skip: '0',
               ...query,
             },
             {
               addQueryPrefix: true,
-            }
-          )}`
+            },
+          )}`,
         );
       }
     }
@@ -114,11 +114,11 @@ export const TableSearchDropdown = ({
       {visible && (
         <div
           className={clsx(
-            "option-container",
-            "absolute right-0 rounded-0.14rem bg-#fff w-max mt-0.7143rem z-10 lt-sm:right-unset lt-sm:left-0"
+            'option-container',
+            'absolute right-0 rounded-0.14rem bg-#fff w-max mt-0.7143rem z-10 lt-sm:right-unset lt-sm:left-0',
           )}
           style={{
-            boxShadow: "0rem 0.43rem 1.14rem 0rem rgba(20, 27, 50, 0.08)",
+            boxShadow: '0rem 0.43rem 1.14rem 0rem rgba(20, 27, 50, 0.08)',
           }}
           ref={dropdownRef}
         >
@@ -127,11 +127,11 @@ export const TableSearchDropdown = ({
               key={o.value}
               onClick={() => handleClick(index)}
               className={clsx(
-                "opt",
-                "flex-vertical-center justify-between lh-1.57rem py-0.29rem px-1.14rem cursor-pointer hover:bg-#f1f4f6",
+                'opt',
+                'flex-vertical-center justify-between lh-1.57rem py-0.29rem px-1.14rem cursor-pointer hover:bg-#f1f4f6',
                 selected === index
-                  ? "text-[var(--theme-color-primary)]"
-                  : "text-#65709a"
+                  ? 'text-[var(--theme-color-primary)]'
+                  : 'text-#65709a',
               )}
             >
               <span>{o.name}</span>

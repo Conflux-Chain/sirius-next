@@ -1,5 +1,18 @@
-import BigNumber from "bignumber.js";
-import { toThousands, getEllipsStr, hex2utf8, formatNumber, roundToFixedPrecision, getPercent, getTimeByBlockInterval, isLikeBigNumber, convertBigNumbersToStrings, convertObjBigNumbersToStrings, formatLargeNumber, mergeDeep } from './index';
+import BigNumber from 'bignumber.js';
+import {
+  toThousands,
+  getEllipsStr,
+  hex2utf8,
+  formatNumber,
+  roundToFixedPrecision,
+  getPercent,
+  getTimeByBlockInterval,
+  isLikeBigNumber,
+  convertBigNumbersToStrings,
+  convertObjBigNumbersToStrings,
+  formatLargeNumber,
+  mergeDeep,
+} from './index';
 
 describe('toThousands', () => {
   test('should format numbers with no decimals correctly', () => {
@@ -41,7 +54,6 @@ describe('toThousands', () => {
   test('should handle zero', () => {
     expect(toThousands(0)).toBe('0');
   });
-
 });
 
 describe('getEllipsStr', () => {
@@ -90,8 +102,6 @@ describe('hex2utf8', () => {
   test('should return empty string for an empty input', () => {
     expect(hex2utf8('')).toBe('');
   });
-
-
 });
 
 describe('formatNumber', () => {
@@ -117,7 +127,7 @@ describe('formatNumber', () => {
   });
 
   test('respects keepZero option when false', () => {
-    expect(formatNumber(1234.000, { keepZero: false })).toBe('1.234K');
+    expect(formatNumber(1234.0, { keepZero: false })).toBe('1.234K');
   });
 
   test('respects delimiter option', () => {
@@ -206,7 +216,6 @@ describe('roundToFixedPrecision', () => {
   it('returns NaN when the string is non-numeric', () => {
     expect(roundToFixedPrecision('abc', 2)).toBe('NaN');
   });
-
 });
 
 describe('getPercent', () => {
@@ -278,7 +287,6 @@ describe('getTimeByBlockInterval', () => {
     const result = getTimeByBlockInterval(minuend, subtrahend);
     expect(result).toEqual({ days: -2, hours: 23, seconds: -90000 });
   });
-
 });
 
 describe('isLikeBigNumber', () => {
@@ -311,7 +319,7 @@ describe('isLikeBigNumber', () => {
   });
 
   test('returns true for an object with BigNumber-like properties', () => {
-    expect(isLikeBigNumber({ s: 1, e: 2, c: [1,2,3] })).toBe(true);
+    expect(isLikeBigNumber({ s: 1, e: 2, c: [1, 2, 3] })).toBe(true);
   });
 
   test('returns false for a function', () => {
@@ -338,19 +346,29 @@ describe('Conversion functions', () => {
     bNum: bigNumber1,
     arr: [2, bigNumber2],
     obj: {
-      bNum: bigNumber2
-    }
+      bNum: bigNumber2,
+    },
   };
 
   describe('convertBigNumbersToStrings', () => {
     test('converts BigNumber elements in an array to strings', () => {
-      const expectedOutput = [1, 'string', bigNumber1.toString(10), [2, bigNumber2.toString(10)]];
-      expect(convertBigNumbersToStrings(nestedArrayInput)).toEqual(expectedOutput);
+      const expectedOutput = [
+        1,
+        'string',
+        bigNumber1.toString(10),
+        [2, bigNumber2.toString(10)],
+      ];
+      expect(convertBigNumbersToStrings(nestedArrayInput)).toEqual(
+        expectedOutput,
+      );
     });
 
     test('handles nested arrays', () => {
       const nestedInput = [bigNumber1, [bigNumber2]];
-      const expectedOutput = [bigNumber1.toString(10), [bigNumber2.toString(10)]];
+      const expectedOutput = [
+        bigNumber1.toString(10),
+        [bigNumber2.toString(10)],
+      ];
       expect(convertBigNumbersToStrings(nestedInput)).toEqual(expectedOutput);
     });
   });
@@ -363,19 +381,25 @@ describe('Conversion functions', () => {
         bNum: bigNumber1.toString(10),
         arr: [2, bigNumber2.toString(10)],
         obj: {
-          bNum: bigNumber2.toString(10)
-        }
+          bNum: bigNumber2.toString(10),
+        },
       };
-      expect(convertObjBigNumbersToStrings(nestedObjectInput)).toEqual(expectedOutput);
+      expect(convertObjBigNumbersToStrings(nestedObjectInput)).toEqual(
+        expectedOutput,
+      );
     });
 
     test('handles nested objects', () => {
       const nestedInput = { bNum: bigNumber1, obj: { bNum: bigNumber2 } };
-      const expectedOutput = { bNum: bigNumber1.toString(10), obj: { bNum: bigNumber2.toString(10) } };
-      expect(convertObjBigNumbersToStrings(nestedInput)).toEqual(expectedOutput);
+      const expectedOutput = {
+        bNum: bigNumber1.toString(10),
+        obj: { bNum: bigNumber2.toString(10) },
+      };
+      expect(convertObjBigNumbersToStrings(nestedInput)).toEqual(
+        expectedOutput,
+      );
     });
   });
-
 });
 
 describe('formatLargeNumber', () => {
@@ -384,19 +408,31 @@ describe('formatLargeNumber', () => {
   });
 
   test('formats number less than T (tera) without unit', () => {
-    expect(formatLargeNumber('1234567890')).toEqual({ value: '1234567890', unit: '' });
+    expect(formatLargeNumber('1234567890')).toEqual({
+      value: '1234567890',
+      unit: '',
+    });
   });
 
   test('formats number in T (tera) with unit', () => {
-    expect(formatLargeNumber('1000000000000')).toEqual({ value: '1', unit: 'T' });
+    expect(formatLargeNumber('1000000000000')).toEqual({
+      value: '1',
+      unit: 'T',
+    });
   });
 
   test('formats number in P (peta) with unit', () => {
-    expect(formatLargeNumber('1000000000000000')).toEqual({ value: '1', unit: 'P' });
+    expect(formatLargeNumber('1000000000000000')).toEqual({
+      value: '1',
+      unit: 'P',
+    });
   });
 
   test('formats number in E (exa) with unit', () => {
-    expect(formatLargeNumber('1000000000000000000')).toEqual({ value: '1', unit: 'E' });
+    expect(formatLargeNumber('1000000000000000000')).toEqual({
+      value: '1',
+      unit: 'E',
+    });
   });
 
   test('formats large BigNumber with unit', () => {
@@ -410,11 +446,17 @@ describe('formatLargeNumber', () => {
   });
 
   test('formats negative numbers correctly', () => {
-    expect(formatLargeNumber('-1000000000000')).toEqual({ value: '-1000000000000', unit: '' });
+    expect(formatLargeNumber('-1000000000000')).toEqual({
+      value: '-1000000000000',
+      unit: '',
+    });
   });
 
   test('formats fractional numbers correctly', () => {
-    expect(formatLargeNumber('1234567890123.4567')).toEqual({ value: '1.2345678901234567', unit: 'T' });
+    expect(formatLargeNumber('1234567890123.4567')).toEqual({
+      value: '1.2345678901234567',
+      unit: 'T',
+    });
   });
 });
 
@@ -476,5 +518,4 @@ describe('mergeDeep', () => {
     const obj2 = { a: 1, b: { x: 1 } };
     expect(mergeDeep(obj1, obj2)).toEqual({ a: 1, b: { x: 1 } });
   });
-
 });

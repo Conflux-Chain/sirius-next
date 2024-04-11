@@ -1,23 +1,23 @@
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import qs from 'qs';
-import { LOCALSTORAGE_KEYS_MAP } from './constants'
+import { LOCALSTORAGE_KEYS_MAP } from './constants';
 
-export const toThousands = (num: any, delimiter = ",", prevDelimiter = ",") => {
-  if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
-    return "";
-  let str = num + "";
+export const toThousands = (num: any, delimiter = ',', prevDelimiter = ',') => {
+  if ((typeof num !== 'number' || isNaN(num)) && typeof num !== 'string')
+    return '';
+  let str = num + '';
   return str
-    .replace(new RegExp(prevDelimiter, "igm"), "")
-    .split(".")
+    .replace(new RegExp(prevDelimiter, 'igm'), '')
+    .split('.')
     .reduce((acc, cur, index) => {
       if (index) {
         return `${acc}.${cur}`;
       } else {
         return cur.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, `$1${delimiter}`);
       }
-    }, "");
+    }, '');
 };
 
 export const getEllipsStr = (str: string, frontNum: number, endNum: number) => {
@@ -28,19 +28,19 @@ export const getEllipsStr = (str: string, frontNum: number, endNum: number) => {
     }
     return (
       str.substring(0, frontNum) +
-      "..." +
+      '...' +
       str.substring(length - endNum, length)
     );
   }
-  return "";
+  return '';
 };
 
 export const tranferToLowerCase = (str: string) => {
-  return str ? str.toLowerCase() : "";
+  return str ? str.toLowerCase() : '';
 };
 
 function hex2asc(pStr: string) {
-  let tempstr = "";
+  let tempstr = '';
   for (let b = 0; b < pStr.length; b += 2) {
     tempstr += String.fromCharCode(parseInt(pStr.substr(b, 2), 16));
   }
@@ -48,10 +48,10 @@ function hex2asc(pStr: string) {
 }
 
 export const hex2utf8 = (pStr: string) => {
-  let tempstr = "";
+  let tempstr = '';
   try {
     tempstr = decodeURIComponent(
-      pStr.replace(/\s+/g, "").replace(/[0-9a-f]{2}/g, "%$&")
+      pStr.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'),
     );
   } catch (err) {
     tempstr = hex2asc(pStr);
@@ -62,8 +62,8 @@ export const hex2utf8 = (pStr: string) => {
 // alternative of String.prototype.replaceAll
 export const replaceAll = (str: string, find: string, replace: string) => {
   return str.replace(
-    new RegExp(find.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&"), "g"),
-    replace
+    new RegExp(find.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'), 'g'),
+    replace,
   );
 };
 
@@ -79,22 +79,22 @@ export const replaceAll = (str: string, find: string, replace: string) => {
 export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   // 无法通过 bignumber.js 格式化的不处理
   let bNum = new BigNumber(num).toFixed();
-  if (bNum === "NaN") {
-    return "";
+  if (bNum === 'NaN') {
+    return '';
   }
   const option = {
     precision: 3, // 保留小数精度数（注意整数位小数的精度固定为 3，原因是受千分符影响）
     keepDecimal: true, // 是否保留小数位（注意如果整数部分带有小数位，则不保留实际小数位，原因是会显示两个小数点，会误解）
     keepZero: false, // 是否保留小数位的 0（注意此配置优先级高于 precision，会清除 precision 添加的 0）
-    delimiter: ",", // 自定义分隔符
+    delimiter: ',', // 自定义分隔符
     withUnit: true, // 是否显示单位
-    unit: "", // 指定单位
+    unit: '', // 指定单位
     ...opt,
   };
   // 0. 定义返回值
-  let int = "";
-  let decimal = "";
-  let result = "";
+  let int = '';
+  let decimal = '';
+  let result = '';
   /**
    * 1. 定义单位
    * K - kilo, 10³
@@ -106,9 +106,9 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
    * Z - zetta, 10²¹
    * Y - yotta, 10²⁴
    */
-  const UNITS = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"];
+  const UNITS = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
   // 2. 拆分出整数和小数，小数默认值为 0
-  const [intStr, decimalStr = "0"] = bNum.split(".");
+  const [intStr, decimalStr = '0'] = bNum.split('.');
   // 3. 只能处理 27 位数的单位，大于 27 位的字符串从头部截断保留
   // 3.1 获取大于小数点前 27 位的数字 intStrFront
   let intStrFront = intStr ? intStr.slice(-Infinity, -27) : 0;
@@ -117,16 +117,16 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   // 4. intStrEnd 转千分符形式
   const intStrEndAfterToThousands = toThousands(intStrEnd, option.delimiter);
   // 5. intStrEnd 添加单位，此处不对数字有效性做验证，即可能值为 100.000，100.000k 或 000.000Y
-  let intStrEndWithUnit = "";
+  let intStrEndWithUnit = '';
 
   if (option.withUnit === false) {
     intStrEndWithUnit = intStrEndAfterToThousands;
   } else {
     let unitIndex = 1;
-    if (option.unit !== "" && UNITS.includes(option.unit)) {
+    if (option.unit !== '' && UNITS.includes(option.unit)) {
       unitIndex =
         intStrEndAfterToThousands.split(option.delimiter).length -
-        UNITS.findIndex((u) => u === option.unit);
+        UNITS.findIndex(u => u === option.unit);
     }
     if (unitIndex > 0) {
       intStrEndWithUnit = intStrEndAfterToThousands
@@ -146,7 +146,7 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
           } else {
             return prev;
           }
-        }, "");
+        }, '');
     } else {
       intStrEndWithUnit = intStrEndAfterToThousands;
     }
@@ -154,8 +154,9 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   // 6. 格式化整数
   if (intStrFront) {
     // 如果数字长度超过 27 位，则前面的数字用千分符分割
-    int = `${toThousands(intStrFront, option.delimiter)}${option.delimiter
-      }${intStrEndWithUnit}`;
+    int = `${toThousands(intStrFront, option.delimiter)}${
+      option.delimiter
+    }${intStrEndWithUnit}`;
   } else {
     int = intStrEndWithUnit;
   }
@@ -171,25 +172,25 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
       intWithoutUnit = int.slice(-Infinity, -1);
     } else {
       // 仅保留整数位整数
-      intWithoutUnit = intWithoutUnit.split(".")[0] || "";
+      intWithoutUnit = intWithoutUnit.split('.')[0] || '';
     }
     result = `${intWithoutUnit}${unit}`;
   } else {
-    unit = "";
+    unit = '';
     // 8.2 整数位为 0 或无单位整数，拼接小数位
     if (option.keepDecimal) {
-      result = new BigNumber(int.toString().replace(/,/g, ""))
+      result = new BigNumber(int.toString().replace(/,/g, ''))
         .plus(new BigNumber(decimal))
         .toFixed(option.precision, 1);
     } else {
-      result = int.split(".")[0] || "";
+      result = int.split('.')[0] || '';
     }
     intWithoutUnit = result;
   }
   // 9. 处理小数部分的 0
   if (!option.keepZero) {
     result = `${new BigNumber(
-      replaceAll(intWithoutUnit, option.delimiter, "")
+      replaceAll(intWithoutUnit, option.delimiter, ''),
     ).toFormat()}${unit}`;
   }
   // 10. 格式化千分符
@@ -200,34 +201,34 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
 export const roundToFixedPrecision = (
   number: number | string,
   precision: number,
-  method: string = "ROUND"
+  method: string = 'ROUND',
 ) => {
-  if (number === "") {
-    return "--";
+  if (number === '') {
+    return '--';
   }
-  if (typeof number === "string" && number.includes("<")) {
+  if (typeof number === 'string' && number.includes('<')) {
     return number;
   }
 
   const regex = /^([+-]?[0-9]*\.?[0-9]+)(\D*)$/;
   let matches = String(number).match(regex);
   if (!matches) {
-    matches = [String(number), ""];
+    matches = [String(number), ''];
   }
-  const suffix = matches[2] || "";
+  const suffix = matches[2] || '';
 
-  const numberFormat = parseFloat(matches[1] ?? "");
+  const numberFormat = parseFloat(matches[1] ?? '');
   const factor = Math.pow(10, precision);
   let resultNum: number;
 
   switch (method) {
-    case "FLOOR":
+    case 'FLOOR':
       resultNum = Math.floor(numberFormat * factor) / factor;
       break;
-    case "CEIL":
+    case 'CEIL':
       resultNum = Math.ceil(numberFormat * factor) / factor;
       break;
-    case "ROUND":
+    case 'ROUND':
     default:
       resultNum = Math.round((numberFormat + Number.EPSILON) * factor) / factor;
   }
@@ -283,7 +284,6 @@ export const formatTimeStamp = (
   return result;
 };
 
-
 export const fromGdripToDrip = (num: number | string) =>
   new BigNumber(num).multipliedBy(10 ** 9);
 
@@ -298,7 +298,10 @@ export const formatBalance = (
   ltValue?: number | string,
 ) => {
   try {
-    const balanceValue = typeof balance === 'string' || typeof balance === 'number' ? new BigNumber(balance) : balance;
+    const balanceValue =
+      typeof balance === 'string' || typeof balance === 'number'
+        ? new BigNumber(balance)
+        : balance;
     const num = balanceValue.div(new BigNumber(10).pow(decimals));
     if (num.eq(0)) {
       return num.toFixed();
@@ -361,11 +364,11 @@ export const isTxHash = async (str: string) => {
 export function validURL(str: string) {
   var pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-    '(\\#[-a-z\\d_]*)?$',
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
     'i',
   ); // fragment locator
   return !!pattern.test(str);
@@ -525,7 +528,8 @@ export const getTimeByBlockInterval = (minuend = 0, subtrahend = 0) => {
 export const isSafeNumberOrNumericStringInput = (data: string) =>
   /^\d+\.?\d*$|^\.\d*$/.test(data);
 
-export const isZeroOrPositiveInteger = (data: string) => /^(0|[1-9]\d*)$/.test(data);
+export const isZeroOrPositiveInteger = (data: string) =>
+  /^(0|[1-9]\d*)$/.test(data);
 
 export const parseString = (v: string) => {
   if (typeof v === 'string' && !v.startsWith('0x')) {
@@ -575,7 +579,6 @@ export const addIPFSGateway = (
 
   return imgURL;
 };
-
 
 export const isLikeBigNumber = (obj: any) => {
   if (obj === null || typeof obj !== 'object') {
@@ -728,24 +731,32 @@ export const simpleGetFetcher = async (...args: any[]) => {
   });
 };
 
-export const useSWRWithGetFecher = (key: string | string[] | null, swrOpts = {}) => {
+export const useSWRWithGetFecher = (
+  key: string | string[] | null,
+  swrOpts = {},
+) => {
   const isTransferReq =
     (typeof key === 'string' && key.startsWith('/transfer')) ||
     (Array.isArray(key) &&
       typeof key[0] === 'string' &&
       key[0].startsWith('/transfer'));
 
-  const { data, error, mutate }: any = useSWR(key, simpleGetFetcher, { ...swrOpts });
+  const { data, error, mutate }: any = useSWR(key, simpleGetFetcher, {
+    ...swrOpts,
+  });
 
   let tokenAddress: string | string[] = '';
 
   // deal with token info
   if (isTransferReq && data && data.list) {
-    tokenAddress = data.list.reduce((acc: string[], trans: { address: string }) => {
-      if (trans.address && !acc.includes(trans.address))
-        acc.push(trans.address);
-      return acc;
-    }, []);
+    tokenAddress = data.list.reduce(
+      (acc: string[], trans: { address: string }) => {
+        if (trans.address && !acc.includes(trans.address))
+          acc.push(trans.address);
+        return acc;
+      },
+      [],
+    );
   }
 
   const { data: tokenData }: any = useSWR(
@@ -759,7 +770,9 @@ export const useSWRWithGetFecher = (key: string | string[] | null, swrOpts = {})
   if (tokenData && tokenData.list) {
     const newTransferList = data.list.map((trans: { address: string }) => {
       if (tokenAddress.includes(trans.address)) {
-        const tokenInfo = tokenData.list.find((t: { address: string }) => t.address === trans.address);
+        const tokenInfo = tokenData.list.find(
+          (t: { address: string }) => t.address === trans.address,
+        );
         if (tokenInfo) return { ...trans, token: { ...tokenInfo } };
       }
 
@@ -779,11 +792,10 @@ export const useSWRWithGetFecher = (key: string | string[] | null, swrOpts = {})
   return { data, error, mutate };
 };
 
-
 export const mergeDeep = (...objects: any[]): any => {
   return objects.reduce((prev, obj) => {
     if (isObject(obj)) {
-      Object.keys(obj).forEach((key) => {
+      Object.keys(obj).forEach(key => {
         const pVal = prev[key];
         const oVal = obj[key];
 
@@ -815,7 +827,7 @@ const pubSubLib = () => {
     if (!Array.isArray(eventSubscribers)) {
       return;
     }
-    eventSubscribers.forEach((callback) => {
+    eventSubscribers.forEach(callback => {
       callback(data);
     });
   }
@@ -861,8 +873,9 @@ export const publishRequestError = (
       detail = `Error Code: ${e.code} \n`;
       if (type === 'http') {
         const origin = window.location.origin;
-        detail += `Rest Api Url: ${e.url?.includes('https://') ? e.url : origin + e.url
-          } \n`;
+        detail += `Rest Api Url: ${
+          e.url?.includes('https://') ? e.url : origin + e.url
+        } \n`;
       }
       if (type === 'rpc') {
         // detail += `RPC Url: ${RPC_SERVER} \n`;
