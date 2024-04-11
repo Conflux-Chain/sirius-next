@@ -26,7 +26,7 @@ export const Link = React.memo(({ className, href, children, state, ...others })
     else {
         return (_jsx(RouterLink, { className: className, to: {
                 pathname: href,
-                state: state
+                state: state,
             }, onClick: handleClick, ...others, children: children }));
     }
 });

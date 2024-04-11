@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 export declare const FileUpload: React.ForwardRefExoticComponent<{
     onChange?: ((result: string) => void) | undefined;
     onError?: ((result: unknown) => void) | undefined;

@@ -2,7 +2,8 @@ import qs from 'qs';
 import { publishRequestError } from './index';
 const TIMEOUT_TIMESTAMP = 60000;
 const checkStatus = (response) => {
-    if ((response.status >= 200 && response.status < 300) || response.status === 600) {
+    if ((response.status >= 200 && response.status < 300) ||
+        response.status === 600) {
         return response;
     }
     else {
@@ -33,11 +34,12 @@ const fetchWithAbort = (url, options = {}) => {
             publishRequestError({ url, code: 408, message: 'Request timeout' }, 'http');
             reject(new Error('Request timeout'));
         }, timeout);
-        window.fetch(url, opts)
+        window
+            .fetch(url, opts)
             .then(checkStatus)
             .then(parseJSON)
-            .then((data) => resolve(data))
-            .catch((error) => {
+            .then(data => resolve(data))
+            .catch(error => {
             if (error.name === 'AbortError') {
                 publishRequestError({ url, code: 0, message: 'Fetch aborted' }, 'http');
                 reject(new Error('Fetch aborted'));
@@ -70,7 +72,7 @@ export const sendRequestChart = async (config) => {
             signal: config.signal,
         });
         const data = {
-            list: res?.data?.list.reverse() || res?.result?.list.reverse() || []
+            list: res?.data?.list.reverse() || res?.result?.list.reverse() || [],
         };
         return data;
     }

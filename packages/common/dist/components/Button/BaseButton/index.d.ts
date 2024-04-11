@@ -1,5 +1,5 @@
-import { ComponentProps } from "react";
-export interface BaseButtonProps extends ComponentProps<"div"> {
+import { ComponentProps } from 'react';
+export interface BaseButtonProps extends ComponentProps<'div'> {
     disabled?: boolean;
     loading?: boolean;
 }

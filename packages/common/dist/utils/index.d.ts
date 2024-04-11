@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 export declare const toThousands: (num: any, delimiter?: string, prevDelimiter?: string) => string;
 export declare const getEllipsStr: (str: string, frontNum: number, endNum: number) => string;

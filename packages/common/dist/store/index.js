@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-export const useEnv = create((set) => ({
+export const useEnv = create(set => ({
     ENV_CONFIG: {},
-    SET_ENV_CONFIG: (env) => set({ ENV_CONFIG: env })
+    SET_ENV_CONFIG: (env) => set({ ENV_CONFIG: env }),
 }));
-export const useI18n = create((set) => ({
+export const useI18n = create(set => ({
     translations: {},
     setTranslations: (translations) => set({ translations }),
 }));
