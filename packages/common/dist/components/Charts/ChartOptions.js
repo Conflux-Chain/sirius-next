@@ -15,4 +15,4 @@ const ChartOptions = ({ intervalScope, intervalType, limit, onCombination }) => 
                         return ((0, jsx_runtime_1.jsx)("div", { className: `${intervalType === e ? 'bg-[#E6EBF5]' : 'bg-[#F7F7F7]'} w-fit px-[7px] py-[2px] rounded-[5px] text-[12px] cursor-pointer hover:bg-[#eee]`, onClick: () => onCombination(e, lastItemLimit + ''), children: e }, 'scopeKey' + i));
                     })] }), (0, jsx_runtime_1.jsxs)("div", { className: "flex gap-[3px]", children: [(0, jsx_runtime_1.jsxs)("div", { children: [t(translations.highcharts.options.range), ":"] }), intervalScopeDefault[intervalType]?.map((e, i) => ((0, jsx_runtime_1.jsx)("div", { onClick: () => onCombination(intervalType, e.limit + ''), className: `${limit === e.limit + '' ? 'bg-[#E6EBF5]' : 'bg-[#F7F7F7]'} w-fit px-[7px] py-[2px] rounded-[5px] text-[12px] cursor-pointer hover:bg-[#eee]`, children: e.label }, 'scopeLimit' + i)))] })] }));
 };
-exports.default = ChartOptions;
+export default ChartOptions;
