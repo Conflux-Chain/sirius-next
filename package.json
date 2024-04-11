@@ -24,9 +24,8 @@
     "node": ">=18"
   },
   "lint-staged": {
-    "*.{ts,tsx,md}": [
-      "pnpm run format",
-      "git add ."
+    "*.{json,js,ts,tsx,md}": [
+      "pnpm run format"
     ]
   }
 }

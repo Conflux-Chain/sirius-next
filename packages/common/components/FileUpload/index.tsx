@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react';
 
 export const FileUpload = React.forwardRef(
   (
     {
       onChange = () => {},
       onError = () => {},
-      accept = "",
+      accept = '',
       ...others
     }: {
       onChange?: (result: string) => void;
       onError?: (result: unknown) => void;
       accept?: string;
     },
-    ref: React.LegacyRef<HTMLInputElement>
+    ref: React.LegacyRef<HTMLInputElement>,
   ) => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       let reader = new FileReader();
@@ -28,7 +28,7 @@ export const FileUpload = React.forwardRef(
         };
         reader.readAsText(file);
       } else {
-        const error = new Error("no file");
+        const error = new Error('no file');
         onError(error);
       }
     };
@@ -37,12 +37,12 @@ export const FileUpload = React.forwardRef(
       <input
         type="file"
         name="File"
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         accept={accept}
         ref={ref}
         onChange={handleInputChange}
         {...others}
       />
     );
-  }
+  },
 );

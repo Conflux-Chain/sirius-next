@@ -13,9 +13,9 @@ export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
 
     const handleClick = (e: MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
       e.preventDefault();
-      
+
       if (!href) return;
-      
+
       if (/^http/.test(href)) {
         window.open(href, '_blank', 'noopener,noreferrer');
       } else if (e.metaKey || e.ctrlKey) {
@@ -36,15 +36,20 @@ export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
       );
     } else {
       return (
-        <RouterLink className={className} to={{
-          pathname: href,
-          state: state
-        }} onClick={handleClick} {...others}>
+        <RouterLink
+          className={className}
+          to={{
+            pathname: href,
+            state: state,
+          }}
+          onClick={handleClick}
+          {...others}
+        >
           {children}
         </RouterLink>
       );
     }
-  }
+  },
 );
 
 // react-router-dom v6
@@ -63,9 +68,9 @@ export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
 
 //     const handleClick = (e: MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
 //       e.preventDefault();
-      
+
 //       if (!href) return;
-      
+
 //       if (/^http/.test(href)) {
 //         window.open(href, '_blank', 'noopener,noreferrer');
 //       } else if (e.metaKey || e.ctrlKey) {

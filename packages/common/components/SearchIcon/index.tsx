@@ -1,11 +1,11 @@
 /* -*- mode: typescript -*- */
-import React from "react";
+import React from 'react';
 interface Props {
   color?: string;
 }
 
-export const SearchIcon: React.FC<Props> = (props) => {
-  const { color = "#1e3de4" } = props;
+export const SearchIcon: React.FC<Props> = props => {
+  const { color = '#1e3de4' } = props;
   return (
     <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1">
       <g id="Web" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
