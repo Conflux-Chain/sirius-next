@@ -9589,7 +9589,6 @@ packages:
       citty: 0.1.6
       consola: 3.2.3
       pathe: 1.1.2
->>>>>>> main
     dev: false
 
   /update-browserslist-db@1.0.13(browserslist@4.23.0):
