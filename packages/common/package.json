@@ -4,19 +4,30 @@
   "private": true,
   "type": "module",
   "scripts": {
+<<<<<<< HEAD
     "build": "pnpm build:component && pnpm build:css && pnpm build:images",
     "build:component": "tsc",
     "build:css": "unocss",
     "build:images": "copyfiles images/**/* dist/",
     "dev": "concurrently 'pnpm dev:component' 'pnpm dev:css'",
     "dev:component": "tsc -w",
+=======
+    "build": "pnpm build:lib && pnpm build:css",
+    "build:lib": "tsc",
+    "build:css": "unocss",
+    "dev": "concurrently 'pnpm dev:lib' 'pnpm dev:css'",
+    "dev:lib": "tsc -w",
+>>>>>>> main
     "dev:css": "unocss -w",
     "generate:component": "turbo gen react-component",
     "lint": "eslint . --max-warnings 0",
     "test": "jest"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@types/i18next": "^13.0.0",
+=======
+>>>>>>> main
     "@cfx-kit/react-utils": "^0.0.28",
     "@types/lodash": "^4.17.0",
     "@types/qs": "^6.9.14",
@@ -39,7 +50,10 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@repo/i18n": "workspace:*",
+=======
+>>>>>>> main
     "@iconify-json/line-md": "^1.1.36",
     "@iconify-json/material-symbols": "^1.1.77",
     "@repo/eslint-config": "workspace:*",

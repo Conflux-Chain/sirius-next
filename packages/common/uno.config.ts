@@ -1,4 +1,4 @@
-import { defineConfig, presetUno } from "unocss";
+import { defineConfig, presetUno, presetIcons } from "unocss";
 import transformerVariantGroup from "@unocss/transformer-variant-group";
 import { handler } from "@unocss/preset-mini/utils";
 
@@ -13,7 +13,13 @@ export default defineConfig({
     [
       /^bg-gradient-(?:repeating-)?linear-(.+)$/,
       ([, s]) => ({
-        "background-image": `linear-gradient${handler.bracket(s!)}`,
+        "background-image": `linear-gradient${handler.bracket(s)}`,
+      }),
+    ],
+    [
+      /^ws-nowrap$/,
+      () => ({
+        "white-space": "nowrap",
       }),
     ],
   ],
@@ -34,17 +40,13 @@ export default defineConfig({
       "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
   },
   theme: {
-    // breakpoints: {
-    //   tiny: "350px",
-    //   mini: "375px",
-    //   mobile: "460px",
-    //   sm: "640px",
-    //   md: "768px",
-    //   lg: "1024px",
-    //   xl: "1280px",
-    //   "2xl": "1536px",
-    //   "3xl": "1920px",
-    // },
+    breakpoints: {
+      sm: "768px",
+      md: "1024px",
+      lg: "1280px",
+      xl: "1440px",
+      "2xl": "1920px",
+    },
     colors: {
       blue: {
         dark: "#0077FF",
@@ -81,10 +83,17 @@ export default defineConfig({
     },
     boxShadow: {
       normal: "0px 6px 16px 0px #00000014",
+      card: "0.8571rem 0.5714rem 1.7143rem -0.8571rem rgba(20, 27, 50, 0.12)",
     },
   },
-  presets: [presetUno()],
-  transformers: [
-    transformerVariantGroup(),
+  presets: [
+    presetUno(),
+    presetIcons({
+      extraProperties: {
+        display: "inline-block",
+        "vertical-align": "middle",
+      },
+    }),
   ],
+  transformers: [transformerVariantGroup()],
 });

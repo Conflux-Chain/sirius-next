@@ -1,39 +1,33 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StockChartTemplate = void 0;
-const jsx_runtime_1 = require("react/jsx-runtime");
-const react_1 = require("react");
-const highstock_1 = __importDefault(require("highcharts/highstock"));
-const highcharts_react_official_1 = __importDefault(require("highcharts-react-official"));
-const exporting_1 = __importDefault(require("highcharts/modules/exporting"));
-const export_data_1 = __importDefault(require("highcharts/modules/export-data"));
-const swr_1 = __importDefault(require("swr"));
-const request_1 = require("../../utils/request");
-const StockTitle_1 = __importDefault(require("./StockTitle"));
-const BreadcrumbNav_1 = __importDefault(require("./BreadcrumbNav"));
-const ChartOptions_1 = __importDefault(require("./ChartOptions"));
-const lodash_1 = __importDefault(require("lodash"));
-const config_1 = require("./config");
-(0, exporting_1.default)(highstock_1.default);
-(0, export_data_1.default)(highstock_1.default);
-function StockChartTemplate({ options, request }) {
-    const chart = (0, react_1.useRef)(null);
-    const [limit, setLimit] = (0, react_1.useState)(request?.query?.limit || config_1.defaultLimit);
-    const [intervalType, setIntervalType] = (0, react_1.useState)(request?.query?.intervalType || config_1.defaultIntervalType);
-    const sendRequestCallback = (0, react_1.useCallback)(() => {
-        return (0, request_1.sendRequestChart)({
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import Highcharts from 'highcharts/highstock';
+import HighchartsReact from 'highcharts-react-official';
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
+import useSWR from 'swr';
+import { sendRequestChart } from '../../utils/request';
+import StockTitle from './StockTitle';
+import BreadcrumbNav from './BreadcrumbNav';
+import ChartOptions from './ChartOptions';
+import lodash from 'lodash';
+import { optsOrigin, defaultLimit, defaultIntervalType } from './config';
+Exporting(Highcharts);
+ExportData(Highcharts);
+export function StockChartTemplate({ options, request }) {
+    const chart = useRef(null);
+    const [limit, setLimit] = useState(request?.query?.limit || defaultLimit);
+    const [intervalType, setIntervalType] = useState(request?.query?.intervalType || defaultIntervalType);
+    const sendRequestCallback = useCallback(() => {
+        return sendRequestChart({
             url: request.url,
             query: {
                 ...request.query,
-                limit: limit || config_1.defaultLimit,
+                limit: limit || defaultLimit,
                 intervalType: intervalType,
             },
         });
-    }, [request.url, request.query, intervalType, limit, config_1.defaultLimit]);
-    const { data, isLoading } = (0, swr_1.default)(request.url + intervalType + limit, sendRequestCallback);
+    }, [request.url, request.query, intervalType, limit, defaultLimit]);
+    const { data, isLoading } = useSWR(request.url + intervalType + limit, sendRequestCallback);
     const handleCombination = (type, limit) => {
         // @ts-ignore
         // chart.current?.chart.xAxis[0].setExtremes(null, null);
@@ -42,7 +36,7 @@ function StockChartTemplate({ options, request }) {
         if (limit)
             setLimit(limit);
     };
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         if (isLoading) {
             // @ts-ignore
             chart.current?.chart.showLoading();
@@ -52,9 +46,8 @@ function StockChartTemplate({ options, request }) {
             chart.current?.chart.hideLoading();
         }
     }, [isLoading]);
-    const optsOrigins = (0, config_1.optsOrigin)({ options, request, data });
-    const opts = lodash_1.default.merge(optsOrigins, options);
+    const optsOrigins = optsOrigin({ options, request, data });
+    const opts = lodash.merge(optsOrigins, options);
     opts.intervalType = { value: intervalType };
-    return (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(BreadcrumbNav_1.default, { breadcrumb: opts.header.breadcrumb }), (0, jsx_runtime_1.jsx)(StockTitle_1.default, { header: opts.header }), (0, jsx_runtime_1.jsxs)("div", { className: 'bg-[#FFF] relative p-[1.2857rem] rounded-[4px] color-[#333]', style: { boxShadow: 'rgba(20, 27, 50, 0.12) 0.8571rem' }, children: [(0, jsx_runtime_1.jsx)(ChartOptions_1.default, { intervalScope: opts.intervalScope, intervalType: intervalType, limit: limit, onCombination: handleCombination }), (0, jsx_runtime_1.jsx)(highcharts_react_official_1.default, { constructorType: 'stockChart', highcharts: highstock_1.default, options: opts, ref: chart })] })] });
+    return _jsxs("div", { children: [_jsx(BreadcrumbNav, { breadcrumb: opts.header.breadcrumb }), _jsx(StockTitle, { header: opts.header }), _jsxs("div", { className: 'bg-[#FFF] relative p-[1.2857rem] rounded-[4px] color-[#333]', style: { boxShadow: 'rgba(20, 27, 50, 0.12) 0.8571rem' }, children: [_jsx(ChartOptions, { intervalScope: opts.intervalScope, intervalType: intervalType, limit: limit, onCombination: handleCombination }), _jsx(HighchartsReact, { constructorType: 'stockChart', highcharts: Highcharts, options: opts, ref: chart })] })] });
 }
-exports.StockChartTemplate = StockChartTemplate;

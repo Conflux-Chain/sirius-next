@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -10,6 +11,13 @@ const swr_1 = __importDefault(require("swr"));
 const qs_1 = __importDefault(require("qs"));
 const constants_1 = require("./constants");
 const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
+=======
+import BigNumber from "bignumber.js";
+import dayjs from 'dayjs';
+import useSWR from 'swr';
+import qs from 'qs';
+export const toThousands = (num, delimiter = ",", prevDelimiter = ",") => {
+>>>>>>> main
     if ((typeof num !== "number" || isNaN(num)) && typeof num !== "string")
         return "";
     let str = num + "";

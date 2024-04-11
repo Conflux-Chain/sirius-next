@@ -1,13 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.previewOpts = exports.optsOrigin = exports.scope = exports.defaultIntervalType = exports.defaultLimit = void 0;
-const highstock_1 = __importDefault(require("highcharts/highstock"));
-exports.defaultLimit = '365';
-exports.defaultIntervalType = 'day';
-exports.scope = {
+import Highcharts from 'highcharts/highstock';
+export const defaultLimit = '365';
+export const defaultIntervalType = 'day';
+export const scope = {
     min: [
         {
             label: '1h',
@@ -93,7 +87,7 @@ exports.scope = {
         },
     ],
 };
-const optsOrigin = ({ options, request, data }) => {
+export const optsOrigin = ({ options, request, data }) => {
     return {
         chart: {
             alignTicks: false,
@@ -145,11 +139,11 @@ const optsOrigin = ({ options, request, data }) => {
                     },
                     stops: [
                         // @ts-ignore
-                        [0, highstock_1.default.getOptions().colors[0]],
+                        [0, Highcharts.getOptions().colors[0]],
                         [
                             1,
                             // @ts-ignore
-                            highstock_1.default.color(highstock_1.default.getOptions().colors[0])
+                            Highcharts.color(Highcharts.getOptions().colors[0])
                                 .setOpacity(0)
                                 .get('rgba'),
                         ],
@@ -225,8 +219,7 @@ const optsOrigin = ({ options, request, data }) => {
         },
     };
 };
-exports.optsOrigin = optsOrigin;
-exports.previewOpts = {
+export const previewOpts = {
     title: '',
     subtitle: '',
     chart: {
