@@ -33,6 +33,9 @@ export function PreviewChartTemplate({ options, request }: ChartsProps) {
   const { data, isLoading } = useSWR(
     request.url + intervalType + limit,
     sendRequestCallback,
+    {
+      revalidateOnFocus: false,
+    },
   );
 
   useEffect(() => {
