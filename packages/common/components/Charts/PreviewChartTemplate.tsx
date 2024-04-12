@@ -11,6 +11,7 @@ import {
   previewOpts,
   defaultLimit,
   defaultIntervalType,
+  ConstructorType,
 } from './config';
 
 export function PreviewChartTemplate({ options, request }: ChartsProps) {
@@ -47,13 +48,13 @@ export function PreviewChartTemplate({ options, request }: ChartsProps) {
   const optsOrigins = optsOrigin({ options, request, data });
   const opts = lodash.merge(optsOrigins, options, previewOpts);
   opts.intervalType = { value: intervalType };
-
+  const constructorType = ConstructorType({ options, request });
   return (
     <div className="bg-[#FFFFFF] border border-[#E5E5E5] rounded-lg shadow-sm">
       <PreviewTitle header={opts.header}></PreviewTitle>
       <div className="p-[1.2857rem]">
         <HighchartsReact
-          constructorType={'stockChart'}
+          constructorType={constructorType}
           highcharts={Highcharts}
           options={opts}
           ref={chart}

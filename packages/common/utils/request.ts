@@ -126,9 +126,9 @@ export const sendRequestChart = async (config: Config) => {
         signal: config.signal,
       },
     );
-    const data = {
-      list: res?.data?.list.reverse() || res?.result?.list.reverse() || [],
-    };
+    const data = res.data;
+    data.list =
+      res?.data?.list?.reverse() || res?.result?.list?.reverse() || [];
     return data;
   } catch (error) {
     console.error('Request failed', error);
