@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import PreviewTitle from './PreviewTitle';
 import { sendRequestChart } from '../../utils/request';
 import lodash from 'lodash';
-import { optsOrigin, previewOpts, defaultLimit, defaultIntervalType, ConstructorType } from './config';
+import { optsOrigin, previewOpts, defaultLimit, defaultIntervalType, ConstructorType, } from './config';
 export function PreviewChartTemplate({ options, request }) {
     const chart = useRef(null);
     const limit = request?.query?.limit || defaultLimit;

@@ -225,7 +225,7 @@ const LineChart = ({ options, request, data }) => {
                     ],
                 },
             },
-        }
+        },
     };
 };
 const PieChart = ({ request, data }) => {
