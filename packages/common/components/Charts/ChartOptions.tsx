@@ -12,7 +12,7 @@ const ChartOptions = ({
   const { translations } = useI18n();
   const intervalScopeDefault = intervalScope || { day: scope.day };
   return (
-    <div className="flex relative z-2 top-[10px] mb-[20px] left-[40px]">
+    <div className="flex relative z-2 top-[10px] mb-[20px] left-[40px] gap-[10px] flex-col chartsFilter:flex-row chartsFilter:gap-0">
       <div className="flex gap-[3px] mr-[20px]">
         <div>{t(translations.highcharts.options.time)}:</div>
         {Object.keys(intervalScopeDefault).map((e, i) => {

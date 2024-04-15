@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
@@ -10,7 +10,7 @@ import StockTitle from './StockTitle';
 import BreadcrumbNav from './BreadcrumbNav';
 import ChartOptions from './ChartOptions';
 import lodash from 'lodash';
-import { optsOrigin, defaultLimit, defaultIntervalType } from './config';
+import { optsOrigin, defaultLimit, defaultIntervalType, ConstructorType, } from './config';
 Exporting(Highcharts);
 ExportData(Highcharts);
 export function StockChartTemplate({ options, request }) {
@@ -27,7 +27,9 @@ export function StockChartTemplate({ options, request }) {
             },
         });
     }, [request.url, request.query, intervalType, limit, defaultLimit]);
-    const { data, isLoading } = useSWR(request.url + intervalType + limit, sendRequestCallback);
+    const { data, isLoading } = useSWR(request.url + intervalType + limit, sendRequestCallback, {
+        revalidateOnFocus: false,
+    });
     const handleCombination = (type, limit) => {
         // @ts-ignore
         // chart.current?.chart.xAxis[0].setExtremes(null, null);
@@ -49,5 +51,6 @@ export function StockChartTemplate({ options, request }) {
     const optsOrigins = optsOrigin({ options, request, data });
     const opts = lodash.merge(optsOrigins, options);
     opts.intervalType = { value: intervalType };
-    return _jsxs("div", { children: [_jsx(BreadcrumbNav, { breadcrumb: opts.header.breadcrumb }), _jsx(StockTitle, { header: opts.header }), _jsxs("div", { className: 'bg-[#FFF] relative p-[1.2857rem] rounded-[4px] color-[#333]', style: { boxShadow: 'rgba(20, 27, 50, 0.12) 0.8571rem' }, children: [_jsx(ChartOptions, { intervalScope: opts.intervalScope, intervalType: intervalType, limit: limit, onCombination: handleCombination }), _jsx(HighchartsReact, { constructorType: 'stockChart', highcharts: Highcharts, options: opts, ref: chart })] })] });
+    const constructorType = ConstructorType({ options, request });
+    return (_jsxs("div", { children: [opts.header.breadcrumbShow !== false ? (_jsx(BreadcrumbNav, { breadcrumb: opts.header.breadcrumb })) : (_jsx(_Fragment, {})), opts.header.titleShow !== false ? (_jsx(StockTitle, { header: opts.header })) : (_jsx(_Fragment, {})), _jsxs("div", { className: "bg-[#FFF] relative p-[1.2857rem] rounded-[4px] color-[#333]", style: { boxShadow: 'rgba(20, 27, 50, 0.12) 0.8571rem' }, children: [opts.header.optionShow !== false ? (_jsx(ChartOptions, { intervalScope: opts.intervalScope, intervalType: intervalType, limit: limit, onCombination: handleCombination })) : (_jsx(_Fragment, {})), _jsx(HighchartsReact, { constructorType: constructorType, highcharts: Highcharts, options: opts, ref: chart })] })] }));
 }

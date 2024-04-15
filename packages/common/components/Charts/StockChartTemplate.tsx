@@ -16,6 +16,7 @@ import {
   defaultIntervalType,
   ScopeType,
   onCombination,
+  ConstructorType,
 } from './config';
 
 Exporting(Highcharts);
@@ -42,6 +43,9 @@ export function StockChartTemplate({ options, request }: ChartsProps) {
   const { data, isLoading } = useSWR(
     request.url + intervalType + limit,
     sendRequestCallback,
+    {
+      revalidateOnFocus: false,
+    },
   );
 
   const handleCombination: onCombination = (type, limit) => {
@@ -65,23 +69,36 @@ export function StockChartTemplate({ options, request }: ChartsProps) {
   const optsOrigins = optsOrigin({ options, request, data });
   const opts = lodash.merge(optsOrigins, options);
   opts.intervalType = { value: intervalType };
-
+  const constructorType = ConstructorType({ options, request });
   return (
     <div>
-      <BreadcrumbNav breadcrumb={opts.header.breadcrumb}></BreadcrumbNav>
-      <StockTitle header={opts.header}></StockTitle>
+      {opts.header.breadcrumbShow !== false ? (
+        <BreadcrumbNav breadcrumb={opts.header.breadcrumb}></BreadcrumbNav>
+      ) : (
+        <></>
+      )}
+      {opts.header.titleShow !== false ? (
+        <StockTitle header={opts.header}></StockTitle>
+      ) : (
+        <></>
+      )}
       <div
         className="bg-[#FFF] relative p-[1.2857rem] rounded-[4px] color-[#333]"
         style={{ boxShadow: 'rgba(20, 27, 50, 0.12) 0.8571rem' }}
       >
-        <ChartOptions
-          intervalScope={opts.intervalScope}
-          intervalType={intervalType}
-          limit={limit}
-          onCombination={handleCombination}
-        />
+        {opts.header.optionShow !== false ? (
+          <ChartOptions
+            intervalScope={opts.intervalScope}
+            intervalType={intervalType}
+            limit={limit}
+            onCombination={handleCombination}
+          />
+        ) : (
+          <></>
+        )}
+
         <HighchartsReact
-          constructorType={'stockChart'}
+          constructorType={constructorType}
           highcharts={Highcharts}
           options={opts}
           ref={chart}

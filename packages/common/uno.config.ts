@@ -40,12 +40,16 @@ export default defineConfig({
       'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
   },
   theme: {
+    screen: {
+      chartsFilter: '(max-width: 970px)',
+    },
     breakpoints: {
       sm: '768px',
       md: '1024px',
       lg: '1280px',
       xl: '1440px',
       '2xl': '1920px',
+      chartsFilter: '970px',
     },
     colors: {
       blue: {

@@ -1,6 +1,6 @@
-import { FC, ComponentProps } from "react";
-interface SpinProps extends ComponentProps<"div"> {
-    size?: "default" | "small";
+import { FC, ComponentProps } from 'react';
+interface SpinProps extends ComponentProps<'div'> {
+    size?: 'default' | 'small';
     spinning?: boolean;
 }
 export declare const Spin: FC<SpinProps>;

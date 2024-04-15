@@ -87,7 +87,16 @@ export const scope = {
         },
     ],
 };
-export const optsOrigin = ({ options, request, data }) => {
+export const ConstructorType = ({ options }) => {
+    if (options?.chart?.type === 'pie') {
+        return '';
+    }
+    if (options?.chart?.type === 'column') {
+        return '';
+    }
+    return 'stockChart';
+};
+const LineChart = ({ options, request, data }) => {
     return {
         chart: {
             alignTicks: false,
@@ -218,6 +227,101 @@ export const optsOrigin = ({ options, request, data }) => {
             },
         },
     };
+};
+const PieChart = ({ request, data }) => {
+    return {
+        chart: {
+            animation: false,
+            height: 600,
+        },
+        credits: {
+            enabled: false,
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1,
+                    },
+                    stops: [
+                        // @ts-ignore
+                        [0, Highcharts.getOptions().colors[0]],
+                        [
+                            1,
+                            // @ts-ignore
+                            Highcharts.color(Highcharts.getOptions().colors[0])
+                                .setOpacity(0)
+                                .get('rgba'),
+                        ],
+                    ],
+                },
+                marker: {
+                    radius: 2,
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1,
+                    },
+                },
+                threshold: null,
+            },
+            line: {
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1,
+                    },
+                },
+            },
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false,
+                },
+                showInLegend: true,
+                colorByPoint: true,
+            },
+        },
+        tooltip: {
+            shape: 'square',
+        },
+        series: [
+            {
+                data: request.formatter(data),
+            },
+        ],
+        exporting: {
+            enabled: true,
+            buttons: {
+                contextButton: {
+                    menuItems: [
+                        'printChart',
+                        'separator',
+                        'downloadPNG',
+                        'downloadJPEG',
+                        'downloadPDF',
+                        'downloadSVG',
+                        'downloadCSV',
+                        'downloadXLS',
+                    ],
+                },
+            },
+        },
+    };
+};
+export const optsOrigin = ({ options, request, data }) => {
+    if (options.chart.type === 'pie') {
+        return PieChart({ options, request, data });
+    }
+    if (options.chart.type === 'column') {
+        return PieChart({ options, request, data });
+    }
+    return LineChart({ options, request, data });
 };
 export const previewOpts = {
     title: '',
