@@ -1,7 +1,8 @@
-import React from 'react';
+import React__default from 'react';
+
 interface Props {
     color?: string;
 }
-export declare const DeleteIcon: React.FC<Props>;
-export {};
-//# sourceMappingURL=index.d.ts.map
+declare const DeleteIcon: React__default.FC<Props>;
+
+export { DeleteIcon };

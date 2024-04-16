@@ -1,7 +1,8 @@
-import React from 'react';
+import React__default from 'react';
+
 interface Props {
     color?: string;
 }
-export declare const SearchIcon: React.FC<Props>;
-export {};
-//# sourceMappingURL=index.d.ts.map
+declare const SearchIcon: React__default.FC<Props>;
+
+export { SearchIcon };

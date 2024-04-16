@@ -1,9 +1,10 @@
-import React, { PropsWithChildren } from 'react';
+import React__default, { PropsWithChildren } from 'react';
+
 interface LinkProps {
     className?: string;
     href: string;
     state?: any;
 }
-export declare const Link: React.FC<PropsWithChildren<LinkProps>>;
-export {};
-//# sourceMappingURL=index.d.ts.map
+declare const Link: React__default.FC<PropsWithChildren<LinkProps>>;
+
+export { Link };

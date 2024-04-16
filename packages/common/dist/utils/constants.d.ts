@@ -6,7 +6,7 @@
  * @export
  * @enum {number}
  */
-export declare enum LOCALSTORAGE_KEYS_MAP {
+declare enum LOCALSTORAGE_KEYS_MAP {
     reqProjectConfigMD5 = "CONFLUX_SCAN_REQ_PROJECT_CONFIG_MD5",
     networkId = "CONFLUX_SCAN_NETWORK_ID",
     contracts = "CONFLUX_SCAN_CONTRACTS",
@@ -21,4 +21,5 @@ export declare enum LOCALSTORAGE_KEYS_MAP {
     hideInDotNet = "CONFLUX_SCAN_HIDE_IN_DOT_NET",
     apis = "CONFLUX_SCAN_APIS"
 }
-//# sourceMappingURL=constants.d.ts.map
+
+export { LOCALSTORAGE_KEYS_MAP };

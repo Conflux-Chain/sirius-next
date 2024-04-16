@@ -2,10 +2,7 @@
   "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["types/*"]
-    }
+    "baseUrl": "."
   },
   "exclude": ["node_modules", "dist", "uno.config.ts"]
 }

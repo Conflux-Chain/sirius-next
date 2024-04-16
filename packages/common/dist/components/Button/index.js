@@ -1,18 +1,19 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { forwardRef } from 'react';
-import { BaseButton } from './BaseButton';
-import { IconButton } from './IconButton';
-import { ActionButton } from './ActionButton';
-const ComponentMap = {
-    default: BaseButton,
-    icon: IconButton,
-    action: ActionButton,
+import {
+  Button_default
+} from "../../chunk-WML236LE.js";
+import {
+  ActionButton
+} from "../../chunk-6UM5Y3SL.js";
+import {
+  IconButton
+} from "../../chunk-27GSITHB.js";
+import {
+  BaseButton
+} from "../../chunk-3GGF3ULC.js";
+export {
+  ActionButton,
+  BaseButton,
+  IconButton,
+  Button_default as default
 };
-const Button = forwardRef(({ type = 'default', ...props }, ref) => {
-    const Component = ComponentMap[type];
-    return _jsx(Component, { ref: ref, ...props });
-});
-export default Button;
-export { BaseButton } from './BaseButton';
-export { IconButton } from './IconButton';
-export { ActionButton } from './ActionButton';
+//# sourceMappingURL=index.js.map
