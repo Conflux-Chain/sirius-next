@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { forwardRef } from 'react';
 import clsx from 'clsx';
-import { BaseButton } from '../BaseButton';
+import { BaseButton } from '../../../src/components/Button/BaseButton';
 export const ActionButton = forwardRef(({ className, color = 'default', size = 'default', disabled, loading, children, ...props }, ref) => {
     return (_jsxs(BaseButton, { ref: ref, className: clsx('relative lh-[1.5715] ws-nowrap transition-all-300 select-none min-w-124px rounded-2px text-center font-normal', {
             'bg-[var(--theme-color-gray3)] text-[var(--theme-color-gray2)] hover:bg-[var(--theme-color-gray0)] hover-text-[var(--theme-color-gray2)]': disabled,

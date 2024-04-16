@@ -1,7 +1,7 @@
 import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import { useTranslation } from 'react-i18next';
-import { useI18n } from '../../store';
-import { scope } from './config';
+import { useI18n } from '../../src/store';
+import { scope } from '../../src/components/Charts/config';
 const ChartOptions = ({ intervalScope, intervalType, limit, onCombination, }) => {
     const { t } = useTranslation();
     const { translations } = useI18n();
