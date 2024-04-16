@@ -1,3 +1,5 @@
-/// <reference types="react" />
-export declare const useAge: (format?: string) => (string | import("react").Dispatch<import("react").SetStateAction<string>>)[];
-//# sourceMappingURL=useAge.d.ts.map
+import * as React from 'react';
+
+declare const useAge: (format?: string) => (string | React.Dispatch<React.SetStateAction<string>>)[];
+
+export { useAge };

@@ -5,7 +5,7 @@ import { handler } from '@unocss/preset-mini/utils';
 export default defineConfig({
   cli: {
     entry: {
-      patterns: ['./components/**/*.tsx'],
+      patterns: ['./src/components/**/*.tsx'],
       outFile: './dist/uno.css',
     },
   },

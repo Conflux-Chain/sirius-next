@@ -4,20 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm build:component && pnpm build:css && pnpm build:images",
-    "build:component": "tsc",
+    "build": "pnpm build:lib && pnpm build:css",
+    "build:lib": "tsup",
     "build:css": "unocss",
-    "build:images": "copyfiles images/**/* dist/",
-    "dev": "concurrently 'pnpm dev:component' 'pnpm dev:css'",
-    "dev:component": "tsc -w",
+    "dev": "concurrently 'pnpm dev:lib' 'pnpm dev:css'",
+    "dev:lib": "nodemon --watch src --exec 'tsup' -e ts,tsx,js,json",
     "dev:css": "unocss -w",
     "generate:component": "turbo gen react-component",
     "lint": "eslint . --max-warnings 0",
     "test": "jest"
   },
   "dependencies": {
-    "@types/i18next": "^13.0.0",
     "@cfx-kit/react-utils": "^0.0.28",
+    "@cfx-kit/ui-components": "^0.0.17",
+    "@types/i18next": "^13.0.0",
     "@types/lodash": "^4.17.0",
     "@types/qs": "^6.9.14",
     "@types/react-router-dom": "^5.3.3",
@@ -39,10 +39,10 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@repo/i18n": "workspace:*",
     "@iconify-json/line-md": "^1.1.36",
     "@iconify-json/material-symbols": "^1.1.77",
     "@repo/eslint-config": "workspace:*",
+    "@repo/i18n": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "^1.12.4",
     "@types/eslint": "^8.56.5",

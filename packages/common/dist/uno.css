@@ -73,6 +73,7 @@
 .w-full{width:100%;}
 .w-max{width:max-content;}
 .flex{display:flex;}
+.inline-flex{display:inline-flex;}
 .flex-shrink-0,
 .shrink-0{flex-shrink:0;}
 .flex-grow-1,

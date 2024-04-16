@@ -1,7 +1,7 @@
 interface FetchOptions extends RequestInit {
     timeout?: number;
 }
-export declare const fetch: <T>(url: string, options?: FetchOptions) => Promise<T>;
+declare const fetch: <T>(url: string, options?: FetchOptions) => Promise<T>;
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
 interface QueryParams {
     [key: string]: string;
@@ -14,6 +14,6 @@ interface Config {
     headers?: Headers;
     signal?: AbortSignal;
 }
-export declare const sendRequestChart: (config: Config) => Promise<any>;
-export {};
-//# sourceMappingURL=request.d.ts.map
+declare const sendRequestChart: (config: Config) => Promise<any>;
+
+export { fetch, sendRequestChart };

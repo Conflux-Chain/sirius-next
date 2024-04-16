@@ -1,9 +1,10 @@
-/// <reference types="react" />
-import { BaseButtonProps } from '../BaseButton';
+import * as React from 'react';
+import { BaseButtonProps } from '../BaseButton/index.js';
+
 interface ButtonProps extends BaseButtonProps {
     color?: 'default' | 'primary';
     size?: 'default' | 'small';
 }
-export declare const ActionButton: import("react").ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & import("react").RefAttributes<unknown>>;
-export {};
-//# sourceMappingURL=index.d.ts.map
+declare const ActionButton: React.ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & React.RefAttributes<unknown>>;
+
+export { ActionButton };

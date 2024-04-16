@@ -1,10 +1,11 @@
 import Highcharts from 'highcharts/highstock';
-export declare const defaultLimit: string;
-export declare const defaultIntervalType: string;
-export interface ChildProps {
+
+declare const defaultLimit: string;
+declare const defaultIntervalType: string;
+interface ChildProps {
     preview?: boolean;
 }
-export interface ChartsProps {
+interface ChartsProps {
     request: {
         url: string;
         query?: {
@@ -18,26 +19,26 @@ export interface ChartsProps {
         list: any[];
     };
 }
-export interface ScopeItemType {
+interface ScopeItemType {
     label: string;
     limit: number;
 }
-export interface ScopeType {
+interface ScopeType {
     min?: ScopeItemType[];
     hour?: ScopeItemType[];
     day: ScopeItemType[];
     month?: ScopeItemType[];
 }
-export type onCombination = (type: keyof ScopeType, limit: string | undefined) => void;
-export type ChartOptionsProps = {
+type onCombination = (type: keyof ScopeType, limit: string | undefined) => void;
+type ChartOptionsProps = {
     intervalScope?: ScopeType;
     intervalType: keyof ScopeType;
     limit: string | undefined;
     onCombination: onCombination;
 };
-export declare const scope: ScopeType;
-export declare const ConstructorType: ({ options }: ChartsProps) => "" | "stockChart";
-export declare const optsOrigin: ({ options, request, data }: ChartsProps) => {
+declare const scope: ScopeType;
+declare const ConstructorType: ({ options }: ChartsProps) => "" | "stockChart";
+declare const optsOrigin: ({ options, request, data }: ChartsProps) => {
     chart: {
         alignTicks: boolean;
         height: number;
@@ -181,7 +182,7 @@ export declare const optsOrigin: ({ options, request, data }: ChartsProps) => {
         };
     };
 };
-export declare const previewOpts: {
+declare const previewOpts: {
     title: string;
     subtitle: string;
     chart: {
@@ -201,4 +202,5 @@ export declare const previewOpts: {
         enabled: boolean;
     };
 };
-//# sourceMappingURL=config.d.ts.map
+
+export { type ChartOptionsProps, type ChartsProps, type ChildProps, ConstructorType, type ScopeItemType, type ScopeType, defaultIntervalType, defaultLimit, type onCombination, optsOrigin, previewOpts, scope };

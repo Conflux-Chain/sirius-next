@@ -8,7 +8,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write $(git diff --cached --name-only -- '*.json' '*.js' '*.ts' '*.tsx' '*.md')",
+    "format": "prettier --write $(git diff --cached --name-only --diff-filter=d -- '*.json' '*.js' '*.ts' '*.tsx' '*.md')",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -16,7 +16,9 @@
     "@repo/typescript-config": "workspace:*",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
+    "tsup": "^7.1.0",
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.9.0",

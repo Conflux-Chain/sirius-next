@@ -1,3 +1,7 @@
-import { ChartsProps } from './config';
-export declare function StockChartTemplate({ options, request }: ChartsProps): import("react/jsx-runtime").JSX.Element;
-//# sourceMappingURL=StockChartTemplate.d.ts.map
+import * as react_jsx_runtime from 'react/jsx-runtime';
+import { ChartsProps } from './config.js';
+import 'highcharts/highstock';
+
+declare function StockChartTemplate({ options, request }: ChartsProps): react_jsx_runtime.JSX.Element;
+
+export { StockChartTemplate };

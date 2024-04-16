@@ -5,5 +5,5 @@ declare const docCookies: {
     hasItem: (sKey: string) => boolean;
     keys: () => string[];
 };
-export default docCookies;
-//# sourceMappingURL=cookie.d.ts.map
+
+export { docCookies as default };

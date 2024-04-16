@@ -1,3 +1,7 @@
-import { ChartsProps } from './config';
-export declare function PreviewChartTemplate({ options, request }: ChartsProps): import("react/jsx-runtime").JSX.Element;
-//# sourceMappingURL=PreviewChartTemplate.d.ts.map
+import * as react_jsx_runtime from 'react/jsx-runtime';
+import { ChartsProps } from './config.js';
+import 'highcharts/highstock';
+
+declare function PreviewChartTemplate({ options, request }: ChartsProps): react_jsx_runtime.JSX.Element;
+
+export { PreviewChartTemplate };

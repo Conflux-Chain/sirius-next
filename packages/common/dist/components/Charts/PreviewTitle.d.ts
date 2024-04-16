@@ -1,3 +1,5 @@
+import * as react_jsx_runtime from 'react/jsx-runtime';
+
 interface headerType {
     title: {
         text: string;
@@ -12,6 +14,6 @@ interface headerType {
 }
 declare const Title: ({ header }: {
     header: headerType;
-}) => import("react/jsx-runtime").JSX.Element;
-export default Title;
-//# sourceMappingURL=PreviewTitle.d.ts.map
+}) => react_jsx_runtime.JSX.Element;
+
+export { Title as default };

@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
-import { LOCALSTORAGE_KEYS_MAP } from '../constants';
-export const useAge = (format) => {
-    const [ageFormat, toggleAgeFormat] = useState(format ||
-        localStorage.getItem(LOCALSTORAGE_KEYS_MAP.ageFormat) !== 'datetime'
-        ? 'age'
-        : 'datetime');
-    useEffect(() => {
-        if (localStorage.getItem(LOCALSTORAGE_KEYS_MAP.ageFormat) !== ageFormat) {
-            localStorage.setItem(LOCALSTORAGE_KEYS_MAP.ageFormat, ageFormat);
-        }
-    }, [format, ageFormat]);
-    return [ageFormat, toggleAgeFormat];
+import "../../chunk-ADTPJ4V5.js";
+
+// src/utils/hooks/useAge.ts
+import { useEffect, useState } from "react";
+var useAge = (format) => {
+  const [ageFormat, toggleAgeFormat] = useState(
+    format || localStorage.getItem("CONFLUX_SCAN_TABLE_AGE_FORMAT" /* ageFormat */) !== "datetime" ? "age" : "datetime"
+  );
+  useEffect(() => {
+    if (localStorage.getItem("CONFLUX_SCAN_TABLE_AGE_FORMAT" /* ageFormat */) !== ageFormat) {
+      localStorage.setItem("CONFLUX_SCAN_TABLE_AGE_FORMAT" /* ageFormat */, ageFormat);
+    }
+  }, [format, ageFormat]);
+  return [ageFormat, toggleAgeFormat];
 };
+export {
+  useAge
+};
+//# sourceMappingURL=useAge.js.map
