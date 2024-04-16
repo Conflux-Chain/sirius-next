@@ -1,1 +1,0 @@
-{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../components/Spin/index.tsx"],"names":[],"mappings":"AACA,OAAO,EAAE,EAAE,EAAE,cAAc,EAAE,MAAM,OAAO,CAAC;AAE3C,UAAU,SAAU,SAAQ,cAAc,CAAC,KAAK,CAAC;IAC/C,IAAI,CAAC,EAAE,SAAS,GAAG,OAAO,CAAC;IAC3B,QAAQ,CAAC,EAAE,OAAO,CAAC;CACpB;AAED,eAAO,MAAM,IAAI,EAAE,EAAE,CAAC,SAAS,CAiD9B,CAAC"}
