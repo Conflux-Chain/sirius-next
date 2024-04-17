@@ -1,4 +1,4 @@
-import * as react from 'react';
+import * as React from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 
 interface Props {
@@ -6,6 +6,6 @@ interface Props {
     rightBottom: JSX.Element[];
     left: JSX.Element[];
 }
-declare const Footer: react.MemoExoticComponent<({ rightBottom, rightTop, left }: Props) => react_jsx_runtime.JSX.Element>;
+declare const Footer: React.MemoExoticComponent<({ rightBottom, rightTop, left }: Props) => react_jsx_runtime.JSX.Element>;
 
 export { Footer };

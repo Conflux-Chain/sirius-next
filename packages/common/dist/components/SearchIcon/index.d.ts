@@ -1,8 +1,8 @@
-import react__default from 'react';
+import React__default from 'react';
 
 interface Props {
     color?: string;
 }
-declare const SearchIcon: react__default.FC<Props>;
+declare const SearchIcon: React__default.FC<Props>;
 
 export { SearchIcon };

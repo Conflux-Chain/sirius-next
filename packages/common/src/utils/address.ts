@@ -65,11 +65,7 @@ export const isSimplyBase32Address = (address: string): boolean => {
 export const isAddress = (address: string): boolean => {
   try {
     if (address.startsWith('0x')) {
-      return (
-        isCfxHexAddress(address) ||
-        SDK.address.isValidHexAddress(address) ||
-        isZeroAddress(address)
-      );
+      return SDK.address.isValidHexAddress(address) || isZeroAddress(address);
     } else {
       return isBase32Address(address);
     }

@@ -1,6 +1,6 @@
-import * as react from 'react';
+import * as React from 'react';
 import { BaseButtonProps } from '../BaseButton/index.js';
 
-declare const IconButton: react.ForwardRefExoticComponent<Omit<BaseButtonProps, "ref"> & react.RefAttributes<unknown>>;
+declare const IconButton: React.ForwardRefExoticComponent<Omit<BaseButtonProps, "ref"> & React.RefAttributes<unknown>>;
 
 export { IconButton };

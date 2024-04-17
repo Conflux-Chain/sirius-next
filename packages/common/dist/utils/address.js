@@ -1,6 +1,6 @@
 import {
   getAccount
-} from "../chunk-Y74ALUKJ.js";
+} from "../chunk-PIWYBVLY.js";
 import "../chunk-4LQWWDGW.js";
 import "../chunk-ADTPJ4V5.js";
 
@@ -53,7 +53,7 @@ var isSimplyBase32Address = (address) => {
 var isAddress = (address) => {
   try {
     if (address.startsWith("0x")) {
-      return isCfxHexAddress(address);
+      return SDK.address.isValidHexAddress(address) || isZeroAddress(address);
     } else {
       return isBase32Address(address);
     }
