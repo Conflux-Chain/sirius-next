@@ -1,8 +1,8 @@
-import React__default from 'react';
+import react__default from 'react';
 
 interface Props {
     color?: string;
 }
-declare const DeleteIcon: React__default.FC<Props>;
+declare const DeleteIcon: react__default.FC<Props>;
 
 export { DeleteIcon };

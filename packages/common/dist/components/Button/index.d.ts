@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as react from 'react';
 import { BaseButtonProps } from './BaseButton/index.js';
 export { BaseButton } from './BaseButton/index.js';
 export { IconButton } from './IconButton/index.js';
@@ -10,6 +10,6 @@ interface ButtonProps extends BaseButtonProps {
     color?: 'default' | 'primary';
     size?: 'default' | 'small';
 }
-declare const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & React.RefAttributes<unknown>>;
+declare const Button: react.ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & react.RefAttributes<unknown>>;
 
 export { Button as default };

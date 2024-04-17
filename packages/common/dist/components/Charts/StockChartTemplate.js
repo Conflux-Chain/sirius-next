@@ -1,13 +1,13 @@
 import {
+  StockTitle_default
+} from "../../chunk-PTT2OZV4.js";
+import {
   BreadcrumbNav_default
 } from "../../chunk-WLKMIQSZ.js";
 import {
   ChartOptions_default
 } from "../../chunk-FCMOSB7E.js";
 import "../../chunk-EXW5F6NL.js";
-import {
-  StockTitle_default
-} from "../../chunk-PTT2OZV4.js";
 import {
   ConstructorType,
   defaultIntervalType,

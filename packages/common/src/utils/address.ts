@@ -1,4 +1,5 @@
 import SDK from 'js-conflux-sdk';
+import { getAccount } from './rpcRequest';
 
 interface AddressCache {
   [key: string]: any;
@@ -64,7 +65,11 @@ export const isSimplyBase32Address = (address: string): boolean => {
 export const isAddress = (address: string): boolean => {
   try {
     if (address.startsWith('0x')) {
-      return isCfxHexAddress(address);
+      return (
+        isCfxHexAddress(address) ||
+        SDK.address.isValidHexAddress(address) ||
+        isZeroAddress(address)
+      );
     } else {
       return isBase32Address(address);
     }
@@ -91,8 +96,21 @@ export function isZeroAddress(address: string): boolean {
   return result;
 }
 
-export function isAccountAddress(address: string): boolean {
-  return getAddressInfo(address)?.type === 'user' || isZeroAddress(address);
+export async function isAccountAddress(
+  address: string,
+  space: string,
+): Promise<boolean> {
+  if (space === 'core') {
+    return getAddressInfo(address)?.type === 'user' || isZeroAddress(address);
+  }
+  if (space === 'evm') {
+    try {
+      return (await getAddressType(address)) === 'account';
+    } catch (e) {
+      throw e;
+    }
+  }
+  return false;
 }
 
 export function isContractAddress(address: string): boolean {
@@ -128,6 +146,28 @@ export function isSpecialAddress(address: string): boolean {
   ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
 
   return result;
+}
+
+export function isContractCodeHashEmpty(codeHash: string) {
+  return (
+    codeHash ===
+      '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470' ||
+    codeHash === '0x' ||
+    codeHash === ''
+  );
+}
+
+export async function getAddressType(address: string): Promise<string> {
+  try {
+    const account: any = await getAccount(address);
+    if (isContractCodeHashEmpty(account.codeHash)) {
+      return 'account';
+    }
+    return 'contract';
+  } catch (e) {
+    console.log('getAddressType error: ', e);
+    throw e;
+  }
 }
 
 export const getAddressInfo = (

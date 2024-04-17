@@ -1,10 +1,10 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import React__default from 'react';
+import react__default from 'react';
 
 declare const InfoIconWithTooltip: ({ info, size, children, }: {
-    info: React__default.ReactNode;
+    info: react__default.ReactNode;
     size?: number | undefined;
-    children?: React__default.ReactNode;
+    children?: react__default.ReactNode;
 }) => react_jsx_runtime.JSX.Element;
 
 export { InfoIconWithTooltip };

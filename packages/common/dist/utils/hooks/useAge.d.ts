@@ -1,5 +1,5 @@
-import * as React from 'react';
+import * as react from 'react';
 
-declare const useAge: (format?: string) => (string | React.Dispatch<React.SetStateAction<string>>)[];
+declare const useAge: (format?: string) => (string | react.Dispatch<react.SetStateAction<string>>)[];
 
 export { useAge };
