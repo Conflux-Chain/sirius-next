@@ -22,7 +22,4 @@ export const useI18n = create<I18nState>(set => ({
   setTranslations: (translations: TranslationResource) => set({ translations }),
 }));
 
-// export const useEnvInit = <T>(initialState: T) => create<EnvState<T>>((set) => ({
-//     ENV_CONFIG: initialState,
-//     SET_ENV_CONFIG: (env: T) => set({ ENV_CONFIG: env }),
-// }));
+export const getEnvConfig = () => useEnv.getState().ENV_CONFIG;

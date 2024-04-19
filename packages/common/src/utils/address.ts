@@ -1,5 +1,8 @@
 import SDK from 'js-conflux-sdk';
+import lodash from 'lodash';
+import { getEnvConfig } from '../store';
 import { getAccount } from './rpcRequest';
+import { LOCALSTORAGE_KEYS_MAP } from './constants';
 
 interface AddressCache {
   [key: string]: any;
@@ -192,9 +195,109 @@ export const getAddressInfo = (
   return result;
 };
 
-export const formatAddress = (
-  address: string,
-  outputType = 'base32', // base32 or hex
-): string => {
-  return '';
+export const NETWORK_ID = (() => {
+  const ENV_CONFIG = getEnvConfig();
+  let networkId = ENV_CONFIG.ENV_NETWORK_ID;
+  let cacheNetworkId = Number(
+    localStorage.getItem(LOCALSTORAGE_KEYS_MAP.networkId),
+  );
+
+  if (lodash.isFinite(cacheNetworkId)) {
+    networkId = Number(cacheNetworkId);
+  }
+  return networkId;
+})();
+
+export const formatAddress = (address: string, outputType = 'base32') => {
+  const CACHE_KEY = `formatAddress(${address}, ${outputType})`;
+  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) {
+    return ADDRESS_FUNC_CACHE[CACHE_KEY];
+  }
+
+  let result = address;
+
+  try {
+    if (outputType === 'base32') {
+      if (isCfxHexAddress(address)) {
+        result = SDK.format.address(address, NETWORK_ID);
+      } else if (isBase32Address(address)) {
+        const reg = /(.*):(.*):(.*)/;
+        if (reg.test(address)) {
+          result = address.replace(reg, '$1:$3').toLowerCase();
+        }
+      }
+    } else if (outputType === 'hex') {
+      if (isBase32Address(address)) {
+        result = SDK.format.hexAddress(address);
+      }
+    }
+  } catch (error) {
+    console.error('Failed to format address:', error);
+  }
+
+  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+  return result;
 };
+
+// export const formatAddress = (
+//   address: string,
+//   outputType = 'base32', // base32 or hex
+// ): string => {
+//   const CACHE_KEY = `formatAddress(${address}, ${outputType})`;
+//   if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+
+//   let result = address;
+
+//   try {
+//     if (outputType === 'base32') {
+//       if (isCfxHexAddress(address)) {
+//         result = SDK.format.address(address, NETWORK_ID);
+//       } else if (isBase32Address(address)) {
+//         const reg = /(.*):(.*):(.*)/;
+//         // compatibility with verbose address, will replace with simply address later
+//         if (typeof address === 'string' && reg.test(address)) {
+//           result = address.replace(reg, '$1:$3').toLowerCase();
+//         }
+//       }
+//     } else if (outputType === 'hex') {
+//       if (isAddress(address)) {
+//         if (outputType === 'hex') {
+//           if (isBase32Address(address)) {
+//             result = SDK.format.hexAddress(address);
+//           } else {
+//             result = address;
+//           }
+//         } else if (outputType === 'base32') {
+//           result = SDK.format.address(address, NETWORK_ID);
+//         } else {
+//           result = address;
+//         }
+//       } else if (isBase32Address(address)) {
+//         if (outputType === 'hex') {
+//           result = SDK.format.hexAddress(address);
+//         } else if (outputType === 'base32') {
+//           const reg = /(.*):(.*):(.*)/;
+//           let lowercaseAddress = address;
+
+//           // compatibility with verbose address, will replace with simply address later
+//           if (typeof address === 'string' && reg.test(address)) {
+//             lowercaseAddress = address.replace(reg, '$1:$3').toLowerCase();
+//           }
+//           result = lowercaseAddress;
+//         } else {
+//           result = address;
+//         }
+//       } else {
+//         result = address;
+//       }
+//     }
+//     ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+
+//     return result;
+//   } catch (error) {
+
+//   }
+
+//   return result;
+
+// };
