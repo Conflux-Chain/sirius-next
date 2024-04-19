@@ -1,34 +1,62 @@
-import React from 'react';
-import Tooltip from '@cfx-kit/ui-components/dist/Tooltip';
+import React, {
+  Children,
+  isValidElement,
+  cloneElement,
+  HTMLAttributes,
+  ComponentProps,
+} from 'react';
+import _Tooltip from '@cfx-kit/ui-components/dist/Tooltip';
+import clsx from 'clsx';
 
-export const InfoIconWithTooltip = ({
-  info,
-  size = 14,
-  children = null,
-}: {
-  info: React.ReactNode;
-  size?: number;
+interface Props
+  extends Omit<
+    ComponentProps<typeof _Tooltip>,
+    'trigger' | 'containerClassName'
+  > {
+  title: React.ReactNode;
   children?: React.ReactNode;
+  triggerProps?: HTMLAttributes<HTMLElement>;
+}
+
+export const Tooltip: React.FC<Props> = ({
+  title,
+  children = null,
+  positioning = {},
+  triggerProps: _triggerProps = {},
+  ...rest
 }) => {
-  const title =
-    typeof info === 'string' ? info.split('\n').map(i => <div>{i}</div>) : info;
+  const { placement = 'top' } = positioning;
   return (
-    <div>
-      {children ? <span className="infoIcon-text">{children}</span> : null}
-      <Tooltip
-        trigger={({ triggerProps }) => <div {...triggerProps}>1111</div>}
-      >
+    <_Tooltip
+      trigger={({ triggerProps }) =>
+        Children.count(children) === 1 && isValidElement(children) ? (
+          cloneElement(children, {
+            ...triggerProps,
+            ...(children.props as {}),
+            ..._triggerProps,
+          })
+        ) : (
+          <span {...triggerProps} {..._triggerProps}>
+            {children}
+          </span>
+        )
+      }
+      containerClassName={clsx(
+        'sirius-next-tooltip',
+        'lh-normal max-w-250px z-1000 w-max min-w-unset!',
+        'all-[a]:text-[var(--theme-color-blue0)] all-[a:hover]:text-[var(--theme-color-blue2)]',
+        '[&.ui-tooltip>[data-part=arrow]]:[--arrow-size:6px] [&.ui-tooltip>[data-part=arrow]]:[--arrow-background:#333]',
+      )}
+      openDelay={0}
+      {...rest}
+      positioning={{
+        ...positioning,
+        placement,
+      }}
+    >
+      <div className="px-8px py-6px text-12px text-#fff text-left shadow break-words ws-normal bg-#333 min-w-30px min-h-32px decoration-none rounded-2px">
         {title}
-      </Tooltip>
-    </div>
+      </div>
+    </_Tooltip>
   );
 };
-
-// const StyledContentWrapper = styled.span`
-//   display: inline-flex;
-//   align-items: center;
-
-//   .infoIcon-text {
-//     margin-right: 0.2857rem;
-//   }
-// `;
