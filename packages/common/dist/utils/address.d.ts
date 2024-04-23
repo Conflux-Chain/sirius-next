@@ -20,6 +20,6 @@ declare const getAddressInfo: (address: string) => {
     hexAddress: ArrayBuffer | string;
 } | null;
 declare const NETWORK_ID: any;
-declare const formatAddress: (address: string, outputType?: string) => string;
+declare const formatAddress: (address: string, outputType?: string) => any;
 
 export { ADDRESS_FUNC_CACHE, NETWORK_ID, formatAddress, getAddressInfo, getAddressType, isAccountAddress, isAddress, isBase32Address, isCfxHexAddress, isContractAddress, isContractCodeHashEmpty, isInnerContractAddress, isPosAddress, isSimplyBase32Address, isSpecialAddress, isZeroAddress };
