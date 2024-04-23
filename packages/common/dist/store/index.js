@@ -1,10 +1,12 @@
 import {
   getEnvConfig,
+  getTranslations,
   useEnv,
   useI18n
-} from "../chunk-3KPGRAZL.js";
+} from "../chunk-NENWU3JC.js";
 export {
   getEnvConfig,
+  getTranslations,
   useEnv,
   useI18n
 };

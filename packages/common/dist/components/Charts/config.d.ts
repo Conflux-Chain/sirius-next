@@ -40,68 +40,6 @@ declare const scope: ScopeType;
 declare const ConstructorType: ({ options }: ChartsProps) => "" | "stockChart";
 declare const optsOrigin: ({ options, request, data }: ChartsProps) => {
     chart: {
-        animation: boolean;
-        height: number;
-    };
-    credits: {
-        enabled: boolean;
-    };
-    plotOptions: {
-        area: {
-            fillColor: {
-                linearGradient: {
-                    x1: number;
-                    y1: number;
-                    x2: number;
-                    y2: number;
-                };
-                stops: ((string | number | undefined)[] | (number | Highcharts.ColorType)[])[];
-            };
-            marker: {
-                radius: number;
-            };
-            lineWidth: number;
-            states: {
-                hover: {
-                    lineWidth: number;
-                };
-            };
-            threshold: null;
-        };
-        line: {
-            lineWidth: number;
-            states: {
-                hover: {
-                    lineWidth: number;
-                };
-            };
-        };
-        pie: {
-            allowPointSelect: boolean;
-            cursor: string;
-            dataLabels: {
-                enabled: boolean;
-            };
-            showInLegend: boolean;
-            colorByPoint: boolean;
-        };
-    };
-    tooltip: {
-        shape: string;
-    };
-    series: {
-        data: any;
-    }[];
-    exporting: {
-        enabled: boolean;
-        buttons: {
-            contextButton: {
-                menuItems: string[];
-            };
-        };
-    };
-} | {
-    chart: {
         alignTicks: boolean;
         height: number;
         animation: boolean;
@@ -173,6 +111,68 @@ declare const optsOrigin: ({ options, request, data }: ChartsProps) => {
         opposite: boolean;
     };
     series: any;
+    exporting: {
+        enabled: boolean;
+        buttons: {
+            contextButton: {
+                menuItems: string[];
+            };
+        };
+    };
+} | {
+    chart: {
+        animation: boolean;
+        height: number;
+    };
+    credits: {
+        enabled: boolean;
+    };
+    plotOptions: {
+        area: {
+            fillColor: {
+                linearGradient: {
+                    x1: number;
+                    y1: number;
+                    x2: number;
+                    y2: number;
+                };
+                stops: ((string | number | undefined)[] | (number | Highcharts.ColorType)[])[];
+            };
+            marker: {
+                radius: number;
+            };
+            lineWidth: number;
+            states: {
+                hover: {
+                    lineWidth: number;
+                };
+            };
+            threshold: null;
+        };
+        line: {
+            lineWidth: number;
+            states: {
+                hover: {
+                    lineWidth: number;
+                };
+            };
+        };
+        pie: {
+            allowPointSelect: boolean;
+            cursor: string;
+            dataLabels: {
+                enabled: boolean;
+            };
+            showInLegend: boolean;
+            colorByPoint: boolean;
+        };
+    };
+    tooltip: {
+        shape: string;
+    };
+    series: {
+        data: any;
+    }[];
     exporting: {
         enabled: boolean;
         buttons: {

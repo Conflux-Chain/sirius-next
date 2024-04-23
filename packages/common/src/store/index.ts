@@ -23,3 +23,4 @@ export const useI18n = create<I18nState>(set => ({
 }));
 
 export const getEnvConfig = () => useEnv.getState().ENV_CONFIG;
+export const getTranslations = () => useI18n.getState().translations;

@@ -1,6 +1,7 @@
 import {
   ADDRESS_FUNC_CACHE,
   NETWORK_ID,
+  abbreviateString,
   formatAddress,
   getAddressInfo,
   getAddressType,
@@ -15,14 +16,15 @@ import {
   isSimplyBase32Address,
   isSpecialAddress,
   isZeroAddress
-} from "../chunk-PDTXEQUL.js";
+} from "../chunk-57ZOD4EO.js";
 import "../chunk-PIWYBVLY.js";
-import "../chunk-3KPGRAZL.js";
+import "../chunk-NENWU3JC.js";
 import "../chunk-4LQWWDGW.js";
 import "../chunk-ADTPJ4V5.js";
 export {
   ADDRESS_FUNC_CACHE,
   NETWORK_ID,
+  abbreviateString,
   formatAddress,
   getAddressInfo,
   getAddressType,

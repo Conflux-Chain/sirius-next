@@ -3,7 +3,7 @@ import {
 } from "../../chunk-HI4CUQ7A.js";
 import {
   useI18n
-} from "../../chunk-3KPGRAZL.js";
+} from "../../chunk-NENWU3JC.js";
 import {
   cookie_default
 } from "../../chunk-QCOK2N67.js";

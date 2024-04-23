@@ -21,5 +21,6 @@ declare const getAddressInfo: (address: string) => {
 } | null;
 declare const NETWORK_ID: any;
 declare const formatAddress: (address: string, outputType?: string) => any;
+declare const abbreviateString: (str: string) => string;
 
-export { ADDRESS_FUNC_CACHE, NETWORK_ID, formatAddress, getAddressInfo, getAddressType, isAccountAddress, isAddress, isBase32Address, isCfxHexAddress, isContractAddress, isContractCodeHashEmpty, isInnerContractAddress, isPosAddress, isSimplyBase32Address, isSpecialAddress, isZeroAddress };
+export { ADDRESS_FUNC_CACHE, NETWORK_ID, abbreviateString, formatAddress, getAddressInfo, getAddressType, isAccountAddress, isAddress, isBase32Address, isCfxHexAddress, isContractAddress, isContractCodeHashEmpty, isInnerContractAddress, isPosAddress, isSimplyBase32Address, isSpecialAddress, isZeroAddress };

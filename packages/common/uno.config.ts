@@ -16,12 +16,6 @@ export default defineConfig({
         'background-image': `linear-gradient${handler.bracket(s)}`,
       }),
     ],
-    [
-      /^ws-nowrap$/,
-      () => ({
-        'white-space': 'nowrap',
-      }),
-    ],
   ],
   shortcuts: {
     'bg-linear-blue':

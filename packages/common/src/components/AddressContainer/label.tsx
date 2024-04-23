@@ -1,9 +1,11 @@
-import { AlertTriangle, File, Bookmark, Hash } from '@zeit-ui/react-icons';
-import ICON_ENS from 'images/logo-cns.svg';
-import { useI18n } from '../../store';
+import { Translation } from 'react-i18next';
+import { Bookmark, Hash } from '@zeit-ui/react-icons';
+import { Tooltip } from '../Tooltip';
+import { getTranslations } from '../../store';
+import ICON_ENS from '../../images/logo-cns.svg';
 
 export const getLabelInfo = (label: string, type: string) => {
-  const { translations } = useI18n();
+  const translations = getTranslations();
   if (label) {
     let trans: string = '';
     let icon: React.ReactNode = null;
@@ -16,10 +18,7 @@ export const getLabelInfo = (label: string, type: string) => {
       icon = (
         <img
           src={ICON_ENS}
-          style={{
-            marginBottom: '3px',
-            marginRight: '2px',
-          }}
+          className="w-[16px] h-[16px] mb-[3px] mr-[2px] flex-shrink-0 align-bottom"
           alt=""
         />
       );
@@ -32,11 +31,11 @@ export const getLabelInfo = (label: string, type: string) => {
     return {
       label,
       icon: (
-        <IconWrapper>
-          <Text span hoverValue={<Translation>{t => t(trans)}</Translation>}>
+        <div className="mr-[2px]">
+          <Tooltip title={<Translation>{t => t(trans)}</Translation>}>
             {icon}
-          </Text>
-        </IconWrapper>
+          </Tooltip>
+        </div>
       ),
     };
   }
