@@ -3,10 +3,10 @@ import {
 } from "../../chunk-UBCDOZDY.js";
 import {
   abbreviateString
-} from "../../chunk-57ZOD4EO.js";
-import "../../chunk-PIWYBVLY.js";
-import "../../chunk-NENWU3JC.js";
-import "../../chunk-4LQWWDGW.js";
+} from "../../chunk-OSINW6ZQ.js";
+import "../../chunk-TS3RBXLW.js";
+import "../../chunk-DE2BHFIR.js";
+import "../../chunk-XYZ3GFOB.js";
 import "../../chunk-ADTPJ4V5.js";
 
 // src/components/AddressContainer/index.tsx
@@ -77,21 +77,27 @@ var RenderAddress = ({
   };
   return /* @__PURE__ */ jsxs("div", { className: "inline", children: [
     prefix,
-    /* @__PURE__ */ jsx(Tooltip, { title: /* @__PURE__ */ jsxs(Fragment, { children: [
-      renderTooltipContent(),
-      /* @__PURE__ */ jsx("div", { children: hoverValue || cfxAddress })
-    ] }), children: /* @__PURE__ */ jsx(
-      Wrapper,
+    /* @__PURE__ */ jsx(
+      Tooltip,
       {
-        className: baseClassName,
-        style: {
-          ...style,
-          maxWidth: `${calculatedMaxWidth}px`
-        },
-        ...href ? { href: String(href) } : {},
-        children: typeof string === "string" && !isFull ? abbreviateString(string) : string
+        title: /* @__PURE__ */ jsxs(Fragment, { children: [
+          renderTooltipContent(),
+          /* @__PURE__ */ jsx("div", { children: hoverValue || cfxAddress })
+        ] }),
+        children: /* @__PURE__ */ jsx(
+          Wrapper,
+          {
+            className: baseClassName,
+            style: {
+              ...style,
+              maxWidth: `${calculatedMaxWidth}px`
+            },
+            ...href ? { href: String(href) } : {},
+            children: typeof string === "string" && !isFull ? abbreviateString(string) : string
+          }
+        )
       }
-    ) }),
+    ),
     suffix
   ] });
 };

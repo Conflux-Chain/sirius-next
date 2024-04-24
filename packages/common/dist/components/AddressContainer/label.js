@@ -6,7 +6,7 @@ import {
 } from "../../chunk-DBUTDVFE.js";
 import {
   getTranslations
-} from "../../chunk-NENWU3JC.js";
+} from "../../chunk-DE2BHFIR.js";
 
 // src/components/AddressContainer/label.tsx
 import { Translation } from "react-i18next";

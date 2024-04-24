@@ -382,12 +382,12 @@ export function isObject(o: any) {
   return o !== null && typeof o === 'object' && Array.isArray(o) === false;
 }
 
-export function checkInt(value: string | number, type: string) {
+export function checkInt(value: string, type: string) {
   const num = Number(type.substr(3));
   const min = new BigNumber(2).pow(num - 1).multipliedBy(-1);
   const max = new BigNumber(2).pow(num - 1).minus(1);
   let isType = false;
-  if (typeof value === 'number' && !isNaN(value)) {
+  if (!isNaN(Number(value))) {
     const valNum = new BigNumber(value);
     if (
       valNum.isInteger() &&
@@ -404,12 +404,12 @@ export function checkInt(value: string | number, type: string) {
   return [isType, num, min.toString(), max.toString()];
 }
 
-export function checkUint(value: string | number, type: string) {
+export function checkUint(value: string, type: string) {
   const num = Number(type.substr(4));
   const min = new BigNumber(0);
   const max = new BigNumber(Math.pow(2, num)).minus(1);
   let isType = false;
-  if (typeof value === 'number' && !isNaN(value)) {
+  if (!isNaN(Number(value))) {
     const valNum = new BigNumber(value);
     if (
       valNum.isInteger() &&

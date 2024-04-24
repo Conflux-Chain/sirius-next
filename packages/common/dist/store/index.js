@@ -3,7 +3,7 @@ import {
   getTranslations,
   useEnv,
   useI18n
-} from "../chunk-NENWU3JC.js";
+} from "../chunk-DE2BHFIR.js";
 export {
   getEnvConfig,
   getTranslations,
