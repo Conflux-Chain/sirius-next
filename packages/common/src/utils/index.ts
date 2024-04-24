@@ -42,7 +42,7 @@ export const tranferToLowerCase = (str: string) => {
 function hex2asc(pStr: string) {
   let tempstr = '';
   for (let b = 0; b < pStr.length; b += 2) {
-    tempstr += String.fromCharCode(parseInt(pStr.substr(b, 2), 16));
+    tempstr += String.fromCharCode(parseInt(pStr.slice(b, 2), 16));
   }
   return tempstr;
 }
@@ -440,12 +440,12 @@ export function checkBytes(value: string, type: string) {
   if (type === 'byte') {
     type = 'bytes1';
   }
-  const num = Number(type.substr(5));
+  const num = Number(type.slice(5));
   let isBytes = false;
   if (!value) return [isBytes, num];
   if (isHex(value) && isEvenLength(value)) {
     if (num > 0) {
-      const str = value.substr(2);
+      const str = value.slice(2);
       const buffer = Buffer.from(str, 'hex');
       if (buffer.length === num) {
         isBytes = true;
@@ -471,7 +471,7 @@ export function checkCfxType(value: string | number) {
   }
   let index = String(value).indexOf('.');
   if (index !== -1) {
-    if (String(value).substr(index + 1).length > 18) {
+    if (String(value).slice(index + 1).length > 18) {
       return false;
     } else {
       return true;
