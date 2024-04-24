@@ -425,6 +425,7 @@ export function checkUint(value: string, type: string) {
   }
   return [isType, num, min.toFixed(), max.toFixed()];
 }
+
 export function isHex(num: string, withPrefix = true) {
   const reg = withPrefix ? /^0x[0-9a-f]*$/i : /^(0x)?[0-9a-f]*$/i;
   return Boolean(num.match(reg));
