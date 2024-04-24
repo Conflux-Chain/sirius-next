@@ -27,7 +27,7 @@ export const Description = ({
       className={clsx(
         'description',
         'flex min-h-3.2857rem lh-3.2857rem lt-sm:flex-col',
-        !noBorder && 'border-b-(1px solid #e8e9ea)',
+        !noBorder && 'border-b-1px border-b-solid border-b-#e8e9ea',
         vertical && 'flex-col',
         className,
         size,

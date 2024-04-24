@@ -28,19 +28,22 @@ export const Tooltip: React.FC<Props> = ({
   const { placement = 'top' } = positioning;
   return (
     <_Tooltip
-      trigger={({ triggerProps }) =>
-        Children.count(children) === 1 && isValidElement(children) ? (
-          cloneElement(children, {
+      trigger={({ triggerProps }) => {
+        if (Children.count(children) === 1 && isValidElement(children)) {
+          delete triggerProps.onClick;
+          return cloneElement(children, {
             ...triggerProps,
             ...(children.props as {}),
             ..._triggerProps,
-          })
-        ) : (
-          <span {...triggerProps} {..._triggerProps}>
-            {children}
-          </span>
-        )
-      }
+          });
+        } else {
+          return (
+            <span {...triggerProps} {..._triggerProps}>
+              {children}
+            </span>
+          );
+        }
+      }}
       containerClassName={clsx(
         'sirius-next-tooltip',
         'lh-normal max-w-250px z-1000 w-max min-w-unset!',

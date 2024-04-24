@@ -1,18 +1,23 @@
 import React, { PropsWithChildren, MouseEvent } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { TrackEventParams, trackEvent } from '../../utils/ga';
+import clsx from 'clsx';
 
-interface LinkProps {
-  className?: string;
-  href: string;
+interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   state?: any; // Consider typing this more strictly if possible
+  ga?: TrackEventParams;
+  afterClick?: VoidFunction;
 }
 
 export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
-  ({ className, href, children, state, ...others }) => {
+  ({ className, href, children, state, ga = null, afterClick, ...others }) => {
     const history = useHistory();
 
-    const handleClick = (e: MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
+    const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
+      if (ga) {
+        trackEvent(ga);
+      }
 
       if (!href) return;
 
@@ -21,23 +26,26 @@ export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
       } else if (e.metaKey || e.ctrlKey) {
         window.open(`${window.location.origin}${href}`, '_blank');
       } else {
-        history.push({
-          pathname: href,
-          state: state,
-        });
+        history.push(href, state);
       }
+      afterClick?.();
     };
 
-    if (/^http/.test(href)) {
+    if (href && /^http/.test(href)) {
       return (
-        <a className={className} href={href} onClick={handleClick} {...others}>
+        <a
+          className={clsx('link inline-flex', className)}
+          href={href}
+          onClick={handleClick}
+          {...others}
+        >
           {children}
         </a>
       );
     } else {
       return (
         <RouterLink
-          className={className}
+          className={clsx('link inline-flex', className)}
           to={{
             pathname: href,
             state: state,
