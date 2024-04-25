@@ -1,5 +1,6 @@
 import * as React$1 from 'react';
 import * as react_i18next from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 
 interface RenderAddressProps {
@@ -22,6 +23,39 @@ interface RenderAddressProps {
     nametag?: string | Iterable<React.ReactNode> | null;
 }
 declare const RenderAddress: ({ cfxAddress, alias, hoverValue, hrefAddress, content, link, isFull, isFullNameTag, style, maxWidth, prefix, suffix, type, addressLabel, ENSLabel, nametag, }: RenderAddressProps) => react_jsx_runtime.JSX.Element;
-declare const AddressContainer: React$1.ComponentType<Omit<react_i18next.Subtract<object, react_i18next.WithTranslationProps>, keyof react_i18next.WithTranslation<N, undefined>> & react_i18next.WithTranslationProps>;
+interface Props {
+    globalData?: any;
+    value: string;
+    alias?: string;
+    contractCreated?: string;
+    maxWidth?: number;
+    isFull?: boolean;
+    isFullNameTag?: boolean;
+    link?: boolean;
+    isMe?: boolean;
+    suffixAddressSize?: number;
+    showIcon?: boolean;
+    verify?: boolean;
+    isEspaceAddress?: boolean;
+    showAddressLabel?: boolean;
+    showENSLabel?: boolean;
+    ensInfo?: {
+        [k: string]: {
+            address: string;
+            name: string;
+            expired?: number;
+        };
+    };
+    showNametag?: boolean;
+    nametag?: string | Iterable<React.ReactNode> | null;
+    nametagInfo?: {
+        [k: string]: {
+            address: string;
+            nametag: string;
+        };
+    };
+    cfxAddress?: string;
+}
+declare const AddressContainer: React$1.ComponentType<Omit<react_i18next.Subtract<Props & WithTranslation<"translation", undefined>, react_i18next.WithTranslationProps>, keyof WithTranslation<N, undefined>> & react_i18next.WithTranslationProps>;
 
 export { AddressContainer, RenderAddress };

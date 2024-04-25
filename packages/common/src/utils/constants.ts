@@ -1,4 +1,3 @@
-import SDK from 'js-conflux-sdk';
 /**
  * @todo
  * 1. setNFTCacheInfo cacheKey

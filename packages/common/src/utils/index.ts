@@ -903,3 +903,72 @@ export const publishRequestError = (
 export const HIDE_IN_DOT_NET =
   /.net$/.test(window.location.host) &&
   localStorage.getItem(LOCALSTORAGE_KEYS_MAP.hideInDotNet) !== 'false';
+
+export interface NetworksType {
+  url: string;
+  name: string;
+  id: number;
+}
+
+export const getNetwork = (
+  networks: Array<NetworksType>,
+  id: number,
+): NetworksType => {
+  const matchs = networks.filter(n => n.id === id);
+
+  if (matchs && matchs[0]) {
+    return matchs[0];
+  } else if (networks && networks[0]) {
+    return networks[0];
+  }
+
+  return { url: '', name: '', id: 0 };
+};
+
+/**
+ * 格式化字符串
+ * @param {string} str
+ * @param {string} type 可能取值为：tag - contract name tag, hash, address; 如果 type 为数字，则截取对应数字 + ...，默认值为 12
+ */
+export const formatString = (
+  str: string,
+  type?:
+    | 'tag'
+    | 'hash'
+    | 'address'
+    | 'tokenTracker'
+    | 'posAddress'
+    | 'hexAddress'
+    | number,
+) => {
+  let result: string;
+  switch (type) {
+    case 'tag':
+      result = getEllipsStr(str, 14, 0);
+      break;
+    case 'hash':
+      result = getEllipsStr(str, 10, 0);
+      break;
+    case 'address':
+      result = getEllipsStr(str, 6, 4);
+      break;
+    case 'tokenTracker':
+      result = getEllipsStr(str, 24, 0);
+      break;
+    case 'posAddress':
+      result = getEllipsStr(str, 10, 0);
+      break;
+    case 'hexAddress':
+      result = getEllipsStr(str, 6, 4);
+      break;
+    default:
+      let num = 12;
+      if (typeof type === 'number') num = type;
+      if (str.length > num) {
+        result = getEllipsStr(str, num, 0);
+      } else {
+        result = str;
+      }
+  }
+  return result;
+};

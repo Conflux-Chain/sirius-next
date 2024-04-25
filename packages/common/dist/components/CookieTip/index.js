@@ -4,10 +4,10 @@ import {
 import {
   cookie_default
 } from "../../chunk-QCOK2N67.js";
-import "../../chunk-ADTPJ4V5.js";
+import "../../chunk-KRQR6UDQ.js";
 import {
   useI18n
-} from "../../chunk-DE2BHFIR.js";
+} from "../../chunk-FTXC5EVM.js";
 
 // src/components/CookieTip/index.tsx
 import React, { useState } from "react";

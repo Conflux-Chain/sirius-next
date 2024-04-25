@@ -12,6 +12,11 @@ export interface I18nState {
   ) => void;
 }
 
+export interface GlobalDataState {
+  globalData: any;
+  setGlobalData: (data: any) => void;
+}
+
 export const useEnv = create<EnvState<any>>(set => ({
   ENV_CONFIG: {},
   SET_ENV_CONFIG: (env: any) => set({ ENV_CONFIG: env }),
@@ -20,6 +25,11 @@ export const useEnv = create<EnvState<any>>(set => ({
 export const useI18n = create<I18nState>(set => ({
   translations: {} as TranslationResource,
   setTranslations: (translations: TranslationResource) => set({ translations }),
+}));
+
+export const useGlobalData = create<GlobalDataState>(set => ({
+  globalData: {},
+  setGlobalData: (data: any) => set({ globalData: data }),
 }));
 
 export const getEnvConfig = () => useEnv.getState().ENV_CONFIG;
