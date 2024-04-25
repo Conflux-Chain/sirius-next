@@ -1,13 +1,15 @@
 import {
+  abbreviateString
+} from "../../chunk-DJPIYD4B.js";
+import "../../chunk-4M4NHTZH.js";
+import {
   Tooltip
 } from "../../chunk-UBCDOZDY.js";
-import {
-  abbreviateString
-} from "../../chunk-OSINW6ZQ.js";
-import "../../chunk-TS3RBXLW.js";
-import "../../chunk-DE2BHFIR.js";
-import "../../chunk-XYZ3GFOB.js";
+import "../../chunk-ELZCOMBE.js";
 import "../../chunk-ADTPJ4V5.js";
+import {
+  getTranslations
+} from "../../chunk-DE2BHFIR.js";
 
 // src/components/AddressContainer/index.tsx
 import { memo } from "react";
@@ -15,8 +17,18 @@ import { withTranslation } from "react-i18next";
 import { Translation } from "react-i18next";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 var defaultPCMaxWidth = 138;
+var renderTooltipContent = (tooltipContent) => {
+  return Object.entries(tooltipContent).map(([key, { label, value }]) => {
+    if (value) {
+      return /* @__PURE__ */ jsxs("div", { children: [
+        /* @__PURE__ */ jsx("span", { children: /* @__PURE__ */ jsx(Translation, { children: (t) => t(label) }) }),
+        value
+      ] }, key);
+    }
+    return null;
+  }).filter(Boolean);
+};
 var RenderAddress = ({
-  translations,
   cfxAddress,
   alias,
   hoverValue,
@@ -34,9 +46,10 @@ var RenderAddress = ({
   ENSLabel = "",
   nametag = ""
 }) => {
+  const translations = getTranslations();
   let href;
-  const string = content || ENSLabel || nametag || addressLabel || alias || cfxAddress;
-  const calculatedMaxWidth = (content || ENSLabel || nametag || addressLabel || alias) && isFullNameTag ? 1e3 : isFull ? 430 : maxWidth || (alias ? 160 : defaultPCMaxWidth);
+  const name = content || ENSLabel || nametag || addressLabel || alias;
+  const calculatedMaxWidth = name && isFullNameTag ? 1e3 : isFull ? 430 : maxWidth || defaultPCMaxWidth;
   if (link) {
     if (typeof link === "string") {
       href = link;
@@ -44,7 +57,7 @@ var RenderAddress = ({
       href = `/${type === "pow" ? "address" : "pos/accounts"}/${hrefAddress || cfxAddress}`;
     }
   }
-  const baseClassName = `relative inline-flex flex-nowrap align-bottom cursor-default whitespace-nowrap overflow-hidden`;
+  const baseClassName = `w-[${calculatedMaxWidth}px] relative inline-flex flex-nowrap align-bottom cursor-default whitespace-nowrap overflow-hidden`;
   const Wrapper = href ? "a" : "div";
   const tooltipContent = {
     ENSLabel: {
@@ -64,36 +77,23 @@ var RenderAddress = ({
       value: alias
     }
   };
-  const renderTooltipContent = () => {
-    return Object.entries(tooltipContent).map(([key, { label, value }]) => {
-      if (value) {
-        return /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("span", { children: /* @__PURE__ */ jsx(Translation, { children: (t) => t(label) }) }),
-          value
-        ] }, key);
-      }
-      return null;
-    }).filter(Boolean);
-  };
+  const cfxAddressLabel = typeof cfxAddress === "string" && !isFull ? abbreviateString(cfxAddress) : cfxAddress;
   return /* @__PURE__ */ jsxs("div", { className: "inline", children: [
     prefix,
     /* @__PURE__ */ jsx(
       Tooltip,
       {
         title: /* @__PURE__ */ jsxs(Fragment, { children: [
-          renderTooltipContent(),
+          renderTooltipContent(tooltipContent),
           /* @__PURE__ */ jsx("div", { children: hoverValue || cfxAddress })
         ] }),
         children: /* @__PURE__ */ jsx(
           Wrapper,
           {
             className: baseClassName,
-            style: {
-              ...style,
-              maxWidth: `${calculatedMaxWidth}px`
-            },
+            style,
             ...href ? { href: String(href) } : {},
-            children: typeof string === "string" && !isFull ? abbreviateString(string) : string
+            children: name || cfxAddressLabel
           }
         )
       }

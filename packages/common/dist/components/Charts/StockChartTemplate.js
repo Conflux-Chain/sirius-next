@@ -9,7 +9,9 @@ import {
 } from "../../chunk-7A7NEKSS.js";
 import {
   sendRequestChart
-} from "../../chunk-Y2TM7D3I.js";
+} from "../../chunk-CXZHHWAG.js";
+import "../../chunk-ELZCOMBE.js";
+import "../../chunk-ADTPJ4V5.js";
 import "../../chunk-EXW5F6NL.js";
 import {
   ConstructorType,
@@ -18,8 +20,6 @@ import {
   optsOrigin
 } from "../../chunk-P5STBOCR.js";
 import "../../chunk-DE2BHFIR.js";
-import "../../chunk-XYZ3GFOB.js";
-import "../../chunk-ADTPJ4V5.js";
 
 // src/components/Charts/StockChartTemplate.tsx
 import { useState, useEffect, useRef, useCallback } from "react";

@@ -3,11 +3,11 @@ import { withTranslation } from 'react-i18next';
 import { Translation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
 import { abbreviateString } from '../../utils/address';
+import { getTranslations } from '../../store';
 
 const defaultPCMaxWidth = 138;
 
 interface RenderAddressProps {
-  translations: any;
   cfxAddress?: string;
   alias?: string;
   hoverValue?: string;
@@ -26,9 +26,31 @@ interface RenderAddressProps {
   ENSLabel?: string | Iterable<React.ReactNode> | null;
   nametag?: string | Iterable<React.ReactNode> | null;
 }
+interface TooltipContent {
+  [key: string]: {
+    label: string;
+    value: string | Iterable<React.ReactNode> | null | undefined;
+  };
+}
+const renderTooltipContent = (tooltipContent: TooltipContent) => {
+  return Object.entries(tooltipContent)
+    .map(([key, { label, value }]) => {
+      if (value) {
+        return (
+          <div key={key}>
+            <span>
+              <Translation>{t => t(label)}</Translation>
+            </span>
+            {value}
+          </div>
+        );
+      }
+      return null;
+    })
+    .filter(Boolean);
+};
 
 export const RenderAddress = ({
-  translations,
   cfxAddress,
   alias,
   hoverValue,
@@ -46,17 +68,14 @@ export const RenderAddress = ({
   ENSLabel = '',
   nametag = '',
 }: RenderAddressProps) => {
+  const translations = getTranslations();
+
   let href;
 
-  const string =
-    content || ENSLabel || nametag || addressLabel || alias || cfxAddress;
+  const name = content || ENSLabel || nametag || addressLabel || alias;
 
   const calculatedMaxWidth =
-    (content || ENSLabel || nametag || addressLabel || alias) && isFullNameTag
-      ? 1000
-      : isFull
-        ? 430
-        : maxWidth || (alias ? 160 : defaultPCMaxWidth);
+    name && isFullNameTag ? 1000 : isFull ? 430 : maxWidth || defaultPCMaxWidth;
 
   if (link) {
     if (typeof link === 'string') {
@@ -68,7 +87,7 @@ export const RenderAddress = ({
     }
   }
 
-  const baseClassName = `relative inline-flex flex-nowrap align-bottom cursor-default whitespace-nowrap overflow-hidden`;
+  const baseClassName = `w-[${calculatedMaxWidth}px] relative inline-flex flex-nowrap align-bottom cursor-default whitespace-nowrap overflow-hidden`;
 
   const Wrapper = href ? 'a' : 'div';
 
@@ -90,46 +109,28 @@ export const RenderAddress = ({
       value: alias,
     },
   };
+  const cfxAddressLabel =
+    typeof cfxAddress === 'string' && !isFull
+      ? abbreviateString(cfxAddress)
+      : cfxAddress;
 
-  const renderTooltipContent = () => {
-    return Object.entries(tooltipContent)
-      .map(([key, { label, value }]) => {
-        if (value) {
-          return (
-            <div key={key}>
-              <span>
-                <Translation>{t => t(label)}</Translation>
-              </span>
-              {value}
-            </div>
-          );
-        }
-        return null;
-      })
-      .filter(Boolean);
-  };
   return (
     <div className="inline">
       {prefix}
       <Tooltip
         title={
           <>
-            {renderTooltipContent()}
+            {renderTooltipContent(tooltipContent)}
             <div>{hoverValue || cfxAddress}</div>
           </>
         }
       >
         <Wrapper
           className={baseClassName}
-          style={{
-            ...style,
-            maxWidth: `${calculatedMaxWidth}px`,
-          }}
+          style={style}
           {...(href ? { href: String(href) } : {})}
         >
-          {typeof string === 'string' && !isFull
-            ? abbreviateString(string)
-            : string}
+          {name || cfxAddressLabel}
         </Wrapper>
       </Tooltip>
       {suffix}

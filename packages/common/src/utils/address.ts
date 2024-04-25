@@ -301,9 +301,12 @@ export const formatAddress = (address: string, outputType = 'base32') => {
 //   return result;
 
 // };
-
+interface EVN_TYPE {
+  IS_MAINNET: boolean;
+}
+// Omit specification judgment: test environment cfxtest:....xxxx, production environment cfx:....xxxx,
 export const abbreviateString = (str: string) => {
-  const ENV_CONFIG: any = () => getEnvConfig();
+  const ENV_CONFIG: EVN_TYPE = getEnvConfig();
   const prefixNum = ENV_CONFIG?.IS_MAINNET ? 8 : 12;
   const suffixNum = ENV_CONFIG?.IS_MAINNET ? 8 : 4;
   if (str.length > 7) {
