@@ -4,11 +4,13 @@ import { Spin } from '../Spin';
 
 interface CardProps extends ComponentProps<'div'> {
   loading?: boolean;
+  contentClassName?: string;
 }
 
 export const Card: FC<CardProps> = ({
   children,
   className,
+  contentClassName,
   loading = false,
   ...rest
 }) => {
@@ -27,6 +29,7 @@ export const Card: FC<CardProps> = ({
             'content',
             '[&>:first-child]:mt-0! [&>:last-child]:mb-0!',
             'w-full p-0',
+            contentClassName,
           )}
         >
           {children}
