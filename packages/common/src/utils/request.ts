@@ -134,3 +134,19 @@ export const sendRequestChart = async (config: Config) => {
     throw error;
   }
 };
+
+export const sendRequestENSInfo = async (config: any) => {
+  try {
+    const res: CustomResponse = await fetch(
+      `${config.url}?${qs.stringify(config.query)}`,
+      {
+        method: 'GET',
+      },
+    );
+
+    return res.data.map;
+  } catch (error) {
+    console.error('Request failed', error);
+    throw error;
+  }
+};

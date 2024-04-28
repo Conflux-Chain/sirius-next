@@ -1,23 +1,4 @@
 import {
-  getLabelInfo
-} from "../../chunk-GDAMZ3DT.js";
-import {
-  Tooltip
-} from "../../chunk-UBCDOZDY.js";
-import {
-  contract_icon_default
-} from "../../chunk-WCV4NU2T.js";
-import {
-  internal_contract_icon_default
-} from "../../chunk-ZI7K7W6D.js";
-import "../../chunk-DBUTDVFE.js";
-import {
-  me_default
-} from "../../chunk-IMSRQTDE.js";
-import {
-  verified_default
-} from "../../chunk-QCFBQ6RG.js";
-import {
   abbreviateString,
   formatAddress,
   isAddress,
@@ -25,25 +6,39 @@ import {
   isContractAddress,
   isInnerContractAddress,
   isZeroAddress
-} from "../../chunk-B4B3QMMN.js";
-import "../../chunk-SS72IKEO.js";
+} from "../../chunk-OAMWKZUY.js";
+import "../../chunk-GB4SIS35.js";
+import {
+  sendRequestENSInfo
+} from "../../chunk-UGVL6AJN.js";
 import {
   formatString,
   getNetwork
-} from "../../chunk-KUYXLSAF.js";
+} from "../../chunk-VTTJJHQ3.js";
 import "../../chunk-KRQR6UDQ.js";
+import {
+  getLabelInfo
+} from "../../chunk-HEG3T5QD.js";
+import {
+  Tooltip
+} from "../../chunk-UBCDOZDY.js";
 import {
   getEnvConfig,
   getTranslations,
   useGlobalData
-} from "../../chunk-FTXC5EVM.js";
+} from "../../chunk-WYPQ6ICJ.js";
 
 // src/components/AddressContainer/index.tsx
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { withTranslation } from "react-i18next";
 import SDK from "js-conflux-sdk";
+import useSWR from "swr";
 import { Translation } from "react-i18next";
 import { AlertTriangle, File } from "@zeit-ui/react-icons";
+import InternalContractIcon from "../../internal-contract-icon-ZH2RG3CU.png";
+import ContractIcon from "../../contract-icon-P3W2HUAA.png";
+import VerifiedIcon from "../../verified-VJRHZNN7.png";
+import isMeIcon from "../../me-SIV36SR7.png";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 var defaultPCMaxWidth = 138;
 var renderTooltipContent = (tooltipContent) => {
@@ -171,41 +166,25 @@ var ContractCreatedAddress = (props) => {
   return RenderAddress(mergedProps);
 };
 var HexAddress = (props) => {
-  const {
-    globalData,
-    value,
-    isEspaceAddress,
-    t,
-    isFull,
-    maxWidth
-  } = props;
-  if (isEspaceAddress) {
-    const ENV_CONFIG = getEnvConfig();
-    const translations = getTranslations();
-    const hexAddress = SDK.format.hexAddress(value);
-    const network = getNetwork(globalData.networks, ENV_CONFIG.ENV_NETWORK_ID);
-    const url = `${window.location.protocol}${network.url}/address/${hexAddress}`;
-    return RenderAddress({
-      cfxAddress: hexAddress,
-      alias: formatString(hexAddress, "hexAddress"),
-      hoverValue: hexAddress,
-      link: url,
-      isFull,
-      maxWidth,
-      suffixSize: 0,
-      prefix: /* @__PURE__ */ jsx("div", { className: "mr-[2px] flex-shrink-0", children: /* @__PURE__ */ jsx(Tooltip, { title: t(translations.general.eSpaceAddress), children: /* @__PURE__ */ jsx(File, { size: 16, color: "#17B38A" }) }) })
-    });
-  }
-};
-var InvalidAddress = (props) => {
-  const {
-    value,
-    alias,
-    t,
+  const { globalData, value, t, isFull, maxWidth } = props;
+  const ENV_CONFIG = getEnvConfig();
+  const translations = getTranslations();
+  const hexAddress = SDK.format.hexAddress(value);
+  const network = getNetwork(globalData.networks["testnet"], ENV_CONFIG.ENV_NETWORK_ID);
+  const url = `${window.location.protocol}${network.url}/address/${hexAddress}`;
+  return RenderAddress({
+    cfxAddress: hexAddress,
+    alias: formatString(hexAddress, "hexAddress"),
+    hoverValue: hexAddress,
+    link: url,
     isFull,
     maxWidth,
-    isFullNameTag
-  } = props;
+    suffixSize: 0,
+    prefix: /* @__PURE__ */ jsx("div", { className: "mr-[2px] flex-shrink-0", children: /* @__PURE__ */ jsx(Tooltip, { title: t(translations.general.eSpaceAddress), children: /* @__PURE__ */ jsx(File, { size: 16, color: "#17B38A" }) }) })
+  });
+};
+var InvalidAddress = (props) => {
+  const { value, alias, t, isFull, maxWidth, isFullNameTag } = props;
   const translations = getTranslations();
   const tip = t(translations.general.invalidAddress);
   return RenderAddress({
@@ -222,13 +201,7 @@ var InvalidAddress = (props) => {
   });
 };
 var ContractAddress = (props) => {
-  const {
-    showIcon,
-    verify,
-    t,
-    cfxAddress,
-    isFull
-  } = props;
+  const { showIcon, verify, t, cfxAddress, isFull } = props;
   const translations = getTranslations();
   const isInnerContract = cfxAddress && isInnerContractAddress(cfxAddress);
   const typeText = t(
@@ -236,13 +209,27 @@ var ContractAddress = (props) => {
   );
   return RenderAddress({
     ...props,
-    prefix: showIcon ? /* @__PURE__ */ jsx("div", { className: `mr-[2px] flex-shrink-0 ${isFull ? "icon" : ""}`, children: /* @__PURE__ */ jsx(Tooltip, { title: typeText, children: /* @__PURE__ */ jsx("div", { className: "relative w-[16px] h-[16px]", children: isInnerContract ? /* @__PURE__ */ jsx("img", { className: "w-[16px] h-[16px] align-bottom mb-[5px]", src: internal_contract_icon_default, alt: typeText }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsx("img", { className: "w-[16px] h-[16px] align-bottom mb-[5px]", src: contract_icon_default, alt: typeText }),
+    prefix: showIcon ? /* @__PURE__ */ jsx("div", { className: `mr-[2px] flex-shrink-0 ${isFull ? "icon" : ""}`, children: /* @__PURE__ */ jsx(Tooltip, { title: typeText, children: /* @__PURE__ */ jsx("div", { className: "relative w-[16px] h-[16px]", children: isInnerContract ? /* @__PURE__ */ jsx(
+      "img",
+      {
+        className: "w-[16px] h-[16px] align-bottom mb-[5px]",
+        src: InternalContractIcon,
+        alt: typeText
+      }
+    ) : /* @__PURE__ */ jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsx(
+        "img",
+        {
+          className: "w-[16px] h-[16px] align-bottom mb-[5px]",
+          src: ContractIcon,
+          alt: typeText
+        }
+      ),
       verify ? /* @__PURE__ */ jsx(
         "img",
         {
           className: "w-[8px] h-[8px] absolute bottom-[-1px] right-[1px]",
-          src: verified_default,
+          src: VerifiedIcon,
           alt: ""
         }
       ) : /* @__PURE__ */ jsx(Fragment, {})
@@ -257,7 +244,7 @@ var MyAddress = (props) => {
       "img",
       {
         className: `w-[38.5px] h-[16px] mr-[3px] align-bottom mb-[${isFull ? 6 : 4}px]`,
-        src: me_default,
+        src: isMeIcon,
         alt: "is me"
       }
     ) })
@@ -274,7 +261,9 @@ var parseProps = (props) => {
     nametagInfo,
     showENSLabel
   } = props;
-  const cfxAddress = formatAddress(props.value);
+  const ENV_CONFIG = getEnvConfig();
+  const outputType = ENV_CONFIG.ENV_ADDRESS || "base32";
+  const cfxAddress = formatAddress(props.value, outputType);
   let ENSMap = ensInfo || {};
   const translations = getTranslations();
   let aliasLabel = alias;
@@ -293,10 +282,7 @@ var parseProps = (props) => {
   }
   if (showNametag) {
     const nametag = nametagInfo?.[cfxAddress]?.nametag ?? "";
-    const { label } = getLabelInfo(
-      nametag,
-      "nametag"
-    );
+    const { label } = getLabelInfo(nametag, "nametag");
     officalNametag = label;
   }
   if (showENSLabel && gENSLabel) {
@@ -316,6 +302,20 @@ var parseProps = (props) => {
 var AddressContainer = withTranslation()(
   memo((props) => {
     const { globalData } = useGlobalData();
+    const sendRequestCallback = useCallback(() => {
+      return sendRequestENSInfo({
+        url: "/v1/ens/reverse/match",
+        query: { address: props.value }
+      });
+    }, [props.value]);
+    const { data, isLoading } = useSWR(
+      "/v1/ens/reverse/match?address=" + props.value,
+      sendRequestCallback,
+      {
+        revalidateOnFocus: false
+      }
+    );
+    console.log(data, isLoading);
     const defaultProps = {
       globalData,
       isFull: false,
@@ -326,26 +326,33 @@ var AddressContainer = withTranslation()(
       verify: false,
       showAddressLabel: true,
       showENSLabel: true,
-      showNametag: true
+      showNametag: true,
+      ensInfo: data
     };
     const mergedProps = { ...defaultProps, ...props };
-    if (!props.value && props.contractCreated) {
+    if (mergedProps.isLink) {
+      mergedProps.link = mergedProps.isLink;
+    }
+    if (!mergedProps.value && mergedProps.contractCreated) {
       return ContractCreatedAddress(mergedProps);
     }
-    if (!props.value && !props.contractCreated) {
+    if (!mergedProps.value && !mergedProps.contractCreated) {
       return /* @__PURE__ */ jsx(Fragment, {});
     }
-    if (props.isEspaceAddress) {
+    if (mergedProps.isEspaceAddress) {
       return HexAddress(mergedProps);
     }
-    if (!isAddress(props.value)) {
+    if (!isAddress(mergedProps.value)) {
       return InvalidAddress(mergedProps);
     }
-    const _props = { ...mergedProps, ...parseProps(props) };
-    if (isContractAddress(_props.cfxAddress) || isInnerContractAddress(_props.cfxAddress)) {
+    const _props = { ...mergedProps, ...parseProps(mergedProps) };
+    if (!props.ensInfo) {
+      console.log(1);
+    }
+    if (_props.isContract || isContractAddress(_props.cfxAddress) || isInnerContractAddress(_props.cfxAddress)) {
       return ContractAddress(_props);
     }
-    if (props.isMe) {
+    if (mergedProps.isMe) {
       return MyAddress(_props);
     }
     return RenderAddress(_props);

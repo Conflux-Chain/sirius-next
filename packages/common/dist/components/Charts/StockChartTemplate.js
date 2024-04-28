@@ -1,25 +1,25 @@
 import {
+  ChartOptions_default
+} from "../../chunk-EHYZ4X64.js";
+import {
   StockTitle_default
 } from "../../chunk-PTT2OZV4.js";
-import {
-  BreadcrumbNav_default
-} from "../../chunk-WLKMIQSZ.js";
-import {
-  ChartOptions_default
-} from "../../chunk-6FKHYWJQ.js";
 import {
   ConstructorType,
   defaultIntervalType,
   defaultLimit,
   optsOrigin
 } from "../../chunk-P5STBOCR.js";
-import "../../chunk-EXW5F6NL.js";
 import {
   sendRequestChart
-} from "../../chunk-FUSUZEUR.js";
-import "../../chunk-KUYXLSAF.js";
+} from "../../chunk-UGVL6AJN.js";
+import "../../chunk-VTTJJHQ3.js";
 import "../../chunk-KRQR6UDQ.js";
-import "../../chunk-FTXC5EVM.js";
+import "../../chunk-WYPQ6ICJ.js";
+import {
+  BreadcrumbNav_default
+} from "../../chunk-WLKMIQSZ.js";
+import "../../chunk-EXW5F6NL.js";
 
 // src/components/Charts/StockChartTemplate.tsx
 import { useState, useEffect, useRef, useCallback } from "react";

@@ -1,6 +1,7 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import SDK from 'js-conflux-sdk';
+import useSWR from 'swr';
 import { Translation } from 'react-i18next';
 import { AlertTriangle, File } from '@zeit-ui/react-icons';
 import InternalContractIcon from '../../images/internal-contract-icon.png';
@@ -21,6 +22,8 @@ import { useGlobalData, getTranslations, getEnvConfig } from '../../store';
 import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
 import { getLabelInfo } from './label';
 import { getNetwork, formatString } from 'src/utils';
+import { sendRequestENSInfo } from 'src/utils/request';
+
 const defaultPCMaxWidth = 138;
 
 interface RenderAddressProps {
@@ -28,7 +31,9 @@ interface RenderAddressProps {
   alias?: string;
   hoverValue?: string;
   hrefAddress?: string;
+  isContract?: boolean;
   content?: string;
+  isLink?: boolean;
   link?: string | boolean;
   isFull?: boolean;
   isFullNameTag?: boolean;
@@ -154,6 +159,7 @@ interface Props {
   maxWidth?: number; // address max width for view, default 200/170 for default, 400 for full
   isFull?: boolean; // show full address, default false
   isFullNameTag?: boolean; // show full nametag
+  isLink?: boolean;
   link?: boolean; // add link to address, default true
   isMe?: boolean; // when `address === portal selected address`, set isMe to true to add special tag, default false
   suffixAddressSize?: number; // suffix address size, default is 8
@@ -178,6 +184,7 @@ interface Props {
     };
   };
   cfxAddress?: string;
+  isContract?: boolean;
 }
 
 const ContractCreatedAddress = (props: Props & WithTranslation) => {
@@ -248,32 +255,33 @@ const ContractCreatedAddress = (props: Props & WithTranslation) => {
 };
 
 const HexAddress = (props: Props & WithTranslation) => {
-  const { globalData, value, isEspaceAddress, t, isFull, maxWidth } = props;
+  const { globalData, value, t, isFull, maxWidth } = props;
 
-  if (isEspaceAddress) {
-    const ENV_CONFIG = getEnvConfig();
-    const translations = getTranslations();
-    const hexAddress = SDK.format.hexAddress(value);
-    const network = getNetwork(globalData.networks, ENV_CONFIG.ENV_NETWORK_ID);
-    const url = `${window.location.protocol}${network.url}/address/${hexAddress}`;
+  const ENV_CONFIG = getEnvConfig();
+  const translations = getTranslations();
+  const hexAddress = SDK.format.hexAddress(value);
+  const network = getNetwork(
+    globalData.networks['testnet'],
+    ENV_CONFIG.ENV_NETWORK_ID,
+  ); // 000 evm testnet
+  const url = `${window.location.protocol}${network.url}/address/${hexAddress}`;
 
-    return RenderAddress({
-      cfxAddress: hexAddress,
-      alias: formatString(hexAddress, 'hexAddress'),
-      hoverValue: hexAddress,
-      link: url,
-      isFull,
-      maxWidth,
-      suffixSize: 0,
-      prefix: (
-        <div className="mr-[2px] flex-shrink-0">
-          <Tooltip title={t((translations as any).general.eSpaceAddress)}>
-            <File size={16} color="#17B38A" />
-          </Tooltip>
-        </div>
-      ),
-    });
-  }
+  return RenderAddress({
+    cfxAddress: hexAddress,
+    alias: formatString(hexAddress, 'hexAddress'),
+    hoverValue: hexAddress,
+    link: url,
+    isFull,
+    maxWidth,
+    suffixSize: 0,
+    prefix: (
+      <div className="mr-[2px] flex-shrink-0">
+        <Tooltip title={t((translations as any).general.eSpaceAddress)}>
+          <File size={16} color="#17B38A" />
+        </Tooltip>
+      </div>
+    ),
+  });
 };
 
 const InvalidAddress = (props: Props & WithTranslation) => {
@@ -384,7 +392,9 @@ const parseProps = (props: Props & WithTranslation) => {
     nametagInfo,
     showENSLabel,
   } = props;
-  const cfxAddress = formatAddress(props.value);
+  const ENV_CONFIG = getEnvConfig();
+  const outputType = ENV_CONFIG.ENV_ADDRESS || 'base32';
+  const cfxAddress = formatAddress(props.value, outputType);
 
   let ENSMap = ensInfo || {};
 
@@ -440,6 +450,21 @@ const parseProps = (props: Props & WithTranslation) => {
 export const AddressContainer = withTranslation()(
   memo((props: Props & WithTranslation) => {
     const { globalData } = useGlobalData();
+    const sendRequestCallback = useCallback(() => {
+      return sendRequestENSInfo({
+        url: '/v1/ens/reverse/match',
+        query: { address: props.value },
+      });
+    }, [props.value]);
+
+    const { data, isLoading } = useSWR(
+      '/v1/ens/reverse/match?address=' + props.value,
+      sendRequestCallback,
+      {
+        revalidateOnFocus: false,
+      },
+    );
+    console.log(data, isLoading);
     const defaultProps = {
       globalData,
       isFull: false,
@@ -451,37 +476,47 @@ export const AddressContainer = withTranslation()(
       showAddressLabel: true,
       showENSLabel: true,
       showNametag: true,
+      ensInfo: data,
     };
 
     const mergedProps = { ...defaultProps, ...props };
 
-    if (!props.value && props.contractCreated) {
+    if (mergedProps.isLink) {
+      mergedProps.link = mergedProps.isLink;
+    }
+
+    if (!mergedProps.value && mergedProps.contractCreated) {
       return ContractCreatedAddress(mergedProps);
     }
 
     // If a txn receipt has no 'to' address or 'contractCreated', show -- for temp
-    if (!props.value && !props.contractCreated) {
+    if (!mergedProps.value && !mergedProps.contractCreated) {
       return <></>;
     }
 
-    if (props.isEspaceAddress) {
+    if (mergedProps.isEspaceAddress) {
       return HexAddress(mergedProps);
     }
 
-    if (!isAddress(props.value)) {
+    if (!isAddress(mergedProps.value)) {
       return InvalidAddress(mergedProps);
     }
 
-    const _props = { ...mergedProps, ...parseProps(props) };
+    const _props = { ...mergedProps, ...parseProps(mergedProps) };
+
+    if (!props.ensInfo) {
+      console.log(1);
+    }
 
     if (
+      _props.isContract ||
       isContractAddress(_props.cfxAddress) ||
       isInnerContractAddress(_props.cfxAddress)
     ) {
       return ContractAddress(_props);
     }
 
-    if (props.isMe) {
+    if (mergedProps.isMe) {
       return MyAddress(_props);
     }
 

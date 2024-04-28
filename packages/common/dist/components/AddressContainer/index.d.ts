@@ -8,7 +8,9 @@ interface RenderAddressProps {
     alias?: string;
     hoverValue?: string;
     hrefAddress?: string;
+    isContract?: boolean;
     content?: string;
+    isLink?: boolean;
     link?: string | boolean;
     isFull?: boolean;
     isFullNameTag?: boolean;
@@ -22,7 +24,7 @@ interface RenderAddressProps {
     ENSLabel?: string | Iterable<React.ReactNode> | null;
     nametag?: string | Iterable<React.ReactNode> | null;
 }
-declare const RenderAddress: ({ cfxAddress, alias, hoverValue, hrefAddress, content, link, isFull, isFullNameTag, style, maxWidth, prefix, suffix, type, addressLabel, ENSLabel, nametag, }: RenderAddressProps) => react_jsx_runtime.JSX.Element;
+declare const RenderAddress: ({ cfxAddress, alias, hoverValue, hrefAddress, content, link, isFull, isFullNameTag, style, maxWidth, prefix, suffix, type, addressLabel, ENSLabel, nametag }: RenderAddressProps) => react_jsx_runtime.JSX.Element;
 interface Props {
     globalData?: any;
     value: string;
@@ -31,6 +33,7 @@ interface Props {
     maxWidth?: number;
     isFull?: boolean;
     isFullNameTag?: boolean;
+    isLink?: boolean;
     link?: boolean;
     isMe?: boolean;
     suffixAddressSize?: number;
@@ -55,6 +58,7 @@ interface Props {
         };
     };
     cfxAddress?: string;
+    isContract?: boolean;
 }
 declare const AddressContainer: React$1.ComponentType<Omit<react_i18next.Subtract<Props & WithTranslation<"translation", undefined>, react_i18next.WithTranslationProps>, keyof WithTranslation<N, undefined>> & react_i18next.WithTranslationProps>;
 

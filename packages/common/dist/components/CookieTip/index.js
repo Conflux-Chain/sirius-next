@@ -1,13 +1,13 @@
 import {
-  CookieIcon
-} from "../../chunk-HI4CUQ7A.js";
-import {
   cookie_default
 } from "../../chunk-QCOK2N67.js";
+import {
+  CookieIcon
+} from "../../chunk-HI4CUQ7A.js";
 import "../../chunk-KRQR6UDQ.js";
 import {
   useI18n
-} from "../../chunk-FTXC5EVM.js";
+} from "../../chunk-WYPQ6ICJ.js";
 
 // src/components/CookieTip/index.tsx
 import React, { useState } from "react";

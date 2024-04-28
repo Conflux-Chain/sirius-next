@@ -4,7 +4,7 @@ import {
   useEnv,
   useGlobalData,
   useI18n
-} from "../chunk-FTXC5EVM.js";
+} from "../chunk-WYPQ6ICJ.js";
 export {
   getEnvConfig,
   getTranslations,
