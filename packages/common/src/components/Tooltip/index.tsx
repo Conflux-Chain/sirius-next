@@ -8,7 +8,7 @@ import React, {
 import _Tooltip from '@cfx-kit/ui-components/dist/Tooltip';
 import clsx from 'clsx';
 
-interface Props
+export interface TooltipProps
   extends Omit<
     ComponentProps<typeof _Tooltip>,
     'trigger' | 'containerClassName'
@@ -18,7 +18,7 @@ interface Props
   triggerProps?: HTMLAttributes<HTMLElement>;
 }
 
-export const Tooltip: React.FC<Props> = ({
+export const Tooltip: React.FC<TooltipProps> = ({
   title,
   children = null,
   positioning = {},
