@@ -137,12 +137,9 @@ export const sendRequestChart = async (config: Config) => {
 
 export const sendRequestENSInfo = async (config: any) => {
   try {
-    const res: CustomResponse = await fetch(
-      `${config.url}?${qs.stringify(config.query)}`,
-      {
-        method: 'GET',
-      },
-    );
+    const res: CustomResponse = await fetch(config.url, {
+      method: 'GET',
+    });
 
     return res.data.map;
   } catch (error) {

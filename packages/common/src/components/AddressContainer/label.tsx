@@ -18,7 +18,7 @@ export const getLabelInfo = (label: string, type: string) => {
       icon = (
         <img
           src={ICON_ENS}
-          className="w-[16px] h-[16px] mb-[3px] mr-[2px] flex-shrink-0 align-bottom"
+          className="w-[16px] h-[16px] mb-[3px] mr-[2px]"
           alt=""
         />
       );

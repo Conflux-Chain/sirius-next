@@ -4,7 +4,7 @@ import {
 import {
   CookieIcon
 } from "../../chunk-HI4CUQ7A.js";
-import "../../chunk-KRQR6UDQ.js";
+import "../../chunk-7XSVGJWV.js";
 import {
   useI18n
 } from "../../chunk-WYPQ6ICJ.js";

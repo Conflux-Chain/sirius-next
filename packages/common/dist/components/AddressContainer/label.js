@@ -1,6 +1,6 @@
 import {
   getLabelInfo
-} from "../../chunk-HEG3T5QD.js";
+} from "../../chunk-BK2A7KLR.js";
 import "../../chunk-UBCDOZDY.js";
 import "../../chunk-WYPQ6ICJ.js";
 export {
