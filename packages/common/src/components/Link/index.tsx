@@ -34,7 +34,7 @@ export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
     if (href && /^http/.test(href)) {
       return (
         <a
-          className={clsx('link inline-flex', className)}
+          className={clsx('link', className)}
           href={href}
           onClick={handleClick}
           {...others}
@@ -45,7 +45,7 @@ export const Link: React.FC<PropsWithChildren<LinkProps>> = React.memo(
     } else {
       return (
         <RouterLink
-          className={clsx('link inline-flex', className)}
+          className={clsx('link', className)}
           to={{
             pathname: href,
             state: state,
