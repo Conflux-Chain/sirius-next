@@ -16,9 +16,9 @@ import {
 } from "../../chunk-PTT2OZV4.js";
 import {
   sendRequestChart
-} from "../../chunk-ZKD4RDNH.js";
+} from "../../chunk-G3LMW33D.js";
 import "../../chunk-VTTJJHQ3.js";
-import "../../chunk-7XSVGJWV.js";
+import "../../chunk-RLZTFLPD.js";
 import "../../chunk-WYPQ6ICJ.js";
 
 // src/components/Charts/StockChartTemplate.tsx

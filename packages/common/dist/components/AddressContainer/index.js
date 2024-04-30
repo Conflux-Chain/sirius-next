@@ -1,6 +1,6 @@
 import {
   sendRequestENSInfo
-} from "../../chunk-ZKD4RDNH.js";
+} from "../../chunk-G3LMW33D.js";
 import {
   ContractAddress,
   ContractCreatedAddress,
@@ -8,13 +8,13 @@ import {
   InvalidAddress,
   MyAddress,
   PosAddress
-} from "../../chunk-V2LJ7IKK.js";
+} from "../../chunk-MYDHLQC6.js";
 import {
   getLabelInfo
 } from "../../chunk-BK2A7KLR.js";
 import {
   RenderAddress
-} from "../../chunk-AMRWTJ7G.js";
+} from "../../chunk-DUCZ3KRY.js";
 import {
   formatAddress,
   isAddress,
@@ -27,7 +27,7 @@ import "../../chunk-GB4SIS35.js";
 import "../../chunk-VTTJJHQ3.js";
 import {
   apiPrefix
-} from "../../chunk-7XSVGJWV.js";
+} from "../../chunk-RLZTFLPD.js";
 import "../../chunk-UBCDOZDY.js";
 import {
   getEnvConfig,
@@ -95,7 +95,7 @@ var parseProps = (props) => {
   };
 };
 var ensUrl = (value) => {
-  let url = null;
+  let url = void 0;
   if (value && isBase32Address(value)) {
     url = apiPrefix + "/ens/reverse/match?address=" + value;
   }
@@ -106,15 +106,11 @@ var AddressContainer = withTranslation()(
     const { globalData } = useGlobalData();
     const url = ensUrl(props.value);
     const sendRequestCallback = useCallback(() => {
-      return sendRequestENSInfo({ url });
+      return sendRequestENSInfo(url);
     }, [url]);
-    const { data: ensData } = useSWR(
-      url,
-      sendRequestCallback,
-      {
-        revalidateOnFocus: false
-      }
-    );
+    const { data: ensData } = useSWR(url, sendRequestCallback, {
+      revalidateOnFocus: false
+    });
     if (!props.value && !props.contractCreated) {
       return /* @__PURE__ */ jsx(Fragment, {});
     }
@@ -132,7 +128,11 @@ var AddressContainer = withTranslation()(
       ensInfo: ensData
     };
     const mergeDefaultProps = _.assign({}, defaultProps, props);
-    const mergeParseProps = _.merge({}, mergeDefaultProps, parseProps(mergeDefaultProps));
+    const mergeParseProps = _.merge(
+      {},
+      mergeDefaultProps,
+      parseProps(mergeDefaultProps)
+    );
     if (mergeParseProps.isPosAddress) {
       return PosAddress(mergeParseProps);
     }

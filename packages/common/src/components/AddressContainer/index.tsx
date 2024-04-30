@@ -101,7 +101,7 @@ const parseProps = (props: Props & WithTranslation) => {
 };
 
 const ensUrl = (value: string) => {
-  let url = null;
+  let url = undefined;
   if (value && isBase32Address(value)) {
     url = apiPrefix + '/ens/reverse/match?address=' + value;
   }
@@ -113,7 +113,7 @@ export const AddressContainer = withTranslation()(
 
     const url = ensUrl(props.value);
     const sendRequestCallback = useCallback(() => {
-      return sendRequestENSInfo({ url });
+      return sendRequestENSInfo(url);
     }, [url]);
     const { data: ensData } = useSWR(url, sendRequestCallback, {
       revalidateOnFocus: false,

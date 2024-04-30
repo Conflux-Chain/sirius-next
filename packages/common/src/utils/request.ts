@@ -135,9 +135,10 @@ export const sendRequestChart = async (config: Config) => {
   }
 };
 
-export const sendRequestENSInfo = async (config: any) => {
+export const sendRequestENSInfo = async (url?: string) => {
   try {
-    const res: CustomResponse = await fetch(config.url, {
+    if (!url) return {};
+    const res: CustomResponse = await fetch(url, {
       method: 'GET',
     });
 
