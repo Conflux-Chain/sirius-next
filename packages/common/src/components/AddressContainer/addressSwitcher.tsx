@@ -14,7 +14,7 @@ import {
 import { getTranslations, getEnvConfig } from '../../store';
 import { getNetwork, formatString } from 'src/utils';
 import { Props } from './types';
-import { RenderAddress } from './readerAdress';
+import { RenderAddress } from './addressView';
 
 export const ContractCreatedAddress = (props: Props & WithTranslation) => {
   const { contractCreated = '', t } = props;

@@ -15,7 +15,7 @@ import { LOCALSTORAGE_KEYS_MAP, apiPrefix } from '../../utils/constants';
 import { getLabelInfo } from './label';
 import { sendRequestENSInfo } from 'src/utils/request';
 import { Props } from './types';
-import { RenderAddress } from './readerAdress';
+import { RenderAddress } from './addressView';
 import {
   ContractCreatedAddress,
   HexAddress,
