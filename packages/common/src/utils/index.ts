@@ -914,6 +914,10 @@ export const getNetwork = (
   networks: Array<NetworksType>,
   id: number,
 ): NetworksType => {
+  const defaultNetwork = { url: '', name: '', id: 0 };
+  if (!Array.isArray(networks)) {
+    return defaultNetwork;
+  }
   const matchs = networks.filter(n => n.id === id);
 
   if (matchs && matchs[0]) {
@@ -922,7 +926,15 @@ export const getNetwork = (
     return networks[0];
   }
 
-  return { url: '', name: '', id: 0 };
+  return defaultNetwork;
+};
+
+export const coreCorrespondsToEspace = (coreId: number) => {
+  const correspond: { [index: number]: number } = {
+    1029: 1030,
+    1: 71,
+  };
+  return correspond[coreId] || 1030;
 };
 
 /**

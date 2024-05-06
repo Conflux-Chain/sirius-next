@@ -12,7 +12,7 @@ import {
   isPosAddress,
 } from '../../utils/address';
 import { getTranslations, getEnvConfig } from '../../store';
-import { getNetwork, formatString } from 'src/utils';
+import { getNetwork, formatString, coreCorrespondsToEspace } from 'src/utils';
 import { Props } from './types';
 import { RenderAddress } from './addressView';
 
@@ -25,7 +25,6 @@ export const ContractCreatedAddress = (props: Props & WithTranslation) => {
 
   const customProps = {
     content: t(translations.transaction.contractCreation),
-    hoverValue: fContractCreated,
     hrefAddress: fContractCreated,
     maxWidth: 160,
   };
@@ -34,16 +33,16 @@ export const ContractCreatedAddress = (props: Props & WithTranslation) => {
   return RenderAddress(mergedProps);
 };
 
-export const HexAddress = (props: Props & WithTranslation) => {
+export const CoreHexAddress = (props: Props & WithTranslation) => {
   const { globalData, value, t, isFull, maxWidth } = props;
 
   const ENV_CONFIG = getEnvConfig();
   const translations = getTranslations();
   const hexAddress = SDK.format.hexAddress(value);
   const network = getNetwork(
-    globalData.networks['testnet'],
-    ENV_CONFIG.ENV_NETWORK_ID,
-  ); // 000 evm testnet
+    globalData.networks,
+    coreCorrespondsToEspace(ENV_CONFIG.ENV_NETWORK_ID),
+  );
   const url = `${window.location.protocol}${network.url}/address/${hexAddress}`;
 
   return RenderAddress({

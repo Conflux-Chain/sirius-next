@@ -18,12 +18,12 @@ import { Props } from './types';
 import { RenderAddress } from './addressView';
 import {
   ContractCreatedAddress,
-  HexAddress,
+  CoreHexAddress,
   InvalidAddress,
   ContractAddress,
   MyAddress,
   PosAddress,
-} from './assembleAddress';
+} from './addressSwitcher';
 
 const parseProps = (props: Props & WithTranslation) => {
   const {
@@ -38,7 +38,8 @@ const parseProps = (props: Props & WithTranslation) => {
   } = props;
   const ENV_CONFIG = getEnvConfig();
   const outputType = ENV_CONFIG.ENV_ADDRESS || 'base32';
-  const cfxAddress = formatAddress(props.value, outputType);
+  const value: string = props.value || props.contractCreated || '';
+  const cfxAddress = formatAddress(value, outputType);
 
   let ENSMap = ensInfo || {};
 
@@ -60,29 +61,32 @@ const parseProps = (props: Props & WithTranslation) => {
   const gENSLabel = cfxAddress && ENSMap[cfxAddress]?.name;
   // global private name tag
   const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
-  const gAddressLabel =
-    addressLabels?.[cfxAddress] ||
-    addressLabels?.[cfxAddress.toLocaleLowerCase()];
 
-  if (showAddressLabel && gAddressLabel) {
-    const { label } = getLabelInfo(gAddressLabel, 'tag');
+  if (cfxAddress && showAddressLabel) {
+    const gAddressLabel =
+      addressLabels?.[cfxAddress] ||
+      addressLabels?.[cfxAddress.toLocaleLowerCase()];
 
-    addressLabel = label;
+    if (gAddressLabel) {
+      const { label } = getLabelInfo(gAddressLabel, 'tag');
+      addressLabel = label;
+    }
   }
 
-  if (showNametag) {
+  if (cfxAddress && showNametag) {
     const addressLabels =
       nametagInfo?.[cfxAddress] ||
       nametagInfo?.[cfxAddress.toLocaleLowerCase()];
-    const nametag = addressLabels?.nametag ?? '';
-    const { label } = getLabelInfo(nametag, 'nametag');
 
-    officalNametag = label;
+    if (addressLabels) {
+      const nametag = addressLabels?.nametag ?? '';
+      const { label } = getLabelInfo(nametag, 'nametag');
+      officalNametag = label;
+    }
   }
 
   if (showENSLabel && gENSLabel) {
     const { label, icon } = getLabelInfo(gENSLabel, 'ens');
-
     ENSLabel = label;
     prefixIcon = icon;
   }
@@ -111,13 +115,15 @@ export const AddressContainer = withTranslation()(
   memo((props: Props & WithTranslation) => {
     const { globalData } = useGlobalData();
 
-    const url = ensUrl(props.value);
-    const sendRequestCallback = useCallback(() => {
-      return sendRequestENSInfo(url);
-    }, [url]);
-    const { data: ensData } = useSWR(url, sendRequestCallback, {
-      revalidateOnFocus: false,
-    });
+    // TODO: CNS
+    // const url = ensUrl(props.value);
+    // const sendRequestCallback = useCallback(() => {
+    //   return sendRequestENSInfo(url);
+    // }, [url]);
+
+    // const { data: ensData } = useSWR(url, sendRequestCallback, {
+    //   revalidateOnFocus: false,
+    // });
 
     // If a txn receipt has no 'to' address or 'contractCreated', show -- for temp
     if (!props.value && !props.contractCreated) {
@@ -135,7 +141,7 @@ export const AddressContainer = withTranslation()(
       showAddressLabel: true,
       showENSLabel: true,
       showNametag: true,
-      ensInfo: ensData,
+      // ensInfo: ensData,
     };
 
     const mergeDefaultProps = _.assign({}, defaultProps, props);
@@ -155,7 +161,7 @@ export const AddressContainer = withTranslation()(
     }
 
     if (mergeParseProps.isEspaceAddress) {
-      return HexAddress(mergeParseProps);
+      return CoreHexAddress(mergeParseProps);
     }
 
     if (!isAddress(mergeParseProps.value)) {

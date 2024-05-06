@@ -12,7 +12,7 @@ export interface Props {
   suffixAddressSize?: number; // suffix address size, default is 8
   showIcon?: boolean; // whether show contract icon, default true
   verify?: boolean; // show verified contract icon or unverified contract icon
-  isEspaceAddress?: boolean; // check the address if is a eSpace hex address, if yes, link to https://evm.confluxscan.net/address/{hex_address}
+  isEspaceAddress?: boolean; //Only Core. check the address if is a eSpace hex address, if yes, link to https://evm.confluxscan.net/address/{hex_address}
   showAddressLabel?: boolean;
   showENSLabel?: boolean;
   ensInfo?: {
