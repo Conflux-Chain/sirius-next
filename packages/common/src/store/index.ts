@@ -1,16 +1,6 @@
 import { create } from 'zustand';
-import { ConvertedToObjectType, TranslationResource } from '@repo/i18n/types';
-
-export interface EnvState<T> {
-  ENV_CONFIG: T;
-  SET_ENV_CONFIG: (env: T) => void;
-}
-export interface I18nState {
-  translations: TranslationResource;
-  setTranslations: (
-    translations: ConvertedToObjectType<TranslationResource>,
-  ) => void;
-}
+import { TranslationResource } from '@repo/i18n/types';
+import { EnvState, I18nState, GlobalDataType, GlobalDataState } from './types';
 
 export const useEnv = create<EnvState<any>>(set => ({
   ENV_CONFIG: {},
@@ -22,7 +12,10 @@ export const useI18n = create<I18nState>(set => ({
   setTranslations: (translations: TranslationResource) => set({ translations }),
 }));
 
-// export const useEnvInit = <T>(initialState: T) => create<EnvState<T>>((set) => ({
-//     ENV_CONFIG: initialState,
-//     SET_ENV_CONFIG: (env: T) => set({ ENV_CONFIG: env }),
-// }));
+export const useGlobalData = create<GlobalDataState>(set => ({
+  globalData: {} as GlobalDataType,
+  setGlobalData: (data: GlobalDataType) => set({ globalData: data }),
+}));
+
+export const getEnvConfig = () => useEnv.getState().ENV_CONFIG;
+export const getTranslations = () => useI18n.getState().translations;

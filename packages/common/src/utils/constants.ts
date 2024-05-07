@@ -1,4 +1,3 @@
-import SDK from 'js-conflux-sdk';
 /**
  * @todo
  * 1. setNFTCacheInfo cacheKey
@@ -22,3 +21,5 @@ export enum LOCALSTORAGE_KEYS_MAP {
   hideInDotNet = 'CONFLUX_SCAN_HIDE_IN_DOT_NET',
   apis = 'CONFLUX_SCAN_APIS',
 }
+
+export const apiPrefix = '/v1';
