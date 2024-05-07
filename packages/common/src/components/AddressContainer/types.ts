@@ -1,5 +1,6 @@
+import { GlobalDataType } from '../../store/types';
 export interface Props {
-  globalData?: any;
+  globalData?: GlobalDataType;
   value: string; // address value
   alias?: string; // address alias, such as contract name, miner name, default null
   contractCreated?: string; // contract creation address

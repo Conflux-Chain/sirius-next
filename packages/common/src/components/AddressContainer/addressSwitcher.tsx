@@ -40,7 +40,7 @@ export const CoreHexAddress = (props: Props & WithTranslation) => {
   const translations = getTranslations();
   const hexAddress = SDK.format.hexAddress(value);
   const network = getNetwork(
-    globalData.networks,
+    globalData?.networks,
     coreCorrespondsToEspace(ENV_CONFIG.ENV_NETWORK_ID),
   );
   const url = `${window.location.protocol}${network.url}/address/${hexAddress}`;
