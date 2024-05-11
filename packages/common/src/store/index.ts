@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import { TranslationResource } from '@repo/i18n/types';
-import { EnvState, I18nState, GlobalDataType, GlobalDataState } from './types';
+import {
+  EnvState,
+  I18nState,
+  GlobalDataType,
+  GlobalDataState,
+  ENSStore,
+} from './types';
 
 export const useEnv = create<EnvState<any>>(set => ({
   ENV_CONFIG: {},
@@ -15,6 +21,17 @@ export const useI18n = create<I18nState>(set => ({
 export const useGlobalData = create<GlobalDataState>(set => ({
   globalData: {} as GlobalDataType,
   setGlobalData: (data: GlobalDataType) => set({ globalData: data }),
+}));
+
+export const useENSStore = create<ENSStore>(set => ({
+  ens: {},
+  setENS: newENS =>
+    set(state => ({
+      ens: {
+        ...state.ens,
+        ...newENS,
+      },
+    })),
 }));
 
 export const getEnvConfig = () => useEnv.getState().ENV_CONFIG;

@@ -135,9 +135,15 @@ export const sendRequestChart = async (config: Config) => {
   }
 };
 
-export const sendRequestENSInfo = async (url?: string) => {
+export const sendRequestENSInfo = async (url?: string | null) => {
+  if (!url) return {};
   try {
-    if (!url) return {};
+    // await new Promise(resolve => setTimeout(resolve, 10000));
+    // const res = {
+    //   data: {
+    //     map: {}
+    //   }
+    // }
     const res: CustomResponse = await fetch(url, {
       method: 'GET',
     });

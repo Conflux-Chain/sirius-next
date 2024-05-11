@@ -62,3 +62,8 @@ export interface GlobalDataState {
   globalData: GlobalDataType;
   setGlobalData: (data: GlobalDataType) => void;
 }
+
+export interface ENSStore {
+  ens: ENSType;
+  setENS: (newENS: ENSType) => void;
+}

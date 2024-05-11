@@ -301,17 +301,13 @@ export const formatAddress = (address: string, outputType = 'base32') => {
 //   return result;
 
 // };
-interface EVN_TYPE {
-  IS_MAINNET: boolean;
-  ENV_ADDRESS: string;
-}
+
 // Omit specification judgment: test environment cfxtest:....xxxx, production environment cfx:....xxxx,
 export const abbreviateString = (str: string) => {
-  const ENV_CONFIG: EVN_TYPE = getEnvConfig();
-  const prefixNum =
-    ENV_CONFIG.ENV_ADDRESS === 'hex' ? 6 : ENV_CONFIG?.IS_MAINNET ? 8 : 12;
-  const suffixNum =
-    ENV_CONFIG.ENV_ADDRESS === 'hex' ? 4 : ENV_CONFIG?.IS_MAINNET ? 8 : 4;
+  const isHex = str.startsWith('0x');
+  const isCfxtest = str.startsWith('cfxtest');
+  const prefixNum = isHex ? 6 : isCfxtest ? 12 : 8;
+  const suffixNum = isHex ? 4 : isCfxtest ? 4 : 8;
 
   if (str.length > 7) {
     return `${str.slice(0, prefixNum)}...${str.slice(-suffixNum)}`;
