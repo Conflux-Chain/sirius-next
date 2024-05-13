@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
-import { useI18n } from 'src/store';
+import { useI18n } from '../../store';
 
 interface CopyButtonProps {
   size?: number;

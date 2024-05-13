@@ -1,44 +1,29 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { Skeleton } from '../Skeleton';
 
-interface SkeletonElementProps {
-  type?: 'text' | 'title' | 'thumbnail' | 'avatar';
-  shown: boolean;
-  children: ReactNode;
-  className?: string;
+interface SkeletonContainerProps {
+  children?: React.ReactNode;
+  shown?: boolean;
+  style?: React.CSSProperties;
 }
-
-const SkeletonContainer: React.FC<SkeletonElementProps> = ({
-  shown,
+type NativeAttrs = Omit<
+  React.HTMLAttributes<any>,
+  keyof SkeletonContainerProps
+>;
+export declare type Props = SkeletonContainerProps & NativeAttrs;
+const SkeletonStyle = { display: 'flex', flex: 1, maxWidth: 'initial' };
+export const SkeletonContainer = ({
   children,
-  type = 'title',
-  className = '',
-}) => {
-  if (!shown) {
-    return children;
-  }
-
-  const baseClasses = 'animate-pulse bg-gray-300 rounded';
-  let specificClasses = '';
-
-  switch (type) {
-    case 'text':
-      specificClasses = 'w-[24px] h-[16px]';
-      break;
-    case 'title':
-      specificClasses = 'w-[38px] h-[24px] rounded-lg';
-      break;
-    case 'thumbnail':
-      specificClasses = 'w-[96px] h-[48px] rounded-lg';
-      break;
-    case 'avatar':
-      specificClasses = 'w-[48px] h-[48px] rounded-full';
-      break;
-  }
-
-  const combinedClasses =
-    `${baseClasses} ${specificClasses} ${className}`.trim();
-
-  return <div className={combinedClasses}></div>;
+  shown = false,
+  style,
+}: Props) => {
+  return (
+    <>
+      {shown ? (
+        <Skeleton style={{ ...SkeletonStyle, ...style }}>{children}</Skeleton>
+      ) : (
+        children
+      )}
+    </>
+  );
 };
-
-export default SkeletonContainer;

@@ -8,7 +8,7 @@ import React, {
 import _Tooltip from '@cfx-kit/ui-components/dist/Tooltip';
 import clsx from 'clsx';
 
-interface Props
+export interface TooltipProps
   extends Omit<
     ComponentProps<typeof _Tooltip>,
     'trigger' | 'containerClassName'
@@ -18,7 +18,7 @@ interface Props
   triggerProps?: HTMLAttributes<HTMLElement>;
 }
 
-export const Tooltip: React.FC<Props> = ({
+export const Tooltip: React.FC<TooltipProps> = ({
   title,
   children = null,
   positioning = {},
@@ -28,19 +28,22 @@ export const Tooltip: React.FC<Props> = ({
   const { placement = 'top' } = positioning;
   return (
     <_Tooltip
-      trigger={({ triggerProps }) =>
-        Children.count(children) === 1 && isValidElement(children) ? (
-          cloneElement(children, {
+      trigger={({ triggerProps }) => {
+        if (Children.count(children) === 1 && isValidElement(children)) {
+          delete triggerProps.onClick;
+          return cloneElement(children, {
             ...triggerProps,
             ...(children.props as {}),
             ..._triggerProps,
-          })
-        ) : (
-          <span {...triggerProps} {..._triggerProps}>
-            {children}
-          </span>
-        )
-      }
+          });
+        } else {
+          return (
+            <span {...triggerProps} {..._triggerProps}>
+              {children}
+            </span>
+          );
+        }
+      }}
       containerClassName={clsx(
         'sirius-next-tooltip',
         'lh-normal max-w-250px z-1000 w-max min-w-unset!',

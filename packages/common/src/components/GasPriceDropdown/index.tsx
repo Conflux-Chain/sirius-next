@@ -5,7 +5,7 @@ import { sendRequestGasPrice } from '../../utils/request';
 import { useInterval } from 'react-use';
 
 import { fromDripToGdrip } from '../../utils';
-import SkeletonContainer from '../SkeletonContainer';
+import { SkeletonContainer } from '../SkeletonContainer';
 
 import IconGas from '../../images/icon-gas.svg';
 import IconRefresh from '../../images/refresh.svg';

@@ -86,6 +86,11 @@ export default defineConfig({
       modal: ' 8px 30px 80px 0px #707e9e3d',
     },
     monospaceFont: `'Roboto Mono', 'Lucida Console', Consolas, 'Liberation Mono', Menlo, Courier, monospace`,
+    animation: {
+      keyframes: {
+        wave: '{ 0% { transform: translateX(-100%) } 50% { transform: translateX(100%) } 100% { transform: translateX(100%) }}',
+      },
+    },
   },
   presets: [
     presetUno(),
