@@ -1,6 +1,5 @@
-import { memo, useMemo, useCallback } from 'react';
+import { memo } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import useSWR from 'swr';
 import _ from 'lodash';
 import {
   formatAddress,
@@ -8,10 +7,9 @@ import {
   isContractAddress,
   isInnerContractAddress,
   isZeroAddress,
-  isBase32Address,
 } from '../../utils/address';
 import { useGlobalData, getTranslations, getEnvConfig } from '../../store';
-import { LOCALSTORAGE_KEYS_MAP, apiPrefix } from '../../utils/constants';
+import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
 import { getLabelInfo } from './label';
 import { useENS } from '../../utils/hooks/useEns';
 

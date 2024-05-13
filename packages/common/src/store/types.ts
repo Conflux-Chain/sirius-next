@@ -67,3 +67,28 @@ export interface ENSStore {
   ens: ENSType;
   setENS: (newENS: ENSType) => void;
 }
+
+export interface GasPriceDataState {
+  gasPriceData: GasPriceBundle;
+  setGasPrice: (data: GasPriceBundle) => void;
+}
+
+export interface GasPriceBundle {
+  gasPriceInfo: {
+    min: number;
+    tp50: number;
+    max: number;
+  };
+  gasPriceMarket: {
+    min: number;
+    tp25: number;
+    tp50: number;
+    tp75: number;
+    max: number;
+  };
+  maxEpoch: number;
+  minEpoch: number;
+  maxTime: string;
+  minTime: string;
+  blockHeight: number;
+}

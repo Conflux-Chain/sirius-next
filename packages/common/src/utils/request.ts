@@ -138,17 +138,23 @@ export const sendRequestChart = async (config: Config) => {
 export const sendRequestENSInfo = async (url?: string | null) => {
   if (!url) return {};
   try {
-    // await new Promise(resolve => setTimeout(resolve, 10000));
-    // const res = {
-    //   data: {
-    //     map: {}
-    //   }
-    // }
     const res: CustomResponse = await fetch(url, {
       method: 'GET',
     });
 
     return res.data.map;
+  } catch (error) {
+    console.error('Request failed', error);
+    throw error;
+  }
+};
+
+export const sendRequestGasPrice = async () => {
+  try {
+    const res: CustomResponse = await fetch(`/stat/gasprice/tracker`, {
+      method: 'GET',
+    });
+    return res.data || res.result;
   } catch (error) {
     console.error('Request failed', error);
     throw error;

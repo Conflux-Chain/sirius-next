@@ -1,5 +1,6 @@
 import { defineConfig, presetUno, presetIcons } from 'unocss';
 import transformerVariantGroup from '@unocss/transformer-variant-group';
+import presetAnimations from 'unocss-preset-animations';
 import { handler } from '@unocss/preset-mini/utils';
 
 export default defineConfig({
@@ -82,6 +83,7 @@ export default defineConfig({
     boxShadow: {
       normal: '0px 6px 16px 0px #00000014',
       card: '0.8571rem 0.5714rem 1.7143rem -0.8571rem rgba(20, 27, 50, 0.12)',
+      modal: ' 8px 30px 80px 0px #707e9e3d',
     },
     monospaceFont: `'Roboto Mono', 'Lucida Console', Consolas, 'Liberation Mono', Menlo, Courier, monospace`,
   },
@@ -93,6 +95,7 @@ export default defineConfig({
         'vertical-align': 'middle',
       },
     }),
+    presetAnimations(),
   ],
   transformers: [transformerVariantGroup()],
 });

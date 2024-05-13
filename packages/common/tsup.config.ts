@@ -36,6 +36,7 @@ export default defineConfig({
   publicDir: './public',
   loader: {
     '.png': 'copy',
+    '.svg': 'copy',
   },
   dts: true,
   sourcemap: true,
