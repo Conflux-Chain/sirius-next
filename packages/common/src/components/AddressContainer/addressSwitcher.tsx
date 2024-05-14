@@ -47,7 +47,6 @@ export const CoreHexAddress = (props: Props & WithTranslation) => {
 
   return RenderAddress({
     cfxAddress: hexAddress,
-    alias: formatString(hexAddress, 'hexAddress'),
     hoverValue: hexAddress,
     link: url,
     isFull,

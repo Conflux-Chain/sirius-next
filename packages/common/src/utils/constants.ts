@@ -23,3 +23,20 @@ export enum LOCALSTORAGE_KEYS_MAP {
 }
 
 export const apiPrefix = '/v1';
+
+export const CURRENCY_SYMBOLS: { [key: string]: string } = {
+  USD: '$',
+  CNY: '¥',
+  GBP: '£',
+  KRW: '₩',
+  RUB: '₽',
+  EUR: '€',
+};
+
+export const getCurrency = () => {
+  return localStorage.getItem(LOCALSTORAGE_KEYS_MAP.currency) || 'USD';
+};
+
+export const getCurrencySymbol = () => {
+  return CURRENCY_SYMBOLS[getCurrency()];
+};

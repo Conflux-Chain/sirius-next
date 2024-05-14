@@ -1,6 +1,5 @@
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import useSWR from 'swr';
 import _ from 'lodash';
 import {
   formatAddress,
@@ -8,12 +7,12 @@ import {
   isContractAddress,
   isInnerContractAddress,
   isZeroAddress,
-  isBase32Address,
 } from '../../utils/address';
 import { useGlobalData, getTranslations, getEnvConfig } from '../../store';
-import { LOCALSTORAGE_KEYS_MAP, apiPrefix } from '../../utils/constants';
+import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
 import { getLabelInfo } from './label';
-import { sendRequestENSInfo } from 'src/utils/request';
+import { useENS } from '../../utils/hooks/useEns';
+
 import { Props } from './types';
 import { RenderAddress } from './addressView';
 import {
@@ -104,26 +103,13 @@ const parseProps = (props: Props & WithTranslation) => {
   };
 };
 
-const ensUrl = (value: string) => {
-  let url = undefined;
-  if (value && isBase32Address(value)) {
-    url = apiPrefix + '/ens/reverse/match?address=' + value;
-  }
-  return url;
-};
 export const AddressContainer = withTranslation()(
   memo((props: Props & WithTranslation) => {
     const { globalData } = useGlobalData();
 
-    // TODO: CNS
-    // const url = ensUrl(props.value);
-    // const sendRequestCallback = useCallback(() => {
-    //   return sendRequestENSInfo(url);
-    // }, [url]);
-
-    // const { data: ensData } = useSWR(url, sendRequestCallback, {
-    //   revalidateOnFocus: false,
-    // });
+    // If the interface returns Ens content, there is no need to obtain it separately, or disable the display of Ens content (in most cases on the list page).
+    const unnecessaryEns = props.ensInfo || props.showENSLabel === false;
+    const { ens } = useENS(unnecessaryEns ? null : props.value);
 
     // If a txn receipt has no 'to' address or 'contractCreated', show -- for temp
     if (!props.value && !props.contractCreated) {
@@ -141,7 +127,7 @@ export const AddressContainer = withTranslation()(
       showAddressLabel: true,
       showENSLabel: true,
       showNametag: true,
-      // ensInfo: ensData,
+      ensInfo: ens,
     };
 
     const mergeDefaultProps = _.assign({}, defaultProps, props);

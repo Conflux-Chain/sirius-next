@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import qs from 'qs';
-import { LOCALSTORAGE_KEYS_MAP } from './constants';
+import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
 
 export const toThousands = (num: any, delimiter = ',', prevDelimiter = ',') => {
   if ((typeof num !== 'number' || isNaN(num)) && typeof num !== 'string')
@@ -983,4 +983,102 @@ export const formatString = (
       }
   }
   return result;
+};
+
+/**
+ *
+ * @param num original number
+ * @param isShowFull Whether to show all numbers
+ */
+export const fromDripToGdrip = (
+  num: number | string,
+  isShowFull: boolean = false,
+  _opt = {},
+) => {
+  const opt = {
+    minNum: 0.001,
+    ..._opt,
+  };
+  const bn = new BigNumber(num);
+  let result: string = '0';
+  if (!window.isNaN(bn.toNumber()) && bn.toNumber() !== 0) {
+    const divideBn = bn.dividedBy(10 ** 9);
+    if (isShowFull) {
+      result = toThousands(divideBn.toFixed());
+    } else {
+      result = divideBn.lt(opt.minNum)
+        ? '< ' + new BigNumber(opt.minNum).toString()
+        : formatNumber(divideBn.toFixed(), opt);
+    }
+  }
+  return `${result}`;
+};
+
+/**
+ * 获取给定时间戳 from 到给定时间 to 的 duration
+ * @param {string | number} from syncTimestamp
+ * @param {string | number} to current serverTimestamp or current browserTimestamp
+ */
+export const getDuration = (pFrom: number, pTo?: number) => {
+  try {
+    const to = pTo || +new Date();
+    const from = pFrom * 1000;
+
+    if (from > to) {
+      throw new Error('invalid timestamp pair');
+    }
+
+    const dayjsTo = dayjs(to);
+
+    const fullDay = dayjsTo.diff(from, 'day');
+    const fullHour = dayjsTo.diff(from, 'hour');
+    const fullMinute = dayjsTo.diff(from, 'minute');
+
+    const day = dayjsTo.diff(from, 'day');
+    const hour = dayjsTo.subtract(fullDay, 'day').diff(from, 'hour');
+    const minute = dayjsTo.subtract(fullHour, 'hour').diff(from, 'minute');
+    const second = dayjsTo.subtract(fullMinute, 'minute').diff(from, 'second');
+
+    return [day, hour, minute, second];
+  } catch (e) {
+    return [0, 0, 0, 0];
+  }
+};
+
+const cSymbol = getCurrencySymbol();
+export const formatPrice = (
+  price: string | number,
+  symbol: string = cSymbol,
+): string[] => {
+  const p = new BigNumber(price);
+  let precision = 2;
+
+  if (p.eq(0)) {
+    return ['0', ''];
+  } else if (p.lt(0.0001)) {
+    return [
+      '<0.0001',
+      formatNumber(price || 0, {
+        withUnit: false,
+        precision: 18,
+        keepZero: false,
+      }),
+    ];
+  } else if (p.lt(1)) {
+    precision = 4;
+  } else if (p.lt(10)) {
+    precision = 3;
+  } else {
+    precision = 2;
+  }
+
+  return [
+    symbol +
+      formatNumber(price || 0, {
+        withUnit: false,
+        keepZero: false,
+        precision,
+      }),
+    '',
+  ];
 };
