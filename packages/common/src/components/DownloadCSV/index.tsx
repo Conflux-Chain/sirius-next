@@ -16,7 +16,7 @@ export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
   const handleRecaptchaModalClose = () => setRecaptchaVisible(false);
   const onRecaptchaChange = (value: string | null) => {
     if (value) {
-      const parsedUrl = new URL(outerUrl);
+      const parsedUrl = new URL(outerUrl, window.location.origin);
       const query = qs.parse(parsedUrl.search, { ignoreQueryPrefix: true });
 
       query.token = value;
