@@ -2,7 +2,13 @@ import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import qs from 'qs';
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const toThousands = (num: any, delimiter = ',', prevDelimiter = ',') => {
   if ((typeof num !== 'number' || isNaN(num)) && typeof num !== 'string')
@@ -1048,7 +1054,7 @@ export const getDuration = (pFrom: number, pTo?: number) => {
 const cSymbol = getCurrencySymbol();
 export const formatPrice = (
   price: string | number,
-  symbol: string = cSymbol,
+  symbol: string | undefined = cSymbol,
 ): string[] => {
   const p = new BigNumber(price);
   let precision = 2;
