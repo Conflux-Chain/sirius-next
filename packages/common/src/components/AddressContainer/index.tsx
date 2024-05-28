@@ -11,7 +11,7 @@ import {
 import { useGlobalData, getTranslations, getEnvConfig } from '../../store';
 import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
 import { getLabelInfo } from './label';
-import { useENS } from '../../utils/hooks/useEns';
+import { useENS } from '../../utils/hooks/useENS';
 
 import { Props } from './types';
 import { RenderAddress } from './addressView';

@@ -32,7 +32,7 @@ export const allComponentsEntry = getFilesEntry('./src', {});
 
 export default defineConfig({
   entry: allComponentsEntry,
-  format: 'esm',
+  format: ['esm'],
   publicDir: './public',
   loader: {
     '.png': 'copy',
@@ -41,5 +41,5 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   external: ['react', 'react-dom'],
-  noExternal: ['@cfx-kit/ui-components'],
+  noExternal: ['@cfx-kit/ui-components', '@radix-ui/react-select'],
 });
