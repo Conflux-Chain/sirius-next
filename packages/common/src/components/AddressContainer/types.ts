@@ -34,6 +34,7 @@ export interface Props {
   cfxAddress?: string;
   isContract?: boolean;
   isPosAddress?: boolean;
+  hideAliasPrefixInHover?: boolean;
 }
 
 export interface RenderAddressProps {
@@ -56,10 +57,12 @@ export interface RenderAddressProps {
   addressLabel?: string | Iterable<React.ReactNode> | null;
   ENSLabel?: string | Iterable<React.ReactNode> | null;
   nametag?: string | Iterable<React.ReactNode> | null;
+  hideAliasPrefixInHover?: boolean;
 }
 export interface TooltipContent {
   [key: string]: {
     label: string;
     value: string | Iterable<React.ReactNode> | null | undefined;
+    hideLabel?: boolean;
   };
 }
