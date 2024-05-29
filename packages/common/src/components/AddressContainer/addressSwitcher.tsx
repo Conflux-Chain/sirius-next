@@ -63,7 +63,15 @@ export const CoreHexAddress = (props: Props & WithTranslation) => {
 };
 
 export const InvalidAddress = (props: Props & WithTranslation) => {
-  const { value, alias, t, isFull, maxWidth, isFullNameTag } = props;
+  const {
+    value,
+    alias,
+    t,
+    isFull,
+    maxWidth,
+    isFullNameTag,
+    hideAliasPrefixInHover,
+  } = props;
 
   const translations = getTranslations();
 
@@ -86,6 +94,7 @@ export const InvalidAddress = (props: Props & WithTranslation) => {
         </Tooltip>
       </div>
     ),
+    hideAliasPrefixInHover,
   });
 };
 
@@ -160,7 +169,16 @@ export const MyAddress = (props: Props & WithTranslation) => {
 };
 
 export const PosAddress = (props: Props & WithTranslation) => {
-  const { alias, isFull, isFullNameTag, maxWidth, t, link, isMe } = props;
+  const {
+    alias,
+    isFull,
+    isFullNameTag,
+    maxWidth,
+    t,
+    link,
+    isMe,
+    hideAliasPrefixInHover,
+  } = props;
   const value = props.value;
   if (!value) {
     return <>--</>;
@@ -169,15 +187,16 @@ export const PosAddress = (props: Props & WithTranslation) => {
     return MyAddress(props);
   }
   const translations = getTranslations();
+  const content = alias
+    ? formatString(alias, 'tag')
+    : formatString(value, 'posAddress');
   if (!isPosAddress(value)) {
     const tip = t(translations.general.invalidPosAddress);
     return RenderAddress({
       cfxAddress: value,
       alias,
       hoverValue: `${tip}: ${value}`,
-      content: alias
-        ? formatString(alias, 'tag')
-        : formatString(value, 'posAddress'),
+      content,
       link: false,
       isFull,
       isFullNameTag,
@@ -191,10 +210,10 @@ export const PosAddress = (props: Props & WithTranslation) => {
         </div>
       ),
       type: 'pos',
+      hideAliasPrefixInHover,
     });
   }
 
-  const content = formatString(value, 'posAddress');
   return RenderAddress({
     cfxAddress: value,
     alias,
@@ -203,6 +222,7 @@ export const PosAddress = (props: Props & WithTranslation) => {
     isFullNameTag,
     maxWidth,
     type: 'pos',
-    content: content,
+    content,
+    hideAliasPrefixInHover,
   });
 };

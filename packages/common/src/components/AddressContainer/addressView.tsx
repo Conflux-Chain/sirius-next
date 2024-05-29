@@ -13,13 +13,15 @@ const defaultPCMaxWidth = 138;
 
 const renderTooltipContent = (tooltipContent: TooltipContent) => {
   return Object.entries(tooltipContent)
-    .map(([key, { label, value }]) => {
+    .map(([key, { label, value, hideLabel }]) => {
       if (value) {
         return (
           <div key={key}>
-            <span>
-              <Translation>{t => t(label)}</Translation>
-            </span>
+            {!hideLabel && (
+              <span>
+                <Translation>{t => t(label)}</Translation>
+              </span>
+            )}
             {value}
           </div>
         );
@@ -46,6 +48,7 @@ export const RenderAddress = ({
   addressLabel = '',
   ENSLabel = '',
   nametag = '',
+  hideAliasPrefixInHover = false,
 }: RenderAddressProps) => {
   const translations = getTranslations();
 
@@ -62,7 +65,7 @@ export const RenderAddress = ({
 
   const Wrapper = href ? 'a' : 'div';
 
-  const tooltipContent = {
+  const tooltipContent: TooltipContent = {
     ENSLabel: {
       label: (translations as any)?.ens?.tip,
       value: ENSLabel,
@@ -78,6 +81,7 @@ export const RenderAddress = ({
     alias: {
       label: translations?.profile.address.publicNameTag,
       value: alias,
+      hideLabel: hideAliasPrefixInHover,
     },
   };
 
