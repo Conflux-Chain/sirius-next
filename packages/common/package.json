@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm build:lib && pnpm build:css",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 pnpm build:lib && pnpm build:css",
     "build:lib": "tsup",
     "build:css": "unocss",
-    "dev": "concurrently 'pnpm dev:lib' 'pnpm dev:css'",
+    "dev": "NODE_OPTIONS=--max-old-space-size=8192 concurrently 'pnpm dev:lib' 'pnpm dev:css'",
     "dev:lib": "nodemon --watch src --exec 'tsup' -e ts,tsx,js,json",
     "dev:css": "unocss -w",
     "generate:component": "turbo gen react-component",
