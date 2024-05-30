@@ -8,10 +8,10 @@ importers:
 
   .:
     devDependencies:
-      '@repo/eslint-config':
+      '@cfxjs/sirius-next-eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
-      '@repo/typescript-config':
+      '@cfxjs/sirius-next-typescript-config':
         specifier: workspace:*
         version: link:packages/typescript-config
       husky:
@@ -139,6 +139,9 @@ importers:
       '@cfx-kit/ui-components':
         specifier: ^0.0.17
         version: 0.0.17(@zag-js/accordion@0.19.1)(@zag-js/checkbox@0.19.1)(@zag-js/dialog@0.19.1)(@zag-js/pagination@0.19.1)(@zag-js/popover@0.19.1)(@zag-js/react@0.19.1)(@zag-js/select@0.19.1)(@zag-js/switch@0.19.1)(@zag-js/toast@0.19.1)(@zag-js/tooltip@0.19.1)(react@18.2.0)
+      '@cfxjs/sirius-next-i18n':
+        specifier: workspace:*
+        version: link:../i18n
       '@radix-ui/react-select':
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
@@ -230,21 +233,18 @@ importers:
         specifier: ^4.5.2
         version: 4.5.2(@types/react@18.2.67)(react@18.2.0)
     devDependencies:
+      '@cfxjs/sirius-next-eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@cfxjs/sirius-next-typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       '@iconify-json/line-md':
         specifier: ^1.1.36
         version: 1.1.37
       '@iconify-json/material-symbols':
         specifier: ^1.1.77
         version: 1.1.77
-      '@repo/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@repo/i18n':
-        specifier: workspace:*
-        version: link:../i18n
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
       '@turbo/gen':
         specifier: ^1.12.4
         version: 1.12.5(@types/node@20.11.30)(typescript@5.4.3)
@@ -320,10 +320,10 @@ importers:
 
   packages/i18n:
     devDependencies:
-      '@repo/eslint-config':
+      '@cfxjs/sirius-next-eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/typescript-config':
+      '@cfxjs/sirius-next-typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@turbo/gen':
