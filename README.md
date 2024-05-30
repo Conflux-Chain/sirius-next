@@ -17,8 +17,10 @@ pnpm dev
 Before the migration is completed, you need to establish a soft connection for local development.
 
 ```
-ln -s ../../sirius-next ../sirius/node_modules/sirius-next
-ln -s ../../sirius-next ../sirius-eth/node_modules/sirius-next
+ln -s ../../../sirius-next/packages/common ../sirius/node_modules/@cfxjs/sirius-next-common
+ln -s ../../../sirius-next/packages/i18n ../sirius/node_modules/@cfxjs/sirius-next-i18n
+ln -s ../../../sirius-next/packages/common ../sirius-eth/node_modules/@cfxjs/sirius-next-common
+ln -s ../../../sirius-next/packages/i18n ../sirius-eth/node_modules/@cfxjs/sirius-next-i18n
 ```
 
 ### Build
