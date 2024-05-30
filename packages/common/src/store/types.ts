@@ -1,4 +1,7 @@
-import { ConvertedToObjectType, TranslationResource } from '@repo/i18n/types';
+import {
+  ConvertedToObjectType,
+  TranslationResource,
+} from '@cfxjs/sirius-next-i18n/types';
 import { LOCALSTORAGE_KEYS_MAP } from '../utils/constants';
 
 export interface EnvState<T> {

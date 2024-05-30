@@ -1,14 +1,19 @@
 {
-  "name": "@repo/i18n",
+  "name": "@cfxjs/sirius-next-i18n",
   "version": "0.0.0",
-  "private": true,
+  "files": [
+    "*/**"
+  ],
   "scripts": {
     "build": "tsc"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@cfxjs/sirius-next-eslint-config": "workspace:*",
+    "@cfxjs/sirius-next-typescript-config": "workspace:*",
     "@turbo/gen": "^1.12.4",
     "typescript": "^5.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
