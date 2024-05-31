@@ -1,11 +1,7 @@
 import SDK from 'js-conflux-sdk';
 import { Translation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
-import {
-  abbreviateString,
-  isBase32Address,
-  isPosAddress,
-} from '../../utils/address';
+import { abbreviateString, isHexAddress } from '../../utils/address';
 import { getTranslations } from '../../store';
 import { TooltipContent, RenderAddressProps } from './types';
 
@@ -29,6 +25,18 @@ const renderTooltipContent = (tooltipContent: TooltipContent) => {
       return null;
     })
     .filter(Boolean);
+};
+
+const convertCheckSum = (cfxAddress?: string) => {
+  if (cfxAddress === undefined) {
+    return '';
+  }
+
+  if (isHexAddress(cfxAddress)) {
+    return SDK.format.checksumAddress(cfxAddress);
+  }
+
+  return cfxAddress;
 };
 
 export const RenderAddress = ({
@@ -85,12 +93,7 @@ export const RenderAddress = ({
     },
   };
 
-  const checksumAddress =
-    cfxAddress && isBase32Address(cfxAddress)
-      ? cfxAddress
-      : cfxAddress && isPosAddress(cfxAddress)
-        ? cfxAddress
-        : SDK.format.checksumAddress(cfxAddress);
+  const checksumAddress = convertCheckSum(cfxAddress);
 
   const cfxAddressLabel =
     typeof cfxAddress === 'string' && !isFull
