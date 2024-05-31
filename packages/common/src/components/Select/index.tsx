@@ -19,6 +19,7 @@ interface SelectProps {
   width?: string | number;
   children: React.ReactNode;
   lable?: string;
+  disabled?: boolean;
 }
 
 interface OptionProps {
