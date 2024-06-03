@@ -49,7 +49,7 @@ const ResponsiveObserve = {
     if (!subscribers.size) this.unregister();
   },
   unregister() {
-    window.addEventListener('resize', this.listener);
+    window.removeEventListener('resize', this.listener);
   },
   register() {
     window.addEventListener('resize', this.listener);
@@ -60,11 +60,10 @@ const ResponsiveObserve = {
   }, 1000),
 };
 
-const getInitialBreakpoint = () =>
-  ResponsiveObserve.dispatch(window.innerWidth);
+ResponsiveObserve.dispatch(window.innerWidth);
 
 export const useBreakpoint = () => {
-  const [breakpoint, setBreakpoint] = useState<string>(getInitialBreakpoint);
+  const [breakpoint, setBreakpoint] = useState(size);
 
   useEffect(() => {
     const token = ResponsiveObserve.subscribe(supportScreens => {
