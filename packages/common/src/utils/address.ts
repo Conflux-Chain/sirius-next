@@ -9,6 +9,18 @@ interface AddressCache {
 }
 export const ADDRESS_FUNC_CACHE: AddressCache = {};
 
+export const convertCheckSum = (cfxAddress?: string) => {
+  if (cfxAddress === undefined) {
+    return '';
+  }
+
+  if (isHexAddress(cfxAddress)) {
+    return SDK.format.checksumAddress(cfxAddress);
+  }
+
+  return cfxAddress;
+};
+
 export const isPosAddress = (address: string): boolean => {
   try {
     return address.startsWith('0x') && address.length === 66;
