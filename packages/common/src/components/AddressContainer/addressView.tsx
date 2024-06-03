@@ -97,7 +97,7 @@ export const RenderAddress = ({
 
   const cfxAddressLabel =
     typeof cfxAddress === 'string' && !isFull
-      ? abbreviateString(cfxAddress)
+      ? abbreviateString(checksumAddress)
       : checksumAddress;
 
   return (
