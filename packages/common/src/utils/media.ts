@@ -60,11 +60,10 @@ const ResponsiveObserve = {
   }, 1000),
 };
 
-const getInitialBreakpoint = () =>
-  ResponsiveObserve.dispatch(window.innerWidth);
+ResponsiveObserve.dispatch(window.innerWidth);
 
 export const useBreakpoint = () => {
-  const [breakpoint, setBreakpoint] = useState<string>(getInitialBreakpoint);
+  const [breakpoint, setBreakpoint] = useState(size);
 
   useEffect(() => {
     const token = ResponsiveObserve.subscribe(supportScreens => {
