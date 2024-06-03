@@ -49,7 +49,7 @@ const ResponsiveObserve = {
     if (!subscribers.size) this.unregister();
   },
   unregister() {
-    window.addEventListener('resize', this.listener);
+    window.removeEventListener('resize', this.listener);
   },
   register() {
     window.addEventListener('resize', this.listener);
