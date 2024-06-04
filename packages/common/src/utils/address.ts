@@ -44,21 +44,6 @@ export const isHexAddress = (address: string): boolean => {
   return result;
 };
 
-export const isCfxAddress = (address: string): boolean => {
-  const CACHE_KEY = `isCfxAddress(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
-
-  let result = false;
-
-  try {
-    result = SDK.address.isValidCfxAddress(address);
-  } catch (e) {}
-
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-
-  return result;
-};
-
 export const isCfxHexAddress = (address: string): boolean => {
   const CACHE_KEY = `isCfxHexAddress(${address})`;
   if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
@@ -224,7 +209,7 @@ export const getAddressInfo = (
   let result = null;
 
   try {
-    if (isCfxAddress(address)) {
+    if (isCfxHexAddress(address)) {
       const base32Address = formatAddress(address, 'base32');
       result = SDK.address.decodeCfxAddress(base32Address);
     } else if (isBase32Address(address)) {

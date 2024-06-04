@@ -31,7 +31,9 @@ export const Footer = memo(({ rightBottom, rightTop, left }: Props) => {
               'bg-#d1d5ea! mt-1.07rem mb-0.57rem lt-sm:mt-0.79rem lt-sm:mb-0.29rem',
             )}
           />
-          <div key="right-bottom">{rightBottom}</div>
+          <div className="flex lt-sm:px-0.21rem" key="right-bottom">
+            {rightBottom}
+          </div>
         </div>
       </div>
     </div>
