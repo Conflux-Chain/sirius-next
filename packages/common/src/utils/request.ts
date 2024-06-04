@@ -142,7 +142,7 @@ export const sendRequestENSInfo = async (url?: string | null) => {
       method: 'GET',
     });
 
-    return res.data.map;
+    return (res.data || res.result)?.map || {};
   } catch (error) {
     console.error('Request failed', error);
     throw error;

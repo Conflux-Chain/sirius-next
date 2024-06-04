@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import {
   Select as RadixUISelect,
   SelectContent,
@@ -8,15 +8,18 @@ import {
   SelectGroup,
 } from './select';
 import { cn } from '../../utils';
+import { debounce } from 'lodash';
 
 interface SelectProps {
   className?: string;
   disableMatchWidth?: boolean;
   size?: 'small' | 'medium' | 'large';
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
   width?: string | number;
   children: React.ReactNode;
+  lable?: string;
+  disabled?: boolean;
 }
 
 interface OptionProps {
@@ -24,15 +27,15 @@ interface OptionProps {
   children: React.ReactNode;
   value: string;
 }
-
 const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
-  className,
-  disableMatchWidth,
+  className = '',
+  disableMatchWidth = true,
   size = 'medium',
-  value,
+  value = '',
   onChange,
   width = 'auto',
   children,
+  lable = '',
   ...props
 }) => {
   const selectedText = useMemo(() => {
@@ -44,12 +47,16 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
     });
     return text;
   }, [value, children]);
-  console.log(children);
+
+  const handleValueChange = debounce(value => {
+    onChange(value);
+  }, 300);
+
   return (
-    <RadixUISelect value={value} onValueChange={onChange}>
+    <RadixUISelect value={value} onValueChange={handleValueChange}>
       <SelectTrigger
         className={cn(
-          'bg-[rgba(30, 61, 228, 0.04)] hover:bg-[rgba(30, 61, 228, 0.08)]',
+          'bg-blue-04 hover:bg-blue-08 text-[#8890a4]',
           size === 'small' && 'h-8 text-xs',
           size === 'medium' && 'h-10 text-sm',
           size === 'large' && 'h-12 text-lg',
@@ -58,7 +65,7 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
         style={{ width }}
         {...props}
       >
-        <SelectValue>{selectedText}</SelectValue>
+        {lable ? lable : <SelectValue>{selectedText}</SelectValue>}
       </SelectTrigger>
       <SelectContent
         className={cn(
@@ -66,30 +73,22 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
           !disableMatchWidth && 'w-full',
         )}
       >
-        <SelectGroup>
-          {React.Children.map(children, child => {
-            console.log(child);
-            if (React.isValidElement(child)) {
-              const props = child.props;
-              return <Option {...props}>{child}</Option>;
-            }
-            return null;
-          })}
-        </SelectGroup>
+        <SelectGroup>{children}</SelectGroup>
       </SelectContent>
     </RadixUISelect>
   );
 };
 
-const Option: React.FC<OptionProps> = React.forwardRef<
-  HTMLDivElement,
-  OptionProps
->(({ className, children, value, ...props }, ref) => (
-  <SelectItem ref={ref} value={value} className={cn('', className)} {...props}>
+const Option: React.FC<OptionProps> = ({
+  className = '',
+  children,
+  value,
+  ...props
+}: OptionProps) => (
+  <SelectItem value={value} className={className} {...props}>
     {children}
   </SelectItem>
-));
-
+);
 Option.displayName = 'Option';
 
 Select.Option = Option;

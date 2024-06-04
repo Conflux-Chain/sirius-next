@@ -12,10 +12,16 @@ const ensUrl = (ens: ENSType, value: string | null | string[]) => {
 
   let url = null;
 
-  if (typeof value === 'string' && isBase32Address(value)) {
+  if (
+    typeof value === 'string' &&
+    value.startsWith('cfx') &&
+    isBase32Address(value)
+  ) {
     url = `${apiPrefix}/ens/reverse/match?address=${value}`;
   } else if (Array.isArray(value) && value.length) {
-    const validAddresses = value.filter(v => isBase32Address(v) && !ens[v]);
+    const validAddresses = value.filter(
+      v => v.startsWith('cfx') && isBase32Address(v) && !ens[v],
+    );
     if (validAddresses.length === 0) return null;
 
     const baseUrl = `${apiPrefix}/ens/reverse/match?`;

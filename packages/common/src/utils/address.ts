@@ -9,12 +9,39 @@ interface AddressCache {
 }
 export const ADDRESS_FUNC_CACHE: AddressCache = {};
 
+export const convertCheckSum = (cfxAddress?: string) => {
+  if (cfxAddress === undefined) {
+    return '';
+  }
+
+  if (isHexAddress(cfxAddress)) {
+    return SDK.format.checksumAddress(cfxAddress);
+  }
+
+  return cfxAddress;
+};
+
 export const isPosAddress = (address: string): boolean => {
   try {
     return address.startsWith('0x') && address.length === 66;
   } catch (e) {
     return false;
   }
+};
+
+export const isHexAddress = (address: string): boolean => {
+  const CACHE_KEY = `isHexAddress(${address})`;
+  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+
+  let result = false;
+
+  try {
+    result = address.startsWith('0x') && SDK.address.isValidHexAddress(address);
+  } catch (e) {}
+
+  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+
+  return result;
 };
 
 export const isCfxHexAddress = (address: string): boolean => {

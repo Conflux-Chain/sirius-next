@@ -51,6 +51,10 @@ export default defineConfig({
         dark: '#0077FF',
         normal: '#E7F0FF',
         light: '#F8FAFF',
+        '00': 'rgba(30, 61, 228, 0.00)',
+        '04': 'rgba(30, 61, 228, 0.04)',
+        '08': 'rgba(30, 61, 228, 0.08)',
+        'theme-blue0': 'var(--theme-color-blue0)',
       },
       black: {
         normal: '#000000',

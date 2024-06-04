@@ -1,11 +1,6 @@
-import SDK from 'js-conflux-sdk';
 import { Translation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
-import {
-  abbreviateString,
-  isBase32Address,
-  isPosAddress,
-} from '../../utils/address';
+import { abbreviateString, convertCheckSum } from '../../utils/address';
 import { getTranslations } from '../../store';
 import { TooltipContent, RenderAddressProps } from './types';
 
@@ -59,9 +54,9 @@ export const RenderAddress = ({
 
   const name = content || ENSLabel || nametag || addressLabel || alias;
 
-  const calculatedMaxWidth =
-    name && isFullNameTag ? 1000 : isFull ? 430 : maxWidth || defaultPCMaxWidth;
-  const baseClassName = `w-[${calculatedMaxWidth}px] relative inline-flex flex-nowrap align-bottom cursor-default whitespace-nowrap overflow-hidden`;
+  const defaultStyle = {
+    width: `${(name && isFullNameTag) || isFull ? 'auto' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
+  };
 
   const Wrapper = href ? 'a' : 'div';
 
@@ -85,16 +80,11 @@ export const RenderAddress = ({
     },
   };
 
-  const checksumAddress =
-    cfxAddress && isBase32Address(cfxAddress)
-      ? cfxAddress
-      : cfxAddress && isPosAddress(cfxAddress)
-        ? cfxAddress
-        : SDK.format.checksumAddress(cfxAddress);
+  const checksumAddress = convertCheckSum(cfxAddress);
 
   const cfxAddressLabel =
     typeof cfxAddress === 'string' && !isFull
-      ? abbreviateString(cfxAddress)
+      ? abbreviateString(checksumAddress)
       : checksumAddress;
 
   return (
@@ -109,8 +99,8 @@ export const RenderAddress = ({
         }
       >
         <Wrapper
-          className={baseClassName}
-          style={style}
+          className="relative inline-flex flex-nowrap align-bottom cursor-default whitespace-nowrap overflow-hidden"
+          style={{ ...defaultStyle, ...style }}
           {...(href ? { href: String(href) } : {})}
         >
           {name || cfxAddressLabel}
