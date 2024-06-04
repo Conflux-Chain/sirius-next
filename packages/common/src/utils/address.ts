@@ -3,6 +3,7 @@ import lodash from 'lodash';
 import { getEnvConfig } from '../store';
 import { getAccount } from './rpcRequest';
 import { LOCALSTORAGE_KEYS_MAP } from './constants';
+import { RenderAddressProps } from '../components/AddressContainer/types';
 
 interface AddressCache {
   [key: string]: any;
@@ -333,11 +334,34 @@ export const formatAddress = (address: string, outputType = 'base32') => {
 export const abbreviateString = (str: string) => {
   const isHex = str.startsWith('0x');
   const isCfxtest = str.startsWith('cfxtest');
-  const prefixNum = isHex ? 6 : isCfxtest ? 12 : 8;
+  const prefixNum = isHex ? 6 : isCfxtest ? 11 : 7;
   const suffixNum = isHex ? 4 : isCfxtest ? 4 : 8;
 
   if (str.length > 7) {
     return `${str.slice(0, prefixNum)}...${str.slice(-suffixNum)}`;
   }
   return str;
+};
+
+export const convertLink = ({
+  link,
+  type,
+  hrefAddress,
+  cfxAddress,
+}: RenderAddressProps) => {
+  if (typeof link === 'string') {
+    return link;
+  }
+
+  const url = hrefAddress || cfxAddress;
+
+  if (url) {
+    if (window.location.pathname.includes(url)) {
+      return false;
+    }
+
+    return `/${type === 'pow' ? 'address' : 'pos/accounts'}/${url}`;
+  }
+
+  return false;
 };

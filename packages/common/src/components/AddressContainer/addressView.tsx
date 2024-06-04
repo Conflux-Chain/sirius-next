@@ -1,6 +1,11 @@
 import { Translation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
-import { abbreviateString, convertCheckSum } from '../../utils/address';
+import { Text } from '../Text';
+import {
+  abbreviateString,
+  convertCheckSum,
+  convertLink,
+} from '../../utils/address';
 import { getTranslations } from '../../store';
 import { TooltipContent, RenderAddressProps } from './types';
 
@@ -47,16 +52,13 @@ export const RenderAddress = ({
 }: RenderAddressProps) => {
   const translations = getTranslations();
 
-  let href =
-    typeof link === 'string'
-      ? link
-      : `/${type === 'pow' ? 'address' : 'pos/accounts'}/${hrefAddress || cfxAddress}`;
-
   const name = content || ENSLabel || nametag || addressLabel || alias;
 
   const defaultStyle = {
     width: `${(name && isFullNameTag) || isFull ? 'auto' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
   };
+
+  const href = convertLink({ link, type, hrefAddress, cfxAddress });
 
   const Wrapper = href ? 'a' : 'div';
 
@@ -90,8 +92,9 @@ export const RenderAddress = ({
   return (
     <div className="inline-flex">
       {prefix}
-      <Tooltip
-        title={
+      <Text
+        tag="span"
+        hoverValue={
           <>
             {renderTooltipContent(tooltipContent)}
             <div>{hoverValue || checksumAddress}</div>
@@ -99,13 +102,13 @@ export const RenderAddress = ({
         }
       >
         <Wrapper
-          className="relative inline-flex flex-nowrap align-bottom cursor-default whitespace-nowrap overflow-hidden"
+          className="block relative align-bottom cursor-default truncate"
           style={{ ...defaultStyle, ...style }}
           {...(href ? { href: String(href) } : {})}
         >
           {name || cfxAddressLabel}
         </Wrapper>
-      </Tooltip>
+      </Text>
       {suffix}
     </div>
   );
