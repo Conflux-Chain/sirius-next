@@ -55,7 +55,7 @@ export const RenderAddress = ({
   const name = content || ENSLabel || nametag || addressLabel || alias;
 
   const defaultStyle = {
-    width: `${(name && isFullNameTag) || isFull ? 'auto' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
+    maxWidth: `${(name && isFullNameTag) || isFull ? 'auto' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
   };
 
   const href = convertLink({ link, type, hrefAddress, cfxAddress });

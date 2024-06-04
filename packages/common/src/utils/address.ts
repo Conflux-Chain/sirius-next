@@ -219,7 +219,6 @@ export const getAddressInfo = (
   } catch (e) {}
 
   ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-
   return result;
 };
 
