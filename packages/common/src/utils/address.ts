@@ -140,8 +140,23 @@ export async function isAccountAddress(
   return false;
 }
 
+// Only core,8888
 export function isContractAddress(address: string): boolean {
-  return getAddressInfo(address)?.type === 'contract';
+  if (address.startsWith('cfx') || address.startsWith('net8888')) {
+    return (
+      getAddressInfo(address)?.type === 'contract' ||
+      isInnerContractAddress(address)
+    );
+  }
+  return false;
+}
+
+export async function isEvmContractAddress(address: string): Promise<boolean> {
+  try {
+    return (await getAddressType(address)) === 'contract';
+  } catch (e) {
+    throw e;
+  }
 }
 
 export function isInnerContractAddress(address: string): boolean {

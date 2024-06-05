@@ -6,6 +6,7 @@ import {
   isAddress,
   isContractAddress,
   isInnerContractAddress,
+  isEvmContractAddress,
   isZeroAddress,
   convertCheckSum,
 } from '../../utils/address';
@@ -157,8 +158,7 @@ export const AddressContainer = withTranslation()(
 
     if (
       mergeParseProps.isContract ||
-      isContractAddress(mergeParseProps.cfxAddress) ||
-      isInnerContractAddress(mergeParseProps.cfxAddress)
+      isContractAddress(mergeParseProps.cfxAddress)
     ) {
       return ContractAddress(mergeParseProps);
     }
