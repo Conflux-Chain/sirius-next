@@ -54,11 +54,24 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
     onChange(value);
   }, 300);
 
+  const wheel = () => {
+    setOpen(false);
+  };
+
   useEffect(() => {
     if (open) {
-      document.body.removeAttribute('data-scroll-locked');
+      window.addEventListener('wheel', wheel, { passive: false });
+      window.addEventListener('touchmove', wheel, { passive: false });
+    } else {
+      window.removeEventListener('wheel', wheel);
+      window.removeEventListener('touchmove', wheel);
     }
-  }, [open]);
+
+    return () => {
+      window.removeEventListener('wheel', wheel);
+      window.removeEventListener('touchmove', wheel);
+    };
+  }, [open, setOpen]);
 
   return (
     <RadixUISelect

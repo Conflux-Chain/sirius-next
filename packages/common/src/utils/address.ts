@@ -142,7 +142,12 @@ export async function isAccountAddress(
 
 // Only core,8888
 export function isContractAddress(address: string): boolean {
-  if (address.startsWith('cfx') || address.startsWith('net8888')) {
+  if (
+    address.startsWith('cfx') ||
+    address.startsWith('CFX') ||
+    address.startsWith('net8888') ||
+    address.startsWith('NET8888')
+  ) {
     return (
       getAddressInfo(address)?.type === 'contract' ||
       isInnerContractAddress(address)
