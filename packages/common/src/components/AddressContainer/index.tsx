@@ -6,7 +6,9 @@ import {
   isAddress,
   isContractAddress,
   isInnerContractAddress,
+  isEvmContractAddress,
   isZeroAddress,
+  convertCheckSum,
 } from '../../utils/address';
 import { useGlobalData, getTranslations, getEnvConfig } from '../../store';
 import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
@@ -63,7 +65,7 @@ const parseProps = (props: Props & WithTranslation) => {
 
   if (cfxAddress && showAddressLabel) {
     const gAddressLabel =
-      addressLabels?.[cfxAddress] ||
+      addressLabels?.[convertCheckSum(cfxAddress)] ||
       addressLabels?.[cfxAddress.toLocaleLowerCase()];
 
     if (gAddressLabel) {
@@ -156,8 +158,7 @@ export const AddressContainer = withTranslation()(
 
     if (
       mergeParseProps.isContract ||
-      isContractAddress(mergeParseProps.cfxAddress) ||
-      isInnerContractAddress(mergeParseProps.cfxAddress)
+      isContractAddress(mergeParseProps.cfxAddress)
     ) {
       return ContractAddress(mergeParseProps);
     }

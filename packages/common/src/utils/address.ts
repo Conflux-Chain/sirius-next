@@ -3,6 +3,7 @@ import lodash from 'lodash';
 import { getEnvConfig } from '../store';
 import { getAccount } from './rpcRequest';
 import { LOCALSTORAGE_KEYS_MAP } from './constants';
+import { RenderAddressProps } from '../components/AddressContainer/types';
 
 interface AddressCache {
   [key: string]: any;
@@ -139,8 +140,23 @@ export async function isAccountAddress(
   return false;
 }
 
+// Only core,8888
 export function isContractAddress(address: string): boolean {
-  return getAddressInfo(address)?.type === 'contract';
+  if (address.startsWith('cfx') || address.startsWith('net8888')) {
+    return (
+      getAddressInfo(address)?.type === 'contract' ||
+      isInnerContractAddress(address)
+    );
+  }
+  return false;
+}
+
+export async function isEvmContractAddress(address: string): Promise<boolean> {
+  try {
+    return (await getAddressType(address)) === 'contract';
+  } catch (e) {
+    throw e;
+  }
 }
 
 export function isInnerContractAddress(address: string): boolean {
@@ -218,7 +234,6 @@ export const getAddressInfo = (
   } catch (e) {}
 
   ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-
   return result;
 };
 
@@ -333,11 +348,34 @@ export const formatAddress = (address: string, outputType = 'base32') => {
 export const abbreviateString = (str: string) => {
   const isHex = str.startsWith('0x');
   const isCfxtest = str.startsWith('cfxtest');
-  const prefixNum = isHex ? 6 : isCfxtest ? 12 : 8;
+  const prefixNum = isHex ? 6 : isCfxtest ? 11 : 7;
   const suffixNum = isHex ? 4 : isCfxtest ? 4 : 8;
 
   if (str.length > 7) {
     return `${str.slice(0, prefixNum)}...${str.slice(-suffixNum)}`;
   }
   return str;
+};
+
+export const convertLink = ({
+  link,
+  type,
+  hrefAddress,
+  cfxAddress,
+}: RenderAddressProps) => {
+  if (typeof link === 'string') {
+    return link;
+  }
+
+  const url = hrefAddress || cfxAddress;
+
+  if (url) {
+    if (window.location.pathname.includes(url)) {
+      return false;
+    }
+
+    return `/${type === 'pow' ? 'address' : 'pos/accounts'}/${url}`;
+  }
+
+  return false;
 };

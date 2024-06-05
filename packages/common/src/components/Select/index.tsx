@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import {
   Select as RadixUISelect,
   SelectContent,
@@ -38,6 +38,8 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
   lable = '',
   ...props
 }) => {
+  const [open, setOpen] = useState(false);
+
   const selectedText = useMemo(() => {
     let text = 'Select an option...';
     React.Children.forEach(children, child => {
@@ -52,8 +54,19 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
     onChange(value);
   }, 300);
 
+  useEffect(() => {
+    if (open) {
+      document.body.removeAttribute('data-scroll-locked');
+    }
+  }, [open]);
+
   return (
-    <RadixUISelect value={value} onValueChange={handleValueChange}>
+    <RadixUISelect
+      value={value}
+      onValueChange={handleValueChange}
+      open={open}
+      onOpenChange={setOpen}
+    >
       <SelectTrigger
         className={cn(
           'bg-blue-04 hover:bg-blue-08 text-[#8890a4]',
@@ -67,6 +80,7 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
       >
         {lable ? lable : <SelectValue>{selectedText}</SelectValue>}
       </SelectTrigger>
+
       <SelectContent
         className={cn(
           'relative z-50 max-h-96 overflow-hidden rounded-md bg-[#FFF] shadow-md',

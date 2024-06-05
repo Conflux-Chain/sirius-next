@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
 
-const CFX = (window as any).CFX;
-
 interface TxnLoopOptsType {
   callback?: (data: any) => void;
   timeout?: number;
   method?: string;
 }
+
+const promiseCache: { [key: string]: Promise<any> } = {};
+const callbacksCache: Record<string, ((response: any) => void)[]> = {};
 
 export const getTransactionLoop = function (
   hash: string,
@@ -18,26 +19,43 @@ export const getTransactionLoop = function (
     method: 'getTransactionByHash',
     ...outOptions,
   };
-  return new Promise((resolve, reject) => {
+
+  if (!callbacksCache[hash]) {
+    callbacksCache[hash] = [];
+  }
+  if (options.callback) {
+    callbacksCache[hash]?.push(options.callback);
+  }
+
+  if (promiseCache[hash]) {
+    return promiseCache[hash];
+  }
+
+  promiseCache[hash] = new Promise<any>((resolve, reject) => {
     const loop = function () {
-      const t = options.timeout;
+      const t: number = options.timeout;
+      const CFX = (window as any).CFX;
       CFX.cfx[options.method](hash)
         .then((resp: any) => {
           try {
             if (resp) {
-              let status = null;
+              let status: number | null = null;
               if (options.method === 'getTransactionByHash') {
                 status = resp && resp.status;
               } else if (options.method === 'getTransactionReceipt') {
                 status = resp && resp.outcomeStatus;
               }
-              options.callback(resp);
+
+              callbacksCache[hash]?.forEach(cb => cb(resp));
+
               if (status !== 0) {
                 setTimeout(() => {
                   loop();
                 }, t);
               } else {
                 resolve(resp);
+                delete promiseCache[hash];
+                delete callbacksCache[hash];
                 return resp;
               }
             } else {
@@ -47,6 +65,8 @@ export const getTransactionLoop = function (
             }
           } catch (e) {
             reject(e);
+            delete promiseCache[hash];
+            delete callbacksCache[hash];
           }
         })
         .catch(() => {
@@ -55,12 +75,16 @@ export const getTransactionLoop = function (
               loop();
             }, t);
           } catch (e) {
-            throw e;
+            reject(e);
+            delete promiseCache[hash];
+            delete callbacksCache[hash];
           }
         });
     };
     loop();
   });
+
+  return promiseCache[hash];
 };
 
 export const useGetTxnStatus = (
@@ -70,8 +94,8 @@ export const useGetTxnStatus = (
 ) => {
   // 0 for success, 1 for error occured, null when the transaction is skipped or not packed.
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [status, setStatus] = useState({});
-  const markedHashs: any = useRef({});
+  const [status, setStatus] = useState<{ [key: string]: any }>({});
+  const markedHashs = useRef<{ [key: string]: boolean }>({});
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -79,6 +103,7 @@ export const useGetTxnStatus = (
     if (newHashs.length) {
       newHashs.forEach(h => {
         markedHashs.current[h] = true;
+
         getTransactionLoop(h, {
           callback: resp => {
             setStatus((statusMap: { [key: string]: any }) => {
@@ -99,7 +124,7 @@ export const useGetTxnStatus = (
         });
       });
     }
-  });
+  }, [txnHashs]);
 
   return {
     status,
