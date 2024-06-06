@@ -42,9 +42,6 @@ export const CopyButton = React.memo(
         title={text}
         onClose={handleClose}
         closeOnPointerDown={false}
-        triggerProps={{
-          onClick: e => e.stopPropagation(),
-        }}
         positioning={{ placement: 'top-start' }}
       >
         <div className="inline-block">
