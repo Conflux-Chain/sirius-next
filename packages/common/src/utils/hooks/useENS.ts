@@ -21,7 +21,7 @@ const ensUrl = (ens: ENSType, value: string | null | string[]) => {
   } else if (Array.isArray(value) && value.length) {
     const validAddresses = value.filter(
       v =>
-        typeof value === 'string' &&
+        typeof v === 'string' &&
         v.toLowerCase().startsWith('cfx') &&
         isBase32Address(v) &&
         !ens[v],
