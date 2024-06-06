@@ -31,11 +31,11 @@ export const getLabelInfo = (label: string, type: string) => {
     return {
       label,
       icon: (
-        <div className="mr-[2px]">
+        <span className="mr-[2px]">
           <Tooltip title={<Translation>{t => t(trans)}</Translation>}>
             {icon}
           </Tooltip>
-        </div>
+        </span>
       ),
     };
   }

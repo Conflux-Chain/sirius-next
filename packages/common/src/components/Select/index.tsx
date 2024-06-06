@@ -60,6 +60,7 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
 
   useEffect(() => {
     if (open) {
+      document.body.removeAttribute('data-scroll-locked');
       window.addEventListener('wheel', wheel, { passive: false });
       window.addEventListener('touchmove', wheel, { passive: false });
     } else {
@@ -82,7 +83,7 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
     >
       <SelectTrigger
         className={cn(
-          'bg-blue-04 hover:bg-blue-08 text-[#8890a4]',
+          'bg-blue-04 hover:bg-blue-08',
           size === 'small' && 'h-8 text-xs',
           size === 'medium' && 'h-10 text-sm',
           size === 'large' && 'h-12 text-lg',
