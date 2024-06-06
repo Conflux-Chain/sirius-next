@@ -371,7 +371,7 @@ export const convertLink = ({
   const url = hrefAddress || cfxAddress;
 
   if (url) {
-    if (window.location.pathname.includes(url)) {
+    if (window.location.pathname.includes('/address/' + url)) {
       return false;
     }
 
