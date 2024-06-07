@@ -51,15 +51,13 @@ export const isPosAddress = addressHandlerWrapper(
   'isPosAddress',
 );
 
-// cfx, cfxtest, net8888
+// cfx, cfxtest
 export const isCoreDisplayAddress = addressHandlerWrapper(
   (address: string): boolean => {
     let result = false;
 
     try {
-      result =
-        isBase32Address(address) &&
-        (address.startsWith('cfx') || address.startsWith('net8888'));
+      result = isBase32Address(address) && address.startsWith('cfx');
     } catch (e) {}
 
     return result;
