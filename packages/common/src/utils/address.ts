@@ -52,7 +52,7 @@ export const isPosAddress = addressHandlerWrapper(
 );
 
 // cfx, cfxtest
-export const isCoreDisplayAddress = addressHandlerWrapper(
+export const isCoreOrCoreTestShowAddress = addressHandlerWrapper(
   (address: string): boolean => {
     let result = false;
 
@@ -166,16 +166,13 @@ export const isAccountAddress = addressHandlerWrapper(
   'isAccountAddress',
 );
 
-// Only core, net8888
 export const isCoreContractAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    if (address.startsWith('cfx') || address.startsWith('net8888')) {
-      return (
-        getAddressInfo(address)?.type === 'contract' ||
-        isInnerContractAddress(address)
-      );
-    }
-    return false;
+    return (
+      isBase32Address(address) &&
+      (getAddressInfo(address)?.type === 'contract' ||
+        isInnerContractAddress(address))
+    );
   },
   'isCoreContractAddress',
 );
