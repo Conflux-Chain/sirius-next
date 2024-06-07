@@ -234,6 +234,9 @@ export const isContractCodeHashEmpty = addressHandlerWrapper(
   'isContractCodeHashEmpty',
 );
 
+/**
+ * Only evm address type
+ */
 export const getAddressType = addressHandlerWrapper(
   async (address: string): Promise<string> => {
     try {
@@ -250,6 +253,9 @@ export const getAddressType = addressHandlerWrapper(
   'getAddressType',
 );
 
+/**
+ * Only core address type
+ */
 export const getAddressInfo = addressHandlerWrapper(
   (
     address: string,
