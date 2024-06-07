@@ -1,3 +1,5 @@
+import { getEnvConfig } from '../store';
+import lodash from 'lodash';
 /**
  * @todo
  * 1. setNFTCacheInfo cacheKey
@@ -40,3 +42,16 @@ export const getCurrency = () => {
 export const getCurrencySymbol = () => {
   return CURRENCY_SYMBOLS[getCurrency()];
 };
+
+export const NETWORK_ID = (() => {
+  const ENV_CONFIG = getEnvConfig();
+  let networkId = ENV_CONFIG.ENV_NETWORK_ID;
+  let cacheNetworkId = Number(
+    localStorage.getItem(LOCALSTORAGE_KEYS_MAP.networkId),
+  );
+
+  if (lodash.isFinite(cacheNetworkId)) {
+    networkId = Number(cacheNetworkId);
+  }
+  return networkId;
+})();
