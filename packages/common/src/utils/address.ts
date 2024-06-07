@@ -303,7 +303,7 @@ export const formatAddress = addressHandlerWrapper(
 );
 
 // Omit specification judgment: test environment cfxtest:....xxxx, production environment cfx:....xxxx,
-export const abbreviateString = addressHandlerWrapper((str: string) => {
+export const abbreviateString = (str: string) => {
   const isHex = str.startsWith('0x');
   const isCfxtest = str.startsWith('cfxtest');
   const prefixNum = isHex ? 6 : isCfxtest ? 11 : 7;
@@ -313,7 +313,7 @@ export const abbreviateString = addressHandlerWrapper((str: string) => {
     return `${str.slice(0, prefixNum)}...${str.slice(-suffixNum)}`;
   }
   return str;
-}, 'abbreviateString');
+};
 
 export const convertLink = ({
   link,
