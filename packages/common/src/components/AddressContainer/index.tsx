@@ -4,9 +4,7 @@ import _ from 'lodash';
 import {
   formatAddress,
   isAddress,
-  isContractAddress,
-  isInnerContractAddress,
-  isEvmContractAddress,
+  isCoreContractAddress,
   isZeroAddress,
   convertCheckSum,
 } from '../../utils/address';
@@ -158,7 +156,7 @@ export const AddressContainer = withTranslation()(
 
     if (
       mergeParseProps.isContract ||
-      isContractAddress(mergeParseProps.cfxAddress)
+      isCoreContractAddress(mergeParseProps.cfxAddress)
     ) {
       return ContractAddress(mergeParseProps);
     }

@@ -168,8 +168,8 @@ export const isAccountAddress = addressHandlerWrapper(
   'isAccountAddress',
 );
 
-// Only core,8888
-export const isContractAddress = addressHandlerWrapper(
+// Only core, net8888
+export const isCoreContractAddress = addressHandlerWrapper(
   (address: string): boolean => {
     if (address.startsWith('cfx') || address.startsWith('net8888')) {
       return (
@@ -179,8 +179,15 @@ export const isContractAddress = addressHandlerWrapper(
     }
     return false;
   },
-  'isContractAddress',
+  'isCoreContractAddress',
 );
+
+/**
+ * @deprecated
+ */
+export const isContractAddress = (address: string): boolean => {
+  return isCoreContractAddress(address);
+};
 
 export const isEvmContractAddress = addressHandlerWrapper(
   async (address: string): Promise<boolean> => {

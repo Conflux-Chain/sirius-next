@@ -45,13 +45,13 @@ describe('isCfxHexAddress', () => {
     );
   });
 
-  test('isContractAddress', () => {
+  test('isCoreContractAddress', () => {
     expect(isCfxHexAddress('0x8000000000000000000000000000000000000000')).toBe(
       true,
     );
   });
 
-  test('Faild isContractAddress', () => {
+  test('Faild isCoreContractAddress', () => {
     expect(isCfxHexAddress('0x9000000000000000000000000000000000000000')).toBe(
       false,
     );
