@@ -17,7 +17,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@cfx-kit/react-utils": "^0.0.28",
+    "@cfx-kit/react-utils": "^0.0.29",
     "@cfx-kit/ui-components": "^0.0.17",
     "@cfxjs/sirius-next-i18n": "workspace:*",
     "@radix-ui/react-select": "^2.0.0",
@@ -52,10 +52,10 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@iconify-json/line-md": "^1.1.36",
-    "@iconify-json/material-symbols": "^1.1.77",
     "@cfxjs/sirius-next-eslint-config": "workspace:*",
     "@cfxjs/sirius-next-typescript-config": "workspace:*",
+    "@iconify-json/line-md": "^1.1.36",
+    "@iconify-json/material-symbols": "^1.1.77",
     "@turbo/gen": "^1.12.4",
     "@types/eslint": "^8.56.5",
     "@types/jest": "^29.5.12",

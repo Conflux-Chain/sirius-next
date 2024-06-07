@@ -1,16 +1,13 @@
 import React, {
-  Children,
-  isValidElement,
-  cloneElement,
   HTMLAttributes,
   ComponentProps,
   useRef,
   MouseEventHandler,
-  useEffect,
-  useState,
 } from 'react';
 import _Tooltip from '@cfx-kit/ui-components/dist/Tooltip';
 import clsx from 'clsx';
+import { useClickAway } from '@cfx-kit/react-utils/dist/hooks';
+import { cn } from 'src/utils';
 
 export interface TooltipProps
   extends Omit<
@@ -20,29 +17,25 @@ export interface TooltipProps
   title: React.ReactNode;
   children?: React.ReactNode;
   triggerProps?: HTMLAttributes<HTMLElement>;
+  className?: string;
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
   title,
   children = null,
   positioning = {},
-  open: _open,
+  className,
   ...rest
 }) => {
   const { placement = 'top' } = positioning;
-  const [open, setOpen] = useState(!!_open);
   const onCloseRef = useRef<MouseEventHandler<HTMLElement>>();
-  useEffect(() => {
-    const callback = (e: MouseEvent) => {
-      onCloseRef.current?.(
-        e as unknown as React.MouseEvent<HTMLElement, MouseEvent>,
-      );
-    };
-    if (open) {
-      document.addEventListener('click', callback);
-    }
-    return () => document.removeEventListener('click', callback);
-  }, [open]);
+  const triggerRef = useRef<HTMLSpanElement>(null);
+  const triggerContentRef = useRef<HTMLElement | null>(null);
+  useClickAway([triggerRef, triggerContentRef], e => {
+    onCloseRef.current?.(
+      e as unknown as React.MouseEvent<HTMLElement, MouseEvent>,
+    );
+  });
   return (
     <_Tooltip
       trigger={({ triggerProps }) => {
@@ -51,16 +44,16 @@ export const Tooltip: React.FC<TooltipProps> = ({
         // override onClick with onPointerMove to prevent hide tooltip when click trigger and show tooltip in mobile
         triggerProps.onClick = e => {
           triggerProps.onPointerMove?.(e as React.PointerEvent<HTMLElement>);
-          e.stopPropagation();
         };
-        if (Children.count(children) === 1 && isValidElement(children)) {
-          return cloneElement(children, {
-            ...triggerProps,
-            ...(children.props as {}),
-          });
-        } else {
-          return <span {...triggerProps}>{children}</span>;
-        }
+        return (
+          <span
+            ref={triggerRef}
+            {...triggerProps}
+            className={cn(className, triggerProps.className)}
+          >
+            {children}
+          </span>
+        );
       }}
       containerClassName={clsx(
         'sirius-next-tooltip',
@@ -75,17 +68,27 @@ export const Tooltip: React.FC<TooltipProps> = ({
         ...positioning,
         placement,
       }}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
     >
-      <div
-        className="px-8px py-6px text-12px text-#fff text-left shadow break-words ws-normal bg-#333 min-w-30px min-h-32px decoration-none rounded-2px"
-        onClick={e => {
-          e.stopPropagation();
-        }}
-      >
-        {title}
-      </div>
+      {({ contentProps }) => {
+        const _onPointerLeave = contentProps.onPointerLeave;
+        contentProps.onPointerLeave = e => {
+          if (e.pointerType === 'touch') return;
+          _onPointerLeave?.(e);
+        };
+        return (
+          <div
+            className="px-8px py-6px text-12px text-#fff text-left shadow break-words ws-normal bg-#333 min-w-30px min-h-32px decoration-none rounded-2px"
+            ref={_ref =>
+              _ref
+                ? (triggerContentRef.current = _ref.parentElement)
+                : (triggerContentRef.current = null)
+            }
+            {...contentProps}
+          >
+            {title}
+          </div>
+        );
+      }}
     </_Tooltip>
   );
 };
