@@ -52,7 +52,7 @@ export const isPosAddress = addressHandlerWrapper(
 );
 
 // cfx, cfxtest
-export const isCoreOrCoreTestShowAddress = addressHandlerWrapper(
+export const isCoreMainOrTestAddress = addressHandlerWrapper(
   (address: string): boolean => {
     let result = false;
 
@@ -62,7 +62,7 @@ export const isCoreOrCoreTestShowAddress = addressHandlerWrapper(
 
     return result;
   },
-  'isCoreDisplayAddress',
+  'isCoreMainOrTestAddress',
 );
 
 export const isHexAddress = addressHandlerWrapper(
