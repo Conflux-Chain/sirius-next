@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { sendRequestENSInfo } from 'src/utils/request';
 import { useENSStore } from '../../store';
 import { ENSType } from '../../store/types';
-import { isBase32Address } from '../address';
+import { isCoreDisplayAddress } from '../address';
 import { apiPrefix } from '../constants';
 
 const ensUrl = (ens: ENSType, value: string | null | string[]) => {
@@ -12,19 +12,11 @@ const ensUrl = (ens: ENSType, value: string | null | string[]) => {
 
   let url = null;
 
-  if (
-    typeof value === 'string' &&
-    value.toLowerCase().startsWith('cfx') &&
-    isBase32Address(value)
-  ) {
+  if (typeof value === 'string' && isCoreDisplayAddress(value)) {
     url = `${apiPrefix}/ens/reverse/match?address=${value}`;
   } else if (Array.isArray(value) && value.length) {
     const validAddresses = value.filter(
-      v =>
-        typeof v === 'string' &&
-        v.toLowerCase().startsWith('cfx') &&
-        isBase32Address(v) &&
-        !ens[v],
+      v => typeof v === 'string' && isCoreDisplayAddress(v) && !ens[v],
     );
     if (validAddresses.length === 0) return null;
 
