@@ -2,7 +2,7 @@ import { Translation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
 import { Text } from '../Text';
 import {
-  abbreviateString,
+  abbreviateAddress,
   convertCheckSum,
   convertLink,
 } from '../../utils/address';
@@ -86,7 +86,7 @@ export const RenderAddress = ({
 
   const cfxAddressLabel =
     typeof cfxAddress === 'string' && !isFull
-      ? abbreviateString(checksumAddress)
+      ? abbreviateAddress(checksumAddress)
       : checksumAddress;
 
   return (
