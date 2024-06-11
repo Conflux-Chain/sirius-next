@@ -378,7 +378,7 @@ export const abbreviateAddress = (address: string) => {
   // const prefixNum = isHex ? 6 : isCfxtest ? 11 : 7;
   // const suffixNum = isHex ? 4 : isCfxtest ? 4 : 8;
 
-  if (address.length > 7) {
+  if (address.length > 7 && prefixNum !== 0 && suffixNum !== 0) {
     return `${address.slice(0, prefixNum)}...${address.slice(-suffixNum)}`;
   }
   return address;
