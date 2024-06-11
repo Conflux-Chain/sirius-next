@@ -152,11 +152,13 @@ export const isZeroAddress = addressHandlerWrapper(
 export const isAccountAddress = addressHandlerWrapper(
   async (address: string, space: string): Promise<boolean> => {
     if (space === 'core') {
-      return getAddressInfo(address)?.type === 'user' || isZeroAddress(address);
+      return (
+        getCoreAddressInfo(address)?.type === 'user' || isZeroAddress(address)
+      );
     }
     if (space === 'evm') {
       try {
-        return (await getAddressType(address)) === 'account';
+        return (await getEvmAddressType(address)) === 'account';
       } catch (e) {
         throw e;
       }
@@ -170,7 +172,7 @@ export const isCoreContractAddress = addressHandlerWrapper(
   (address: string): boolean => {
     return (
       isBase32Address(address) &&
-      (getAddressInfo(address)?.type === 'contract' ||
+      (getCoreAddressInfo(address)?.type === 'contract' ||
         isInnerContractAddress(address))
     );
   },
@@ -187,7 +189,7 @@ export const isContractAddress = (address: string): boolean => {
 export const isEvmContractAddress = addressHandlerWrapper(
   async (address: string): Promise<boolean> => {
     try {
-      return (await getAddressType(address)) === 'contract';
+      return (await getEvmAddressType(address)) === 'contract';
     } catch (e) {
       throw e;
     }
@@ -214,7 +216,7 @@ export const isInnerContractAddress = addressHandlerWrapper(
 export const isSpecialAddress = addressHandlerWrapper(
   (address: string): boolean => {
     let result =
-      getAddressInfo(address)?.type === 'builtin' &&
+      getCoreAddressInfo(address)?.type === 'builtin' &&
       !isInnerContractAddress(address);
 
     return result;
@@ -237,7 +239,7 @@ export const isContractCodeHashEmpty = addressHandlerWrapper(
 /**
  * Only evm address type
  */
-export const getAddressType = addressHandlerWrapper(
+export const getEvmAddressType = addressHandlerWrapper(
   async (address: string): Promise<string> => {
     try {
       const account: any = await getAccount(address);
@@ -246,17 +248,17 @@ export const getAddressType = addressHandlerWrapper(
       }
       return 'contract';
     } catch (e) {
-      console.log('getAddressType error: ', e);
+      console.log('getEvmAddressType error: ', e);
       throw e;
     }
   },
-  'getAddressType',
+  'getEvmAddressType',
 );
 
 /**
  * Only core address type
  */
-export const getAddressInfo = addressHandlerWrapper(
+export const getCoreAddressInfo = addressHandlerWrapper(
   (
     address: string,
   ): {
@@ -277,7 +279,7 @@ export const getAddressInfo = addressHandlerWrapper(
 
     return result;
   },
-  'getAddressInfo',
+  'getCoreAddressInfo',
 );
 
 export const formatAddress = addressHandlerWrapper(
