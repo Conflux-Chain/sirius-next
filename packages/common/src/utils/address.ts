@@ -77,13 +77,11 @@ export const isCoreTestnetAddress = addressHandlerWrapper(
 // evm
 export const isHexAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    let result = false;
-
     try {
-      result = SDK.address.isValidHexAddress(address);
-    } catch (e) {}
-
-    return result;
+      return SDK.address.isValidHexAddress(address);
+    } catch (e) {
+      return false;
+    }
   },
   'isHexAddress',
 );
@@ -91,13 +89,11 @@ export const isHexAddress = addressHandlerWrapper(
 // core
 export const isCfxHexAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    let result = false;
-
     try {
-      result = SDK.address.isValidCfxHexAddress(address);
-    } catch (e) {}
-
-    return result;
+      return SDK.address.isValidCfxHexAddress(address);
+    } catch (e) {
+      return false;
+    }
   },
   'isCfxHexAddress',
 );
@@ -105,13 +101,11 @@ export const isCfxHexAddress = addressHandlerWrapper(
 // core
 export const isBase32Address = addressHandlerWrapper(
   (address: string): boolean => {
-    let result = false;
-
     try {
-      result = SDK.address.isValidCfxAddress(address);
-    } catch (e) {}
-
-    return result;
+      return SDK.address.isValidCfxAddress(address);
+    } catch (e) {
+      return false;
+    }
   },
   'isBase32Address',
 );
@@ -119,15 +113,13 @@ export const isBase32Address = addressHandlerWrapper(
 // core
 export const isSimplyBase32Address = addressHandlerWrapper(
   (address: string): boolean => {
-    let result = false;
-
     try {
-      result =
-        SDK.address.isValidCfxAddress(address) &&
+      return;
+      SDK.address.isValidCfxAddress(address) &&
         SDK.address.simplifyCfxAddress(address) === address;
-    } catch (e) {}
-
-    return result;
+    } catch (e) {
+      return false;
+    }
   },
   'isSimplyBase32Address',
 );
@@ -148,8 +140,6 @@ export const isAddress = addressHandlerWrapper((address: string): boolean => {
 // common
 export const isZeroAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    let result = false;
-
     try {
       // result =
       // SDK.address.isZeroAddress(formatAddress(address, 'hex')) ||
@@ -157,16 +147,16 @@ export const isZeroAddress = addressHandlerWrapper(
       // address === '0x0';
       // evm
       if (isHexAddress(address)) {
-        result = address === SDK.CONST.ZERO_ADDRESS_HEX;
+        return address === SDK.CONST.ZERO_ADDRESS_HEX;
         // core
       } else if (isBase32Address(address)) {
-        result = SDK.address.isZeroAddress(formatAddress(address, 'hex'));
+        return SDK.address.isZeroAddress(formatAddress(address, 'hex'));
       } else if (address === '0x0') {
         return true;
       }
-    } catch (e) {}
-
-    return result;
+    } catch (e) {
+      return false;
+    }
   },
   'isZeroAddress',
 );
@@ -241,15 +231,13 @@ export const isEvmContractAddress = addressHandlerWrapper(
 //core
 export const isInnerContractAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    let result = false;
-
     try {
-      result = SDK.address.isInternalContractAddress(
+      return SDK.address.isInternalContractAddress(
         formatAddress(address, 'hex'),
       );
-    } catch (e) {}
-
-    return result;
+    } catch (e) {
+      return false;
+    }
   },
   'isInnerContractAddress',
 );
@@ -258,11 +246,10 @@ export const isInnerContractAddress = addressHandlerWrapper(
 // address start with 0x0, not valid internal contract, but fullnode support
 export const isSpecialAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    let result =
+    return (
       getCoreAddressInfo(address)?.type === 'builtin' &&
-      !isInnerContractAddress(address);
-
-    return result;
+      !isInnerContractAddress(address)
+    );
   },
   'isSpecialAddress',
 );
