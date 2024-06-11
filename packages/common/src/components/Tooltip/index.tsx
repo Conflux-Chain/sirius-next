@@ -1,12 +1,13 @@
 import React, {
-  Children,
-  isValidElement,
-  cloneElement,
   HTMLAttributes,
   ComponentProps,
+  useRef,
+  MouseEventHandler,
 } from 'react';
 import _Tooltip from '@cfx-kit/ui-components/dist/Tooltip';
 import clsx from 'clsx';
+import { useClickAway } from '@cfx-kit/react-utils/dist/hooks';
+import { cn } from 'src/utils';
 
 export interface TooltipProps
   extends Omit<
@@ -16,33 +17,43 @@ export interface TooltipProps
   title: React.ReactNode;
   children?: React.ReactNode;
   triggerProps?: HTMLAttributes<HTMLElement>;
+  className?: string;
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
   title,
   children = null,
   positioning = {},
-  triggerProps: _triggerProps = {},
+  className,
   ...rest
 }) => {
   const { placement = 'top' } = positioning;
+  const onCloseRef = useRef<MouseEventHandler<HTMLElement>>();
+  const triggerRef = useRef<HTMLSpanElement>(null);
+  const triggerContentRef = useRef<HTMLElement | null>(null);
+  useClickAway([triggerRef, triggerContentRef], e => {
+    onCloseRef.current?.(
+      e as unknown as React.MouseEvent<HTMLElement, MouseEvent>,
+    );
+  });
   return (
     <_Tooltip
       trigger={({ triggerProps }) => {
-        if (Children.count(children) === 1 && isValidElement(children)) {
-          delete triggerProps.onClick;
-          return cloneElement(children, {
-            ...triggerProps,
-            ...(children.props as {}),
-            ..._triggerProps,
-          });
-        } else {
-          return (
-            <span {...triggerProps} {..._triggerProps}>
-              {children}
-            </span>
-          );
-        }
+        // save onClick to hide tooltip while click outside
+        onCloseRef.current = triggerProps.onClick;
+        // override onClick with onPointerMove to prevent hide tooltip when click trigger and show tooltip in mobile
+        triggerProps.onClick = e => {
+          triggerProps.onPointerMove?.(e as React.PointerEvent<HTMLElement>);
+        };
+        return (
+          <span
+            ref={triggerRef}
+            {...triggerProps}
+            className={cn(className, triggerProps.className)}
+          >
+            {children}
+          </span>
+        );
       }}
       containerClassName={clsx(
         'sirius-next-tooltip',
@@ -51,15 +62,33 @@ export const Tooltip: React.FC<TooltipProps> = ({
         '[&.ui-tooltip>[data-part=arrow]]:[--arrow-size:6px] [&.ui-tooltip>[data-part=arrow]]:[--arrow-background:#333]',
       )}
       openDelay={0}
+      closeOnPointerDown={false}
       {...rest}
       positioning={{
         ...positioning,
         placement,
       }}
     >
-      <div className="px-8px py-6px text-12px text-#fff text-left shadow break-words ws-normal bg-#333 min-w-30px min-h-32px decoration-none rounded-2px">
-        {title}
-      </div>
+      {({ contentProps }) => {
+        const _onPointerLeave = contentProps.onPointerLeave;
+        contentProps.onPointerLeave = e => {
+          if (e.pointerType === 'touch') return;
+          _onPointerLeave?.(e);
+        };
+        return (
+          <div
+            className="px-8px py-6px text-12px text-#fff text-left shadow break-words ws-normal bg-#333 min-w-30px min-h-32px decoration-none rounded-2px"
+            ref={_ref =>
+              _ref
+                ? (triggerContentRef.current = _ref.parentElement)
+                : (triggerContentRef.current = null)
+            }
+            {...contentProps}
+          >
+            {title}
+          </div>
+        );
+      }}
     </_Tooltip>
   );
 };

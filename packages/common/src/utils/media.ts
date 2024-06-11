@@ -22,11 +22,11 @@ let subUid = -1;
 let size = '';
 const ResponsiveObserve = {
   sortedBreakpoints: Object.entries(sizes).sort((a, b) =>
-    a[1] <= b[1] ? -1 : 1,
+    a[1] <= b[1] ? 1 : -1,
   ),
   dispatch(innerWidth: number) {
     const length = this.sortedBreakpoints.length;
-    let _size = this.sortedBreakpoints[length - 1]![0];
+    let _size = this.sortedBreakpoints[0]![0];
     for (let i = 0; i < length; i++) {
       const [name, width] = this.sortedBreakpoints[i]!;
       if (innerWidth <= width) {

@@ -134,8 +134,8 @@ importers:
   packages/common:
     dependencies:
       '@cfx-kit/react-utils':
-        specifier: ^0.0.28
-        version: 0.0.28(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
+        specifier: ^0.0.29
+        version: 0.0.29(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
       '@cfx-kit/ui-components':
         specifier: ^0.0.17
         version: 0.0.17(@zag-js/accordion@0.19.1)(@zag-js/checkbox@0.19.1)(@zag-js/dialog@0.19.1)(@zag-js/pagination@0.19.1)(@zag-js/popover@0.19.1)(@zag-js/react@0.19.1)(@zag-js/select@0.19.1)(@zag-js/switch@0.19.1)(@zag-js/toast@0.19.1)(@zag-js/tooltip@0.19.1)(react@18.2.0)
@@ -837,8 +837,8 @@ packages:
       - zod
     dev: false
 
-  /@cfx-kit/react-utils@0.0.28(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3):
-    resolution: {integrity: sha512-WnxQ/oM5fzsjEKW3qWBY/q3ZbTL7B5/XuxI26gkEOL69bWOKdeWJzsQbfGjL6l0SEHX7BXQxQjZ0HqFlvwLj3g==}
+  /@cfx-kit/react-utils@0.0.29(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3):
+    resolution: {integrity: sha512-dtqQrWEZvegP9E2NC5zN1kN9LR8n6QCW1ZsjxpfN1q0g5Dl5SW/eTuztBjlsXihkZGJL0yHDeLGXABedX8siEw==}
     peerDependencies:
       ethers: ^6.6.4
       react: ^18.0.0

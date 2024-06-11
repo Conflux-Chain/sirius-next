@@ -35,14 +35,15 @@ export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
 
   return (
     <div className="text-right mb-[-1rem]">
-      <Tooltip title={t(translations.general.downloadCSV.latest5000records)}>
-        <div className="inline-block pr-[0.2857rem] w-[1.2857rem] cursor-pointer">
-          <img
-            src={iconInfo}
-            alt="warning-icon"
-            className="mt-[-0.2857rem]"
-          ></img>
-        </div>
+      <Tooltip
+        className="inline-block pr-[0.2857rem] w-[1.2857rem] cursor-pointer"
+        title={t(translations.general.downloadCSV.latest5000records)}
+      >
+        <img
+          src={iconInfo}
+          alt="warning-icon"
+          className="mt-[-0.2857rem]"
+        ></img>
       </Tooltip>
       <span>{t(translations.general.downloadCSV.download)} </span>
       <Link onClick={handleDownloadCSV}>
