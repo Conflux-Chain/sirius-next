@@ -32,7 +32,7 @@ const addressHandlerWrapper = <T extends Function>(
 
 // evm
 export const convertCheckSum = addressHandlerWrapper((address?: string) => {
-  if (isHexAddress(address)) {
+  if (address && isHexAddress(address)) {
     return SDK.format.checksumAddress(address);
   }
   return address;
