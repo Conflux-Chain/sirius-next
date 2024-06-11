@@ -1,16 +1,34 @@
 import SDK from 'js-conflux-sdk';
-import lodash from 'lodash';
-import { getEnvConfig } from '../store';
 import { getAccount } from './rpcRequest';
-import { LOCALSTORAGE_KEYS_MAP } from './constants';
 import { RenderAddressProps } from '../components/AddressContainer/types';
+import { NETWORK_ID } from './constants';
 
 interface AddressCache {
   [key: string]: any;
 }
 export const ADDRESS_FUNC_CACHE: AddressCache = {};
 
-export const convertCheckSum = (cfxAddress?: string) => {
+const addressHandlerWrapper = <T extends Function>(
+  handler: T,
+  cacheKey?: string,
+): T => {
+  return ((address: string, ...args: unknown[]) => {
+    if (!address) return handler(address, ...args);
+    const lowerAddress = address.toLowerCase();
+    let CACHE_KEY = '';
+    if (cacheKey) {
+      CACHE_KEY = `${cacheKey}(${lowerAddress},${args.join(',')})`;
+      if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+    }
+    const result = handler(lowerAddress, ...args);
+    if (cacheKey) {
+      ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+    }
+    return result;
+  }) as unknown as T;
+};
+
+export const convertCheckSum = addressHandlerWrapper((cfxAddress?: string) => {
   if (cfxAddress === undefined) {
     return '';
   }
@@ -20,80 +38,90 @@ export const convertCheckSum = (cfxAddress?: string) => {
   }
 
   return cfxAddress;
-};
+}, 'convertCheckSum');
 
-export const isPosAddress = (address: string): boolean => {
-  try {
-    return address.startsWith('0x') && address.length === 66;
-  } catch (e) {
-    return false;
-  }
-};
+export const isPosAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    try {
+      return address.startsWith('0x') && address.length === 66;
+    } catch (e) {
+      return false;
+    }
+  },
+  'isPosAddress',
+);
 
-export const isHexAddress = (address: string): boolean => {
-  const CACHE_KEY = `isHexAddress(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+// cfx, cfxtest
+export const isCoreMainOrTestAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result = false;
 
-  let result = false;
+    try {
+      result = isBase32Address(address) && address.startsWith('cfx');
+    } catch (e) {}
 
-  try {
-    result = address.startsWith('0x') && SDK.address.isValidHexAddress(address);
-  } catch (e) {}
+    return result;
+  },
+  'isCoreMainOrTestAddress',
+);
 
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+export const isHexAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result = false;
 
-  return result;
-};
+    try {
+      result =
+        address.startsWith('0x') && SDK.address.isValidHexAddress(address);
+    } catch (e) {}
 
-export const isCfxHexAddress = (address: string): boolean => {
-  const CACHE_KEY = `isCfxHexAddress(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+    return result;
+  },
+  'isHexAddress',
+);
 
-  let result = false;
+export const isCfxHexAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result = false;
 
-  try {
-    result = SDK.address.isValidCfxHexAddress(address);
-  } catch (e) {}
+    try {
+      result = SDK.address.isValidCfxHexAddress(address);
+    } catch (e) {}
 
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+    return result;
+  },
+  'isCfxHexAddress',
+);
 
-  return result;
-};
+export const isBase32Address = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result = false;
 
-export const isBase32Address = (address: string): boolean => {
-  const CACHE_KEY = `isBase32Address(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+    try {
+      result = SDK.address.isValidCfxAddress(address);
+    } catch (e) {}
 
-  let result = false;
+    return result;
+  },
+  'isBase32Address',
+);
 
-  try {
-    result = SDK.address.isValidCfxAddress(address);
-  } catch (e) {}
+export const isSimplyBase32Address = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result = false;
 
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+    try {
+      result =
+        SDK.address.isValidCfxAddress(address) &&
+        SDK.address.simplifyCfxAddress(address) === address;
+    } catch (e) {}
 
-  return result;
-};
-
-export const isSimplyBase32Address = (address: string): boolean => {
-  const CACHE_KEY = `isSimplyBase32Address(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
-
-  let result = false;
-
-  try {
-    result =
-      SDK.address.isValidCfxAddress(address) &&
-      SDK.address.simplifyCfxAddress(address) === address;
-  } catch (e) {}
-
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-
-  return result;
-};
+    return result;
+  },
+  'isSimplyBase32Address',
+);
 
 // support hex and base32
-export const isAddress = (address: string): boolean => {
+export const isAddress = addressHandlerWrapper((address: string): boolean => {
   try {
     if (address.startsWith('0x')) {
       return SDK.address.isValidHexAddress(address) || isZeroAddress(address);
@@ -103,246 +131,184 @@ export const isAddress = (address: string): boolean => {
   } catch (e) {
     return false;
   }
+}, 'isAddress');
+
+export const isZeroAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result = false;
+
+    try {
+      result =
+        SDK.address.isZeroAddress(formatAddress(address, 'hex')) ||
+        address === SDK.CONST.ZERO_ADDRESS_HEX ||
+        address === '0x0';
+    } catch (e) {}
+
+    return result;
+  },
+  'isZeroAddress',
+);
+
+export const isAccountAddress = addressHandlerWrapper(
+  async (address: string, space: string): Promise<boolean> => {
+    if (space === 'core') {
+      return (
+        getCoreAddressInfo(address)?.type === 'user' || isZeroAddress(address)
+      );
+    }
+    if (space === 'evm') {
+      try {
+        return (await getEvmAddressType(address)) === 'account';
+      } catch (e) {
+        throw e;
+      }
+    }
+    return false;
+  },
+  'isAccountAddress',
+);
+
+export const isCoreContractAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return (
+      isBase32Address(address) &&
+      (getCoreAddressInfo(address)?.type === 'contract' ||
+        isInnerContractAddress(address))
+    );
+  },
+  'isCoreContractAddress',
+);
+
+/**
+ * @deprecated
+ */
+export const isContractAddress = (address: string): boolean => {
+  return isCoreContractAddress(address);
 };
 
-export function isZeroAddress(address: string): boolean {
-  const CACHE_KEY = `isZeroAddress(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
-
-  let result = false;
-
-  try {
-    result =
-      SDK.address.isZeroAddress(formatAddress(address, 'hex')) ||
-      address === SDK.CONST.ZERO_ADDRESS_HEX ||
-      address === '0x0';
-  } catch (e) {}
-
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-
-  return result;
-}
-
-export async function isAccountAddress(
-  address: string,
-  space: string,
-): Promise<boolean> {
-  if (space === 'core') {
-    return getAddressInfo(address)?.type === 'user' || isZeroAddress(address);
-  }
-  if (space === 'evm') {
+export const isEvmContractAddress = addressHandlerWrapper(
+  async (address: string): Promise<boolean> => {
     try {
-      return (await getAddressType(address)) === 'account';
+      return (await getEvmAddressType(address)) === 'contract';
     } catch (e) {
       throw e;
     }
-  }
-  return false;
-}
+  },
+  'isEvmContractAddress',
+);
 
-// Only core,8888
-export function isContractAddress(address: string): boolean {
-  if (address.startsWith('cfx') || address.startsWith('net8888')) {
-    return (
-      getAddressInfo(address)?.type === 'contract' ||
-      isInnerContractAddress(address)
-    );
-  }
-  return false;
-}
+export const isInnerContractAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result = false;
 
-export async function isEvmContractAddress(address: string): Promise<boolean> {
-  try {
-    return (await getAddressType(address)) === 'contract';
-  } catch (e) {
-    throw e;
-  }
-}
+    try {
+      result = SDK.address.isInternalContractAddress(
+        formatAddress(address, 'hex'),
+      );
+    } catch (e) {}
 
-export function isInnerContractAddress(address: string): boolean {
-  const CACHE_KEY = `isInnerContractAddress(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
-
-  let result = false;
-
-  try {
-    result = SDK.address.isInternalContractAddress(
-      formatAddress(address, 'hex'),
-    );
-  } catch (e) {}
-
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-
-  return result;
-}
+    return result;
+  },
+  'isInnerContractAddress',
+);
 
 // address start with 0x0, not valid internal contract, but fullnode support
-export function isSpecialAddress(address: string): boolean {
-  const CACHE_KEY = `isSpecialAddress(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+export const isSpecialAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    let result =
+      getCoreAddressInfo(address)?.type === 'builtin' &&
+      !isInnerContractAddress(address);
 
-  let result =
-    getAddressInfo(address)?.type === 'builtin' &&
-    !isInnerContractAddress(address);
+    return result;
+  },
+  'isSpecialAddress',
+);
 
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
+export const isContractCodeHashEmpty = addressHandlerWrapper(
+  (codeHash: string) => {
+    return (
+      codeHash ===
+        '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470' ||
+      codeHash === '0x' ||
+      codeHash === ''
+    );
+  },
+  'isContractCodeHashEmpty',
+);
 
-  return result;
-}
-
-export function isContractCodeHashEmpty(codeHash: string) {
-  return (
-    codeHash ===
-      '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470' ||
-    codeHash === '0x' ||
-    codeHash === ''
-  );
-}
-
-export async function getAddressType(address: string): Promise<string> {
-  try {
-    const account: any = await getAccount(address);
-    if (isContractCodeHashEmpty(account.codeHash)) {
-      return 'account';
+/**
+ * Only evm address type
+ */
+export const getEvmAddressType = addressHandlerWrapper(
+  async (address: string): Promise<string> => {
+    try {
+      const account: any = await getAccount(address);
+      if (isContractCodeHashEmpty(account.codeHash)) {
+        return 'account';
+      }
+      return 'contract';
+    } catch (e) {
+      console.log('getEvmAddressType error: ', e);
+      throw e;
     }
-    return 'contract';
-  } catch (e) {
-    console.log('getAddressType error: ', e);
-    throw e;
-  }
-}
+  },
+  'getEvmAddressType',
+);
 
-export const getAddressInfo = (
-  address: string,
-): {
-  netId: number;
-  type: string;
-  hexAddress: ArrayBuffer | string;
-} | null => {
-  const CACHE_KEY = `getAddressInfo(${address})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
+/**
+ * Only core address type
+ */
+export const getCoreAddressInfo = addressHandlerWrapper(
+  (
+    address: string,
+  ): {
+    netId: number;
+    type: string;
+    hexAddress: ArrayBuffer | string;
+  } | null => {
+    let result = null;
 
-  let result = null;
-
-  try {
-    if (isCfxHexAddress(address)) {
-      const base32Address = formatAddress(address, 'base32');
-      result = SDK.address.decodeCfxAddress(base32Address);
-    } else if (isBase32Address(address)) {
-      result = SDK.address.decodeCfxAddress(address);
-    }
-  } catch (e) {}
-
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-  return result;
-};
-
-export const NETWORK_ID = (() => {
-  const ENV_CONFIG = getEnvConfig();
-  let networkId = ENV_CONFIG.ENV_NETWORK_ID;
-  let cacheNetworkId = Number(
-    localStorage.getItem(LOCALSTORAGE_KEYS_MAP.networkId),
-  );
-
-  if (lodash.isFinite(cacheNetworkId)) {
-    networkId = Number(cacheNetworkId);
-  }
-  return networkId;
-})();
-
-export const formatAddress = (address: string, outputType = 'base32') => {
-  const CACHE_KEY = `formatAddress(${address}, ${outputType})`;
-  if (ADDRESS_FUNC_CACHE[CACHE_KEY]) {
-    return ADDRESS_FUNC_CACHE[CACHE_KEY];
-  }
-
-  let result = address;
-
-  try {
-    if (outputType === 'base32') {
+    try {
       if (isCfxHexAddress(address)) {
-        result = SDK.format.address(address, NETWORK_ID);
+        const base32Address = formatAddress(address, 'base32');
+        result = SDK.address.decodeCfxAddress(base32Address);
       } else if (isBase32Address(address)) {
-        const reg = /(.*):(.*):(.*)/;
-        if (reg.test(address)) {
-          result = address.replace(reg, '$1:$3').toLowerCase();
+        result = SDK.address.decodeCfxAddress(address);
+      }
+    } catch (e) {}
+
+    return result;
+  },
+  'getCoreAddressInfo',
+);
+
+export const formatAddress = addressHandlerWrapper(
+  (address: string, outputType = 'base32') => {
+    let result = address;
+
+    try {
+      if (outputType === 'base32') {
+        if (isCfxHexAddress(address)) {
+          result = SDK.format.address(address, NETWORK_ID);
+        } else if (isBase32Address(address)) {
+          const reg = /(.*):(.*):(.*)/;
+          if (reg.test(address)) {
+            result = address.replace(reg, '$1:$3').toLowerCase();
+          }
+        }
+      } else if (outputType === 'hex') {
+        if (isBase32Address(address)) {
+          result = SDK.format.hexAddress(address);
         }
       }
-    } else if (outputType === 'hex') {
-      if (isBase32Address(address)) {
-        result = SDK.format.hexAddress(address);
-      }
+    } catch (error) {
+      console.error('Failed to format address:', error);
     }
-  } catch (error) {
-    console.error('Failed to format address:', error);
-  }
 
-  ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-  return result;
-};
-
-// export const formatAddress = (
-//   address: string,
-//   outputType = 'base32', // base32 or hex
-// ): string => {
-//   const CACHE_KEY = `formatAddress(${address}, ${outputType})`;
-//   if (ADDRESS_FUNC_CACHE[CACHE_KEY]) return ADDRESS_FUNC_CACHE[CACHE_KEY];
-
-//   let result = address;
-
-//   try {
-//     if (outputType === 'base32') {
-//       if (isCfxHexAddress(address)) {
-//         result = SDK.format.address(address, NETWORK_ID);
-//       } else if (isBase32Address(address)) {
-//         const reg = /(.*):(.*):(.*)/;
-//         // compatibility with verbose address, will replace with simply address later
-//         if (typeof address === 'string' && reg.test(address)) {
-//           result = address.replace(reg, '$1:$3').toLowerCase();
-//         }
-//       }
-//     } else if (outputType === 'hex') {
-//       if (isAddress(address)) {
-//         if (outputType === 'hex') {
-//           if (isBase32Address(address)) {
-//             result = SDK.format.hexAddress(address);
-//           } else {
-//             result = address;
-//           }
-//         } else if (outputType === 'base32') {
-//           result = SDK.format.address(address, NETWORK_ID);
-//         } else {
-//           result = address;
-//         }
-//       } else if (isBase32Address(address)) {
-//         if (outputType === 'hex') {
-//           result = SDK.format.hexAddress(address);
-//         } else if (outputType === 'base32') {
-//           const reg = /(.*):(.*):(.*)/;
-//           let lowercaseAddress = address;
-
-//           // compatibility with verbose address, will replace with simply address later
-//           if (typeof address === 'string' && reg.test(address)) {
-//             lowercaseAddress = address.replace(reg, '$1:$3').toLowerCase();
-//           }
-//           result = lowercaseAddress;
-//         } else {
-//           result = address;
-//         }
-//       } else {
-//         result = address;
-//       }
-//     }
-//     ADDRESS_FUNC_CACHE[CACHE_KEY] = result;
-
-//     return result;
-//   } catch (error) {
-
-//   }
-
-//   return result;
-
-// };
+    return result;
+  },
+  'formatAddress',
+);
 
 // Omit specification judgment: test environment cfxtest:....xxxx, production environment cfx:....xxxx,
 export const abbreviateString = (str: string) => {
@@ -370,7 +336,7 @@ export const convertLink = ({
   const url = hrefAddress || cfxAddress;
 
   if (url) {
-    if (window.location.pathname.includes(url)) {
+    if (window.location.pathname.includes('/address/' + url)) {
       return false;
     }
 
