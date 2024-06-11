@@ -299,18 +299,15 @@ export const getCoreAddressInfo = addressHandlerWrapper(
     type: string;
     hexAddress: ArrayBuffer | string;
   } | null => {
-    let result = null;
-
     try {
       if (isCfxHexAddress(address)) {
         const base32Address = formatAddress(address, 'base32');
-        result = SDK.address.decodeCfxAddress(base32Address);
+        return SDK.address.decodeCfxAddress(base32Address);
       } else if (isBase32Address(address)) {
-        result = SDK.address.decodeCfxAddress(address);
+        return SDK.address.decodeCfxAddress(address);
       }
     } catch (e) {}
-
-    return result;
+    return null;
   },
   'getCoreAddressInfo',
 );
