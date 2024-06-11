@@ -32,12 +32,11 @@ const addressHandlerWrapper = <T extends Function>(
 
 // evm
 export const convertCheckSum = addressHandlerWrapper((address?: string) => {
-  if (isHexAddress(address)) {
+  if (address && isHexAddress(address)) {
     return SDK.format.checksumAddress(address);
   }
   return address;
 }, 'convertCheckSum');
-
 
 // core
 export const isPosAddress = addressHandlerWrapper(
@@ -81,8 +80,7 @@ export const isHexAddress = addressHandlerWrapper(
     let result = false;
 
     try {
-      result =
-        SDK.address.isValidHexAddress(address);
+      result = SDK.address.isValidHexAddress(address);
     } catch (e) {}
 
     return result;
@@ -142,7 +140,9 @@ export const isAddress = addressHandlerWrapper((address: string): boolean => {
   // } else {
   //   return isBase32Address(address);
   // }
-  return isHexAddress(address) || isBase32Address(address) || isZeroAddress(address)
+  return (
+    isHexAddress(address) || isBase32Address(address) || isZeroAddress(address)
+  );
 }, 'isAddress');
 
 // core and evm all have the func, and invoke here
@@ -152,16 +152,16 @@ export const isZeroAddress = addressHandlerWrapper(
 
     try {
       // result =
-        // SDK.address.isZeroAddress(formatAddress(address, 'hex')) ||
-        // address === SDK.CONST.ZERO_ADDRESS_HEX ||
-        // address === '0x0';
-        // evm
-        if (isHexAddress(address)) {
-          result = address === SDK.CONST.ZERO_ADDRESS_HEX || address === '0x0'
+      // SDK.address.isZeroAddress(formatAddress(address, 'hex')) ||
+      // address === SDK.CONST.ZERO_ADDRESS_HEX ||
+      // address === '0x0';
+      // evm
+      if (isHexAddress(address)) {
+        result = address === SDK.CONST.ZERO_ADDRESS_HEX || address === '0x0';
         // core
-        } else if(isBase32Address(address)) {
-          result = SDK.address.isZeroAddress(formatAddress(address, 'hex'))
-        }
+      } else if (isBase32Address(address)) {
+        result = SDK.address.isZeroAddress(formatAddress(address, 'hex'));
+      }
     } catch (e) {}
 
     return result;
@@ -184,11 +184,11 @@ export const isAccountAddress = addressHandlerWrapper(
     //   }
     // }
     // core
-    if(isBase32Address(address)) {
+    if (isBase32Address(address)) {
       return (
         getCoreAddressInfo(address)?.type === 'user' || isZeroAddress(address)
-      )
-    // evm
+      );
+      // evm
     } else if (isHexAddress(address)) {
       try {
         return (await getEvmAddressType(address)) === 'account';
@@ -217,10 +217,12 @@ export const isCoreContractAddress = addressHandlerWrapper(
 /**
  * @deprecated
  */
-export const isContractAddress = (address: string, isIncludingInnerContract: boolean = true): boolean => {
+export const isContractAddress = (
+  address: string,
+  isIncludingInnerContract: boolean = true,
+): boolean => {
   return isCoreContractAddress(address, isIncludingInnerContract);
 };
-
 
 // evm
 export const isEvmContractAddress = addressHandlerWrapper(
@@ -275,7 +277,6 @@ export const isContractCodeHashEmpty = addressHandlerWrapper(
   },
   'isContractCodeHashEmpty',
 );
-
 
 // evm
 /**
@@ -354,22 +355,18 @@ export const formatAddress = addressHandlerWrapper(
   'formatAddress',
 );
 
-export isCoreMainnetAddress(address: string) {
-
-}
-
 // Omit specification judgment: test environment cfxtest:....xxxx, production environment cfx:....xxxx,
 export const abbreviateAddress = (address: string) => {
   let prefixNum = 0;
-  let suffixNum = 0
+  let suffixNum = 0;
 
-  if(isHexAddress(address)) {
+  if (isHexAddress(address)) {
     prefixNum = 6;
     suffixNum = 4;
-  } else if(isCoreTestnetAddress(address)) {
+  } else if (isCoreTestnetAddress(address)) {
     prefixNum = 11;
     suffixNum = 4;
-  } else if(isCoreMainOrTestAddress(address)) {
+  } else if (isCoreMainOrTestAddress(address)) {
     prefixNum = 7;
     suffixNum = 8;
   }
