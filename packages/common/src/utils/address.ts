@@ -61,7 +61,7 @@ export const isCoreMainOrTestAddress = addressHandlerWrapper(
 // core mainnet
 export const isCoreMainnetAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    return isBase32Address(address) && address.startsWith('cfx');
+    return isBase32Address(address) && address.startsWith('cfx:');
   },
   'isCoreMainnetAddress',
 );
@@ -69,7 +69,7 @@ export const isCoreMainnetAddress = addressHandlerWrapper(
 // core testnet
 export const isCoreTestnetAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    return isBase32Address(address) && address.startsWith('cfxtest');
+    return isBase32Address(address) && address.startsWith('cfxtest:');
   },
   'isCoreTestnetAddress',
 );
