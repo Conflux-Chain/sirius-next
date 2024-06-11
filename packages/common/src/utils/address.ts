@@ -366,26 +366,3 @@ export const abbreviateAddress = (address: string) => {
   }
   return address;
 };
-
-export const convertLink = ({
-  link,
-  type,
-  hrefAddress,
-  cfxAddress,
-}: RenderAddressProps) => {
-  if (typeof link === 'string') {
-    return link;
-  }
-
-  const url = hrefAddress || cfxAddress;
-
-  if (url) {
-    if (window.location.pathname.includes('/address/' + url)) {
-      return false;
-    }
-
-    return `/${type === 'pow' ? 'address' : 'pos/accounts'}/${url}`;
-  }
-
-  return false;
-};
