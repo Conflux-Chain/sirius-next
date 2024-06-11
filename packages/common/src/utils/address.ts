@@ -61,7 +61,7 @@ export const isCoreMainOrTestAddress = addressHandlerWrapper(
 // core mainnet
 export const isCoreMainnetAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    return isBase32Address(address) && address.startsWith('cfx:');
+    return isBase32Address(address) && /^cfx:/i.test(address);
   },
   'isCoreMainnetAddress',
 );
@@ -69,7 +69,7 @@ export const isCoreMainnetAddress = addressHandlerWrapper(
 // core testnet
 export const isCoreTestnetAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    return isBase32Address(address) && address.startsWith('cfxtest:');
+    return isBase32Address(address) && /^cfxtest:/i.test(address);
   },
   'isCoreTestnetAddress',
 );
@@ -368,7 +368,7 @@ export const abbreviateAddress = (address: string) => {
   } else if (isCoreTestnetAddress(address)) {
     prefixNum = 11;
     suffixNum = 4;
-  } else if (isCoreMainOrTestAddress(address)) {
+  } else if (isCoreMainnetAddress(address)) {
     prefixNum = 7;
     suffixNum = 8;
   }
