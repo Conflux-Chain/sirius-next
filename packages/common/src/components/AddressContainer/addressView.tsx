@@ -1,11 +1,7 @@
 import { Translation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
 import { Text } from '../Text';
-import {
-  abbreviateAddress,
-  convertCheckSum,
-  convertLink,
-} from '../../utils/address';
+import { abbreviateAddress, convertCheckSum } from '../../utils/address';
 import { getTranslations } from '../../store';
 import { TooltipContent, RenderAddressProps } from './types';
 
@@ -29,6 +25,35 @@ const renderTooltipContent = (tooltipContent: TooltipContent) => {
       return null;
     })
     .filter(Boolean);
+};
+
+const convertLink = ({
+  link,
+  type,
+  hrefAddress,
+  cfxAddress,
+}: RenderAddressProps) => {
+  if (typeof link === 'string') {
+    return link;
+  }
+
+  const address = hrefAddress || cfxAddress;
+
+  if (address) {
+    if (window.location.pathname.includes('/address/' + address)) {
+      return false;
+    }
+
+    if (type === 'pow') {
+      return `/address/${address}`;
+    }
+
+    if (type === 'pos') {
+      return `/pos/accounts/${address}`;
+    }
+  }
+
+  return false;
 };
 
 export const RenderAddress = ({

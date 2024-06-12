@@ -74,6 +74,14 @@ export const isCoreTestnetAddress = addressHandlerWrapper(
   'isCoreTestnetAddress',
 );
 
+// core other chainId
+export const isCoreOtherNetAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return isBase32Address(address) && /^net/i.test(address);
+  },
+  'isCoreOtherNetAddress',
+);
+
 // evm
 export const isHexAddress = addressHandlerWrapper(
   (address: string): boolean => {
@@ -355,6 +363,9 @@ export const abbreviateAddress = (address: string) => {
   } else if (isCoreMainnetAddress(address)) {
     prefixNum = 7;
     suffixNum = 8;
+  } else if (isCoreOtherNetAddress(address)) {
+    prefixNum = 7;
+    suffixNum = 8;
   }
   // const isHex = str.startsWith('0x');
   // const isCfxtest = str.startsWith('cfxtest');
@@ -365,27 +376,4 @@ export const abbreviateAddress = (address: string) => {
     return `${address.slice(0, prefixNum)}...${address.slice(-suffixNum)}`;
   }
   return address;
-};
-
-export const convertLink = ({
-  link,
-  type,
-  hrefAddress,
-  cfxAddress,
-}: RenderAddressProps) => {
-  if (typeof link === 'string') {
-    return link;
-  }
-
-  const url = hrefAddress || cfxAddress;
-
-  if (url) {
-    if (window.location.pathname.includes('/address/' + url)) {
-      return false;
-    }
-
-    return `/${type === 'pow' ? 'address' : 'pos/accounts'}/${url}`;
-  }
-
-  return false;
 };
