@@ -133,14 +133,8 @@ export const isSimplyBase32Address = addressHandlerWrapper(
   'isSimplyBase32Address',
 );
 
-// core and evm all have the func, and invoke here
 // support hex and base32
 export const isAddress = addressHandlerWrapper((address: string): boolean => {
-  // if (address.startsWith('0x')) {
-  //   return SDK.address.isValidHexAddress(address) || isZeroAddress(address);
-  // } else {
-  //   return isBase32Address(address);
-  // }
   return (
     isHexAddress(address) || isBase32Address(address) || isZeroAddress(address)
   );
@@ -150,10 +144,6 @@ export const isAddress = addressHandlerWrapper((address: string): boolean => {
 export const isZeroAddress = addressHandlerWrapper(
   (address: string): boolean => {
     try {
-      // result =
-      // SDK.address.isZeroAddress(formatAddress(address, 'hex')) ||
-      // address === SDK.CONST.ZERO_ADDRESS_HEX ||
-      // address === '0x0';
       // evm
       if (isHexAddress(address)) {
         return address === SDK.CONST.ZERO_ADDRESS_HEX;
@@ -171,23 +161,9 @@ export const isZeroAddress = addressHandlerWrapper(
 
 export const isAccountAddress = addressHandlerWrapper(
   async (address: string): Promise<boolean> => {
-    // if (space === 'core') {
-    //   return (
-    //     getCoreAddressInfo(address)?.type === 'user' || isZeroAddress(address)
-    //   );
-    // }
-    // if (space === 'evm') {
-    //   try {
-    //     return (await getEvmAddressType(address)) === 'account';
-    //   } catch (e) {
-    //     throw e;
-    //   }
-    // }
     // core
     if (isBase32Address(address)) {
-      return (
-        getCoreAddressInfo(address)?.type === 'user' || isZeroAddress(address)
-      );
+      return getCoreAddressInfo(address)?.type === 'user';
       // evm
     } else if (isHexAddress(address)) {
       try {
@@ -195,6 +171,8 @@ export const isAccountAddress = addressHandlerWrapper(
       } catch (e) {
         throw e;
       }
+    } else if (isZeroAddress(address)) {
+      return true;
     }
     return false;
   },
@@ -349,7 +327,7 @@ export const formatAddress = addressHandlerWrapper(
   'formatAddress',
 );
 
-// Omit specification judgment: test environment cfxtest:....xxxx, production environment cfx:....xxxx,
+// Omit specification judgment: test environment cfxtest:xxx....xxxx, production environment cfx:xxx....xxxxxxxx,
 export const abbreviateAddress = (address: string) => {
   let prefixNum = 0;
   let suffixNum = 0;
@@ -357,22 +335,15 @@ export const abbreviateAddress = (address: string) => {
   if (isHexAddress(address)) {
     prefixNum = 6;
     suffixNum = 4;
-  } else if (isCoreTestnetAddress(address)) {
+  } else if (isCoreTestnetAddress(address) || isCoreOtherNetAddress(address)) {
     prefixNum = 11;
     suffixNum = 4;
   } else if (isCoreMainnetAddress(address)) {
     prefixNum = 7;
     suffixNum = 8;
-  } else if (isCoreOtherNetAddress(address)) {
-    prefixNum = 7;
-    suffixNum = 8;
   }
-  // const isHex = str.startsWith('0x');
-  // const isCfxtest = str.startsWith('cfxtest');
-  // const prefixNum = isHex ? 6 : isCfxtest ? 11 : 7;
-  // const suffixNum = isHex ? 4 : isCfxtest ? 4 : 8;
 
-  if (address.length > 7 && prefixNum !== 0 && suffixNum !== 0) {
+  if (prefixNum !== 0 || suffixNum !== 0) {
     return `${address.slice(0, prefixNum)}...${address.slice(-suffixNum)}`;
   }
   return address;
