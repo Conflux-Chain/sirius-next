@@ -123,7 +123,7 @@ export const isSimplyBase32Address = addressHandlerWrapper(
   (address: string): boolean => {
     try {
       return (
-        SDK.address.isValidCfxAddress(address) &&
+        isBase32Address(address) &&
         SDK.address.simplifyCfxAddress(address) === address
       );
     } catch (e) {
@@ -178,20 +178,14 @@ export const isZeroAddress = addressHandlerWrapper(
 
 export const isAccountAddress = addressHandlerWrapper(
   async (address: string): Promise<boolean> => {
-    // core
-    if (isBase32Address(address)) {
-      return getCoreAddressInfo(address)?.type === 'user';
-      // evm
-    } else if (isHexAddress(address)) {
-      try {
-        return (await getEvmAddressType(address)) === 'account';
-      } catch (e) {
-        throw e;
-      }
-    } else if (isZeroAddress(address)) {
-      return true;
+    try {
+      if (isZeroAddress(address)) return true;
+      const type = getCoreAddressInfo(address)?.type;
+      if (type) return type === 'user';
+      return (await getEvmAddressType(address)) === 'account';
+    } catch (e) {
+      return false;
     }
-    return false;
   },
   'isAccountAddress',
 );
@@ -200,9 +194,8 @@ export const isAccountAddress = addressHandlerWrapper(
 export const isCoreContractAddress = addressHandlerWrapper(
   (address: string, isIncludingInnerContract: boolean = true): boolean => {
     return (
-      isBase32Address(address) &&
-      (getCoreAddressInfo(address)?.type === 'contract' ||
-        (isIncludingInnerContract && isInnerContractAddress(address)))
+      getCoreAddressInfo(address)?.type === 'contract' ||
+      (isIncludingInnerContract && isInnerContractAddress(address))
     );
   },
   'isCoreContractAddress',
@@ -225,7 +218,7 @@ export const isEvmContractAddress = addressHandlerWrapper(
     try {
       return (await getEvmAddressType(address)) === 'contract';
     } catch (e) {
-      throw e;
+      return false;
     }
   },
   'isEvmContractAddress',
