@@ -161,10 +161,10 @@ export const isCoreAddress = addressHandlerWrapper(
 export const isZeroAddress = addressHandlerWrapper(
   (address: string): boolean => {
     try {
-      // evm
+      // hex
       if (isHexAddress(address)) {
         return address === SDK.CONST.ZERO_ADDRESS_HEX;
-        // core
+        // base32
       } else if (isBase32Address(address)) {
         return SDK.address.isZeroAddress(formatAddress(address, 'hex'));
       } else if (address === '0x0') {
