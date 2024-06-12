@@ -95,7 +95,7 @@ export const isHexAddress = addressHandlerWrapper(
 );
 
 // core
-export const isCfxHexAddress = addressHandlerWrapper(
+export const isCoreHexAddress = addressHandlerWrapper(
   (address: string): boolean => {
     try {
       return SDK.address.isValidCfxHexAddress(address);
@@ -103,7 +103,7 @@ export const isCfxHexAddress = addressHandlerWrapper(
       return false;
     }
   },
-  'isCfxHexAddress',
+  'isCoreHexAddress',
 );
 
 // core
@@ -133,12 +133,29 @@ export const isSimplyBase32Address = addressHandlerWrapper(
   'isSimplyBase32Address',
 );
 
-// support hex and base32
-export const isAddress = addressHandlerWrapper((address: string): boolean => {
-  return (
-    isHexAddress(address) || isBase32Address(address) || isZeroAddress(address)
-  );
-}, 'isAddress');
+// evm
+export const isEvmAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return (
+      isHexAddress(address) ||
+      isBase32Address(address) ||
+      isZeroAddress(address)
+    );
+  },
+  'isEvmAddress',
+);
+
+// core
+export const isCoreAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return (
+      isCoreHexAddress(address) ||
+      isBase32Address(address) ||
+      isZeroAddress(address)
+    );
+  },
+  'isCoreAddress',
+);
 
 // common
 export const isZeroAddress = addressHandlerWrapper(
@@ -286,7 +303,7 @@ export const getCoreAddressInfo = addressHandlerWrapper(
     hexAddress: ArrayBuffer | string;
   } | null => {
     try {
-      if (isCfxHexAddress(address)) {
+      if (isCoreHexAddress(address)) {
         const base32Address = formatAddress(address, 'base32');
         return SDK.address.decodeCfxAddress(base32Address);
       } else if (isBase32Address(address)) {
@@ -305,7 +322,7 @@ export const formatAddress = addressHandlerWrapper(
 
     try {
       if (outputType === 'base32') {
-        if (isCfxHexAddress(address)) {
+        if (isCoreHexAddress(address)) {
           result = SDK.format.address(address, NETWORK_ID);
         } else if (isBase32Address(address)) {
           const reg = /(.*):(.*):(.*)/;
@@ -327,7 +344,7 @@ export const formatAddress = addressHandlerWrapper(
   'formatAddress',
 );
 
-// Omit specification judgment: test environment cfxtest:xxx....xxxx, production environment cfx:xxx....xxxxxxxx,
+// Omit specification judgment: test environment cfxtest:xxx...xxxx, production environment cfx:xxx...xxxxxxxx,
 export const abbreviateAddress = (address: string) => {
   let prefixNum = 0;
   let suffixNum = 0;
@@ -343,7 +360,7 @@ export const abbreviateAddress = (address: string) => {
     suffixNum = 8;
   }
 
-  if (prefixNum !== 0 || suffixNum !== 0) {
+  if (prefixNum !== 0 && suffixNum !== 0) {
     return `${address.slice(0, prefixNum)}...${address.slice(-suffixNum)}`;
   }
   return address;
