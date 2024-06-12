@@ -74,6 +74,14 @@ export const isCoreTestnetAddress = addressHandlerWrapper(
   'isCoreTestnetAddress',
 );
 
+// core other chainId
+export const isCoreOtherNetAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return isBase32Address(address) && /^net/i.test(address);
+  },
+  'isCoreOtherNetAddress',
+);
+
 // evm
 export const isHexAddress = addressHandlerWrapper(
   (address: string): boolean => {
@@ -114,9 +122,10 @@ export const isBase32Address = addressHandlerWrapper(
 export const isSimplyBase32Address = addressHandlerWrapper(
   (address: string): boolean => {
     try {
-      return;
-      SDK.address.isValidCfxAddress(address) &&
-        SDK.address.simplifyCfxAddress(address) === address;
+      return (
+        SDK.address.isValidCfxAddress(address) &&
+        SDK.address.simplifyCfxAddress(address) === address
+      );
     } catch (e) {
       return false;
     }
@@ -154,9 +163,8 @@ export const isZeroAddress = addressHandlerWrapper(
       } else if (address === '0x0') {
         return true;
       }
-    } catch (e) {
-      return false;
-    }
+    } catch (e) {}
+    return false;
   },
   'isZeroAddress',
 );
@@ -353,6 +361,9 @@ export const abbreviateAddress = (address: string) => {
     prefixNum = 11;
     suffixNum = 4;
   } else if (isCoreMainnetAddress(address)) {
+    prefixNum = 7;
+    suffixNum = 8;
+  } else if (isCoreOtherNetAddress(address)) {
     prefixNum = 7;
     suffixNum = 8;
   }
