@@ -64,7 +64,7 @@ export const isCoreMainOrTestAddress = addressHandlerWrapper(
 // core mainnet
 export const isCoreMainnetAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    return isBase32Address(address) && /^cfx:/i.test(address);
+    return /^cfx:/i.test(address) && isBase32Address(address);
   },
   'isCoreMainnetAddress',
 );
@@ -72,7 +72,7 @@ export const isCoreMainnetAddress = addressHandlerWrapper(
 // core testnet
 export const isCoreTestnetAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    return isBase32Address(address) && /^cfxtest:/i.test(address);
+    return /^cfxtest:/i.test(address) && isBase32Address(address);
   },
   'isCoreTestnetAddress',
 );
@@ -80,7 +80,7 @@ export const isCoreTestnetAddress = addressHandlerWrapper(
 // core other chainId
 export const isCoreOtherNetAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    return isBase32Address(address) && /^net/i.test(address);
+    return /^net/i.test(address) && isBase32Address(address);
   },
   'isCoreOtherNetAddress',
 );
@@ -126,8 +126,8 @@ export const isSimplyBase32Address = addressHandlerWrapper(
   (address: string): boolean => {
     try {
       return (
-        isBase32Address(address) &&
-        SDK.address.simplifyCfxAddress(address) === address
+        SDK.address.simplifyCfxAddress(address) === address &&
+        isBase32Address(address)
       );
     } catch (e) {
       return false;
@@ -141,8 +141,8 @@ export const isEvmAddress = addressHandlerWrapper(
   (address: string): boolean => {
     return (
       isHexAddress(address) ||
-      isBase32Address(address) ||
-      isZeroAddress(address)
+      isSimplyZeroAddress(address) ||
+      isBase32Address(address)
     );
   },
   'isEvmAddress',
@@ -153,12 +153,17 @@ export const isCoreAddress = addressHandlerWrapper(
   (address: string): boolean => {
     return (
       isCoreHexAddress(address) ||
-      isBase32Address(address) ||
-      isZeroAddress(address)
+      isSimplyZeroAddress(address) ||
+      isBase32Address(address)
     );
   },
   'isCoreAddress',
 );
+
+// common, only for 0x0
+export const isSimplyZeroAddress = addressHandlerWrapper((address: string) => {
+  return address === '0x0';
+});
 
 // common
 export const isZeroAddress = addressHandlerWrapper(
@@ -167,11 +172,11 @@ export const isZeroAddress = addressHandlerWrapper(
       // hex
       if (isHexAddress(address)) {
         return address === SDK.CONST.ZERO_ADDRESS_HEX;
+      } else if (isSimplyZeroAddress(address)) {
+        return true;
         // base32
       } else if (isBase32Address(address)) {
-        return SDK.address.isZeroAddress(formatAddress(address, 'hex'));
-      } else if (address === '0x0') {
-        return true;
+        return formatAddress(address, 'hex') === SDK.CONST.ZERO_ADDRESS_HEX;
       }
     } catch (e) {}
     return false;
