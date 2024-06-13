@@ -4,6 +4,9 @@ import { RenderAddressProps } from '../components/AddressContainer/types';
 import { NETWORK_ID } from './constants';
 import { isHex } from '.';
 
+type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
+type EvmAddressType = 'user' | 'contract';
+
 interface AddressCache {
   [key: string]: any;
 }
@@ -200,7 +203,7 @@ export const isEvmUserAddress = addressHandlerWrapper(
 
 // core
 export const isCoreContractAddress = addressHandlerWrapper(
-  (address: string, isIncludingInnerContract: boolean = true): boolean => {
+  (address: string, isIncludingInnerContract = true): boolean => {
     return (
       getCoreAddressInfo(address)?.type === 'contract' ||
       (isIncludingInnerContract && isInnerContractAddress(address))
@@ -265,7 +268,7 @@ export const isContractCodeHashEmpty = addressHandlerWrapper(
  * Only evm address type
  */
 export const getEvmAddressType = addressHandlerWrapper(
-  async (address: string): Promise<string> => {
+  async (address: string): Promise<EvmAddressType> => {
     try {
       const account: any = await getAccount(address);
       if (isContractCodeHashEmpty(account.codeHash)) {
@@ -280,24 +283,24 @@ export const getEvmAddressType = addressHandlerWrapper(
   'getEvmAddressType',
 );
 
+interface CoreAddressInfo {
+  netId: number;
+  type: CoreAddressType;
+  hexAddress: ArrayBuffer | string;
+}
+
 // core
 /**
  * Only core address type
  */
 export const getCoreAddressInfo = addressHandlerWrapper(
-  (
-    address: string,
-  ): {
-    netId: number;
-    type: string;
-    hexAddress: ArrayBuffer | string;
-  } | null => {
+  (address: string): CoreAddressInfo | null => {
     try {
       if (isCoreHexAddress(address)) {
         const base32Address = formatAddress(address, 'base32');
-        return SDK.address.decodeCfxAddress(base32Address);
+        return SDK.address.decodeCfxAddress(base32Address) as CoreAddressInfo;
       } else if (isBase32Address(address)) {
-        return SDK.address.decodeCfxAddress(address);
+        return SDK.address.decodeCfxAddress(address) as CoreAddressInfo;
       }
     } catch (e) {}
     return null;
@@ -307,7 +310,7 @@ export const getCoreAddressInfo = addressHandlerWrapper(
 
 // common
 export const formatAddress = addressHandlerWrapper(
-  (address: string, outputType = 'base32') => {
+  (address: string, outputType: 'hex' | 'base32' = 'base32') => {
     let result = address;
 
     try {
