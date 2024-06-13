@@ -176,18 +176,26 @@ export const isZeroAddress = addressHandlerWrapper(
   'isZeroAddress',
 );
 
-export const isAccountAddress = addressHandlerWrapper(
+// core
+export const isCoreAccountAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    if (isZeroAddress(address)) return true;
+    return getCoreAddressInfo(address)?.type === 'user';
+  },
+  'isCoreAccountAddress',
+);
+
+// evm
+export const isEvmAccountAddress = addressHandlerWrapper(
   async (address: string): Promise<boolean> => {
     try {
       if (isZeroAddress(address)) return true;
-      const type = getCoreAddressInfo(address)?.type;
-      if (type) return type === 'user';
-      return (await getEvmAddressType(address)) === 'account';
+      return (await getEvmAddressType(address)) === 'user';
     } catch (e) {
       return false;
     }
   },
-  'isAccountAddress',
+  'isEvmAccountAddress',
 );
 
 // core
@@ -200,17 +208,6 @@ export const isCoreContractAddress = addressHandlerWrapper(
   },
   'isCoreContractAddress',
 );
-
-// core
-/**
- * @deprecated
- */
-export const isContractAddress = (
-  address: string,
-  isIncludingInnerContract: boolean = true,
-): boolean => {
-  return isCoreContractAddress(address, isIncludingInnerContract);
-};
 
 // evm
 export const isEvmContractAddress = addressHandlerWrapper(
@@ -272,7 +269,7 @@ export const getEvmAddressType = addressHandlerWrapper(
     try {
       const account: any = await getAccount(address);
       if (isContractCodeHashEmpty(account.codeHash)) {
-        return 'account';
+        return 'user';
       }
       return 'contract';
     } catch (e) {
