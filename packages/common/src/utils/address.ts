@@ -177,16 +177,16 @@ export const isZeroAddress = addressHandlerWrapper(
 );
 
 // core
-export const isCoreAccountAddress = addressHandlerWrapper(
+export const isCoreUserAddress = addressHandlerWrapper(
   (address: string): boolean => {
     if (isZeroAddress(address)) return true;
     return getCoreAddressInfo(address)?.type === 'user';
   },
-  'isCoreAccountAddress',
+  'isCoreUserAddress',
 );
 
 // evm
-export const isEvmAccountAddress = addressHandlerWrapper(
+export const isEvmUserAddress = addressHandlerWrapper(
   async (address: string): Promise<boolean> => {
     try {
       if (isZeroAddress(address)) return true;
@@ -195,7 +195,7 @@ export const isEvmAccountAddress = addressHandlerWrapper(
       return false;
     }
   },
-  'isEvmAccountAddress',
+  'isEvmUserAddress',
 );
 
 // core
