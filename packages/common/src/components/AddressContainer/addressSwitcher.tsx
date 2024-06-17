@@ -159,9 +159,10 @@ export const MyAddress = (props: Props & WithTranslation) => {
     suffix: (
       <div className="mr-[2px] flex-shrink-0">
         <img
-          className={`w-[38.5px] h-[16px] mr-[3px] align-bottom mb-[${isFull ? 6 : 4}px]`}
+          className={`w-[38.5px] h-[16px] ml-[3px] align-bottom`}
           src={isMeIcon}
           alt="is me"
+          style={{ marginBottom: isFull ? 6 : 4 }}
         />
       </div>
     ),
