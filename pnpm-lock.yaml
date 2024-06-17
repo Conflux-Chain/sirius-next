@@ -133,6 +133,9 @@ importers:
 
   packages/common:
     dependencies:
+      '@cfx-kit/dapp-utils':
+        specifier: ^0.1.8
+        version: 0.1.8(typescript@5.4.3)
       '@cfx-kit/react-utils':
         specifier: ^0.0.29
         version: 0.0.29(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
@@ -824,6 +827,27 @@ packages:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/bignumber': 5.7.0
       '@ethersproject/units': 5.7.0
+      abitype: 0.9.10(typescript@5.4.3)
+      ethers: 6.11.1
+      jsbi: 4.3.0
+      ky: 0.33.3
+      localstorage-enhance: 1.0.8
+      lodash-es: 4.17.21
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@cfx-kit/dapp-utils@0.1.8(typescript@5.4.3):
+    resolution: {integrity: sha512-GBWXPX8m1+YOKYcGrWib7GQj3Zpdl3aitmt090FoaF0zZf+zZcWBktAzx9bnlgB9SEZmE5EwX3zuz9rwgeizXA==}
+    dependencies:
+      '@cfx-kit/utils': 0.0.5
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/units': 5.7.0
+      '@noble/hashes': 1.4.0
       abitype: 0.9.10(typescript@5.4.3)
       ethers: 6.11.1
       jsbi: 4.3.0
@@ -1976,6 +2000,11 @@ packages:
 
   /@noble/hashes@1.3.2:
     resolution: {integrity: sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==}
+    engines: {node: '>= 16'}
+    dev: false
+
+  /@noble/hashes@1.4.0:
+    resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
     engines: {node: '>= 16'}
     dev: false
 
