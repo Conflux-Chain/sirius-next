@@ -142,6 +142,15 @@ importers:
       '@cfxjs/sirius-next-i18n':
         specifier: workspace:*
         version: link:../i18n
+      '@ethersproject/abi':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@ethersproject/units':
+        specifier: ^5.7.0
+        version: 5.7.0
       '@radix-ui/react-select':
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)

@@ -71,6 +71,13 @@ export interface ENSStore {
   setENS: (newENS: ENSType) => void;
 }
 
+export interface NametagCacheStore {
+  nametagCache: Record<string, any>;
+  contractCache: Record<string, any>;
+  setNametagCache: (e: Record<string, any>) => void;
+  setContractCache: (e: Record<string, any>) => void;
+}
+
 export interface GasPriceDataState {
   gasPriceData: GasPriceBundle;
   setGasPrice: (data: GasPriceBundle) => void;

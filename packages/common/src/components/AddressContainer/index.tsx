@@ -3,7 +3,8 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import _ from 'lodash';
 import {
   formatAddress,
-  isAddress,
+  isCoreAddress,
+  isEvmAddress,
   isCoreContractAddress,
   isZeroAddress,
   convertCheckSum,
@@ -113,7 +114,7 @@ export const AddressContainer = withTranslation()(
 
     // If a txn receipt has no 'to' address or 'contractCreated', show -- for temp
     if (!props.value && !props.contractCreated) {
-      return <></>;
+      return <>--</>;
     }
 
     const defaultProps = {
@@ -150,7 +151,10 @@ export const AddressContainer = withTranslation()(
       return CoreHexAddress(mergeParseProps);
     }
 
-    if (!isAddress(mergeParseProps.value)) {
+    if (
+      !isCoreAddress(mergeParseProps.value) &&
+      !isEvmAddress(mergeParseProps.value)
+    ) {
       return InvalidAddress(mergeParseProps);
     }
 
