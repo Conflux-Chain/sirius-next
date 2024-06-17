@@ -3,17 +3,16 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import _ from 'lodash';
 import {
   formatAddress,
-  isAddress,
+  isCoreAddress,
   isCoreContractAddress,
   isZeroAddress,
   convertCheckSum,
 } from '../../utils/address';
-import { useGlobalData, getTranslations, getEnvConfig } from '../../store';
+import { useGlobalData, getTranslations } from '../../store';
 import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
 import { getLabelInfo } from './label';
 import { useENS } from '../../utils/hooks/useENS';
 
-import { Props } from './types';
 import { RenderAddress } from './addressView';
 import {
   ContractCreatedAddress,
@@ -23,10 +22,14 @@ import {
   MyAddress,
   PosAddress,
 } from './addressSwitcher';
+import { GlobalDataType } from 'src/store/types';
+import { CoreAddressContainerProps } from './types';
 
-const parseProps = (props: Props & WithTranslation) => {
+const parseProps = (
+  props: CoreAddressContainerProps & WithTranslation,
+  globalData: GlobalDataType,
+) => {
   const {
-    globalData,
     alias,
     ensInfo,
     t,
@@ -35,10 +38,8 @@ const parseProps = (props: Props & WithTranslation) => {
     nametagInfo,
     showENSLabel,
   } = props;
-  const ENV_CONFIG = getEnvConfig();
-  const outputType = ENV_CONFIG.ENV_ADDRESS || 'base32';
   const value: string = props.value || props.contractCreated || '';
-  const cfxAddress = formatAddress(value, outputType);
+  const cfxAddress = formatAddress(value, 'base32');
 
   let ENSMap = ensInfo || {};
 
@@ -90,8 +91,6 @@ const parseProps = (props: Props & WithTranslation) => {
     prefixIcon = icon;
   }
 
-  let link = props.isLink || props.link;
-
   return {
     alias: aliasLabel,
     prefix: prefixIcon,
@@ -99,12 +98,11 @@ const parseProps = (props: Props & WithTranslation) => {
     addressLabel,
     ENSLabel,
     cfxAddress,
-    link,
   };
 };
 
-export const AddressContainer = withTranslation()(
-  memo((props: Props & WithTranslation) => {
+export const CoreAddressContainer = withTranslation()(
+  memo((props: CoreAddressContainerProps & WithTranslation) => {
     const { globalData } = useGlobalData();
 
     // If the interface returns Ens content, there is no need to obtain it separately, or disable the display of Ens content (in most cases on the list page).
@@ -113,11 +111,10 @@ export const AddressContainer = withTranslation()(
 
     // If a txn receipt has no 'to' address or 'contractCreated', show -- for temp
     if (!props.value && !props.contractCreated) {
-      return <></>;
+      return <>--</>;
     }
 
     const defaultProps = {
-      globalData,
       isFull: false,
       isFullNameTag: false,
       link: true,
@@ -135,7 +132,7 @@ export const AddressContainer = withTranslation()(
     const mergeParseProps = _.merge(
       {},
       mergeDefaultProps,
-      parseProps(mergeDefaultProps),
+      parseProps(mergeDefaultProps, globalData),
     );
 
     if (mergeParseProps.isPosAddress) {
@@ -143,21 +140,21 @@ export const AddressContainer = withTranslation()(
     }
 
     if (!mergeParseProps.value && mergeParseProps.contractCreated) {
-      return ContractCreatedAddress(mergeParseProps);
+      return ContractCreatedAddress({
+        ...mergeParseProps,
+        outputType: 'base32',
+      });
     }
 
     if (mergeParseProps.isEspaceAddress) {
       return CoreHexAddress(mergeParseProps);
     }
 
-    if (!isAddress(mergeParseProps.value)) {
+    if (!isCoreAddress(mergeParseProps.value)) {
       return InvalidAddress(mergeParseProps);
     }
 
-    if (
-      mergeParseProps.isContract ||
-      isCoreContractAddress(mergeParseProps.cfxAddress)
-    ) {
+    if (isCoreContractAddress(mergeParseProps.cfxAddress)) {
       return ContractAddress(mergeParseProps);
     }
 

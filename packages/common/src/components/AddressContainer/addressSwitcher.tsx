@@ -1,27 +1,26 @@
 import { WithTranslation } from 'react-i18next';
-import SDK from 'js-conflux-sdk';
 import { AlertTriangle, File } from '@zeit-ui/react-icons';
 import InternalContractIcon from '../../images/internal-contract-icon.png';
 import ContractIcon from '../../images/contract-icon.png';
 import VerifiedIcon from '../../images/verified.png';
 import isMeIcon from '../../images/me.png';
 import { Tooltip } from '../Tooltip';
-import {
-  formatAddress,
-  isInnerContractAddress,
-  isPosAddress,
-} from '../../utils/address';
-import { getTranslations, getEnvConfig } from '../../store';
+import { isPosAddress } from '@cfx-kit/dapp-utils/dist/address';
+import { formatAddress, isInnerContractAddress } from '../../utils/address';
+import { getTranslations, getEnvConfig, useGlobalData } from '../../store';
 import { getNetwork, formatString, coreCorrespondsToEspace } from 'src/utils';
 import { Props } from './types';
 import { RenderAddress } from './addressView';
 
-export const ContractCreatedAddress = (props: Props & WithTranslation) => {
-  const { contractCreated = '', t } = props;
+// common
+export const ContractCreatedAddress = (
+  props: Props & WithTranslation & { outputType: 'hex' | 'base32' },
+) => {
+  const { contractCreated = '', outputType, t } = props;
 
   const translations = getTranslations();
 
-  const fContractCreated = formatAddress(contractCreated);
+  const fContractCreated = formatAddress(contractCreated, outputType);
 
   const customProps = {
     content: t(translations.transaction.contractCreation),
@@ -33,12 +32,14 @@ export const ContractCreatedAddress = (props: Props & WithTranslation) => {
   return RenderAddress(mergedProps);
 };
 
+// core
 export const CoreHexAddress = (props: Props & WithTranslation) => {
-  const { globalData, value, t, isFull, maxWidth } = props;
+  const { value, t, isFull, maxWidth } = props;
+  const { globalData } = useGlobalData();
 
   const ENV_CONFIG = getEnvConfig();
   const translations = getTranslations();
-  const hexAddress = SDK.format.hexAddress(value);
+  const hexAddress = formatAddress(value, 'hex');
   const network = getNetwork(
     globalData?.networks,
     coreCorrespondsToEspace(ENV_CONFIG.ENV_NETWORK_ID),
@@ -62,6 +63,7 @@ export const CoreHexAddress = (props: Props & WithTranslation) => {
   });
 };
 
+// common
 export const InvalidAddress = (props: Props & WithTranslation) => {
   const {
     value,
@@ -98,6 +100,7 @@ export const InvalidAddress = (props: Props & WithTranslation) => {
   });
 };
 
+// common
 export const ContractAddress = (props: Props & WithTranslation) => {
   const { showIcon, verify, t, cfxAddress, isFull } = props;
 
@@ -152,6 +155,7 @@ export const ContractAddress = (props: Props & WithTranslation) => {
   });
 };
 
+// common
 export const MyAddress = (props: Props & WithTranslation) => {
   const { isFull } = props;
   return RenderAddress({
@@ -159,15 +163,19 @@ export const MyAddress = (props: Props & WithTranslation) => {
     suffix: (
       <div className="mr-[2px] flex-shrink-0">
         <img
-          className={`w-[38.5px] h-[16px] mr-[3px] align-bottom mb-[${isFull ? 6 : 4}px]`}
+          className="w-[38.5px] h-[16px] ml-[3px] align-bottom"
           src={isMeIcon}
           alt="is me"
+          style={{
+            marginBottom: isFull ? 6 : 4,
+          }}
         />
       </div>
     ),
   });
 };
 
+// core
 export const PosAddress = (props: Props & WithTranslation) => {
   const {
     alias,

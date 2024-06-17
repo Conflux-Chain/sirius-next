@@ -248,7 +248,7 @@ export const getCoreAddressInfo = addressHandlerWrapper(
 // common
 export const formatAddress = (
   address: string,
-  outputType: 'hex' | 'base32' = 'base32',
+  outputType: 'hex' | 'base32',
 ) => {
   let result = address;
 
