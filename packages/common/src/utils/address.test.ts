@@ -1,132 +1,205 @@
 import {
-  isPosAddress,
-  isCfxHexAddress,
-  isBase32Address,
   isZeroAddress,
-  isSimplyBase32Address,
-  isAddress,
   formatAddress,
+  isCoreMainOrTestAddress,
+  isCoreMainnetAddress,
+  isCoreTestnetAddress,
+  isCoreOtherNetAddress,
+  isEvmAddress,
+  isCoreAddress,
+  isCoreUserAddress,
+  isCoreContractAddress,
+  isInnerContractAddress,
+  isSpecialAddress,
 } from './address';
+import { test, expect, describe } from 'vitest';
 
-describe('isCfxHexAddress', () => {
-  test('ADMINE_CONTROL_HEX_ADDRESS', () => {
-    expect(isCfxHexAddress('0x0888000000000000000000000000000000000000')).toBe(
-      true,
-    );
+describe('isCoreMainOrTestAddress', () => {
+  test('returns true for mainnet address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isCoreMainOrTestAddress(address)).toBe(true);
+  });
+  test('returns true for testnet address', () => {
+    const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
+    expect(isCoreMainOrTestAddress(address)).toBe(true);
   });
 
-  test('SPONSOR_WHITELIST_CONTROL_HEX_ADDRESS', () => {
-    expect(isCfxHexAddress('0x0888000000000000000000000000000000000001')).toBe(
-      true,
-    );
+  test('returns false for net address', () => {
+    const address = 'net1999:aan3c22hwy6cg4y0ez1uah6szt3r34884amezdeh6t';
+    expect(isCoreMainOrTestAddress(address)).toBe(false);
+  });
+  test('returns false for hex address', () => {
+    const address = '0x179163079538236a96256f001f8eabf2dcebded0';
+    expect(isCoreMainOrTestAddress(address)).toBe(false);
+  });
+});
+describe('isCoreMainnetAddress', () => {
+  test('returns true for mainnet address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isCoreMainnetAddress(address)).toBe(true);
   });
 
-  test('STAKING_HEX_ADDRESS', () => {
-    expect(isCfxHexAddress('0x0888000000000000000000000000000000000002')).toBe(
-      true,
-    );
+  test('returns false for testnet address', () => {
+    const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
+    expect(isCoreMainnetAddress(address)).toBe(false);
+  });
+  test('returns false for net address', () => {
+    const address = 'net1999:aan3c22hwy6cg4y0ez1uah6szt3r34884amezdeh6t';
+    expect(isCoreMainOrTestAddress(address)).toBe(false);
+  });
+  test('returns false for hex address', () => {
+    const address = '0x179163079538236a96256f001f8eabf2dcebded0';
+    expect(isCoreMainnetAddress(address)).toBe(false);
+  });
+});
+describe('isCoreTestnetAddress', () => {
+  test('returns true for testnet address', () => {
+    const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
+    expect(isCoreTestnetAddress(address)).toBe(true);
   });
 
-  test('Faild STAKING_HEX_ADDRESS', () => {
-    expect(isCfxHexAddress('0x0888000000000000000000000000000000000003')).toBe(
-      false,
-    );
+  test('returns false for mainnet address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isCoreTestnetAddress(address)).toBe(false);
+  });
+  test('returns false for net address', () => {
+    const address = 'net1999:aan3c22hwy6cg4y0ez1uah6szt3r34884amezdeh6t';
+    expect(isCoreMainOrTestAddress(address)).toBe(false);
+  });
+  test('returns false for hex address', () => {
+    const address = '0x179163079538236a96256f001f8eabf2dcebded0';
+    expect(isCoreTestnetAddress(address)).toBe(false);
+  });
+});
+describe('isCoreOtherNetAddress', () => {
+  test('returns true for net address', () => {
+    const address = 'net1999:aan3c22hwy6cg4y0ez1uah6szt3r34884amezdeh6t';
+    expect(isCoreOtherNetAddress(address)).toBe(true);
   });
 
-  test('isUserHexAddress', () => {
-    expect(isCfxHexAddress('0x1000000000000000000000000000000000000000')).toBe(
-      true,
-    );
+  test('returns false for mainnet address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isCoreOtherNetAddress(address)).toBe(false);
   });
-
-  test('Faild isUserHexAddress', () => {
-    expect(isCfxHexAddress('0x2000000000000000000000000000000000000000')).toBe(
-      false,
-    );
+  test('returns false for testnet address', () => {
+    const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
+    expect(isCoreOtherNetAddress(address)).toBe(false);
   });
-
-  test('isCoreContractAddress', () => {
-    expect(isCfxHexAddress('0x8000000000000000000000000000000000000000')).toBe(
-      true,
-    );
-  });
-
-  test('Faild isCoreContractAddress', () => {
-    expect(isCfxHexAddress('0x9000000000000000000000000000000000000000')).toBe(
-      false,
-    );
-  });
-
-  test('isNullHexAddress', () => {
-    expect(isCfxHexAddress('0x0000000000000000000000000000000000000000')).toBe(
-      true,
-    );
-  });
-
-  test('Faild isNullHexAddress', () => {
-    expect(isCfxHexAddress('0x0')).toBe(false);
-  });
-
-  test('Faild isNullHexAddress', () => {
-    expect(isCfxHexAddress('0')).toBe(false);
-  });
-
-  test('Faild isBase32Address', () => {
-    expect(
-      isCfxHexAddress('cfx:aaketjh9tkj5g2k4zx3kfvb9vkku8nr956n0en4fhe'),
-    ).toBe(false);
-  });
-
-  test('Faild isBase32Address', () => {
-    expect(isCfxHexAddress('0xd1937ffd52e18ae3fcd64302ddbf3b04d712e846')).toBe(
-      false,
-    );
+  test('returns false for hex address', () => {
+    const address = '0x179163079538236a96256f001f8eabf2dcebded0';
+    expect(isCoreOtherNetAddress(address)).toBe(false);
   });
 });
 
-describe('isBase32Address', () => {
-  test('isBase32Address', () => {
-    expect(
-      isBase32Address('cfx:aaketjh9tkj5g2k4zx3kfvb9vkku8nr956n0en4fhe'),
-    ).toBe(true);
+describe('isEvmAddress', () => {
+  test('returns true for hex address', () => {
+    const address = '0x179163079538236a96256f001f8eabf2dcebded0';
+    expect(isEvmAddress(address)).toBe(true);
   });
-  test('isBase32Address', () => {
-    expect(
-      isBase32Address('cfxtest:aaprg5pk4ykdg3udrefh71s0yphg4dnvh61mgvfgda'),
-    ).toBe(true);
+  test('returns true for zero address', () => {
+    const address = '0x0000000000000000000000000000000000000000';
+    expect(isEvmAddress(address)).toBe(true);
   });
-  test('isBase32Addres', () => {
-    expect(isBase32Address('0xd1937ffd52e18ae3fcd64302ddbf3b04d712e846')).toBe(
-      false,
-    );
+  test('returns true for 0x0', () => {
+    const address = '0x0';
+    expect(isEvmAddress(address)).toBe(true);
+  });
+  test('returns true for net address', () => {
+    const address = 'net1999:aan3c22hwy6cg4y0ez1uah6szt3r34884amezdeh6t';
+    expect(isEvmAddress(address)).toBe(true);
+  });
+  test('returns true for mainnet address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isEvmAddress(address)).toBe(true);
+  });
+  test('returns true for testnet address', () => {
+    const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
+    expect(isEvmAddress(address)).toBe(true);
+  });
+
+  test('returns false for other string', () => {
+    const address = '0x179163079538236';
+    expect(isEvmAddress(address)).toBe(false);
+  });
+});
+describe('isCoreAddress', () => {
+  test('returns true for zero address', () => {
+    const address = '0x0000000000000000000000000000000000000000';
+    expect(isCoreAddress(address)).toBe(true);
+  });
+  test('returns true for 0x0', () => {
+    const address = '0x0';
+    expect(isCoreAddress(address)).toBe(true);
+  });
+  test('returns true for mainnet address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isCoreAddress(address)).toBe(true);
+  });
+  test('returns true for testnet address', () => {
+    const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
+    expect(isCoreAddress(address)).toBe(true);
+  });
+  test('returns true for net address', () => {
+    const address = 'net1999:aan3c22hwy6cg4y0ez1uah6szt3r34884amezdeh6t';
+    expect(isCoreAddress(address)).toBe(true);
+  });
+  test('returns true for core hex address', () => {
+    const address = '0x179163079538236a96256f001f8eabf2dcebded0';
+    expect(isCoreAddress(address)).toBe(true);
+  });
+
+  test('returns false for 0x2 hex address', () => {
+    const address = '0x279163079538236a96256f001f8eabf2dcebded0';
+    expect(isCoreAddress(address)).toBe(false);
+  });
+  test('returns false for other string', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v136';
+    expect(isCoreAddress(address)).toBe(false);
   });
 });
 
-describe('isPosAddress', () => {
-  test('should return true for a valid PoS address', () => {
-    const validAddress = '0x' + 'a'.repeat(64);
-    expect(isPosAddress(validAddress)).toBe(true);
+describe('isCoreUserAddress', () => {
+  test('returns true for user address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isCoreUserAddress(address)).toBe(true);
   });
 
-  test('should return false for an address not starting with 0x', () => {
-    const invalidAddress = '1x' + 'a'.repeat(64);
-    expect(isPosAddress(invalidAddress)).toBe(false);
+  test('returns false for contract address', () => {
+    const address = 'cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2';
+    expect(isCoreUserAddress(address)).toBe(false);
+  });
+});
+describe('isCoreContractAddress', () => {
+  test('returns true for contract address', () => {
+    const address = 'cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2';
+    expect(isCoreContractAddress(address)).toBe(true);
   });
 
-  test('should return false for an address with incorrect length', () => {
-    const tooLongAddress = '0x' + 'a'.repeat(65);
-    const tooShortAddress = '0x' + 'a'.repeat(63);
-    expect(isPosAddress(tooLongAddress)).toBe(false);
-    expect(isPosAddress(tooShortAddress)).toBe(false);
+  test('returns false for user address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isCoreContractAddress(address)).toBe(false);
+  });
+});
+describe('isInnerContractAddress', () => {
+  test('returns true for inner address', () => {
+    const address = 'cfx:aaejuaaaaaaaaaaaaaaaaaaaaaaaaaaaa2sn102vjv';
+    expect(isInnerContractAddress(address)).toBe(true);
   });
 
-  test('should return false for an empty string', () => {
-    expect(isPosAddress('')).toBe(false);
+  test('returns false for user address', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isInnerContractAddress(address)).toBe(false);
+  });
+});
+describe('isSpecialAddress', () => {
+  test('returns true for address that startsWith 0x0 and not inner address', () => {
+    const address = '0x079163079538236a96256f001f8eabf2dcebded0';
+    expect(isSpecialAddress(address)).toBe(true);
   });
 
-  test('should return true for a string starting with 0x but containing non-hex characters', () => {
-    const nonHexCharsAddress = '0x' + 'g'.repeat(64);
-    expect(isPosAddress(nonHexCharsAddress)).toBe(true);
+  test('returns false for user address', () => {
+    const address = '0x179163079538236a96256f001f8eabf2dcebded0';
+    expect(isSpecialAddress(address)).toBe(false);
   });
 });
 
@@ -139,65 +212,6 @@ describe('isZeroAddress', () => {
   test('returns false for non-zero address', () => {
     const address = '0x0000000000000000000000000000000000000001';
     expect(isZeroAddress(address)).toBe(false);
-  });
-});
-
-describe('isSimplyBase32Address', () => {
-  test('returns true for known zero address', () => {
-    const address = '0x0000000000000000000000000000000000000000';
-    expect(isSimplyBase32Address(address)).toBe(false);
-  });
-
-  test('returns false for eoa address', () => {
-    const address = 'cfxtest:aaprg5pk4ykdg3udrefh71s0yphg4dnvh61mgvfgda';
-    expect(isSimplyBase32Address(address)).toBe(true);
-  });
-
-  test('returns false for contract address', () => {
-    const address = 'cfxtest:acgwa148z517jj15w9je5sdzn8p8j044kjrvjz92c1';
-    expect(isSimplyBase32Address(address)).toBe(true);
-  });
-});
-
-describe('isAddress', () => {
-  test('returns true for valid Hex address', () => {
-    const hexAddress = '0x14b2d3bc65e74dae1030eafd8ac30c533c976a9b';
-    expect(isAddress(hexAddress)).toBe(true);
-  });
-
-  test('returns false for invalid Hex address with wrong characters', () => {
-    const invalidHexAddress = '0x14b2d3bc65e74dae1030eafd8ac30c5ZZZc976a9b';
-    expect(isAddress(invalidHexAddress)).toBe(false);
-  });
-
-  test('returns false for Hex address with incorrect length', () => {
-    const shortHexAddress = '0x14b2d3';
-    expect(isAddress(shortHexAddress)).toBe(false);
-  });
-
-  test('returns true for valid Base32 address', () => {
-    const base32Address = 'cfx:aakwuegj5hm6cjm4d4w0aw9ygcsex2xdmjtpyseezs';
-    expect(isAddress(base32Address)).toBe(true);
-  });
-
-  test('returns false for invalid Base32 address with wrong characters', () => {
-    const invalidBase32Address =
-      'cfx:aakwuegj5hm6cjm4d4w0aw9ygcsex2xdmjtpyseez!';
-    expect(isAddress(invalidBase32Address)).toBe(false);
-  });
-
-  test('returns false for Base32 address with incorrect length', () => {
-    const shortBase32Address = 'cfx:aakwue';
-    expect(isAddress(shortBase32Address)).toBe(false);
-  });
-
-  test('returns false for empty string', () => {
-    expect(isAddress('')).toBe(false);
-  });
-
-  test('returns false for string not starting with 0x or cfx:', () => {
-    const randomString = '1x23456789abcdef';
-    expect(isAddress(randomString)).toBe(false);
   });
 });
 

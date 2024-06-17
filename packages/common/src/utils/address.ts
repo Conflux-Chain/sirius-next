@@ -6,7 +6,6 @@ import {
   convertHexToBase32,
   isBase32Address,
   isHexAddress,
-  shortenAddress,
   isCoreHexAddress,
   decode,
   convertBase32ToHex,
@@ -247,50 +246,30 @@ export const getCoreAddressInfo = addressHandlerWrapper(
 );
 
 // common
-export const formatAddress = addressHandlerWrapper(
-  (address: string, outputType: 'hex' | 'base32' = 'base32') => {
-    let result = address;
+export const formatAddress = (
+  address: string,
+  outputType: 'hex' | 'base32' = 'base32',
+) => {
+  let result = address;
 
-    try {
-      if (outputType === 'base32') {
-        if (isCoreHexAddress(address)) {
-          result = convertHexToBase32(address, NETWORK_ID);
-        } else if (isBase32Address(address)) {
-          const reg = /(.*):(.*):(.*)/;
-          if (reg.test(address)) {
-            result = address.replace(reg, '$1:$3').toLowerCase();
-          }
-        }
-      } else if (outputType === 'hex') {
-        if (isBase32Address(address)) {
-          result = convertBase32ToHex(address);
+  try {
+    if (outputType === 'base32') {
+      if (isCoreHexAddress(address)) {
+        result = convertHexToBase32(address, NETWORK_ID);
+      } else if (isBase32Address(address)) {
+        const reg = /(.*):(.*):(.*)/;
+        if (reg.test(address)) {
+          result = address.replace(reg, '$1:$3').toLowerCase();
         }
       }
-    } catch (error) {
-      console.error('Failed to format address:', error);
+    } else if (outputType === 'hex') {
+      if (isBase32Address(address)) {
+        result = convertBase32ToHex(address);
+      }
     }
-
-    return result;
-  },
-);
-
-// Omit specification judgment: test environment cfxtest:xxx...xxxx, production environment cfx:xxx...xxxxxxxx,
-export const abbreviateAddress = (address: string) => {
-  let prefixLength = 0;
-  let suffixLength = 0;
-
-  if (isHexAddress(address)) {
-    prefixLength = 6;
-    suffixLength = 4;
-  } else if (isCoreTestnetAddress(address) || isCoreOtherNetAddress(address)) {
-    prefixLength = 11;
-    suffixLength = 4;
-  } else if (isCoreMainnetAddress(address)) {
-    prefixLength = 7;
-    suffixLength = 8;
+  } catch (error) {
+    console.error('Failed to format address:', error);
   }
-  return shortenAddress(address, {
-    prefixLength,
-    suffixLength,
-  });
+
+  return result;
 };
