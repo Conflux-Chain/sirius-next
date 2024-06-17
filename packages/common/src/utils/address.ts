@@ -10,6 +10,7 @@ import {
   isCoreHexAddress,
   decode,
   convertBase32ToHex,
+  getCoreHexAddressType,
 } from '@cfx-kit/dapp-utils/dist/address';
 
 type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
@@ -222,7 +223,6 @@ export const getEvmAddressType = addressHandlerWrapper(
 interface CoreAddressInfo {
   netId: number;
   type: CoreAddressType;
-  hexAddress: Buffer;
 }
 
 // core
@@ -233,10 +233,13 @@ export const getCoreAddressInfo = addressHandlerWrapper(
   (address: string): CoreAddressInfo | null => {
     try {
       if (isCoreHexAddress(address)) {
-        const base32Address = convertHexToBase32(address, NETWORK_ID);
-        return decode(base32Address) as CoreAddressInfo;
+        return {
+          netId: NETWORK_ID,
+          type: getCoreHexAddressType(address),
+        };
       } else if (isBase32Address(address)) {
-        return decode(address) as CoreAddressInfo;
+        const { netId, type } = decode(address);
+        return { netId, type } as CoreAddressInfo;
       }
     } catch (e) {}
     return null;

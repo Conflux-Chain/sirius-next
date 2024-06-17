@@ -134,8 +134,8 @@ importers:
   packages/common:
     dependencies:
       '@cfx-kit/dapp-utils':
-        specifier: ^0.1.8
-        version: 0.1.8(typescript@5.4.3)
+        specifier: ^0.1.9
+        version: 0.1.9(typescript@5.4.3)
       '@cfx-kit/react-utils':
         specifier: ^0.0.29
         version: 0.0.29(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
@@ -840,8 +840,8 @@ packages:
       - zod
     dev: false
 
-  /@cfx-kit/dapp-utils@0.1.8(typescript@5.4.3):
-    resolution: {integrity: sha512-GBWXPX8m1+YOKYcGrWib7GQj3Zpdl3aitmt090FoaF0zZf+zZcWBktAzx9bnlgB9SEZmE5EwX3zuz9rwgeizXA==}
+  /@cfx-kit/dapp-utils@0.1.9(typescript@5.4.3):
+    resolution: {integrity: sha512-COWGXA9XQSVSqXG7ON0JFZYun3hIZZeIHu3omKTJm5TDmT9iGifKGZm6abWlxnG3ZHvygldYgQIt08/TFRe8QA==}
     dependencies:
       '@cfx-kit/utils': 0.0.5
       '@ethersproject/abi': 5.7.0

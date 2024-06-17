@@ -17,7 +17,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@cfx-kit/dapp-utils": "^0.1.8",
+    "@cfx-kit/dapp-utils": "^0.1.9",
     "@cfx-kit/react-utils": "^0.0.29",
     "@cfx-kit/ui-components": "^0.0.17",
     "@cfxjs/sirius-next-i18n": "workspace:*",
