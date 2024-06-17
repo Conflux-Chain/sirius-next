@@ -12,6 +12,7 @@ import {
   MultiAction,
 } from './type';
 import { TokenIcon, TokenName, TokenSymbol, TokenDecimals } from './constants';
+import { isCoreMainOrTestAddress } from '../../utils/address';
 
 const Token = (
   address: string,
@@ -81,17 +82,13 @@ const Token = (
 const convertMapKeysToHex = (
   data: Record<string, any>,
 ): Record<string, any> => {
-  const newMap = Object.entries(data).reduce(
-    (acc: Record<string, any>, [key, value]) => {
-      const newKey: string = key.startsWith('cfx')
-        ? key
-        : formatAddress(key, 'hex');
-      acc[newKey] = value;
-      return acc;
-    },
-    {} as Record<string, any>,
-  );
-
+  const newMap: Record<string, any> = {};
+  for (const [key, value] of Object.entries(data)) {
+    const newKey = isCoreMainOrTestAddress(key)
+      ? key
+      : formatAddress(key, 'hex');
+    newMap[newKey] = value;
+  }
   return newMap;
 };
 
