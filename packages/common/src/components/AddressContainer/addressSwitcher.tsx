@@ -26,7 +26,6 @@ export const ContractCreatedAddress = (
     content: t(translations.transaction.contractCreation),
     hrefAddress: contractAddress,
     cfxAddress: contractAddress,
-    hoverValue: contractAddress,
     maxWidth: 160,
   };
 

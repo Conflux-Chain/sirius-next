@@ -36,7 +36,6 @@ const parseProps = (
     aliasLabel = t(translations.general.zeroAddress);
   }
 
-  let prefixIcon: React.ReactNode = null;
   // official name tag
   let officalNametag: React.ReactNode = null;
   // private name tag
@@ -69,7 +68,6 @@ const parseProps = (
 
   return {
     alias: aliasLabel,
-    prefix: prefixIcon,
     nametag: officalNametag,
     addressLabel,
     cfxAddress,
