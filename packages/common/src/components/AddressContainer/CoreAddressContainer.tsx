@@ -38,7 +38,7 @@ const parseProps = (
     nametagInfo,
     showENSLabel,
   } = props;
-  const value: string = props.value || props.contractCreated || '';
+  const value: string = props.value || '';
   const cfxAddress = formatAddress(value, 'base32');
 
   let ENSMap = ensInfo || {};

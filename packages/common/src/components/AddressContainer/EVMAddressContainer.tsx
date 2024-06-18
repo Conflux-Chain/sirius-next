@@ -26,7 +26,7 @@ const parseProps = (
   globalData: GlobalDataType,
 ) => {
   const { alias, t, showAddressLabel, showNametag, nametagInfo } = props;
-  const value: string = props.value || props.contractCreated || '';
+  const value: string = props.value || '';
   const cfxAddress = formatAddress(value, 'hex');
 
   const translations = getTranslations();

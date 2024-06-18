@@ -16,20 +16,37 @@ import { RenderAddress } from './addressView';
 export const ContractCreatedAddress = (
   props: Props & WithTranslation & { outputType: 'hex' | 'base32' },
 ) => {
-  const { contractCreated = '', outputType, t } = props;
+  const { contractCreated = '', outputType, t, isFull } = props;
 
   const translations = getTranslations();
 
-  const fContractCreated = formatAddress(contractCreated, outputType);
+  const contractAddress = formatAddress(contractCreated, outputType);
 
   const customProps = {
     content: t(translations.transaction.contractCreation),
-    hrefAddress: fContractCreated,
+    hrefAddress: contractAddress,
+    cfxAddress: contractAddress,
+    hoverValue: contractAddress,
     maxWidth: 160,
   };
 
   const mergedProps = { ...customProps, ...props };
-  return RenderAddress(mergedProps);
+  return RenderAddress({
+    ...mergedProps,
+    prefix: (
+      <div className={`mr-[2px] flex-shrink-0 ${isFull ? 'icon' : ''}`}>
+        <Tooltip title={mergedProps.content}>
+          <div className="relative w-[16px] h-[16px]">
+            <img
+              className="w-[16px] h-[16px] align-bottom mb-[3px]"
+              src={ContractIcon}
+              alt={mergedProps.content}
+            />
+          </div>
+        </Tooltip>
+      </div>
+    ),
+  });
 };
 
 // core
