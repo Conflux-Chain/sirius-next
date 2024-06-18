@@ -3,45 +3,31 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import _ from 'lodash';
 import {
   formatAddress,
-  isCoreAddress,
   isEvmAddress,
-  isCoreContractAddress,
   isZeroAddress,
   convertCheckSum,
 } from '../../utils/address';
-import { useGlobalData, getTranslations, getEnvConfig } from '../../store';
+import { useGlobalData, getTranslations } from '../../store';
 import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
 import { getLabelInfo } from './label';
-import { useENS } from '../../utils/hooks/useENS';
 
-import { Props } from './types';
 import { RenderAddress } from './addressView';
 import {
   ContractCreatedAddress,
-  CoreHexAddress,
   InvalidAddress,
   ContractAddress,
   MyAddress,
-  PosAddress,
 } from './addressSwitcher';
+import { GlobalDataType } from 'src/store/types';
+import { EVMAddressContainerProps } from './types';
 
-const parseProps = (props: Props & WithTranslation) => {
-  const {
-    globalData,
-    alias,
-    ensInfo,
-    t,
-    showAddressLabel,
-    showNametag,
-    nametagInfo,
-    showENSLabel,
-  } = props;
-  const ENV_CONFIG = getEnvConfig();
-  const outputType = ENV_CONFIG.ENV_ADDRESS || 'base32';
-  const value: string = props.value || props.contractCreated || '';
-  const cfxAddress = formatAddress(value, outputType);
-
-  let ENSMap = ensInfo || {};
+const parseProps = (
+  props: EVMAddressContainerProps & WithTranslation,
+  globalData: GlobalDataType,
+) => {
+  const { alias, t, showAddressLabel, showNametag, nametagInfo } = props;
+  const value: string = props.value || '';
+  const cfxAddress = formatAddress(value, 'hex');
 
   const translations = getTranslations();
 
@@ -50,15 +36,10 @@ const parseProps = (props: Props & WithTranslation) => {
     aliasLabel = t(translations.general.zeroAddress);
   }
 
-  let prefixIcon: React.ReactNode = null;
   // official name tag
   let officalNametag: React.ReactNode = null;
   // private name tag
   let addressLabel: React.ReactNode = null;
-  // ens name tag
-  let ENSLabel: React.ReactNode = null;
-  // global ens name tag
-  const gENSLabel = cfxAddress && ENSMap[cfxAddress]?.name;
   // global private name tag
   const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
 
@@ -85,32 +66,17 @@ const parseProps = (props: Props & WithTranslation) => {
     }
   }
 
-  if (showENSLabel && gENSLabel) {
-    const { label, icon } = getLabelInfo(gENSLabel, 'ens');
-    ENSLabel = label;
-    prefixIcon = icon;
-  }
-
-  let link = props.isLink || props.link;
-
   return {
     alias: aliasLabel,
-    prefix: prefixIcon,
     nametag: officalNametag,
     addressLabel,
-    ENSLabel,
     cfxAddress,
-    link,
   };
 };
 
-export const AddressContainer = withTranslation()(
-  memo((props: Props & WithTranslation) => {
+export const EVMAddressContainer = withTranslation()(
+  memo((props: EVMAddressContainerProps & WithTranslation) => {
     const { globalData } = useGlobalData();
-
-    // If the interface returns Ens content, there is no need to obtain it separately, or disable the display of Ens content (in most cases on the list page).
-    const unnecessaryEns = props.ensInfo || props.showENSLabel === false;
-    const { ens } = useENS(unnecessaryEns ? null : props.value);
 
     // If a txn receipt has no 'to' address or 'contractCreated', show -- for temp
     if (!props.value && !props.contractCreated) {
@@ -118,7 +84,6 @@ export const AddressContainer = withTranslation()(
     }
 
     const defaultProps = {
-      globalData,
       isFull: false,
       isFullNameTag: false,
       link: true,
@@ -128,7 +93,6 @@ export const AddressContainer = withTranslation()(
       showAddressLabel: true,
       showENSLabel: true,
       showNametag: true,
-      ensInfo: ens,
     };
 
     const mergeDefaultProps = _.assign({}, defaultProps, props);
@@ -136,32 +100,21 @@ export const AddressContainer = withTranslation()(
     const mergeParseProps = _.merge(
       {},
       mergeDefaultProps,
-      parseProps(mergeDefaultProps),
+      parseProps(mergeDefaultProps, globalData),
     );
 
-    if (mergeParseProps.isPosAddress) {
-      return PosAddress(mergeParseProps);
-    }
-
     if (!mergeParseProps.value && mergeParseProps.contractCreated) {
-      return ContractCreatedAddress(mergeParseProps);
+      return ContractCreatedAddress({
+        ...mergeParseProps,
+        outputType: 'hex',
+      });
     }
 
-    if (mergeParseProps.isEspaceAddress) {
-      return CoreHexAddress(mergeParseProps);
-    }
-
-    if (
-      !isCoreAddress(mergeParseProps.value) &&
-      !isEvmAddress(mergeParseProps.value)
-    ) {
+    if (!isEvmAddress(mergeParseProps.value)) {
       return InvalidAddress(mergeParseProps);
     }
 
-    if (
-      mergeParseProps.isContract ||
-      isCoreContractAddress(mergeParseProps.cfxAddress)
-    ) {
+    if (mergeParseProps.isContract) {
       return ContractAddress(mergeParseProps);
     }
 

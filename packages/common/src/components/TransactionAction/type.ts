@@ -8,6 +8,7 @@ export interface TransactionActionProps {
   transaction: TranslationArgs;
   event: EventList[];
   customInfo: CustomInfo;
+  outputType: 'base32' | 'hex';
 }
 
 export interface TokenInfo {

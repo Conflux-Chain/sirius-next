@@ -1,12 +1,13 @@
 import { Translation } from 'react-i18next';
-import { Tooltip } from '../Tooltip';
 import { Text } from '../Text';
-import { abbreviateAddress, convertCheckSum } from '../../utils/address';
+import { convertCheckSum } from '../../utils/address';
 import { getTranslations } from '../../store';
 import { TooltipContent, RenderAddressProps } from './types';
+import { shortenAddress } from '@cfx-kit/dapp-utils/dist/address';
 
 const defaultPCMaxWidth = 138;
 
+// common
 const renderTooltipContent = (tooltipContent: TooltipContent) => {
   return Object.entries(tooltipContent)
     .map(([key, { label, value, hideLabel }]) => {
@@ -27,6 +28,7 @@ const renderTooltipContent = (tooltipContent: TooltipContent) => {
     .filter(Boolean);
 };
 
+// common
 const convertLink = ({
   link,
   type,
@@ -56,6 +58,7 @@ const convertLink = ({
   return false;
 };
 
+// common
 export const RenderAddress = ({
   cfxAddress,
   alias,
@@ -111,7 +114,7 @@ export const RenderAddress = ({
 
   const cfxAddressLabel =
     typeof cfxAddress === 'string' && !isFull
-      ? abbreviateAddress(checksumAddress)
+      ? shortenAddress(checksumAddress!)
       : checksumAddress;
 
   return (

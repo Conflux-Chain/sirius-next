@@ -3,7 +3,7 @@ import { formatBalance } from '../../utils';
 import { formatAddress } from '../../utils/address';
 import { Link } from '../Link';
 import { decodeData, filterByTokenAddress } from './minibus';
-import { AddressContainer } from '../AddressContainer';
+import { EVMAddressContainer } from '../AddressContainer/EVMAddressContainer';
 import { reqNametag, reqContractAndToken } from '../../utils/request';
 import { useNametagCacheStore } from '../../store';
 import {
@@ -12,7 +12,6 @@ import {
   MultiAction,
 } from './type';
 import { TokenIcon, TokenName, TokenSymbol, TokenDecimals } from './constants';
-import { isCoreMainOrTestAddress } from '../../utils/address';
 
 const Token = (
   address: string,
@@ -43,7 +42,7 @@ const Token = (
         <></>
       )}
       {tokenExhibit.includes('name') ? (
-        <Link href={`/address/${formatAddress(address)}`}>
+        <Link href={`/address/${formatAddress(address, 'hex')}`}>
           {customInfoToken['token']['name'] ? (
             `${customInfoToken['token']['name']}`
           ) : (
@@ -54,7 +53,7 @@ const Token = (
         <></>
       )}
       {tokenExhibit.includes('symbol') ? (
-        <Link href={`/address/${formatAddress(address)}`}>
+        <Link href={`/address/${formatAddress(address, 'hex')}`}>
           {customInfoToken['token']['symbol']
             ? customInfoToken['token']['symbol']
             : TokenSymbol}{' '}
@@ -84,9 +83,7 @@ const convertMapKeysToHex = (
 ): Record<string, any> => {
   const newMap: Record<string, any> = {};
   for (const [key, value] of Object.entries(data)) {
-    const newKey = isCoreMainOrTestAddress(key)
-      ? key
-      : formatAddress(key, 'hex');
+    const newKey = formatAddress(key, 'hex');
     newMap[newKey] = value;
   }
   return newMap;
@@ -151,7 +148,7 @@ const AddressNameTagContainer: React.FC<AddressNameTagContainerProps> = ({
   };
 
   return (
-    <AddressContainer
+    <EVMAddressContainer
       value={value}
       alias={
         contractCache[value]?.contract?.name ||
@@ -172,7 +169,7 @@ const customUI: MultiAction = {
         </div>{' '}
         {Token(address, customInfo, 'ERC20', ['icon', 'symbol'])} to{' '}
         <Link href={`/address/${toAddress}`}>
-          <AddressNameTagContainer value={formatAddress(toAddress)} />
+          <AddressNameTagContainer value={formatAddress(toAddress, 'hex')} />
         </Link>
       </div>
     );
@@ -184,7 +181,7 @@ const customUI: MultiAction = {
         {Token(address, customInfo, 'ERC20', ['icon', 'symbol'])} for
         {toAddress && (
           <Link href={`/address/${toAddress}`}>
-            <AddressNameTagContainer value={formatAddress(toAddress)} />
+            <AddressNameTagContainer value={formatAddress(toAddress, 'hex')} />
           </Link>
         )}
       </div>
@@ -197,7 +194,7 @@ const customUI: MultiAction = {
         {Token(address, customInfo, 'ERC20', ['icon', 'symbol'])} from
         {toAddress && (
           <Link href={`/address/${toAddress}`}>
-            <AddressNameTagContainer value={formatAddress(toAddress)} />
+            <AddressNameTagContainer value={formatAddress(toAddress, 'hex')} />
           </Link>
         )}
       </div>
@@ -242,7 +239,7 @@ const customUI: MultiAction = {
         from
         {toAddress && (
           <Link href={`/address/${toAddress}`}>
-            <AddressNameTagContainer value={formatAddress(toAddress)} />
+            <AddressNameTagContainer value={formatAddress(toAddress, 'hex')} />
           </Link>
         )}
       </div>
@@ -255,7 +252,7 @@ const customUI: MultiAction = {
         for
         {toAddress && (
           <Link href={`/address/${toAddress}`}>
-            <AddressNameTagContainer value={formatAddress(toAddress)} />
+            <AddressNameTagContainer value={formatAddress(toAddress, 'hex')} />
           </Link>
         )}
       </div>
@@ -268,7 +265,7 @@ const customUI: MultiAction = {
         for
         {toAddress && (
           <Link href={`/address/${toAddress}`}>
-            <AddressNameTagContainer value={formatAddress(toAddress)} />
+            <AddressNameTagContainer value={formatAddress(toAddress, 'hex')} />
           </Link>
         )}
       </div>
@@ -281,7 +278,7 @@ const customUI: MultiAction = {
         from
         {toAddress && (
           <Link href={`/address/${toAddress}`}>
-            <AddressNameTagContainer value={formatAddress(toAddress)} />
+            <AddressNameTagContainer value={formatAddress(toAddress, 'hex')} />
           </Link>
         )}
       </div>
