@@ -1,13 +1,26 @@
 import SDK from 'js-conflux-sdk';
 import { getAccount } from './rpcRequest';
-import { RenderAddressProps } from '../components/AddressContainer/types';
 import { NETWORK_ID } from './constants';
+import {
+  checksumHexAddress,
+  convertHexToBase32,
+  isBase32Address,
+  isHexAddress,
+  isCoreHexAddress,
+  decode,
+  convertBase32ToHex,
+  getCoreHexAddressType,
+} from '@cfx-kit/dapp-utils/dist/address';
+
+type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
+type EvmAddressType = 'user' | 'contract';
 
 interface AddressCache {
   [key: string]: any;
 }
 export const ADDRESS_FUNC_CACHE: AddressCache = {};
 
+// common
 const addressHandlerWrapper = <T extends Function>(
   handler: T,
   cacheKey?: string,
@@ -28,202 +41,153 @@ const addressHandlerWrapper = <T extends Function>(
   }) as unknown as T;
 };
 
-export const convertCheckSum = addressHandlerWrapper((cfxAddress?: string) => {
-  if (cfxAddress === undefined) {
-    return '';
+// evm
+export const convertCheckSum = <T extends undefined | string>(address: T) => {
+  if (address && isHexAddress(address)) {
+    return checksumHexAddress(address);
   }
+  return address;
+};
 
-  if (isHexAddress(cfxAddress)) {
-    return SDK.format.checksumAddress(cfxAddress);
-  }
+// core mainnet or testnet
+export const isCoreMainOrTestAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return isCoreMainnetAddress(address) || isCoreTestnetAddress(address);
+  },
+);
 
-  return cfxAddress;
-}, 'convertCheckSum');
+// core mainnet
+export const isCoreMainnetAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return /^cfx:/i.test(address) && isBase32Address(address);
+  },
+);
 
-export const isPosAddress = addressHandlerWrapper(
+// core testnet
+export const isCoreTestnetAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return /^cfxtest:/i.test(address) && isBase32Address(address);
+  },
+);
+
+// core other chainId
+export const isCoreOtherNetAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return /^net/i.test(address) && isBase32Address(address);
+  },
+);
+
+// evm
+export const isEvmAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return (
+      isHexAddress(address) ||
+      isSimplyZeroAddress(address) ||
+      isBase32Address(address)
+    );
+  },
+);
+
+// core
+export const isCoreAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    return (
+      isCoreHexAddress(address) ||
+      isSimplyZeroAddress(address) ||
+      isBase32Address(address)
+    );
+  },
+);
+
+// common, only for 0x0
+export const isSimplyZeroAddress = addressHandlerWrapper((address: string) => {
+  return address === '0x0';
+});
+
+// common
+export const isZeroAddress = addressHandlerWrapper(
   (address: string): boolean => {
     try {
-      return address.startsWith('0x') && address.length === 66;
+      // hex
+      if (isHexAddress(address)) {
+        return address === SDK.CONST.ZERO_ADDRESS_HEX;
+      } else if (isSimplyZeroAddress(address)) {
+        return true;
+        // base32
+      } else if (isBase32Address(address)) {
+        return formatAddress(address, 'hex') === SDK.CONST.ZERO_ADDRESS_HEX;
+      }
+    } catch (e) {}
+    return false;
+  },
+);
+
+// core
+export const isCoreUserAddress = addressHandlerWrapper(
+  (address: string): boolean => {
+    if (isZeroAddress(address)) return true;
+    return getCoreAddressInfo(address)?.type === 'user';
+  },
+);
+
+// evm
+export const isEvmUserAddress = addressHandlerWrapper(
+  async (address: string): Promise<boolean> => {
+    try {
+      if (isZeroAddress(address)) return true;
+      return (await getEvmAddressType(address)) === 'user';
     } catch (e) {
       return false;
     }
   },
-  'isPosAddress',
 );
 
-// cfx, cfxtest
-export const isCoreMainOrTestAddress = addressHandlerWrapper(
-  (address: string): boolean => {
-    let result = false;
-
-    try {
-      result = isBase32Address(address) && address.startsWith('cfx');
-    } catch (e) {}
-
-    return result;
-  },
-  'isCoreMainOrTestAddress',
-);
-
-export const isHexAddress = addressHandlerWrapper(
-  (address: string): boolean => {
-    let result = false;
-
-    try {
-      result =
-        address.startsWith('0x') && SDK.address.isValidHexAddress(address);
-    } catch (e) {}
-
-    return result;
-  },
-  'isHexAddress',
-);
-
-export const isCfxHexAddress = addressHandlerWrapper(
-  (address: string): boolean => {
-    let result = false;
-
-    try {
-      result = SDK.address.isValidCfxHexAddress(address);
-    } catch (e) {}
-
-    return result;
-  },
-  'isCfxHexAddress',
-);
-
-export const isBase32Address = addressHandlerWrapper(
-  (address: string): boolean => {
-    let result = false;
-
-    try {
-      result = SDK.address.isValidCfxAddress(address);
-    } catch (e) {}
-
-    return result;
-  },
-  'isBase32Address',
-);
-
-export const isSimplyBase32Address = addressHandlerWrapper(
-  (address: string): boolean => {
-    let result = false;
-
-    try {
-      result =
-        SDK.address.isValidCfxAddress(address) &&
-        SDK.address.simplifyCfxAddress(address) === address;
-    } catch (e) {}
-
-    return result;
-  },
-  'isSimplyBase32Address',
-);
-
-// support hex and base32
-export const isAddress = addressHandlerWrapper((address: string): boolean => {
-  try {
-    if (address.startsWith('0x')) {
-      return SDK.address.isValidHexAddress(address) || isZeroAddress(address);
-    } else {
-      return isBase32Address(address);
-    }
-  } catch (e) {
-    return false;
-  }
-}, 'isAddress');
-
-export const isZeroAddress = addressHandlerWrapper(
-  (address: string): boolean => {
-    let result = false;
-
-    try {
-      result =
-        SDK.address.isZeroAddress(formatAddress(address, 'hex')) ||
-        address === SDK.CONST.ZERO_ADDRESS_HEX ||
-        address === '0x0';
-    } catch (e) {}
-
-    return result;
-  },
-  'isZeroAddress',
-);
-
-export const isAccountAddress = addressHandlerWrapper(
-  async (address: string, space: string): Promise<boolean> => {
-    if (space === 'core') {
-      return (
-        getCoreAddressInfo(address)?.type === 'user' || isZeroAddress(address)
-      );
-    }
-    if (space === 'evm') {
-      try {
-        return (await getEvmAddressType(address)) === 'account';
-      } catch (e) {
-        throw e;
-      }
-    }
-    return false;
-  },
-  'isAccountAddress',
-);
-
+// core
 export const isCoreContractAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: string, isIncludingInnerContract = true): boolean => {
     return (
-      isBase32Address(address) &&
-      (getCoreAddressInfo(address)?.type === 'contract' ||
-        isInnerContractAddress(address))
+      getCoreAddressInfo(address)?.type === 'contract' ||
+      (isIncludingInnerContract && isInnerContractAddress(address))
     );
   },
-  'isCoreContractAddress',
 );
 
-/**
- * @deprecated
- */
-export const isContractAddress = (address: string): boolean => {
-  return isCoreContractAddress(address);
-};
-
+// evm
 export const isEvmContractAddress = addressHandlerWrapper(
   async (address: string): Promise<boolean> => {
     try {
       return (await getEvmAddressType(address)) === 'contract';
     } catch (e) {
-      throw e;
+      return false;
     }
   },
-  'isEvmContractAddress',
 );
 
+//core
 export const isInnerContractAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    let result = false;
-
     try {
-      result = SDK.address.isInternalContractAddress(
+      return SDK.address.isInternalContractAddress(
         formatAddress(address, 'hex'),
       );
-    } catch (e) {}
-
-    return result;
+    } catch (e) {
+      return false;
+    }
   },
-  'isInnerContractAddress',
 );
 
+// core
 // address start with 0x0, not valid internal contract, but fullnode support
 export const isSpecialAddress = addressHandlerWrapper(
   (address: string): boolean => {
-    let result =
+    return (
       getCoreAddressInfo(address)?.type === 'builtin' &&
-      !isInnerContractAddress(address);
-
-    return result;
+      !isInnerContractAddress(address)
+    );
   },
-  'isSpecialAddress',
 );
 
+// evm
 export const isContractCodeHashEmpty = addressHandlerWrapper(
   (codeHash: string) => {
     return (
@@ -233,18 +197,18 @@ export const isContractCodeHashEmpty = addressHandlerWrapper(
       codeHash === ''
     );
   },
-  'isContractCodeHashEmpty',
 );
 
+// evm
 /**
  * Only evm address type
  */
 export const getEvmAddressType = addressHandlerWrapper(
-  async (address: string): Promise<string> => {
+  async (address: string): Promise<EvmAddressType> => {
     try {
       const account: any = await getAccount(address);
       if (isContractCodeHashEmpty(account.codeHash)) {
-        return 'account';
+        return 'user';
       }
       return 'contract';
     } catch (e) {
@@ -255,93 +219,57 @@ export const getEvmAddressType = addressHandlerWrapper(
   'getEvmAddressType',
 );
 
+interface CoreAddressInfo {
+  netId: number;
+  type: CoreAddressType;
+}
+
+// core
 /**
  * Only core address type
  */
 export const getCoreAddressInfo = addressHandlerWrapper(
-  (
-    address: string,
-  ): {
-    netId: number;
-    type: string;
-    hexAddress: ArrayBuffer | string;
-  } | null => {
-    let result = null;
-
+  (address: string): CoreAddressInfo | null => {
     try {
-      if (isCfxHexAddress(address)) {
-        const base32Address = formatAddress(address, 'base32');
-        result = SDK.address.decodeCfxAddress(base32Address);
+      if (isCoreHexAddress(address)) {
+        return {
+          netId: NETWORK_ID,
+          type: getCoreHexAddressType(address),
+        };
       } else if (isBase32Address(address)) {
-        result = SDK.address.decodeCfxAddress(address);
+        const { netId, type } = decode(address);
+        return { netId, type } as CoreAddressInfo;
       }
     } catch (e) {}
-
-    return result;
+    return null;
   },
-  'getCoreAddressInfo',
 );
 
-export const formatAddress = addressHandlerWrapper(
-  (address: string, outputType = 'base32') => {
-    let result = address;
+// common
+export const formatAddress = (
+  address: string,
+  outputType: 'hex' | 'base32',
+) => {
+  let result = address;
 
-    try {
-      if (outputType === 'base32') {
-        if (isCfxHexAddress(address)) {
-          result = SDK.format.address(address, NETWORK_ID);
-        } else if (isBase32Address(address)) {
-          const reg = /(.*):(.*):(.*)/;
-          if (reg.test(address)) {
-            result = address.replace(reg, '$1:$3').toLowerCase();
-          }
-        }
-      } else if (outputType === 'hex') {
-        if (isBase32Address(address)) {
-          result = SDK.format.hexAddress(address);
+  try {
+    if (outputType === 'base32') {
+      if (isCoreHexAddress(address)) {
+        result = convertHexToBase32(address, NETWORK_ID);
+      } else if (isBase32Address(address)) {
+        const reg = /(.*):(.*):(.*)/;
+        if (reg.test(address)) {
+          result = address.replace(reg, '$1:$3').toLowerCase();
         }
       }
-    } catch (error) {
-      console.error('Failed to format address:', error);
+    } else if (outputType === 'hex') {
+      if (isBase32Address(address)) {
+        result = convertBase32ToHex(address);
+      }
     }
-
-    return result;
-  },
-  'formatAddress',
-);
-
-// Omit specification judgment: test environment cfxtest:....xxxx, production environment cfx:....xxxx,
-export const abbreviateString = (str: string) => {
-  const isHex = str.startsWith('0x');
-  const isCfxtest = str.startsWith('cfxtest');
-  const prefixNum = isHex ? 6 : isCfxtest ? 11 : 7;
-  const suffixNum = isHex ? 4 : isCfxtest ? 4 : 8;
-
-  if (str.length > 7) {
-    return `${str.slice(0, prefixNum)}...${str.slice(-suffixNum)}`;
-  }
-  return str;
-};
-
-export const convertLink = ({
-  link,
-  type,
-  hrefAddress,
-  cfxAddress,
-}: RenderAddressProps) => {
-  if (typeof link === 'string') {
-    return link;
+  } catch (error) {
+    console.error('Failed to format address:', error);
   }
 
-  const url = hrefAddress || cfxAddress;
-
-  if (url) {
-    if (window.location.pathname.includes('/address/' + url)) {
-      return false;
-    }
-
-    return `/${type === 'pow' ? 'address' : 'pos/accounts'}/${url}`;
-  }
-
-  return false;
+  return result;
 };

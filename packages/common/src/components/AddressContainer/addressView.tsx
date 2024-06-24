@@ -1,16 +1,13 @@
 import { Translation } from 'react-i18next';
-import { Tooltip } from '../Tooltip';
 import { Text } from '../Text';
-import {
-  abbreviateString,
-  convertCheckSum,
-  convertLink,
-} from '../../utils/address';
+import { convertCheckSum } from '../../utils/address';
 import { getTranslations } from '../../store';
 import { TooltipContent, RenderAddressProps } from './types';
+import { shortenAddress } from '@cfx-kit/dapp-utils/dist/address';
 
 const defaultPCMaxWidth = 138;
 
+// common
 const renderTooltipContent = (tooltipContent: TooltipContent) => {
   return Object.entries(tooltipContent)
     .map(([key, { label, value, hideLabel }]) => {
@@ -31,6 +28,37 @@ const renderTooltipContent = (tooltipContent: TooltipContent) => {
     .filter(Boolean);
 };
 
+// common
+const convertLink = ({
+  link,
+  type,
+  hrefAddress,
+  cfxAddress,
+}: RenderAddressProps) => {
+  if (typeof link === 'string') {
+    return link;
+  }
+
+  const address = hrefAddress || cfxAddress;
+
+  if (address) {
+    if (window.location.pathname.includes('/address/' + address)) {
+      return false;
+    }
+
+    if (type === 'pow') {
+      return `/address/${address}`;
+    }
+
+    if (type === 'pos') {
+      return `/pos/accounts/${address}`;
+    }
+  }
+
+  return false;
+};
+
+// common
 export const RenderAddress = ({
   cfxAddress,
   alias,
@@ -86,7 +114,7 @@ export const RenderAddress = ({
 
   const cfxAddressLabel =
     typeof cfxAddress === 'string' && !isFull
-      ? abbreviateString(checksumAddress)
+      ? shortenAddress(checksumAddress!)
       : checksumAddress;
 
   return (

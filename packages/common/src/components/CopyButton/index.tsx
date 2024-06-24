@@ -43,7 +43,7 @@ export const CopyButton = React.memo(
         onClose={handleClose}
         closeOnPointerDown={false}
         positioning={{ placement: 'top-start' }}
-        className="inline-block"
+        className="inline-flex items-center"
       >
         <div onClick={handleClick} className="cursor-pointer flex">
           <svg
