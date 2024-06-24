@@ -55,7 +55,9 @@ const parseProps = (
   }
 
   if (cfxAddress && showNametag) {
-    const nametags = nametagInfo?.[cfxAddress.toLocaleLowerCase()];
+    const nametags =
+      nametagInfo?.[convertCheckSum(cfxAddress)] ||
+      nametagInfo?.[cfxAddress.toLocaleLowerCase()];
 
     if (nametags) {
       const nametag = nametags?.nametag ?? '';
