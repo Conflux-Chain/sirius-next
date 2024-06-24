@@ -115,6 +115,17 @@ interface CustomResponse {
   message: string;
   status: string;
 }
+
+const compatibleResult = (res: CustomResponse) => {
+  return res.data || res.result || {};
+};
+
+const queryAddress = (address: string[]) => {
+  return address.reduce((prev, curr, index) => {
+    return !index ? `address=${curr}` : `${prev}&address=${curr}`;
+  }, '');
+};
+
 export const sendRequestChart = async (config: Config) => {
   try {
     const res: CustomResponse = await fetch(
@@ -126,7 +137,7 @@ export const sendRequestChart = async (config: Config) => {
         signal: config.signal,
       },
     );
-    const data = res.data || res.result || {};
+    const data = compatibleResult(res);
     data.list = [...(data.list || [])].reverse();
     return data;
   } catch (error) {
@@ -142,7 +153,7 @@ export const sendRequestENSInfo = async (url?: string | null) => {
       method: 'GET',
     });
 
-    return (res.data || res.result)?.map || {};
+    return compatibleResult(res)?.map;
   } catch (error) {
     console.error('Request failed', error);
     throw error;
@@ -154,9 +165,27 @@ export const sendRequestGasPrice = async () => {
     const res: CustomResponse = await fetch(`/stat/gasprice/tracker`, {
       method: 'GET',
     });
-    return res.data || res.result;
+    return compatibleResult(res);
   } catch (error) {
     console.error('Request failed', error);
     throw error;
   }
+};
+
+export const reqNametag = async (address: string[]) => {
+  const query = queryAddress(address);
+
+  const res: CustomResponse = await fetch(`/v1/nametag?${query}`, {
+    method: 'GET',
+  });
+  return compatibleResult(res)?.map;
+};
+
+export const reqContractAndToken = async (address: string[]) => {
+  const query = queryAddress(address);
+
+  const res: CustomResponse = await fetch(`/v1/contract-and-token?${query}`, {
+    method: 'GET',
+  });
+  return compatibleResult(res)?.map;
 };

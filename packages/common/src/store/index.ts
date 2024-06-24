@@ -6,6 +6,7 @@ import {
   GlobalDataType,
   GlobalDataState,
   ENSStore,
+  NametagCacheStore,
   GasPriceDataState,
   GasPriceBundle,
 } from './types';
@@ -32,6 +33,25 @@ export const useENSStore = create<ENSStore>(set => ({
       ens: {
         ...state.ens,
         ...newENS,
+      },
+    })),
+}));
+
+export const useNametagCacheStore = create<NametagCacheStore>(set => ({
+  nametagCache: {},
+  contractCache: {},
+  setNametagCache: e =>
+    set(state => ({
+      nametagCache: {
+        ...state.nametagCache,
+        ...e,
+      },
+    })),
+  setContractCache: e =>
+    set(state => ({
+      contractCache: {
+        ...state.contractCache,
+        ...e,
       },
     })),
 }));
