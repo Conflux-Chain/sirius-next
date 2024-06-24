@@ -1,8 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
 import { formatBalance } from '../../utils';
-import { formatAddress } from '../../utils/address';
 import { Link } from '../Link';
-import { decodeData, filterByTokenAddress } from './minibus';
+import {
+  decodeData,
+  filterByTokenAddress,
+} from '@cfx-kit/dapp-utils/dist/decode-action';
 import { CoreAddressContainer } from '../AddressContainer/CoreAddressContainer';
 import { reqNametag, reqContractAndToken } from '../../utils/request';
 import { useNametagCacheStore } from '../../store';
@@ -10,7 +12,8 @@ import {
   TransactionActionProps,
   AddressNameTagContainerProps,
   MultiAction,
-} from './type';
+} from '@cfx-kit/dapp-utils/dist/decode-action';
+
 import { TokenIcon, TokenName, TokenSymbol, TokenDecimals } from './constants';
 
 const Token = (
