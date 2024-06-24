@@ -40,10 +40,10 @@ const parseProps = (
   let officalNametag: React.ReactNode = null;
   // private name tag
   let addressLabel: React.ReactNode = null;
-  // global private name tag
-  const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
 
   if (cfxAddress && showAddressLabel) {
+    // global private name tag
+    const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
     const gAddressLabel =
       addressLabels?.[convertCheckSum(cfxAddress)] ||
       addressLabels?.[cfxAddress.toLocaleLowerCase()];
@@ -55,12 +55,12 @@ const parseProps = (
   }
 
   if (cfxAddress && showNametag) {
-    const addressLabels =
-      nametagInfo?.[cfxAddress] ||
+    const nametags =
+      nametagInfo?.[convertCheckSum(cfxAddress)] ||
       nametagInfo?.[cfxAddress.toLocaleLowerCase()];
 
-    if (addressLabels) {
-      const nametag = addressLabels?.nametag ?? '';
+    if (nametags) {
+      const nametag = nametags?.nametag ?? '';
       const { label } = getLabelInfo(nametag, 'nametag');
       officalNametag = label;
     }

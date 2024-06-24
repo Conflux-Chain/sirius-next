@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "vitest test --environment=jsdom",
+    "test": "vitest test --environment=jsdom --watch=false",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",

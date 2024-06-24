@@ -59,13 +59,11 @@ const parseProps = (
   let ENSLabel: React.ReactNode = null;
   // global ens name tag
   const gENSLabel = cfxAddress && ENSMap[cfxAddress]?.name;
-  // global private name tag
-  const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
 
   if (cfxAddress && showAddressLabel) {
-    const gAddressLabel =
-      addressLabels?.[convertCheckSum(cfxAddress)] ||
-      addressLabels?.[cfxAddress.toLocaleLowerCase()];
+    // global private name tag
+    const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
+    const gAddressLabel = addressLabels?.[cfxAddress];
 
     if (gAddressLabel) {
       const { label } = getLabelInfo(gAddressLabel, 'tag');
@@ -74,12 +72,10 @@ const parseProps = (
   }
 
   if (cfxAddress && showNametag) {
-    const addressLabels =
-      nametagInfo?.[cfxAddress] ||
-      nametagInfo?.[cfxAddress.toLocaleLowerCase()];
+    const nametags = nametagInfo?.[cfxAddress];
 
-    if (addressLabels) {
-      const nametag = addressLabels?.nametag ?? '';
+    if (nametags) {
+      const nametag = nametags?.nametag ?? '';
       const { label } = getLabelInfo(nametag, 'nametag');
       officalNametag = label;
     }
