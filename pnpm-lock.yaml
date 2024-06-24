@@ -137,8 +137,8 @@ importers:
   packages/common:
     dependencies:
       '@cfx-kit/dapp-utils':
-        specifier: ^0.1.9
-        version: 0.1.9(typescript@5.4.3)
+        specifier: ^0.2.0
+        version: 0.2.0(typescript@5.4.3)
       '@cfx-kit/react-utils':
         specifier: ^0.0.29
         version: 0.0.29(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
