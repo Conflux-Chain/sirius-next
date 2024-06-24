@@ -17,13 +17,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "@cfx-kit/dapp-utils": "^0.1.9",
+    "@cfx-kit/dapp-utils": "^0.2.0",
     "@cfx-kit/react-utils": "^0.0.29",
     "@cfx-kit/ui-components": "^0.0.17",
     "@cfxjs/sirius-next-i18n": "workspace:*",
-    "@ethersproject/abi": "^5.7.0",
-    "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/units": "^5.7.0",
     "@radix-ui/react-select": "^2.0.0",
     "@testing-library/react": "^15.0.5",
     "@types/i18next": "^13.0.0",

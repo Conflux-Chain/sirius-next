@@ -137,8 +137,8 @@ importers:
   packages/common:
     dependencies:
       '@cfx-kit/dapp-utils':
-        specifier: ^0.1.9
-        version: 0.1.9(typescript@5.4.3)
+        specifier: ^0.2.0
+        version: 0.2.0(typescript@5.4.3)
       '@cfx-kit/react-utils':
         specifier: ^0.0.29
         version: 0.0.29(@types/react@18.2.67)(ethers@6.11.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
@@ -148,15 +148,6 @@ importers:
       '@cfxjs/sirius-next-i18n':
         specifier: workspace:*
         version: link:../i18n
-      '@ethersproject/abi':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@ethersproject/bignumber':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@ethersproject/units':
-        specifier: ^5.7.0
-        version: 5.7.0
       '@radix-ui/react-select':
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
@@ -852,8 +843,8 @@ packages:
       - zod
     dev: false
 
-  /@cfx-kit/dapp-utils@0.1.9(typescript@5.4.3):
-    resolution: {integrity: sha512-COWGXA9XQSVSqXG7ON0JFZYun3hIZZeIHu3omKTJm5TDmT9iGifKGZm6abWlxnG3ZHvygldYgQIt08/TFRe8QA==}
+  /@cfx-kit/dapp-utils@0.2.0(typescript@5.4.3):
+    resolution: {integrity: sha512-qW2nhNU88ZTKyFuuex9jPq0aGLLhiEfQ/THKhB3gSRuTKYcc/LQxGFQpoy5lR4I3nSRrmFeaCKAGbZ2xBeuKVg==}
     dependencies:
       '@cfx-kit/utils': 0.0.5
       '@ethersproject/abi': 5.7.0
