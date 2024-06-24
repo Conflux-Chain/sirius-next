@@ -183,7 +183,7 @@ export const MyAddress = (props: Props & WithTranslation) => {
           src={isMeIcon}
           alt="is me"
           style={{
-            marginBottom: isFull ? 6 : 4,
+            marginBottom: isFull ? '6px' : '4px',
           }}
         />
       </div>
