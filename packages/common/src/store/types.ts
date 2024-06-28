@@ -83,18 +83,24 @@ export interface GasPriceDataState {
   setGasPrice: (data: GasPriceBundle) => void;
 }
 
+export interface GasPriceDetail {
+  base: number;
+  priority: number;
+  gasPrice: number;
+}
+
 export interface GasPriceBundle {
   gasPriceInfo: {
-    min: number;
-    tp50: number;
-    max: number;
+    min: GasPriceDetail;
+    tp50: GasPriceDetail;
+    max: GasPriceDetail;
   };
   gasPriceMarket: {
-    min: number;
-    tp25: number;
-    tp50: number;
-    tp75: number;
-    max: number;
+    min: GasPriceDetail;
+    tp25: GasPriceDetail;
+    tp50: GasPriceDetail;
+    tp75: GasPriceDetail;
+    max: GasPriceDetail;
   };
   maxEpoch: number;
   minEpoch: number;

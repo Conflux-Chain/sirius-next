@@ -56,18 +56,24 @@ export const useNametagCacheStore = create<NametagCacheStore>(set => ({
     })),
 }));
 
+const defaultGasPriceDetail = {
+  base: 0,
+  priority: 0,
+  gasPrice: 0,
+};
+
 export const defaultGasPriceBundle: GasPriceBundle = {
   gasPriceInfo: {
-    min: 0,
-    tp50: 0,
-    max: 0,
+    min: defaultGasPriceDetail,
+    tp50: defaultGasPriceDetail,
+    max: defaultGasPriceDetail,
   },
   gasPriceMarket: {
-    min: 0,
-    tp25: 0,
-    tp50: 0,
-    tp75: 0,
-    max: 0,
+    min: defaultGasPriceDetail,
+    tp25: defaultGasPriceDetail,
+    tp50: defaultGasPriceDetail,
+    tp75: defaultGasPriceDetail,
+    max: defaultGasPriceDetail,
   },
   maxEpoch: 0,
   minEpoch: 0,
