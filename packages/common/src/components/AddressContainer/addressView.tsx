@@ -41,8 +41,12 @@ const convertLink = ({
 
   const address = hrefAddress || cfxAddress;
 
-  if (address) {
-    if (window.location.pathname.includes('/address/' + address)) {
+  if (address && typeof address === 'string') {
+    if (
+      window.location.pathname.includes(
+        '/address/' + address.toLocaleLowerCase(),
+      )
+    ) {
       return false;
     }
 
