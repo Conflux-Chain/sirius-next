@@ -15,15 +15,15 @@ export const InfoIcon: React.FC<{
       <g
         id="Token-ERC20/721/1155-Topacc"
         stroke="none"
-        stroke-width="1"
+        strokeWidth="1"
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       >
         <g
           id="增加-FC-质押-CFX-的入口"
           transform="translate(-334.000000, -538.000000)"
           fill="#9B9EAC"
-          fill-rule="nonzero"
+          fillRule="nonzero"
         >
           <g id="info--18px" transform="translate(334.000000, 538.000000)">
             <path
