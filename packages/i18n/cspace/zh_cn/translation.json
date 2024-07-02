@@ -488,6 +488,8 @@
     "posCharts": "PoS 图表",
     "nftCharts": "NFT 图表",
     "crossSpaceCharts": "跨空间图表",
+    "burntFeesAnalysis": "CFX销毁分析",
+    "cip1559Metrics": "CIP-1559 数据指标",
     "statistics": "最佳统计数据",
     "support": "支持与帮助",
     "faq": "常见问题",
@@ -680,6 +682,23 @@
         "yAxisTitle2": "累计总量",
         "seriesName2": "累计总量"
       }
+    },
+    "burntFeesAnalysis": {
+      "preview": {
+        "title": "CFX销毁分析",
+        "subtitle": "仪表数据统计Conflux网络上基于CIP-1559和存储抵押销毁费用的指标。",
+        "viewDetail": "查看详情"
+      },
+      "totalBurntFees": "总销毁",
+      "marketCap": "总销毁市值",
+      "breakdownByTypes": "销毁类型占比",
+      "cumulativeCFXBurn": "CFX累计销毁",
+      "CFXDailyBurn": "CFX每日销毁",
+      "burntRateInDaoVoting": "销毁率投票结果",
+      "1559MetricsBurn": "1559销毁量",
+      "storageBurn": "存储抵押销毁量",
+      "baseFeeBurntRate": "基础费销毁率",
+      "storageBurntRate": "存储抵押销毁率"
     },
     "crossSpace": {
       "preview": {
