@@ -207,7 +207,7 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
 export const roundToFixedPrecision = (
   number: number | string,
   precision: number,
-  method: string = 'ROUND',
+  method = 'ROUND',
 ) => {
   if (number === '') {
     return '--';
@@ -998,7 +998,7 @@ export const formatString = (
  */
 export const fromDripToGdrip = (
   num: number | string,
-  isShowFull: boolean = false,
+  isShowFull = false,
   _opt = {},
 ) => {
   const opt = {
@@ -1006,7 +1006,7 @@ export const fromDripToGdrip = (
     ..._opt,
   };
   const bn = new BigNumber(num);
-  let result: string = '0';
+  let result = '0';
   if (!window.isNaN(bn.toNumber()) && bn.toNumber() !== 0) {
     const divideBn = bn.dividedBy(10 ** 9);
     if (isShowFull) {
@@ -1054,8 +1054,8 @@ export const getDuration = (pFrom: number, pTo?: number) => {
 const cSymbol = getCurrencySymbol();
 export const formatPrice = (
   price: string | number,
-  symbol: string | undefined = cSymbol,
-): string[] => {
+  symbol = cSymbol,
+): [string, string] => {
   const p = new BigNumber(price);
   let precision = 2;
 
