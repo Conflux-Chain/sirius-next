@@ -24,12 +24,13 @@ export const ContractCreatedAddress = (
 
   const customProps = {
     content: t(translations.transaction.contractCreation),
+    alias: t(translations.transaction.contractCreation),
     hrefAddress: contractAddress,
     cfxAddress: contractAddress,
     maxWidth: 160,
   };
 
-  const mergedProps = { ...customProps, ...props };
+  const mergedProps = { ...props, ...customProps };
   return RenderAddress({
     ...mergedProps,
     prefix: (
