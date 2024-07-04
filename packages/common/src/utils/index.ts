@@ -1124,8 +1124,13 @@ export const getIncreasePercent = (
 ) => {
   const base = new BigNumber(_base);
   const isNegative = base.isLessThan(prev);
-
-  return (
-    (isNegative ? '' : '+') + getPercent(base.minus(prev), prev, precision)
+  const value = Number(
+    base.minus(prev).dividedBy(prev).multipliedBy(100).toFixed(precision),
   );
+
+  return {
+    value,
+    percent: getPercent(base.minus(prev), prev, precision),
+    isNegative,
+  };
 };

@@ -153,7 +153,7 @@ export const GasPriceDropdown = () => {
         </SkeletonContainer>
       </div>
       {showModal && (
-        <div className="modal animate-in fade-in w-full min-h-[fit-content] bg-[#FFF] fixed right-0 top-[53px] p-[16px] z-10 shadow-modal md:w-[400px] md:absolute md:top-[35px]">
+        <div className="modal animate-in fade-in w-full min-h-[fit-content] bg-[#FFF] fixed right-0 top-[53px] p-[16px] z-10 shadow-modal md:w-[474px] md:absolute md:top-[35px]">
           <div className="flex justify-between">
             <div className="font-bold text-[#20253a] text-[16px] text-[14px]">
               <Translation>
