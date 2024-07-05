@@ -300,7 +300,7 @@ export const isSimplyBase32Address = (address: LooseAddressType) => {
 
 // evm
 // Convert hex to base32 for the bridge interface.
-export const formatAddressHexToBase32 = (address: string) => {
+export const formatAddressHexToBase32 = (address: LooseAddressType) => {
   if (typeof address === 'string' && isHexAddress(address)) {
     return convertHexToBase32(address, NETWORK_ID.toString());
   }
