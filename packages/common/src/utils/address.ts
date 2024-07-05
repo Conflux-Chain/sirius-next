@@ -297,3 +297,5 @@ export const isSimplyBase32Address = (address: LooseAddressType) => {
 };
 
 /* ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ temp make omnibus type loose ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */
+
+export { convertHexToBase32, isHexAddress };
