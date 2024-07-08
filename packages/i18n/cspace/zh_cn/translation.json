@@ -698,7 +698,18 @@
       "1559MetricsBurn": "1559销毁量",
       "storageBurn": "存储抵押销毁量",
       "baseFeeBurntRate": "基础费销毁率",
-      "storageBurntRate": "存储抵押销毁率"
+      "storageBurntRate": "存储抵押销毁率",
+      "learnMore": "Learn more",
+      "CIP-1559Metrics": "CIP-1559 数据指标",
+      "CIP-1559MetricsTips": "仪表数据统计ConfluxCore区块基于CIP-1559的指标数据，包括基础费，平均优先费，燃料使用量和交易类型占比。",
+      "BaseFeePerBlock": "区块基础费",
+      "AveragePriorityFeePerBlock": "区块平均优先费",
+      "GasUsedPerBlock": "区块燃料用量",
+      "PercentageOfTxTypeInBlock": "区块交易类型",
+      "baseFee": "Base Fee",
+      "AveragePriorityFee": "Average Priority Fee",
+      "GasUsed": "Gas Used",
+      "Legacy": "Legacy"
     },
     "crossSpace": {
       "preview": {

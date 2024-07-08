@@ -699,7 +699,18 @@
       "1559MetricsBurn": "1559 Metrics Burn",
       "storageBurn": "Storage Burn",
       "baseFeeBurntRate": "Base Fee Burnt Rate",
-      "storageBurntRate": "Storage Burnt Rate"
+      "storageBurntRate": "Storage Burnt Rate",
+      "learnMore": "Learn more",
+      "CIP-1559Metrics": "CIP-1559 Metrics",
+      "CIP-1559MetricsTips": "The dashboard tracks CIP-1559 on ConfluxCore including base fees, priority fees, gas used and %tx type. ",
+      "BaseFeePerBlock": "Base Fee Per Block",
+      "AveragePriorityFeePerBlock": "Average Priority Fee Per Block",
+      "GasUsedPerBlock": "Gas Used Per Block",
+      "PercentageOfTxTypeInBlock": "Percentage of Tx Type In Block",
+      "baseFee": "Base Fee",
+      "AveragePriorityFee": "Average Priority Fee",
+      "GasUsed": "Gas Used",
+      "Legacy": "Legacy"
     },
     "crossSpace": {
       "preview": {
