@@ -1227,7 +1227,8 @@
         "reward": "奖励",
         "age": "块龄",
         "difficulty": "难度",
-        "gasLimit": "燃料限制"
+        "gasLimit": "燃料限制",
+        "burntFees": "销毁费用"
       },
       "transaction": {
         "hash": "交易哈希",
@@ -1527,15 +1528,22 @@
     "value": "价值",
     "gasUsed": "燃料限制 | 燃料用量 | 燃料计费",
     "gasPrice": "燃料价格",
-    "gasFee": "燃气费",
+    "gasFee": "燃料费",
+    "transactionFee": "交易费",
+    "baseFee": "Base:",
+    "maxFee": "Max:",
+    "maxPriorityFee": "Priority:",
+    "burntFees": "销毁费用",
+    "transactionAttributes": "交易属性",
     "gasCharged": "计费燃气",
-    "nonce": "随机数",
+    "txnType": "Txn Type: {{type}} {{typeDesc}} ",
+    "nonce": "Nonce: {{num}}",
     "blockHash": "区块哈希",
-    "position": "位置",
+    "position": "Position in block: {{num}}",
     "storageLimit": "存储用量/限制",
     "storageCollateralized": "存储押金",
     "storageReleased": "存储释放",
-    "chainID": "区块链编号",
+    "chainID": "Chain ID: {{num}}",
     "inputData": "输入数据",
     "select": {
       "decodeInputData": "解码输入数据",
@@ -1661,6 +1669,9 @@
     "parentHash": "父区块哈希",
     "nonce": "随机数",
     "gasUsed": "限制｜燃料用量",
+    "gasTargetUsage": "燃料使用率",
+    "baseFeePerGas": "燃料基础费",
+    "burntFeesLabel": "销毁费用",
     "timestamp": "时间戳",
     "size": "容量",
     "transactions": "交易",
@@ -1768,7 +1779,7 @@
       "epoch": "区块所属的纪元是枢轴链上首个（直接或间接地）引用这个区块的枢轴区块的高度，代表了枢轴链视角下观察到该区块的时间。处于较早纪元的区块在所有区块的全序中的位置总是在处于较晚纪元的区块之前。",
       "difficulty": "开采一个区块平均所需要的运算次数。 难度根据时间进行调整。",
       "miner": "生成该区块的矿工。",
-      "reward": "挖出该区块矿工将得到的奖励，包括区块奖励，存储押金利息，交易费。",
+      "reward": "挖出该区块矿工将得到的奖励。包括基础区块奖励、优先交易费用、销毁剩余的基础交易费、存储押金利息。",
       "security": "该区块的安全性，更高的安全性需要得到更多的区块确认。",
       "blame": "表示（该区块认为的）需要修订关于状态的承诺的连续祖先区块的数量。关于状态的承诺可以理解为对于交易执行结果和账户状态的摘要。关于状态的承诺出错会影响矿工的收益，但不影响对于区块排序的共识。",
       "blockHash": "该区块的块头的哈希值。",
@@ -1776,10 +1787,18 @@
       "parentHash": "该区块的父区块的区块哈希，也称为父区块哈希。",
       "nonce": "区块随机数是在挖矿过程中用来演示区块工作量证明的值。",
       "gasUsedLimit": "燃料使用指交易所使用的燃料数量; 燃料限制代表用于愿意为交易花费的最大燃料量。",
+      "gasTargetUsage": "指Pivot区块的目标燃料使用率，目标值27,000,000。",
+      "baseFeePerGas": "表示Pivot区块中包含的交易最小的燃料用量乘积和上一个规定区块燃料基础费的涨幅。",
+      "burntFeesLabel": "销毁费用：表示基于CIP-1559、CIP-137和CIP-107销毁的交易费用：燃料基础费*燃料用量*投票参数+存储抵押销毁",
       "timestamp": "开采该区块的日期和时间。",
       "size": "区块容量取决于燃料限制。",
       "transactions": "该区块发生的交易数量。",
-      "referenceBlocks": "该区块引用的其他区块。"
+      "referenceBlocks": "该区块引用的其他区块。",
+      "powBaseBlockReward": "PoW基础区块奖励: {{amount}}",
+      "transactionFees": "交易费: {{amount}}",
+      "storageInterest": "存储利息: {{amount}}",
+      "burntFees": "销毁费用: {{amount}}",
+      "compareToPivotBlock": "相较Pivot区块: {{block}}"
     },
     "tx": {
       "transactionHash": "交易哈希是一个唯一的66字符的标识符，该标识符在每次交易执行时都会生成。",
@@ -1794,7 +1813,10 @@
       "value": "该交易金额是以CFX显示。 ",
       "gasUsedLimit": "燃料使用指交易所使用的燃料数量; 燃料限制代表用于愿意为交易花费的最大燃料量。",
       "gasPrice": "交易指定的每单位燃料成本，GDrip为支付单位。燃料费用越高，被写入区块的机会就越大。",
-      "gasFee": "交易所使用的燃料费用。",
+      "gasFee": "基础费：指Conflux Core Pivot区块出块时的燃料基础费。\n最大费用｜优先费用：指用户愿意为这笔交易支付的最大费用并给予矿工的相应奖励费用。",
+      "transactionFee": "交易所使用的燃料费用。",
+      "burntFees": "此交易销毁的CFX总量。",
+      "transactionAttributes": "此交易相关的属性信息。",
       "gasCharged": "Conflux 协议要求产生计费的燃气用量不少于燃气限制的 3/4. 一般计费燃气等于燃气用量，但如果燃气用量低于 3/4 的燃气限制，计费燃气等于 3/4 的燃气限制。",
       "gasLimitTip": "燃料限制：为交易发生提供的最大燃料用量。 普通的 CFX 转账使用 21,000 个单位，而合约则会使用更高的单位。",
       "gasUsedTip": "燃料用量：此交易最终使用的燃料用量与最终燃料用量与占交易燃料限制的百分比。",
@@ -1806,7 +1828,12 @@
       "storageCollateralized": "需要支付的用来存储的费用。",
       "storageReleased": "返还的存储押金。",
       "chainID": "交易被发往的区块链的编号，用以防止重放攻击。",
-      "inputData": "自定义数据，该交易中附加的信息。"
+      "inputData": "自定义数据，该交易中附加的信息。",
+      "txnType": {
+        "0": "传统交易: 0x0交易类型是传统交易, 使用 CIP-2718 引入类型交易之前存在的交易格式。交易包含参数: nounce、gasPrice、gasLimit、to、value、data、v、r和s。",
+        "1": "访问列表交易: 类型为0x1的交易是CIP-2930引入的交易。除了传统参数外, 还包含一个访问列表参数, 该参数指定了交易计划访问的地址数组和存储键。",
+        "2": "CIP-1559交易: 类型为0x2的交易是CIP-1559引入的交易。交易使用协议中在每个Pivot区块动态变化的基础Gas费用, 基础Gas费用会根据Gas目标进行调整, 以应对网络拥塞。"
+      }
     },
     "address": {
       "balance": "该地址的资产余额。",
@@ -2374,6 +2401,8 @@
     "median": "中",
     "high": "高",
     "market": "燃料价格市场",
-    "latest60Blocks": "最新 60 个纪元"
+    "latest60Blocks": "最新 60 个纪元",
+    "baseFee": "Base: {{amount}}",
+    "maxPriorityFee": "Priority: {{amount}}"
   }
 }

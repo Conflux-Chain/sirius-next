@@ -357,8 +357,8 @@ export const TransactionAction = ({
       show: true,
       content: (
         <div className="max-h-[119px] overflow-y-auto">
-          {res.content.map((e: any) => {
-            return <div>{e}</div>;
+          {res.content.map((e: any, i) => {
+            return <div key={i}>{e}</div>;
           })}
         </div>
       ),

@@ -1000,7 +1000,8 @@
         "reward": "Reward",
         "age": "Age",
         "difficulty": "Difficulty",
-        "gasLimit": "Gas Limit"
+        "gasLimit": "Gas Limit",
+        "burntFees": "Burnt Fees"
       },
       "tooltip": {
         "coreSpace": "Core Space",
@@ -1009,7 +1010,7 @@
         "txns": "The number of transactions in this block. Cross space calls are not included in eSpace blocks.",
         "cross": "The number of cross space transactions from Core to eSpace in the block. Reference link: http://doc.confluxnetwork.org/docs/espace/build/cross-space-bridge/",
         "avgGasPrice": "The average gas price of cross space transactions in the block is not included.",
-        "gasLimit": "Conflux eSpace is Conflux's fully EVM-compatible space(chain), it is independent from Core space. In epoch, the block height can be divided by 5, which belongs to the eSpace blocks. The basic limit of eSpace block is 15,000,000, and the total limit of the epoch is the number of eSpace blocks contained* 15,000,000."
+        "gasLimit": "Conflux eSpace is Conflux's fully EVM-compatible space(chain). The eSpace block is produced when block height can be fully divided by 5 on Conflux Network. The basic limit of eSpace block is 30,000,000 and therefore total limit in the epoch: eSpaceBlockContained*basicLimit"
       },
       "transaction": {
         "hash": "Txn Hash",
@@ -1301,10 +1302,17 @@
     "gasUsed": "Limit | Gas Used | Gas Charged",
     "gasPrice": "Gas Price",
     "gasFee": "Gas Fee",
+    "transactionFee": "Transaction Fee",
+    "baseFee": "Base:",
+    "maxFee": "Max:",
+    "maxPriorityFee": "Priority:",
+    "burntFees": "Burnt Fees",
+    "transactionAttributes": "Transaction Attributes",
     "gasCharged": "Gas Charged",
-    "nonce": "Nonce",
+    "txnType": "Txn Type: {{type}} {{typeDesc}} ",
+    "nonce": "Nonce: {{num}}",
     "blockHash": "Block Hash",
-    "position": "Position",
+    "position": "Position in block: {{num}}",
     "storageLimit": "Storage Used/Limit",
     "storageCollateralized": "Storage Collateralize Fee",
     "storageReleased": "Storage Released",
@@ -1416,6 +1424,9 @@
     "parentHash": "Parent Hash",
     "nonce": "Nonce",
     "gasUsed": "Limit | Gas Used",
+    "gasTargetUsage": "Gas Target Usage",
+    "baseFeePerGas": "Base Fee Per Gas",
+    "burntFeesLabel": "Burnt Fees",
     "timestamp": "Timestamp",
     "size": "Size",
     "transactions": "Transactions",
@@ -1526,10 +1537,15 @@
       "parentHash": "The hash of the block from which this block was generated, also known as its parent block.",
       "nonce": "Block nonce is a value used during mining to demonstrate proof of work for a block.",
       "gasUsedLimit": "The exact units of gas that was used for the transaction; Maximum amount of gas provided for the transaction.",
+      "gasTargetUsage": "Refers to the gas target usage when eSpace block height is Pivot block, the target is 15,000,000. ",
+      "baseFeePerGas": "This represents the minimum gas used multiplier required for a tx included in the eSpace block (when eSpace block height is Pivot block) and shows the %increase with the value in previous specified block.",
+      "burntFeesLabel": "This represents the total transaction fees burned based on EIP-1559 and CIP-137 for eSpace blocks contained in this Epoch.",
       "timestamp": "The date and time at which a block is mined.",
       "size": "The block size is actually determined by the block's gas limit.",
       "transactions": "The amout of transactions which belong to the block.",
-      "referenceBlocks": "The other blocks referred by the current block."
+      "referenceBlocks": "The other blocks referred by the current block.",
+      "referencetoPivotBlock": "Reference to Pivot block: {{block}}",
+      "compareToPivotBlock": "Compare to Pivot block: {{block}}"
     },
     "tx": {
       "transactionHash": "A TxHash or transaction hash is a unique 66 characters identifier that is generated whenever a transaction is executed.",
@@ -1544,7 +1560,10 @@
       "value": "The value being transacted in CFX. ",
       "gasUsedLimit": "The exact units of gas that was used for the transaction; Maximum amount of gas provided for the transaction.",
       "gasPrice": "Cost per unit of gas specified for the transaction in GDrip. The higher the gas price the higher chance of getting included in a block.",
-      "gasFee": "The exact fee of gas that was used for the transaction.",
+      "gasFee": "Base: Refers to the base fee at the time of the eSpace block height being Pivot block.\nMax | Priority: Refers to the max amount a user is willing to pay for tx & to give the block producer respective reward.",
+      "transactionFee": "The exact fee of gas that was used for the transaction.",
+      "burntFees": "Total amount of CFX burnt from this tx.",
+      "transactionAttributes": "Attributes related to this tx.",
       "gasCharged": "Conflux protocol requires that the gas-charged should be at least 3/4 of the gas limit. Usually, gas-charged equals the gas used. But if the gas used is less than 3/4 of the gas limit, gas-charged equals 3/4 of the gas limit.",
       "gasLimitTip": "Limit: Maximum amount of gas supplied for the transaction to happen. Normal CFX transfers involve 21,000 units while contracts involve higher value.",
       "gasUsedTip": " Gas Used: The amount of gas used by the specific transaction alone and its percentage of limit in the transaction. ",
@@ -1556,7 +1575,12 @@
       "storageCollateralized": "The cost of storage that needs to be paid.",
       "storageReleased": "The refund of storage collateralize fees.",
       "chainID": "The ID indicating which blockchain this transaction is meant to send to. Provides protection against replay-attack.",
-      "inputData": "Additional information that is required for the transaction."
+      "inputData": "Additional information that is required for the transaction.",
+      "txnType": {
+        "0": "Legacy transaction: Transactions with type 0x0 are legacy transactions that use the transaction format existing before typed transactions were introduced in EIP-2718. They contain the parameters nonce, gasPrice, gasLimit, to, value, data, v, r,and s.",
+        "1": "Access list transaction: Transactions with type 0x1 are transactions introduced in EIP-2930. They contain, along with the legacy parameters, an accessList parameter, which specifies an array of addresses and storage keys that the transaction plans to access .",
+        "2": "EIP-1559 transaction: Transactions with type 0x2 are transactions introduced in EIP-1559. They use an in-protocol dynamically changing base fee per gas at each pivot block, the base fee per gas is adjusted to address network congestion as measured by a gas target."
+      }
     },
     "address": {
       "balance": "The amout of assets which belong to the address.",
@@ -1902,6 +1926,8 @@
     "median": "Median",
     "high": "High",
     "market": "Gas Price Market",
-    "latest60Blocks": "Latest 60 blocks"
+    "latest60Blocks": "Latest 60 blocks",
+    "baseFee": "Base: {{amount}}",
+    "maxPriorityFee": "Priority: {{amount}}"
   }
 }

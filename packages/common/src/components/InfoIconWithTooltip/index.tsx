@@ -13,7 +13,9 @@ export const InfoIconWithTooltip = ({
   children?: React.ReactNode;
 }) => {
   const title =
-    typeof info === 'string' ? info.split('\n').map(i => <div>{i}</div>) : info;
+    typeof info === 'string'
+      ? info.split('\n').map(i => <div key={i}>{i}</div>)
+      : info;
   return (
     <span className={clsx('inline-flex items-center')}>
       {children ? <span className="mr-0.2857rem">{children}</span> : null}

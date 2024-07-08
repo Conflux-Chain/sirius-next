@@ -46,7 +46,7 @@ const parseProps = (
     const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
     const gAddressLabel =
       addressLabels?.[convertCheckSum(cfxAddress)] ||
-      addressLabels?.[cfxAddress.toLocaleLowerCase()];
+      addressLabels?.[cfxAddress.toLowerCase()];
 
     if (gAddressLabel) {
       const { label } = getLabelInfo(gAddressLabel, 'tag');
@@ -57,7 +57,7 @@ const parseProps = (
   if (cfxAddress && showNametag) {
     const nametags =
       nametagInfo?.[convertCheckSum(cfxAddress)] ||
-      nametagInfo?.[cfxAddress.toLocaleLowerCase()];
+      nametagInfo?.[cfxAddress.toLowerCase()];
 
     if (nametags) {
       const nametag = nametags?.nametag ?? '';

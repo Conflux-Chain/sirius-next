@@ -999,7 +999,8 @@
         "reward": "奖励",
         "age": "块龄",
         "difficulty": "难度",
-        "gasLimit": "燃料限制"
+        "gasLimit": "燃料限制",
+        "burntFees": "销毁费用"
       },
       "tooltip": {
         "coreSpace": "Core Space",
@@ -1008,7 +1009,7 @@
         "txns": "区块中的交易数量。eSpace区块不包含跨空间调用的交易数量。",
         "cross": "从Core操作eSpace跨空间调用的交易数量。参考链接：http://doc.confluxnetwork.org/docs/espace/build/cross-space-bridge/",
         "avgGasPrice": "eSpace区块的平均燃料价格排除了跨空间调用的交易。",
-        "gasLimit": "Conflux eSpace 是完全兼容EVM的空间（链），独立于Core空间。纪元中区块高度可整除5的区块，属于eSpace的区块。eSpace区块的基础限制为15000000，区块限制为纪元中包含的eSpace区块个数*15000000"
+        "gasLimit": "Conflux eSpace是Conflux完全兼容EVM的空间（链）。纪元中区块高度为5的倍数的区块，用于打包eSpace的交易。区块基础限制为30,000,000，因此纪元的燃料限制：eSpace区块个数*基础限制。"
       },
       "transaction": {
         "hash": "交易哈希",
@@ -1298,11 +1299,17 @@
     "value": "价值",
     "gasUsed": "燃料限制 | 燃料用量 | 燃料计费",
     "gasPrice": "燃料价格",
-    "gasFee": "燃气费",
+    "gasFee": "燃料费",
+    "transactionFee": "交易费",
+    "baseFee": "Base:",
+    "maxFee": "Max:",
+    "maxPriorityFee": "Priority:",
+    "burntFees": "销毁费用",
     "gasCharged": "计费燃气",
-    "nonce": "随机数",
+    "txnType": "Txn Type: {{type}} {{typeDesc}} ",
+    "nonce": "Nonce: {{num}}",
     "blockHash": "区块哈希",
-    "position": "位置",
+    "position": "Position in block: {{num}}",
     "storageLimit": "存储用量/限制",
     "storageCollateralized": "存储押金",
     "storageReleased": "存储释放",
@@ -1413,6 +1420,9 @@
     "parentHash": "父区块哈希",
     "nonce": "随机数",
     "gasUsed": "限制｜燃料用量",
+    "gasTargetUsage": "燃料使用率",
+    "baseFeePerGas": "燃料基础费",
+    "burntFeesLabel": "销毁费用",
     "timestamp": "时间戳",
     "size": "容量",
     "transactions": "交易",
@@ -1523,10 +1533,15 @@
       "parentHash": "该区块的父区块的区块哈希，也称为父区块哈希。",
       "nonce": "区块随机数是在挖矿过程中用来演示区块工作量证明的值。",
       "gasUsedLimit": "燃料使用指交易所使用的燃料数量; 燃料限制代表用于愿意为交易花费的最大燃料量。",
+      "gasTargetUsage": "指eSpace区块高度是Pivot区块时的燃料目标使用率，目标值 15,000,000。",
+      "baseFeePerGas": "表示eSpace区块高度是Pivot区块时，包含的交易最小的燃料用量乘积和上一个规定区块燃料基础费的涨幅。",
+      "burntFeesLabel": "销毁费用：表示此纪元中包含的eSpace区块基于EIP-1559和CIP-137销毁的总交易费用。",
       "timestamp": "开采该区块的日期和时间。",
       "size": "区块容量取决于燃料限制。",
       "transactions": "该区块发生的交易数量。",
-      "referenceBlocks": "该区块引用的其他区块。"
+      "referenceBlocks": "该区块引用的其他区块。",
+      "referencetoPivotBlock": "引用Pivot区块: {{block}}",
+      "compareToPivotBlock": "相较Pivot区块: {{block}}"
     },
     "tx": {
       "transactionHash": "交易哈希是一个唯一的66字符的标识符，该标识符在每次交易执行时都会生成。",
@@ -1541,7 +1556,10 @@
       "value": "该交易金额是以CFX显示。 ",
       "gasUsedLimit": "燃料使用指交易所使用的燃料数量; 燃料限制代表用于愿意为交易花费的最大燃料量。",
       "gasPrice": "交易指定的每单位燃料成本，GDrip为支付单位。燃料费用越高，被写入区块的机会就越大。",
-      "gasFee": "交易所使用的燃料费用。",
+      "gasFee": "基础费：指eSpace区块高度是Pivot区块出块时的燃料基础费。\n最大费用｜优先费用：指用户愿意为这笔交易支付的最大费用并给予矿工的相应奖励费用。",
+      "transactionFee": "交易所使用的燃料费用。",
+      "burntFees": "此交易销毁的CFX总量。",
+      "transactionAttributes": "此交易相关的属性信息。",
       "gasCharged": "Conflux 协议要求产生计费的燃气用量不少于燃气限制的 3/4. 一般计费燃气等于燃气用量，但如果燃气用量低于 3/4 的燃气限制，计费燃气等于 3/4 的燃气限制。",
       "gasLimitTip": "燃料限制：为交易发生提供的最大燃料用量。 普通的 CFX 转账使用 21,000 个单位，而合约则会使用更高的单位。",
       "gasUsedTip": "燃料用量：此交易最终使用的燃料用量与最终燃料用量与占交易燃料限制的百分比。",
@@ -1553,7 +1571,12 @@
       "storageCollateralized": "需要支付的用来存储的费用。",
       "storageReleased": "返还的存储押金。",
       "chainID": "交易被发往的区块链的编号，用以防止重放攻击。",
-      "inputData": "自定义数据，该交易中附加的信息。"
+      "inputData": "自定义数据，该交易中附加的信息。",
+      "txnType": {
+        "0": "传统交易: 0x0交易类型是传统交易, 使用 EIP-2718 引入类型交易之前存在的交易格式。交易包含参数: nounce、gasPrice、gasLimit、to、value、data、v、r和s。",
+        "1": "访问列表交易: 类型为0x1的交易是EIP-2930引入的交易。除了传统参数外, 还包含一个访问列表参数, 该参数指定了交易计划访问的地址数组和存储键。",
+        "2": "EIP-1559交易: 类型为0x2的交易是EIP-1559引入的交易。交易使用协议中在每个Pivot区块动态变化的基础Gas费用, 基础Gas费用会根据Gas目标进行调整, 以应对网络拥塞。"
+      }
     },
     "address": {
       "balance": "该地址的资产余额。",
@@ -1896,6 +1919,8 @@
     "median": "中",
     "high": "高",
     "market": "燃料价格市场",
-    "latest60Blocks": "最新 60 个区块"
+    "latest60Blocks": "最新 60 个区块",
+    "baseFee": "Base: {{amount}}",
+    "maxPriorityFee": "Priority: {{amount}}"
   }
 }

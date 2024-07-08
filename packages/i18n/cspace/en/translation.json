@@ -1229,7 +1229,8 @@
         "reward": "Reward",
         "age": "Age",
         "difficulty": "Difficulty",
-        "gasLimit": "Gas Limit"
+        "gasLimit": "Gas Limit",
+        "burntFees": "Burnt Fees"
       },
       "transaction": {
         "hash": "Txn Hash",
@@ -1531,14 +1532,21 @@
     "gasUsed": "Limit | Gas Used | Gas Charged",
     "gasPrice": "Gas Price",
     "gasFee": "Gas Fee",
+    "transactionFee": "Transaction Fee",
+    "baseFee": "Base:",
+    "maxFee": "Max:",
+    "maxPriorityFee": "Priority:",
+    "burntFees": "Burnt Fees",
+    "transactionAttributes": "Transaction Attributes",
     "gasCharged": "Gas Charged",
-    "nonce": "Nonce",
+    "txnType": "Txn Type: {{type}} {{typeDesc}} ",
+    "nonce": "Nonce: {{num}}",
     "blockHash": "Block Hash",
-    "position": "Position",
+    "position": "Position in block: {{num}}",
     "storageLimit": "Storage Used/Limit",
     "storageCollateralized": "Storage Collateralize Fee",
     "storageReleased": "Storage Released",
-    "chainID": "Chain ID",
+    "chainID": "Chain ID: {{num}}",
     "inputData": "Input Data",
     "select": {
       "decodeInputData": "Decode Input Data",
@@ -1664,6 +1672,9 @@
     "parentHash": "Parent Hash",
     "nonce": "Nonce",
     "gasUsed": "Limit | Gas Used",
+    "gasTargetUsage": "Gas Target Usage",
+    "baseFeePerGas": "Base Fee Per Gas",
+    "burntFeesLabel": "Burnt Fees",
     "timestamp": "Timestamp",
     "size": "Size",
     "transactions": "Transactions",
@@ -1772,7 +1783,7 @@
       "epoch": "Epoch refers to the block height of the first pivot block that (directly or indirectly) references this block. The epoch number of a block represents the time when this block is first observed by pivot blocks. A block in an earlier epoch always precedes blocks in later epoches in the total order of all blocks.",
       "difficulty": "The amount of effort required to mine a new block. The difficulty may adjust according to time.",
       "miner": "Miner who successfully generate the block onto the blockchain.",
-      "reward": "The miner of this block is rewarded with a finite amount of CFX, consists of base reward, reward from storage collateral interest and transaction fee.",
+      "reward": "The reward of the miner who mined the block received, consists of block base reward, reward from transaction fees including priority fees, burnt remaining base fees and storage collateral interest.",
       "security": "The security of block, higher security requires more block confirmations.",
       "blame": "The number of consecutive ancestor blocks whose state commitments are incorrect and need revision. The state commitments can be realized as digests of transaction execution receipts and account status. An incorrect state commitment may affect the miner's reward, but has nothing to do with the consensus of total order of all blocks.",
       "blockHash": "The hash of the block header of the current block.",
@@ -1780,10 +1791,18 @@
       "parentHash": "The hash of the block from which this block was generated, also known as its parent block.",
       "nonce": "Block nonce is a value used during mining to demonstrate proof of work for a block.",
       "gasUsedLimit": "The exact units of gas that was used for the transaction; Maximum amount of gas provided for the transaction.",
+      "gasTargetUsage": "Refers to Pivot block gas target usage, the target is 27,000,000.",
+      "baseFeePerGas": "This represents the minimum gasUsed multiplier required for a tx included in a Pivot block and shows the %increase with the value in previous specified block.",
+      "burntFeesLabel": "This represents the part of the tx fee based on CIP-1559, CIP-137 and CIP-107 that is burnt: baseFeePerGas*gasUsed*votingParam+storageInterestBurnt",
       "timestamp": "The date and time at which a block is mined.",
       "size": "The block size is actually determined by the block's gas limit.",
       "transactions": "The amout of transactions which belong to the block.",
-      "referenceBlocks": "The other blocks referred by the current block."
+      "referenceBlocks": "The other blocks referred by the current block.",
+      "powBaseBlockReward": "PoW Base Block Reward: {{amount}}",
+      "transactionFees": "Transaction Fees: {{amount}}",
+      "storageInterest": "Storage Interest: {{amount}}",
+      "burntFees": "Burnt Fees: {{amount}}",
+      "compareToPivotBlock": "Compare to Pivot block: {{block}}"
     },
     "tx": {
       "transactionHash": "A TxHash or transaction hash is a unique 66 characters identifier that is generated whenever a transaction is executed.",
@@ -1798,7 +1817,10 @@
       "value": "The value being transacted in CFX. ",
       "gasUsedLimit": "The exact units of gas that was used for the transaction; Maximum amount of gas provided for the transaction.",
       "gasPrice": "Cost per unit of gas specified for the transaction in GDrip. The higher the gas price the higher chance of getting included in a block.",
-      "gasFee": "The exact fee of gas that was used for the transaction.",
+      "gasFee": "Base: Refers to the base fee at the time of the Pivot block on Conflux Core.\nMax | Priority: Refers to the max amount a user is willing to pay for tx & to give the block producer respective reward.",
+      "transactionFee": "The exact fee of gas that was used for the transaction.",
+      "burntFees": "Total amount of CFX burnt from this tx.",
+      "transactionAttributes": "Attributes related to this tx.",
       "gasLimitTip": "Limit: Maximum amount of gas supplied for the transaction to happen. Normal CFX transfers involve 21,000 units while contracts involve higher value.",
       "gasUsedTip": " Gas Used: The amount of gas used by the specific transaction alone and its percentage of limit in the transaction. ",
       "gasChargedip": "Gas Charged: Conflux protocol requires that the gas-charged should be at least 3/4 of the gas limit. Usually, gas-charged equals the gas used. But if the gas used is less than 3/4 of the gas limit, gas-charged equals 3/4 of the gas limit. ",
@@ -1810,7 +1832,12 @@
       "storageCollateralized": "The cost of storage that needs to be paid.",
       "storageReleased": "The refund of storage collateralize fees.",
       "chainID": "The ID indicating which blockchain this transaction is meant to send to. Provides protection against replay-attack.",
-      "inputData": "Additional information that is required for the transaction."
+      "inputData": "Additional information that is required for the transaction.",
+      "txnType": {
+        "0": "Legacy transaction: Transactions with type 0x0 are legacy transactions that use the transaction format existing before typed transactions were introduced in CIP-2718. They contain the parameters nonce, gasPrice, gasLimit, to, value, data, v, r,and s.",
+        "1": "Access list transaction: Transactions with type 0x1 are transactions introduced in CIP-2930. They contain, along with the legacy parameters, an accessList parameter, which specifies an array of addresses and storage keys that the transaction plans to access .",
+        "2": "CIP-1559 transaction: Transactions with type 0x2 are transactions introduced in CIP-1559. They use an in-protocol dynamically changing base fee per gas at each pivot block, the base fee per gas is adjusted to address network congestion as measured by a gas target."
+      }
     },
     "address": {
       "balance": "The amout of assets which belong to the address.",
@@ -2378,6 +2405,8 @@
     "median": "Median",
     "high": "High",
     "market": "Gas Price Market",
-    "latest60Blocks": "Latest 60 epochs"
+    "latest60Blocks": "Latest 60 epochs",
+    "baseFee": "Base: {{amount}}",
+    "maxPriorityFee": "Priority: {{amount}}"
   }
 }

@@ -4,19 +4,22 @@ import { NETWORK_ID } from './constants';
 import {
   checksumHexAddress,
   convertHexToBase32,
-  isBase32Address,
+  isBase32Address as _isBase32Address,
+  isSimplyBase32Address as _isSimplyBase32Address,
   isHexAddress,
   isCoreHexAddress,
   decode,
   convertBase32ToHex,
   getCoreHexAddressType,
+  Base32Address,
 } from '@cfx-kit/dapp-utils/dist/address';
 
 type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
 type EvmAddressType = 'user' | 'contract';
+type LooseAddressType = string | undefined | null;
 
 interface AddressCache {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 export const ADDRESS_FUNC_CACHE: AddressCache = {};
 
@@ -25,7 +28,7 @@ const addressHandlerWrapper = <T extends Function>(
   handler: T,
   cacheKey?: string,
 ): T => {
-  return ((address: string, ...args: unknown[]) => {
+  return ((address: LooseAddressType, ...args: unknown[]) => {
     if (!address) return handler(address, ...args);
     const lowerAddress = address.toLowerCase();
     let CACHE_KEY = '';
@@ -42,7 +45,7 @@ const addressHandlerWrapper = <T extends Function>(
 };
 
 // evm
-export const convertCheckSum = <T extends undefined | string>(address: T) => {
+export const convertCheckSum = <T extends LooseAddressType>(address: T) => {
   if (address && isHexAddress(address)) {
     return checksumHexAddress(address);
   }
@@ -51,62 +54,67 @@ export const convertCheckSum = <T extends undefined | string>(address: T) => {
 
 // core mainnet or testnet
 export const isCoreMainOrTestAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: LooseAddressType): boolean => {
     return isCoreMainnetAddress(address) || isCoreTestnetAddress(address);
   },
 );
 
 // core mainnet
 export const isCoreMainnetAddress = addressHandlerWrapper(
-  (address: string): boolean => {
-    return /^cfx:/i.test(address) && isBase32Address(address);
+  (address: LooseAddressType): boolean => {
+    return !!address && /^cfx:/i.test(address) && _isBase32Address(address);
   },
 );
 
 // core testnet
 export const isCoreTestnetAddress = addressHandlerWrapper(
-  (address: string): boolean => {
-    return /^cfxtest:/i.test(address) && isBase32Address(address);
+  (address: LooseAddressType): boolean => {
+    return !!address && /^cfxtest:/i.test(address) && _isBase32Address(address);
   },
 );
 
 // core other chainId
 export const isCoreOtherNetAddress = addressHandlerWrapper(
-  (address: string): boolean => {
-    return /^net/i.test(address) && isBase32Address(address);
+  (address: LooseAddressType): boolean => {
+    return !!address && /^net/i.test(address) && _isBase32Address(address);
   },
 );
 
 // evm
 export const isEvmAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: LooseAddressType): boolean => {
+    if (!address) return false;
     return (
       isHexAddress(address) ||
       isSimplyZeroAddress(address) ||
-      isBase32Address(address)
+      _isBase32Address(address)
     );
   },
 );
 
 // core
 export const isCoreAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: LooseAddressType): boolean => {
+    if (!address) return false;
     return (
       isCoreHexAddress(address) ||
       isSimplyZeroAddress(address) ||
-      isBase32Address(address)
+      _isBase32Address(address)
     );
   },
 );
 
 // common, only for 0x0
-export const isSimplyZeroAddress = addressHandlerWrapper((address: string) => {
-  return address === '0x0';
-});
+export const isSimplyZeroAddress = addressHandlerWrapper(
+  (address: LooseAddressType) => {
+    return address === '0x0';
+  },
+);
 
 // common
 export const isZeroAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: LooseAddressType): boolean => {
+    if (!address) return false;
     try {
       // hex
       if (isHexAddress(address)) {
@@ -114,7 +122,7 @@ export const isZeroAddress = addressHandlerWrapper(
       } else if (isSimplyZeroAddress(address)) {
         return true;
         // base32
-      } else if (isBase32Address(address)) {
+      } else if (_isBase32Address(address)) {
         return formatAddress(address, 'hex') === SDK.CONST.ZERO_ADDRESS_HEX;
       }
     } catch (e) {}
@@ -124,7 +132,7 @@ export const isZeroAddress = addressHandlerWrapper(
 
 // core
 export const isCoreUserAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: LooseAddressType): boolean => {
     if (isZeroAddress(address)) return true;
     return getCoreAddressInfo(address)?.type === 'user';
   },
@@ -132,7 +140,7 @@ export const isCoreUserAddress = addressHandlerWrapper(
 
 // evm
 export const isEvmUserAddress = addressHandlerWrapper(
-  async (address: string): Promise<boolean> => {
+  async (address: LooseAddressType): Promise<boolean> => {
     try {
       if (isZeroAddress(address)) return true;
       return (await getEvmAddressType(address)) === 'user';
@@ -144,7 +152,7 @@ export const isEvmUserAddress = addressHandlerWrapper(
 
 // core
 export const isCoreContractAddress = addressHandlerWrapper(
-  (address: string, isIncludingInnerContract = true): boolean => {
+  (address: LooseAddressType, isIncludingInnerContract = true): boolean => {
     return (
       getCoreAddressInfo(address)?.type === 'contract' ||
       (isIncludingInnerContract && isInnerContractAddress(address))
@@ -154,7 +162,7 @@ export const isCoreContractAddress = addressHandlerWrapper(
 
 // evm
 export const isEvmContractAddress = addressHandlerWrapper(
-  async (address: string): Promise<boolean> => {
+  async (address: LooseAddressType): Promise<boolean> => {
     try {
       return (await getEvmAddressType(address)) === 'contract';
     } catch (e) {
@@ -165,7 +173,8 @@ export const isEvmContractAddress = addressHandlerWrapper(
 
 //core
 export const isInnerContractAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: LooseAddressType): boolean => {
+    if (!address) return false;
     try {
       return SDK.address.isInternalContractAddress(
         formatAddress(address, 'hex'),
@@ -179,7 +188,7 @@ export const isInnerContractAddress = addressHandlerWrapper(
 // core
 // address start with 0x0, not valid internal contract, but fullnode support
 export const isSpecialAddress = addressHandlerWrapper(
-  (address: string): boolean => {
+  (address: LooseAddressType): boolean => {
     return (
       getCoreAddressInfo(address)?.type === 'builtin' &&
       !isInnerContractAddress(address)
@@ -188,23 +197,22 @@ export const isSpecialAddress = addressHandlerWrapper(
 );
 
 // evm
-export const isContractCodeHashEmpty = addressHandlerWrapper(
-  (codeHash: string) => {
-    return (
-      codeHash ===
-        '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470' ||
-      codeHash === '0x' ||
-      codeHash === ''
-    );
-  },
-);
+export const isContractCodeHashEmpty = (codeHash: string) => {
+  return (
+    codeHash ===
+      '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470' ||
+    codeHash === '0x' ||
+    codeHash === ''
+  );
+};
 
 // evm
 /**
  * Only evm address type
  */
 export const getEvmAddressType = addressHandlerWrapper(
-  async (address: string): Promise<EvmAddressType> => {
+  async (address: LooseAddressType): Promise<EvmAddressType | null> => {
+    if (!address) return null;
     try {
       const account: any = await getAccount(address);
       if (isContractCodeHashEmpty(account.codeHash)) {
@@ -229,14 +237,15 @@ interface CoreAddressInfo {
  * Only core address type
  */
 export const getCoreAddressInfo = addressHandlerWrapper(
-  (address: string): CoreAddressInfo | null => {
+  (address: LooseAddressType): CoreAddressInfo | null => {
+    if (!address) return null;
     try {
       if (isCoreHexAddress(address)) {
         return {
           netId: NETWORK_ID,
           type: getCoreHexAddressType(address),
         };
-      } else if (isBase32Address(address)) {
+      } else if (_isBase32Address(address)) {
         const { netId, type } = decode(address);
         return { netId, type } as CoreAddressInfo;
       }
@@ -246,24 +255,25 @@ export const getCoreAddressInfo = addressHandlerWrapper(
 );
 
 // common
-export const formatAddress = (
-  address: string,
+export const formatAddress = <T extends LooseAddressType>(
+  address: T,
   outputType: 'hex' | 'base32',
 ) => {
-  let result = address;
+  if (!address) return address;
+  let result = address as string;
 
   try {
     if (outputType === 'base32') {
       if (isCoreHexAddress(address)) {
         result = convertHexToBase32(address, NETWORK_ID);
-      } else if (isBase32Address(address)) {
+      } else if (_isBase32Address(address)) {
         const reg = /(.*):(.*):(.*)/;
         if (reg.test(address)) {
           result = address.replace(reg, '$1:$3').toLowerCase();
         }
       }
     } else if (outputType === 'hex') {
-      if (isBase32Address(address)) {
+      if (_isBase32Address(address)) {
         result = convertBase32ToHex(address);
       }
     }
@@ -272,4 +282,27 @@ export const formatAddress = (
   }
 
   return result;
+};
+
+/* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ temp make omnibus type loose ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+
+export const isBase32Address = (address: LooseAddressType) => {
+  if (!address) return false;
+  return _isBase32Address(address);
+};
+
+export const isSimplyBase32Address = (address: LooseAddressType) => {
+  if (!address) return false;
+  return _isSimplyBase32Address(address as Base32Address);
+};
+
+/* ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ temp make omnibus type loose ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */
+
+// evm
+// Convert hex to base32 for the bridge interface.
+export const formatAddressHexToBase32 = (address: LooseAddressType) => {
+  if (typeof address === 'string' && isHexAddress(address)) {
+    return convertHexToBase32(address, NETWORK_ID.toString());
+  }
+  return address;
 };
