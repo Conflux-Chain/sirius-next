@@ -636,7 +636,8 @@
       "blockchainData": "区块链数据",
       "transaction": "交易",
       "account": "账户",
-      "contracts": "合约"
+      "contracts": "合约",
+      "dashboard": "仪表盘"
     },
     "nft": {
       "preview": {
@@ -706,10 +707,10 @@
       "AveragePriorityFeePerBlock": "区块平均优先费",
       "GasUsedPerBlock": "区块燃料用量",
       "PercentageOfTxTypeInBlock": "区块交易类型",
-      "baseFee": "Base Fee",
-      "AveragePriorityFee": "Average Priority Fee",
-      "GasUsed": "Gas Used",
-      "Legacy": "Legacy"
+      "baseFee": "基础费",
+      "AveragePriorityFee": "平均优先费",
+      "GasUsed": "燃料用量",
+      "Legacy": "传统"
     },
     "crossSpace": {
       "preview": {

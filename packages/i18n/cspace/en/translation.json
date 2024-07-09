@@ -837,7 +837,8 @@
         "blockchainData": "Blockchain Data",
         "transaction": "Transaction",
         "account": "Account",
-        "contracts": "Contracts"
+        "contracts": "Contracts",
+        "dashboard": "Dashboard"
       },
       "breadcrumb": {
         "charts": "PoW Charts",
