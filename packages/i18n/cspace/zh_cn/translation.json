@@ -636,8 +636,7 @@
       "blockchainData": "区块链数据",
       "transaction": "交易",
       "account": "账户",
-      "contracts": "合约",
-      "dashboard": "仪表盘"
+      "contracts": "合约"
     },
     "nft": {
       "preview": {
@@ -837,7 +836,8 @@
         "blockchainData": "区块链数据",
         "transaction": "交易",
         "account": "账户",
-        "contracts": "合约"
+        "contracts": "合约",
+        "dashboard": "仪表盘"
       },
       "breadcrumb": {
         "charts": "PoW 图表",
