@@ -489,6 +489,8 @@
     "posCharts": "PoS Charts",
     "nftCharts": "NFT Charts",
     "crossSpaceCharts": "Cross Space Charts",
+    "burntFeesAnalysis": "Burnt Fees Analysis",
+    "cip1559Metrics": "CIP-1559 Metrics",
     "statistics": "Top Statistics",
     "support": "Support & Help",
     "faq": "FAQ",
@@ -682,6 +684,34 @@
         "seriesName2": "Cumulative Amount"
       }
     },
+    "burntFeesAnalysis": {
+      "preview": {
+        "title": "Burnt Fees Analysis",
+        "subtitle": "The dashboard tracks CIP-1559 and Storage Collateral metrics on ConfluxNetwork.",
+        "viewDetail": "View Details"
+      },
+      "totalBurntFees": "Total Burnt Fees",
+      "marketCap": "Market Cap",
+      "breakdownByTypes": "Breakdown By Types",
+      "cumulativeCFXBurn": "Cumulative CFX Burn",
+      "CFXDailyBurn": "CFX Daily Burn",
+      "burntRateInDaoVoting": "Burnt Rate In Dao Voting",
+      "1559MetricsBurn": "1559 Metrics Burn",
+      "storageBurn": "Storage Burn",
+      "baseFeeBurntRate": "Base Fee Burnt Rate",
+      "storageBurntRate": "Storage Burnt Rate",
+      "learnMore": "Learn more",
+      "CIP-1559Metrics": "CIP-1559 Metrics",
+      "CIP-1559MetricsTips": "The dashboard tracks CIP-1559 on ConfluxCore including base fees, priority fees, gas used and %tx type. ",
+      "BaseFeePerBlock": "Base Fee Per Block",
+      "AveragePriorityFeePerBlock": "Average Priority Fee Per Block",
+      "GasUsedPerBlock": "Gas Used Per Block",
+      "PercentageOfTxTypeInBlock": "Percentage of Tx Type In Block",
+      "baseFee": "Base Fee",
+      "AveragePriorityFee": "Average Priority Fee",
+      "GasUsed": "Gas Used",
+      "Legacy": "Legacy"
+    },
     "crossSpace": {
       "preview": {
         "title": "Cross Space Charts",
@@ -807,7 +837,8 @@
         "blockchainData": "Blockchain Data",
         "transaction": "Transaction",
         "account": "Account",
-        "contracts": "Contracts"
+        "contracts": "Contracts",
+        "dashboard": "Dashboard"
       },
       "breadcrumb": {
         "charts": "PoW Charts",
