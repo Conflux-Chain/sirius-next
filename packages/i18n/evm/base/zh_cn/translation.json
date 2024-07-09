@@ -753,7 +753,7 @@
       "storageBurn": "存储抵押销毁量",
       "baseFeeBurntRate": "基础费销毁率",
       "storageBurntRate": "存储抵押销毁率",
-      "learnMore": "Learn more",
+      "learnMore": "了解更多",
       "CIP-1559Metrics": "CIP-1559 数据指标",
       "CIP-1559MetricsTips": "仪表数据统计ConfluxCore区块基于CIP-1559的指标数据，包括基础费，平均优先费，燃料使用量和交易类型占比。",
       "BaseFeePerBlock": "区块基础费",
