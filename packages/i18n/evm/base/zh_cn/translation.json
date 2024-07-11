@@ -1334,6 +1334,7 @@
     "maxFee": "Max:",
     "maxPriorityFee": "Max Priority:",
     "burntFees": "销毁费用",
+    "transactionAttributes": "交易属性",
     "gasCharged": "计费燃气",
     "txnType": "Txn Type: {{type}} {{typeDesc}} ",
     "nonce": "Nonce: {{num}}",
