@@ -1532,7 +1532,7 @@
     "value": "Value",
     "gasUsed": "Limit | Gas Used | Gas Charged",
     "gasPrice": "Gas Price",
-    "gasFee": "Gas Fee",
+    "gasFee": "Gas Fees",
     "transactionFee": "Transaction Fee",
     "baseFee": "Base:",
     "maxFee": "Max:",
