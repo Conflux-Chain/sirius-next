@@ -1048,7 +1048,7 @@
         "to": "To",
         "value": "Value",
         "gasPrice": "Gas Price",
-        "gasFee": "Gas Fee",
+        "transactionFee": "Transaction Fee",
         "age": "Age",
         "pendingReason": "Reason"
       },
