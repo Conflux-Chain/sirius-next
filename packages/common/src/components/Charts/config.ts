@@ -140,6 +140,7 @@ export const ConstructorType = ({ options }: ChartsProps) => {
   return 'stockChart';
 };
 const LineChart = ({ options, request, data }: ChartsProps) => {
+  const list = request.formatter(data);
   return {
     chart: {
       alignTicks: false,
@@ -249,7 +250,7 @@ const LineChart = ({ options, request, data }: ChartsProps) => {
       opposite: false,
     },
     series: options.series.map((_: any, i: number) => ({
-      data: request.formatter(data)[i],
+      data: list[i],
     })),
     exporting: {
       enabled: true,
