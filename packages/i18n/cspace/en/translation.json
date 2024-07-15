@@ -692,7 +692,7 @@
       },
       "totalBurntFees": "Total Burnt Fees",
       "marketCap": "Market Cap",
-      "breakdownByTypes": "Breakdown By Types",
+      "breakdownByTypes": "Breakdown by burnt type",
       "cumulativeCFXBurn": "Cumulative CFX Burn",
       "CFXDailyBurn": "CFX Daily Burn",
       "burntRateInDaoVoting": "Burnt Rate In Dao Voting",
@@ -710,7 +710,9 @@
       "baseFee": "Base Fee",
       "AveragePriorityFee": "Average Priority Fee",
       "GasUsed": "Gas Used",
-      "Legacy": "Legacy"
+      "Legacy": "Legacy",
+      "Amount": "Amount",
+      "Percentage": "Percentage"
     },
     "crossSpace": {
       "preview": {

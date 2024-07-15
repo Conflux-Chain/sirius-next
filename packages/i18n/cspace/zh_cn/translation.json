@@ -709,7 +709,9 @@
       "baseFee": "基础费",
       "AveragePriorityFee": "平均优先费",
       "GasUsed": "燃料用量",
-      "Legacy": "传统"
+      "Legacy": "传统",
+      "Amount": "数量",
+      "Percentage": "占比"
     },
     "crossSpace": {
       "preview": {
