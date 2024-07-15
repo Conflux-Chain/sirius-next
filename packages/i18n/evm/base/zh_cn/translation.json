@@ -1047,7 +1047,7 @@
         "to": "接收方",
         "value": "价值",
         "gasPrice": "燃料价格",
-        "gasFee": "燃气费",
+        "transactionFee": "交易费",
         "age": "块龄",
         "pendingReason": "原因"
       },
