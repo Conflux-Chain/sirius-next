@@ -756,7 +756,7 @@
       "learnMore": "Learn more",
       "CIP-1559Metrics": "CIP-1559 Metrics",
       "CIP-1559MetricsTips": "The dashboard tracks CIP-1559 on ConfluxCore including base fees, priority fees, gas used and %tx type. ",
-      "BaseFeePerBlock": "Base Fee Per Block",
+      "BaseFeePerBlock": "Base Fee Per Pivot Block",
       "AveragePriorityFeePerBlock": "Average Priority Fee Per Block",
       "GasUsedPerBlock": "Gas Used Per Block",
       "PercentageOfTxTypeInBlock": "Percentage of Tx Type In Block",
