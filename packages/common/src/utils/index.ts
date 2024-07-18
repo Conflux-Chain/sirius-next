@@ -48,7 +48,7 @@ export const tranferToLowerCase = (str: string) => {
 function hex2asc(pStr: string) {
   let tempstr = '';
   for (let b = 0; b < pStr.length; b += 2) {
-    tempstr += String.fromCharCode(parseInt(pStr.slice(b, 2), 16));
+    tempstr += String.fromCharCode(parseInt(pStr.slice(b, b + 2), 16));
   }
   return tempstr;
 }
