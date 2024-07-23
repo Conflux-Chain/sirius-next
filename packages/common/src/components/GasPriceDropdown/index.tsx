@@ -34,7 +34,13 @@ const roundNumberWithSuffix = (value: string): string => {
 const refreshGasPrice = {
   init: false,
 };
-export const GasPriceDropdown = () => {
+interface GasPriceDropdownProps {
+  unit?: string;
+}
+
+export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
+  unit = 'Gdrip',
+}) => {
   const translations = getTranslations();
 
   const [showModal, setShowModal] = useState(false);
@@ -96,7 +102,7 @@ export const GasPriceDropdown = () => {
               }),
             )}
           </span>
-          <span>Gdrip</span>
+          <span>{unit}</span>
         </SkeletonContainer>
       </div>
       {showModal && (
@@ -142,7 +148,7 @@ export const GasPriceDropdown = () => {
                       precision: 1,
                     }),
                   )}{' '}
-                  Gdrip
+                  {unit}
                 </SkeletonContainer>
               </div>
             </div>
@@ -164,7 +170,7 @@ export const GasPriceDropdown = () => {
                       precision: 1,
                     }),
                   )}{' '}
-                  Gdrip
+                  {unit}
                 </SkeletonContainer>
               </div>
             </div>
@@ -188,7 +194,7 @@ export const GasPriceDropdown = () => {
                       }),
                     ),
                   )}{' '}
-                  Gdrip
+                  {unit}
                 </SkeletonContainer>
               </div>
             </div>
