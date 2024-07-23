@@ -13,7 +13,7 @@ import GasLow from '../../images/gas-low.png';
 import GasMedian from '../../images/gas-median.png';
 import GasHigh from '../../images/gas-high.png';
 import ArrowDown from '../../images/arrowDown.svg';
-import { GasPriceDetail } from 'src/store/types';
+import { GasPriceDetail, GasPriceDropdownProps } from 'src/store/types';
 
 const roundNumberWithSuffix = (value: string): string => {
   if (value === '< 0.001') return value;
@@ -38,7 +38,8 @@ const GasInfoCard: React.FC<{
   img: string;
   title: string;
   gasPriceColor: string;
-}> = ({ gasInfo, img, title, gasPriceColor }) => {
+  unit: string;
+}> = ({ gasInfo, img, title, gasPriceColor, unit }) => {
   const { t } = useTranslation();
   const { translations } = useI18n();
   return (
@@ -58,7 +59,7 @@ const GasInfoCard: React.FC<{
                 precision: 1,
               }),
             )}{' '}
-            Gdrip
+            {unit}
           </div>
           <div className="text-[11px] leading-4 text-[#000] mt-[4px]">
             {`${t(translations.gaspriceDropdown.baseFee, {
@@ -84,7 +85,10 @@ const GasInfoCard: React.FC<{
 const refreshGasPrice = {
   init: false,
 };
-export const GasPriceDropdown = () => {
+
+export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
+  unit = 'Gdrip',
+}) => {
   const { t } = useTranslation();
   const translations = getTranslations();
 
@@ -149,7 +153,7 @@ export const GasPriceDropdown = () => {
               }),
             )}
           </span>
-          <span>Gdrip</span>
+          <span>{unit}</span>
         </SkeletonContainer>
       </div>
       {showModal && (
@@ -182,18 +186,21 @@ export const GasPriceDropdown = () => {
               title={t(translations.gaspriceDropdown.low)}
               img={GasLow}
               gasPriceColor="#4ca960"
+              unit={unit}
             />
             <GasInfoCard
               gasInfo={gasPriceData.gasPriceInfo.tp50}
               title={t(translations.gaspriceDropdown.median)}
               img={GasMedian}
               gasPriceColor="#395bd4"
+              unit={unit}
             />
             <GasInfoCard
               gasInfo={gasPriceData.gasPriceInfo.max}
               title={t(translations.gaspriceDropdown.high)}
               img={GasHigh}
               gasPriceColor="#d74841"
+              unit={unit}
             />
           </div>
           <div className="relative">
