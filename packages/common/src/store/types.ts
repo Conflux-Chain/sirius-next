@@ -108,3 +108,7 @@ export interface GasPriceBundle {
   minTime: string;
   blockHeight: number;
 }
+
+export interface GasPriceDropdownProps {
+  unit?: string;
+}
