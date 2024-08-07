@@ -14,7 +14,7 @@ export interface TooltipProps
     ComponentProps<typeof _Tooltip>,
     'trigger' | 'containerClassName'
   > {
-  title: React.ReactNode;
+  title?: React.ReactNode;
   children?: React.ReactNode;
   triggerProps?: HTMLAttributes<HTMLElement>;
   className?: string;
@@ -48,7 +48,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         return (
           <span
             ref={triggerRef}
-            {...triggerProps}
+            {...(title ? triggerProps : {})}
             className={cn(className, triggerProps.className)}
           >
             {children}

@@ -20,6 +20,7 @@ type TextProps = {
   hoverValueMaxCount?: number;
   tag?: 'p' | 'span';
   type?: NormalTypes;
+  hideTooltip?: boolean;
 };
 type NativeAttrs = Omit<React.HTMLAttributes<any>, keyof TextProps>;
 
@@ -51,6 +52,7 @@ export const Text = React.memo(
     hoverValueMaxCount: outerHoverValueMaxCount,
     tag = 'p',
     type = 'default',
+    hideTooltip = false,
     ...props
   }: NativeAttrs & TextProps) => {
     const Component = tag;
@@ -86,17 +88,19 @@ export const Text = React.memo(
       newTextContent.push(<span key={++count}>{textContentCopy}</span>);
       textContent = newTextContent;
     }
-    const tooltipText = React.createElement(
-      'div',
-      {
-        onClick: e => {
-          e.preventDefault();
-          e.stopPropagation();
-          selectText(e.currentTarget);
+    const tooltipText =
+      !hideTooltip &&
+      React.createElement(
+        'div',
+        {
+          onClick: e => {
+            e.preventDefault();
+            e.stopPropagation();
+            selectText(e.currentTarget);
+          },
         },
-      },
-      textContent,
-    );
+        textContent,
+      );
 
     const p = { title: tooltipText };
     return React.createElement(Tooltip, p, [
