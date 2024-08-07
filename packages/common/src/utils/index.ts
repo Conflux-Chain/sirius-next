@@ -1017,7 +1017,36 @@ export const fromDripToGdrip = (
         : formatNumber(divideBn.toFixed(), opt);
     }
   }
-  return `${result}`;
+  return result;
+};
+
+/**
+ *
+ * @param num original number
+ * @param isShowFull Whether to show all numbers
+ */
+export const fromDripToCfx = (
+  num: number | string,
+  isShowFull: boolean = false,
+  _opt = {},
+) => {
+  const opt = {
+    minNum: 0.001,
+    ..._opt,
+  };
+  const bn = new BigNumber(num);
+  let result: string = '0';
+  if (!window.isNaN(bn.toNumber()) && bn.toNumber() !== 0) {
+    const divideBn = bn.dividedBy(10 ** 18);
+    if (isShowFull) {
+      result = toThousands(divideBn.toFixed());
+    } else {
+      result = divideBn.lt(opt.minNum)
+        ? '< ' + new BigNumber(opt.minNum).toString()
+        : formatNumber(divideBn.toFixed(), opt);
+    }
+  }
+  return result;
 };
 
 /**

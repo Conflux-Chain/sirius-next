@@ -1,6 +1,6 @@
 {
   "name": "@cfxjs/sirius-next-common",
-  "version": "0.0.1-zg",
+  "version": "0.0.2-zg",
   "type": "module",
   "files": [
     "dist/**"

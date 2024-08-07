@@ -15,7 +15,7 @@ import GasHigh from '../../images/gas-high.png';
 import ArrowDown from '../../images/arrowDown.svg';
 
 const roundNumberWithSuffix = (value: string): string => {
-  if (value === '< 0.001') return value;
+  if (value.startsWith('<')) return value;
 
   const numericPart = parseFloat(value);
   if (isNaN(numericPart)) {
@@ -99,6 +99,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
             {roundNumberWithSuffix(
               fromDripToGdrip(gasPriceData.gasPriceInfo.tp50, false, {
                 precision: 1,
+                minNum: 0.1,
               }),
             )}
           </span>
@@ -146,6 +147,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
                   {roundNumberWithSuffix(
                     fromDripToGdrip(gasPriceData.gasPriceInfo.min, false, {
                       precision: 1,
+                      minNum: 0.1,
                     }),
                   )}{' '}
                   {unit}
@@ -168,6 +170,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
                   {roundNumberWithSuffix(
                     fromDripToGdrip(gasPriceData.gasPriceInfo.tp50, false, {
                       precision: 1,
+                      minNum: 0.1,
                     }),
                   )}{' '}
                   {unit}
@@ -188,11 +191,10 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
               <div className="text-[18px] mt-1.5 leading-5 font-bold text-center text-[#d74841]">
                 <SkeletonContainer shown={gasPriceData.gasPriceInfo.max === 0}>
                   {roundNumberWithSuffix(
-                    roundNumberWithSuffix(
-                      fromDripToGdrip(gasPriceData.gasPriceInfo.max, false, {
-                        precision: 1,
-                      }),
-                    ),
+                    fromDripToGdrip(gasPriceData.gasPriceInfo.max, false, {
+                      precision: 1,
+                      minNum: 0.1,
+                    }),
                   )}{' '}
                   {unit}
                 </SkeletonContainer>
@@ -218,6 +220,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
                 {roundNumberWithSuffix(
                   fromDripToGdrip(gasPriceData.gasPriceMarket.tp25, false, {
                     precision: 1,
+                    minNum: 0.1,
                   }),
                 )}
               </div>
@@ -233,6 +236,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
                 {roundNumberWithSuffix(
                   fromDripToGdrip(gasPriceData.gasPriceMarket.tp75, false, {
                     precision: 1,
+                    minNum: 0.1,
                   }),
                 )}
               </div>
@@ -257,6 +261,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
                   {roundNumberWithSuffix(
                     fromDripToGdrip(gasPriceData.gasPriceMarket.min, false, {
                       precision: 1,
+                      minNum: 0.1,
                     }),
                   )}
                 </div>
@@ -270,6 +275,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
                   {roundNumberWithSuffix(
                     fromDripToGdrip(gasPriceData.gasPriceMarket.tp50, false, {
                       precision: 1,
+                      minNum: 0.1,
                     }),
                   )}
                 </div>
@@ -282,6 +288,7 @@ export const GasPriceDropdown: React.FC<GasPriceDropdownProps> = ({
                   {roundNumberWithSuffix(
                     fromDripToGdrip(gasPriceData.gasPriceMarket.max, false, {
                       precision: 1,
+                      minNum: 0.1,
                     }),
                   )}
                 </div>
