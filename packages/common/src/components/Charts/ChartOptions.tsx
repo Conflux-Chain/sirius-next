@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { useI18n } from '../../store';
 import { ScopeItemType, ScopeType, ChartOptionsProps, scope } from './config';
 
+const desiredOrder = ['min', 'hour', 'day', 'week', 'month', 'year'];
+
 const ChartOptions = ({
   intervalScope,
   intervalType,
@@ -11,11 +13,16 @@ const ChartOptions = ({
   const { t } = useTranslation();
   const { translations } = useI18n();
   const intervalScopeDefault = intervalScope || { day: scope.day };
+
+  const sortedIntervalScopeKeys = Object.keys(intervalScopeDefault).sort(
+    (a, b) => desiredOrder.indexOf(a) - desiredOrder.indexOf(b),
+  );
+
   return (
     <div className="flex relative z-2 top-[10px] mb-[20px] left-[40px] gap-[10px] flex-col chartsFilter:flex-row chartsFilter:gap-0">
       <div className="flex gap-[3px] mr-[20px]">
         <div>{t(translations.highcharts.options.time)}:</div>
-        {Object.keys(intervalScopeDefault).map((e, i) => {
+        {sortedIntervalScopeKeys.map((e, i) => {
           const scopeItemArray = intervalScopeDefault[e as keyof ScopeType];
           const lastScopeItem = scopeItemArray?.[scopeItemArray.length - 1];
           const lastItemLimit = lastScopeItem?.limit;
