@@ -1730,7 +1730,7 @@
     "topTokensByTxnCount": "Top Tokens by Txn Count",
     "topTokensByTxnAccountsCount": "Top Tokens by Txn Accounts Count",
     "topMinersByBlocksMined": "Top Miners by Blocks Mined",
-    "topAccountsByGasUsed": "Top Accounts by Gas Used",
+    "topGasSpenders": "Top Gas Spenders",
     "topAccountsByTxnCount": "Top Accounts by Txn Count",
     "valueInTotal": "Value in total",
     "txnCountInTotal": "Txn Count in total",
@@ -1751,7 +1751,7 @@
       "totalTokenTransfersAccountsCount": "Total Token Transfers Accounts Count",
       "totalMiners": "Total Miners",
       "totalBlocksMined": "Total Blocks Mined",
-      "totalGasUsed": "Total Gas Used",
+      "totalGasFees": "Total Gas Fees",
       "top10": "View Top 10"
     },
     "column": {
@@ -1768,7 +1768,7 @@
       "totalRewards": "Total Rewards",
       "totalTxnFees": "Total Txn Fees",
       "hashRate": "Est. Hash Rate (GH/s)",
-      "gasUsed": "Gas Used"
+      "fees": "Fees"
     },
     "home": {
       "currentBlockNumber": "Current Block Number",

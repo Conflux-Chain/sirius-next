@@ -1727,7 +1727,7 @@
     "topTokensByTxnCount": "最佳通证--交易数",
     "topTokensByTxnAccountsCount": "最佳通证--交易账户数",
     "topMinersByBlocksMined": "最佳矿工--挖出区块",
-    "topAccountsByGasUsed": "最佳账户--燃料用量",
+    "topGasSpenders": "最佳账户-燃料费支出",
     "topAccountsByTxnCount": "最佳账户--交易数",
     "valueInTotal": "交易值共计",
     "txnCountInTotal": "交易数共计",
@@ -1748,7 +1748,7 @@
       "totalTokenTransfersAccountsCount": "通证交易账户总数",
       "totalMiners": "PoW 节点数",
       "totalBlocksMined": "挖出总区块",
-      "totalGasUsed": "燃气使用总量",
+      "totalGasFees": "燃料费总量",
       "top10": "查看十佳"
     },
     "column": {
@@ -1764,7 +1764,8 @@
       "totalBlocksMined": "挖出总区块",
       "totalRewards": "总奖励",
       "totalTxnFees": "总交易费",
-      "hashRate": "哈希算力 (GH/s)"
+      "hashRate": "哈希算力 (GH/s)",
+      "fees": "燃料费"
     },
     "home": {
       "currentBlockNumber": "当前区块号",
