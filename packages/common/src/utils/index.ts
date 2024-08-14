@@ -491,10 +491,14 @@ export const sleep = (timeout: number) =>
   new Promise(resolve => setTimeout(resolve, timeout));
 
 // get two block interval time
-export const getTimeByBlockInterval = (minuend = 0, subtrahend = 0) => {
+export const getTimeByBlockInterval = (
+  minuend = 0,
+  subtrahend = 0,
+  blockInterval = 0.5,
+) => {
   const seconds = new BigNumber(minuend)
     .minus(subtrahend)
-    .dividedBy(2)
+    .multipliedBy(blockInterval)
     .toNumber();
   const dayBase = 86400;
   const hourBase = 3600;
