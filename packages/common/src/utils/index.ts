@@ -354,7 +354,6 @@ export const isBlockHash = async (str: string) => {
   let isBlock = true;
   try {
     const block: any = await reqBlockHash(str);
-    console.log(block);
     // server side will return {} when no block found
     if (!block.hash || block.code !== undefined) isBlock = false;
   } catch (err) {
