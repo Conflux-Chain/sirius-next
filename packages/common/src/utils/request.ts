@@ -137,6 +137,7 @@ export const sendRequestChart = async (config: Config) => {
         signal: config.signal,
       },
     );
+    console.log(res);
     const data = compatibleResult(res);
     data.list = [...(data.list || [])].reverse();
     return data;
@@ -188,4 +189,11 @@ export const reqContractAndToken = async (address: string[]) => {
     method: 'GET',
   });
   return compatibleResult(res)?.map;
+};
+
+export const reqBlockHash = async (blockHash: string) => {
+  const res: CustomResponse = await fetch(`/v1/block/${blockHash}`, {
+    method: 'GET',
+  });
+  return compatibleResult(res);
 };

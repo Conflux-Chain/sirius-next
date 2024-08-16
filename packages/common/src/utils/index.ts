@@ -5,6 +5,7 @@ import qs from 'qs';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
+import { reqBlockHash } from './request';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -352,7 +353,8 @@ export const isBlockHash = async (str: string) => {
   if (!isHash(str)) return false;
   let isBlock = true;
   try {
-    const block: any = await fetch(`/v1/block/${str}`);
+    const block: any = await reqBlockHash(str);
+    console.log(block);
     // server side will return {} when no block found
     if (!block.hash || block.code !== undefined) isBlock = false;
   } catch (err) {
