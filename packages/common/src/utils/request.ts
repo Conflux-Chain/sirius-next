@@ -27,12 +27,56 @@ const checkStatus = (response: Response) => {
   }
 };
 
+// 格式化 response data
 const parseJSON = async (response: Response) => {
   const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    return response.json();
-  } else {
+  try {
+    if (contentType?.includes('application/json')) {
+      return { data: await response.json(), response };
+    } else if (contentType?.includes('text/html')) {
+      return { data: await response.text(), response };
+    } else {
+      // contentType 还有其他类型，目前项目中用不到
+      // 不能简单的报错，比如 image/x-icon 是 favicon 请求
+      // 此处直接返回 response，由业务代码处理其他类型的数据
+      return { data: response, response };
+    }
+  } catch (error) {
+    if ((error as any).name === 'AbortError') {
+      return { data: response, response };
+    }
+    publishRequestError({ url: response.url, code: 20001 }, 'http');
+    (error as any).response = response;
+    throw error;
+  }
+};
+
+// 检查返回值中是否包含错误
+const checkResponse = function (
+  url: string,
+  {
+    data,
+    response,
+  }: {
+    data: any;
+    response: Response;
+  },
+  opts: any,
+) {
+  // 兼容 data.code 和 data.data, 是关于 core space 的数据结构
+  if (response.status === 200 && (data.status === '1' || data.code === 0)) {
+    return data.result || data.data;
+  } else if (/HEAD/i.test(opts?.method)) {
+    // handle of HEAD method
     return response;
+  } else {
+    const code = Number(data?.status);
+    publishRequestError({ url, code, message: data.message }, 'http');
+    const error: Partial<ErrorEvent> & {
+      response?: ResponseType;
+    } = new Error(data.message);
+    error.response = data;
+    throw error;
   }
 };
 
@@ -59,6 +103,7 @@ const fetchWithAbort = <T>(
       .fetch(url, opts)
       .then(checkStatus)
       .then(parseJSON)
+      .then((...args) => checkResponse(url, ...args, opts))
       .then(data => resolve(data as T))
       .catch(error => {
         if (error.name === 'AbortError') {
@@ -128,7 +173,7 @@ const queryAddress = (address: string[]) => {
 
 export const sendRequestChart = async (config: Config) => {
   try {
-    const res: CustomResponse = await fetch(
+    const res: any = await fetch(
       `${config.url}?${qs.stringify(config.query)}`,
       {
         method: config.type || 'GET',
@@ -137,7 +182,7 @@ export const sendRequestChart = async (config: Config) => {
         signal: config.signal,
       },
     );
-    const data = compatibleResult(res);
+    const data = res;
     data.list = [...(data.list || [])].reverse();
     return data;
   } catch (error) {
@@ -149,11 +194,11 @@ export const sendRequestChart = async (config: Config) => {
 export const sendRequestENSInfo = async (url?: string | null) => {
   if (!url) return {};
   try {
-    const res: CustomResponse = await fetch(url, {
+    const res: any = await fetch(url, {
       method: 'GET',
     });
 
-    return compatibleResult(res)?.map;
+    return res?.map;
   } catch (error) {
     console.error('Request failed', error);
     throw error;
@@ -162,10 +207,10 @@ export const sendRequestENSInfo = async (url?: string | null) => {
 
 export const sendRequestGasPrice = async () => {
   try {
-    const res: CustomResponse = await fetch(`/stat/gasprice/tracker`, {
+    const res: any = await fetch(`/stat/gasprice/tracker`, {
       method: 'GET',
     });
-    return compatibleResult(res);
+    return res;
   } catch (error) {
     console.error('Request failed', error);
     throw error;
@@ -175,17 +220,17 @@ export const sendRequestGasPrice = async () => {
 export const reqNametag = async (address: string[]) => {
   const query = queryAddress(address);
 
-  const res: CustomResponse = await fetch(`/v1/nametag?${query}`, {
+  const res: any = await fetch(`/v1/nametag?${query}`, {
     method: 'GET',
   });
-  return compatibleResult(res)?.map;
+  return res?.map;
 };
 
 export const reqContractAndToken = async (address: string[]) => {
   const query = queryAddress(address);
 
-  const res: CustomResponse = await fetch(`/v1/contract-and-token?${query}`, {
+  const res: any = await fetch(`/v1/contract-and-token?${query}`, {
     method: 'GET',
   });
-  return compatibleResult(res)?.map;
+  return res?.map;
 };

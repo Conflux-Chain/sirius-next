@@ -5,6 +5,7 @@ import qs from 'qs';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
+import { fetch } from './request';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -364,7 +365,7 @@ export const isBlockHash = async (str: string) => {
 
 export const isTxHash = async (str: string) => {
   if (!isHash(str)) return false;
-  return !isBlockHash(str);
+  return !(await isBlockHash(str));
 };
 
 export function validURL(str: string) {
