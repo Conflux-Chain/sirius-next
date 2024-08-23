@@ -1,4 +1,4 @@
-import {
+import type {
   ConvertedToObjectType,
   TranslationResource,
 } from '@cfxjs/sirius-next-i18n/types';

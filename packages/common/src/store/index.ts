@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TranslationResource } from '@cfxjs/sirius-next-i18n/types';
+import type { TranslationResource } from '@cfxjs/sirius-next-i18n/types';
 import {
   EnvState,
   I18nState,

@@ -1,6 +1,6 @@
 {
   "name": "@cfxjs/sirius-next-common",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "type": "module",
   "files": [
     "dist/**"
@@ -20,7 +20,6 @@
     "@cfx-kit/dapp-utils": "^0.2.0",
     "@cfx-kit/react-utils": "^0.0.29",
     "@cfx-kit/ui-components": "^0.0.17",
-    "@cfxjs/sirius-next-i18n": "workspace:*",
     "@radix-ui/react-select": "^2.0.0",
     "@testing-library/react": "^15.0.5",
     "@types/i18next": "^13.0.0",
@@ -54,6 +53,7 @@
   },
   "devDependencies": {
     "@cfxjs/sirius-next-eslint-config": "workspace:*",
+    "@cfxjs/sirius-next-i18n": "workspace:*",
     "@cfxjs/sirius-next-typescript-config": "workspace:*",
     "@iconify-json/line-md": "^1.1.36",
     "@iconify-json/material-symbols": "^1.1.77",
