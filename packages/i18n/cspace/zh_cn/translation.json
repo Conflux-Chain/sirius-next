@@ -1231,7 +1231,11 @@
         "age": "块龄",
         "difficulty": "难度",
         "gasLimit": "燃料限制",
-        "burntFees": "销毁费用"
+        "burntFees": "销毁费用",
+        "tooltip": {
+          "gasUsedPercent": "燃料使用率: {{percent}}",
+          "gasTargetUsedPercent": "目标燃料使用率: {{percent}}"
+        }
       },
       "transaction": {
         "hash": "交易哈希",
@@ -1671,7 +1675,9 @@
     "posBlockHash": "PoS 区块哈希",
     "parentHash": "父区块哈希",
     "nonce": "随机数",
-    "gasUsed": "限制｜燃料用量",
+    "gasUsed": "燃料用量",
+    "gasLimit": "燃料限制",
+    "gasTarget": "目标燃料使用率: {{percent}}",
     "gasTargetUsage": "燃料使用率",
     "baseFeePerGas": "燃料基础费",
     "burntFeesLabel": "销毁费用",
@@ -1789,7 +1795,8 @@
       "posBlockHash": "区块矿工看到的最新的已被委托的 PoS 区块。",
       "parentHash": "该区块的父区块的区块哈希，也称为父区块哈希。",
       "nonce": "区块随机数是在挖矿过程中用来演示区块工作量证明的值。",
-      "gasUsedLimit": "燃料使用指交易所使用的燃料数量; 燃料限制代表用于愿意为交易花费的最大燃料量。",
+      "gasUsed": "该区块中使用的燃料和使用率百分比。目标燃料使用率根据当前区块燃料限制计算，表示此区块的基础燃料价格的调整，目标燃料值是27,000,000。",
+      "gasLimit": "该区块中为所有交易提供的燃料限制。",
       "gasTargetUsage": "指Pivot区块的目标燃料使用率，目标值27,000,000。",
       "baseFeePerGas": "表示Pivot区块中包含的交易最小的燃料用量乘积和上一个规定区块燃料基础费的涨幅。",
       "burntFeesLabel": "销毁费用：表示基于CIP-1559、CIP-137和CIP-107销毁的交易费用：燃料基础费*燃料用量*投票参数+存储抵押销毁",
