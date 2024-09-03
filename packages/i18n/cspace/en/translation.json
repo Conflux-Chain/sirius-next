@@ -2301,17 +2301,6 @@
           "twitter": "X",
           "telegram": "Telegram"
         },
-        "lockingRights": "Total Pending Locking Rights",
-        "lockedRights": "Locked Rights",
-        "unlockingRights": "Total Pending Unlocking Rights",
-        "unlockRights": "Unlocked Rights",
-        "retiredBlocknumber": "Retired Block Number",
-        "availableVotes": "Total Rights",
-        "currentCommitteeMember": "Current Committee Member",
-        "rightsInCommittee": "Rights in Committee",
-        "unlockedVotes": "Unlocked Votes",
-        "totalIncoming": "Total Incoming",
-        "punishment": "Punishment",
         "timestamp": "Register Date"
       },
       "incomingHistory": {
