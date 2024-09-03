@@ -13,5 +13,5 @@ export const useAge = (format?: string) => {
       localStorage.setItem(LOCALSTORAGE_KEYS_MAP.ageFormat, ageFormat);
     }
   }, [format, ageFormat]);
-  return [ageFormat, toggleAgeFormat];
+  return [ageFormat, toggleAgeFormat] as const;
 };
