@@ -2271,18 +2271,36 @@
       "description": "Validator",
       "overview": {
         "title": "Overview",
-        "posAddress": "Address",
-        "lockingRights": "Total Pending Locking Rights",
-        "lockedRights": "Locked Rights",
-        "unlockingRights": "Total Pending Unlocking Rights",
-        "unlockRights": "Unlocked Rights",
-        "retiredBlocknumber": "Retired Block Number",
-        "availableVotes": "Total Rights",
-        "currentCommitteeMember": "Current Committee Member",
-        "rightsInCommittee": "Rights in Committee",
-        "unlockedVotes": "Unlocked Votes",
-        "totalIncoming": "Total Incoming",
-        "punishment": "Punishment",
+        "posAddress": "PoS Node Address",
+        "nodeType": "Node Type",
+        "nodeTypeValue": {
+          "Personal Node": "Personal Node",
+          "Public Pos Pool": "Public PoS Pool"
+        },
+        "status": "Status",
+        "statusValue": {
+          "Active": "Active",
+          "Retiring": "Retiring",
+          "Force Retiring": "Force Retiring",
+          "Forfeited": "Forfeited",
+          "Historical Nodes": "Historical Nodes"
+        },
+        "totalVotingPower": "Total Voting Power (CFX) ",
+        "staker": "Staker",
+        "stakerValue": "{{count}} Addresses",
+        "votingPowerDetails": "Voting Power Details",
+        "withdrawable": "Withdrawable (CFX)",
+        "freezing": "Deposit Freezing Period",
+        "unlocking": "Unlocking",
+        "poolInfo": "Pool Info",
+        "poolName": "Pool Name",
+        "poolContractAddress": "Pool Contract Address",
+        "links": "Links",
+        "linkValue": {
+          "website": "Website",
+          "twitter": "X",
+          "telegram": "Telegram"
+        },
         "timestamp": "Register Date"
       },
       "incomingHistory": {

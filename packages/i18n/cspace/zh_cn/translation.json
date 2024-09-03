@@ -2267,18 +2267,36 @@
       "description": "验证者",
       "overview": {
         "title": "概览",
-        "posAddress": "地址",
-        "lockingRights": "待锁定总票数",
-        "lockedRights": "已锁定票数",
-        "unlockingRights": "待解锁总票数",
-        "unlockRights": "已解锁票数",
-        "retiredBlocknumber": "已退休区块号",
-        "availableVotes": "总票数",
-        "currentCommitteeMember": "在任委员会成员",
-        "rightsInCommittee": "在委员会的票数",
-        "unlockedVotes": "已解锁票数",
-        "totalIncoming": "总收益",
-        "punishment": "是否被惩罚",
+        "posAddress": "PoS 节点地址",
+        "nodeType": "节点类型",
+        "nodeTypeValue": {
+          "Personal Node": "独立节点",
+          "Public Pos Pool": "PoS 矿池"
+        },
+        "status": "状态",
+        "statusValue": {
+          "Active": "活跃中",
+          "Retiring": "退休中",
+          "Force Retiring": "强制退休中",
+          "Forfeited": "已罚没",
+          "Historical Nodes": "历史节点"
+        },
+        "totalVotingPower": "总投票权（CFX）",
+        "staker": "质押者",
+        "stakerValue": "{{count}} 个地址",
+        "votingPowerDetails": "投票权明细",
+        "withdrawable": "可提现（CFX）",
+        "freezing": "存入锁定期",
+        "unlocking": "解锁中",
+        "poolInfo": "矿池信息",
+        "poolName": "矿池名称",
+        "poolContractAddress": "矿池合约地址",
+        "links": "链接",
+        "linkValue": {
+          "website": "官网",
+          "twitter": "X",
+          "telegram": "电报"
+        },
         "timestamp": "注册时间"
       },
       "incomingHistory": {
