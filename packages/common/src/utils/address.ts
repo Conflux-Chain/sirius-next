@@ -12,6 +12,7 @@ import {
   convertBase32ToHex,
   getCoreHexAddressType,
   Base32Address,
+  isAddressEqual as _isAddressEqual,
 } from '@cfx-kit/dapp-utils/dist/address';
 
 type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
@@ -305,4 +306,17 @@ export const formatAddressHexToBase32 = (address: LooseAddressType) => {
     return convertHexToBase32(address, NETWORK_ID.toString());
   }
   return address;
+};
+
+export const isAddressEqual = (
+  a: Parameters<typeof _isAddressEqual>[0],
+  b: Parameters<typeof _isAddressEqual>[1],
+  options?: Parameters<typeof _isAddressEqual>[2],
+) => {
+  try {
+    return _isAddressEqual(a, b, options);
+  } catch (error) {
+    console.error('Failed to check:', error);
+    return false;
+  }
 };

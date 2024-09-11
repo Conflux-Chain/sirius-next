@@ -137,8 +137,8 @@ importers:
   packages/common:
     dependencies:
       '@cfx-kit/dapp-utils':
-        specifier: ^0.2.0
-        version: 0.2.0(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
+        specifier: ^0.2.3
+        version: 0.2.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
       '@cfx-kit/react-utils':
         specifier: ^0.0.29
         version: 0.0.29(@types/react@18.2.67)(bufferutil@4.0.8)(ethers@6.11.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.4.3)(utf-8-validate@5.0.10)
@@ -610,8 +610,8 @@ packages:
   '@cfx-kit/dapp-utils@0.1.6':
     resolution: {integrity: sha512-182EAPHAOYm1hp86ywip6RPdQ/vt0lLhA3EQrtM9AvbsHQ+h/rbxMiL4gTeS7MALVxuzuS3IBS6o3JJA97bdeA==}
 
-  '@cfx-kit/dapp-utils@0.2.0':
-    resolution: {integrity: sha512-qW2nhNU88ZTKyFuuex9jPq0aGLLhiEfQ/THKhB3gSRuTKYcc/LQxGFQpoy5lR4I3nSRrmFeaCKAGbZ2xBeuKVg==}
+  '@cfx-kit/dapp-utils@0.2.3':
+    resolution: {integrity: sha512-Ck4pXgp+rP0E9zKSyGPDZRRbL23GaFRj1QV0pYYl4vwOa67pgBwOOgr0qUhlEEoj8U7TiPCMOhv92nA6JsEMyA==}
 
   '@cfx-kit/react-utils@0.0.29':
     resolution: {integrity: sha512-dtqQrWEZvegP9E2NC5zN1kN9LR8n6QCW1ZsjxpfN1q0g5Dl5SW/eTuztBjlsXihkZGJL0yHDeLGXABedX8siEw==}
@@ -6833,7 +6833,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@cfx-kit/dapp-utils@0.2.0(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)':
+  '@cfx-kit/dapp-utils@0.2.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@cfx-kit/utils': 0.0.5
       '@ethersproject/abi': 5.7.0
