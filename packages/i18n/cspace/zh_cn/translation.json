@@ -360,6 +360,7 @@
     "stakingEarned": "质押 CFX 收益",
     "locked": "锁定 CFX",
     "unlockTime": "大约 {{days}} 天后解锁",
+    "unlockedTime": "已于 {{days}} 天前解锁",
     "currentVotingRights": "当前投票权",
     "apy": "（年化收益率 4%）",
     "lockedDetailTitle": "锁定历史",

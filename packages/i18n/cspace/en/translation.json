@@ -361,6 +361,7 @@
     "stakingEarned": "Staking CFX Earned",
     "locked": "Locked CFX",
     "unlockTime": "Unlock after about {{days}} days",
+    "unlockedTime": "Unlocked {{days}} day(s) ago",
     "lockedDetailTitle": "Lock History",
     "lockedDetailLocked": "Locked CFX",
     "lockedDetailUnlockBlockNumber": "Unlock Blocknumber",
