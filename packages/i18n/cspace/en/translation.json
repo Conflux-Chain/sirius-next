@@ -2293,6 +2293,7 @@
         "withdrawable": "Withdrawable (CFX)",
         "freezing": "Deposit Freezing Period",
         "unlocking": "Unlocking",
+        "totalIncome": "Total Income",
         "poolInfo": "Pool Info",
         "poolName": "Pool Name",
         "poolContractAddress": "Pool Contract Address",
