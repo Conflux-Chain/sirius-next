@@ -2289,6 +2289,7 @@
         "withdrawable": "可提现（CFX）",
         "freezing": "存入锁定期",
         "unlocking": "解锁中",
+        "totalIncome": "总收益",
         "poolInfo": "矿池信息",
         "poolName": "矿池名称",
         "poolContractAddress": "矿池合约地址",
