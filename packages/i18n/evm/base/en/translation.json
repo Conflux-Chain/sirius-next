@@ -697,8 +697,8 @@
     "accountGrowth": {
       "title": "Account Growth",
       "subtitle": "The number of new accounts added per day on the Conflux network.",
-      "yAxisTitle": "Total New Accounts",
-      "seriesName": "Total New Accounts (Day)"
+      "yAxisTitle": "# of New Accounts",
+      "seriesName": "# of New Accounts (Day)"
     },
     "activeAccounts": {
       "title": "Active Accounts",
