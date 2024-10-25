@@ -18,12 +18,36 @@ import {
   onCombination,
   ConstructorType,
 } from './config';
+import { useTranslation } from 'react-i18next';
+import { localeData, tooltipData, xAxisData } from './constants';
 
 Exporting(Highcharts);
 ExportData(Highcharts);
 
+const useHighcharts = (chart?: any) => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language.includes('zh') ? 'zh' : 'en';
+
+  useEffect(() => {
+    Highcharts.setOptions({
+      lang: localeData[lang],
+      tooltip: tooltipData[lang],
+      xAxis: xAxisData[lang],
+    });
+    const c = chart.current?.chart;
+    if (c) {
+      c.options.lang = {
+        ...chart.current.chart.options.lang,
+        ...localeData[lang],
+      };
+    }
+  }, [lang, chart]);
+
+  return { lang };
+};
+
 export function StockChartTemplate({ options, request }: ChartsProps) {
-  const chart = useRef(null);
+  const chart = useRef<HighchartsReact.RefObject>(null);
   const [limit, setLimit] = useState(request?.query?.limit || defaultLimit);
   const [intervalType, setIntervalType] = useState<keyof ScopeType>(
     (request?.query?.intervalType as keyof ScopeType) || defaultIntervalType,
@@ -48,6 +72,8 @@ export function StockChartTemplate({ options, request }: ChartsProps) {
     },
   );
 
+  useHighcharts(chart);
+
   const handleCombination: onCombination = (type, limit) => {
     // @ts-ignore
     // chart.current?.chart.xAxis[0].setExtremes(null, null);
@@ -58,10 +84,8 @@ export function StockChartTemplate({ options, request }: ChartsProps) {
 
   useEffect(() => {
     if (isLoading) {
-      // @ts-ignore
       chart.current?.chart.showLoading();
     } else {
-      // @ts-ignore
       chart.current?.chart.hideLoading();
     }
   }, [isLoading]);
