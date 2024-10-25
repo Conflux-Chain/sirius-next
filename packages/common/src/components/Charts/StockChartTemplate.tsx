@@ -18,33 +18,10 @@ import {
   onCombination,
   ConstructorType,
 } from './config';
-import { useTranslation } from 'react-i18next';
-import { localeData, tooltipData, xAxisData } from './constants';
+import { useHighCharts } from './useHighCharts';
 
 Exporting(Highcharts);
 ExportData(Highcharts);
-
-const useHighcharts = (chart?: any) => {
-  const { i18n } = useTranslation();
-  const lang = i18n.language.includes('zh') ? 'zh' : 'en';
-
-  useEffect(() => {
-    Highcharts.setOptions({
-      lang: localeData[lang],
-      tooltip: tooltipData[lang],
-      xAxis: xAxisData[lang],
-    });
-    const c = chart.current?.chart;
-    if (c) {
-      c.options.lang = {
-        ...chart.current.chart.options.lang,
-        ...localeData[lang],
-      };
-    }
-  }, [lang, chart]);
-
-  return { lang };
-};
 
 export function StockChartTemplate({ options, request }: ChartsProps) {
   const chart = useRef<HighchartsReact.RefObject>(null);
@@ -72,7 +49,7 @@ export function StockChartTemplate({ options, request }: ChartsProps) {
     },
   );
 
-  useHighcharts(chart);
+  useHighCharts(chart);
 
   const handleCombination: onCombination = (type, limit) => {
     // @ts-ignore
