@@ -13,6 +13,7 @@ import {
   defaultIntervalType,
   ConstructorType,
 } from './config';
+import { useHighCharts } from './useHighCharts';
 
 export function PreviewChartTemplate({ options, request }: ChartsProps) {
   const chart = useRef(null);
@@ -37,6 +38,8 @@ export function PreviewChartTemplate({ options, request }: ChartsProps) {
       revalidateOnFocus: false,
     },
   );
+
+  useHighCharts(chart);
 
   useEffect(() => {
     if (isLoading) {
