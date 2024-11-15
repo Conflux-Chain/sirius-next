@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@cfx-kit/dapp-utils": "^0.2.3",
-    "@cfx-kit/react-utils": "^0.0.29",
+    "@cfx-kit/react-utils": "^0.0.45",
     "@cfx-kit/ui-components": "^0.0.17",
     "@radix-ui/react-select": "^2.0.0",
     "@testing-library/react": "^15.0.5",
