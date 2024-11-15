@@ -15,7 +15,9 @@ type NormalTypes =
 type TextProps = {
   children?: React.ReactNode;
   maxWidth?: string;
+  mobileMaxWidth?: string;
   maxCount?: number;
+  mobileMaxCount?: number;
   hoverValue?: React.ReactNode;
   hoverValueMaxCount?: number;
   tag?: 'p' | 'span';
@@ -46,8 +48,10 @@ export const Text = React.memo(
   ({
     className,
     children,
-    maxWidth,
-    maxCount,
+    maxWidth: _maxWidth,
+    mobileMaxWidth = _maxWidth,
+    maxCount: _maxCount,
+    mobileMaxCount = _maxCount,
     hoverValue,
     hoverValueMaxCount: outerHoverValueMaxCount,
     tag = 'p',
@@ -58,7 +62,14 @@ export const Text = React.memo(
     const Component = tag;
     const bp = useBreakpoint();
     let child: React.ReactNode = children;
-    if (maxWidth === undefined && maxCount && typeof children === 'string') {
+    const maxCount = bp === 's' ? mobileMaxCount : _maxCount;
+    const maxWidth = bp === 's' ? mobileMaxWidth : _maxWidth;
+    if (
+      maxWidth === undefined &&
+      maxCount &&
+      typeof children === 'string' &&
+      children.length > maxCount
+    ) {
       child = String.prototype.substr.call(children, 0, maxCount) + '...';
     }
 
