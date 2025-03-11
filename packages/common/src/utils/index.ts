@@ -42,7 +42,7 @@ export const getEllipsStr = (str: string, frontNum: number, endNum: number) => {
   return '';
 };
 
-export const tranferToLowerCase = (str: string) => {
+export const transferToLowerCase = (str: string) => {
   return str ? str.toLowerCase() : '';
 };
 
