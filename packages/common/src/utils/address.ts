@@ -314,7 +314,7 @@ export const isAddressEqual = (
   options?: Parameters<typeof _isAddressEqual>[2],
 ) => {
   try {
-    if (!a || !b) return a === b;
+    if (!a || !b) return false;
     return _isAddressEqual(a, b, options);
   } catch (error) {
     console.error('Failed to check:', error);
