@@ -112,9 +112,17 @@ describe('isEvmAddress', () => {
     const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
     expect(isEvmAddress(address)).toBe(true);
   });
+  test('returns false for mainnet address without base32', () => {
+    const address = 'cfx:aan3c22hwy6cg4y0ez1uah6szt3r34884a8ae0v137';
+    expect(isEvmAddress(address, false)).toBe(false);
+  });
   test('returns true for testnet address', () => {
     const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
     expect(isEvmAddress(address)).toBe(true);
+  });
+  test('returns false for testnet address without base32', () => {
+    const address = 'cfxtest:aan3c22hwy6cg4y0ez1uah6szt3r34884ayn1g1771';
+    expect(isEvmAddress(address, false)).toBe(false);
   });
 
   test('returns false for other string', () => {

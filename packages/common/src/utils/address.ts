@@ -83,12 +83,12 @@ export const isCoreOtherNetAddress = addressHandlerWrapper(
 
 // evm
 export const isEvmAddress = addressHandlerWrapper(
-  (address: LooseAddressType): boolean => {
+  (address: LooseAddressType, includeBase32 = true): boolean => {
     if (!address) return false;
     return (
       isHexAddress(address) ||
       isSimplyZeroAddress(address) ||
-      _isBase32Address(address)
+      (includeBase32 && _isBase32Address(address))
     );
   },
 );
@@ -314,6 +314,7 @@ export const isAddressEqual = (
   options?: Parameters<typeof _isAddressEqual>[2],
 ) => {
   try {
+    if (!a || !b) return false;
     return _isAddressEqual(a, b, options);
   } catch (error) {
     console.error('Failed to check:', error);
