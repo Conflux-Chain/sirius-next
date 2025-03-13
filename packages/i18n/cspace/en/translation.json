@@ -1762,16 +1762,36 @@
   },
   "blocknumberCalc": {
     "title": "Blocknumber Calculator",
-    "placeholder": "Please enter target blocknumber",
-    "higherError": "Please enter a higher blocknumber ",
+    "subtitle": "The estimated countdown can be calculated using the epoch height, PoW blocks, or PoS blocks.",
+    "epoch": {
+      "tab": "Epoch Height",
+      "current": "Current epoch height",
+      "remaining": "Remaining epoch height",
+      "tooltip": "Epoch Height: By calculating the average time interval of the past 100,000 epochs and multiplying it by the height of the remaining epochs."
+    },
+    "pow": {
+      "tab": "PoW Blocks",
+      "current": "Current Blocknumber",
+      "remaining": "Remaining Blocknumber",
+      "tooltip": "PoW Blocks: Utilizing the past 100,000 epochs, calculate the average time interval of blocks during this period and multiply it by the height of the remaining blocks."
+    },
+    "pos": {
+      "tab": "PoS Blocks",
+      "current": "Current Blocknumber",
+      "remaining": "Remaining Blocknumber",
+      "tooltip": "PoS Blocks: By calculating the average time interval of the past 3,000 blocks and multiplying it by the height of the remaining blocks."
+    },
+    "countdown": "Estimated Countdown",
+    "placeholder": "Please enter the target value",
+    "higherError": "Please enter a higher value",
     "calcBtn": "Calculate",
     "currentBlocknumber": "Current Blocknumber",
     "remainingBlocks": "Remaining Blocks",
-    "targetDate": "Estimated Target Date",
-    "day": "Day",
-    "hour": "Hour",
-    "min": "Min",
-    "sec": "Sec"
+    "targetDate": "Estimated target date",
+    "day": "DAYS",
+    "hour": "HOURS",
+    "min": "MINUTES",
+    "sec": "SECONDS"
   },
   "notice": {
     "mainnet": [

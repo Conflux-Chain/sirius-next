@@ -1758,8 +1758,28 @@
   },
   "blocknumberCalc": {
     "title": "区块计算器",
-    "placeholder": "请输入目标区块号",
-    "higherError": "请输入一个较大的区块号",
+    "subtitle": "使用纪元高度、PoW 区块或 PoS 区块计算预估倒计时。",
+    "epoch": {
+      "tab": "纪元高度",
+      "current": "当前纪元高度",
+      "remaining": "剩余纪元高度",
+      "tooltip": "纪元高度：通过计算过去100,000个纪元的平均时间间隔，并将其与剩余纪元相乘。"
+    },
+    "pow": {
+      "tab": "PoW 区块",
+      "current": "当前区块",
+      "remaining": "剩余区块",
+      "tooltip": "PoW 区块：使用过去100,000个纪元，通过计算这段时间内区块的平均时间间隔，并将其与剩余区块数相乘。"
+    },
+    "pos": {
+      "tab": "PoS 区块",
+      "current": "当前区块",
+      "remaining": "剩余区块",
+      "tooltip": "PoS 区块：通过计算过去3,000个区块的平均时间间隔，并将其与剩余区块数相乘。"
+    },
+    "countdown": "预估倒计时",
+    "placeholder": "请输入目标值",
+    "higherError": "请输入一个更大的值",
     "calcBtn": "计算",
     "currentBlocknumber": "当前区块号",
     "remainingBlocks": "剩余区块",
