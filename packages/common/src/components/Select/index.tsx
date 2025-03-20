@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import {
   Select as RadixUISelect,
   SelectContent,
@@ -18,7 +18,7 @@ interface SelectProps {
   onChange: (value: string) => void;
   width?: string | number;
   children: React.ReactNode;
-  lable?: string;
+  label?: string;
   disabled?: boolean;
 }
 
@@ -35,7 +35,7 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
   onChange,
   width = 'auto',
   children,
-  lable = '',
+  label = '',
   ...props
 }) => {
   const [open, setOpen] = useState(false);
@@ -92,7 +92,7 @@ const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
         style={{ width }}
         {...props}
       >
-        {lable ? lable : <SelectValue>{selectedText}</SelectValue>}
+        {label ? label : <SelectValue>{selectedText}</SelectValue>}
       </SelectTrigger>
 
       <SelectContent
