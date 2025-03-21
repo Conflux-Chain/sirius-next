@@ -2,7 +2,7 @@ import * as RadioGroup from '@radix-ui/react-radio-group';
 import { cn } from '../../utils';
 
 interface RadioOption<T> {
-  label: string;
+  label: React.ReactNode;
   value: T;
 }
 
@@ -16,7 +16,7 @@ interface RadioProps<T extends string> {
 
 interface RadioItemProps<T extends string> {
   value: T;
-  label: string;
+  label: React.ReactNode;
   className?: string;
 }
 

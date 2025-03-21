@@ -50,10 +50,11 @@ export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
         {t(translations.general.downloadCSV.csvFile)}
       </Link>
       <Modal
-        open={recaptchaVisible}
-        onClose={handleRecaptchaModalClose}
+        visible={recaptchaVisible}
+        onCancel={handleRecaptchaModalClose}
         closable
         width={'26.0714rem'}
+        footer={null}
       >
         <ReCAPTCHA
           sitekey="6LeSnTofAAAAAML11Df2KzLagoDb59fhVWb8ENSc"
