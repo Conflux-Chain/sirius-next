@@ -627,7 +627,7 @@
     "oldest": "最旧"
   },
   "highcharts": {
-    "subtitle": "资源：ConfluxScan.io<br/>点击并拖动绘图区域以放大图表",
+    "subtitle": "资源：ConfluxScan.org<br/>点击并拖动绘图区域以放大图表",
     "preview": {
       "title": "图表",
       "subtitle": "Conflux 链上的图表 （点击查看详情）",
