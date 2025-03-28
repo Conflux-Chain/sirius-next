@@ -628,7 +628,7 @@
     "oldest": "Oldest"
   },
   "highcharts": {
-    "subtitle": "Source: confluxscan.io<br/>Click and drag in the plot area to zoom in",
+    "subtitle": "Source: confluxscan.org<br/>Click and drag in the plot area to zoom in",
     "preview": {
       "title": "Charts",
       "subtitle": " A collection of charts on the Conflux Chain (click on View Details for a zoomed view)",

@@ -627,7 +627,7 @@
       "active-accounts": "Active Accounts",
       "contracts": "Contracts Statistics"
     },
-    "subtitle": "Source: ConfluxScan.io<br/>Click and drag in the plot area to zoom in",
+    "subtitle": "Source: ConfluxScan.org<br/>Click and drag in the plot area to zoom in",
     "averageBlockTime": {
       "title": "Average Block Time",
       "subtitle": "The time required to generate a block.",

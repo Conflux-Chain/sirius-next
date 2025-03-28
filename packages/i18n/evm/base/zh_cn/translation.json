@@ -627,7 +627,7 @@
       "contracts": "全部合约",
       "gasUsed": "燃料用量"
     },
-    "subtitle": "资源：ConfluxScan.io<br/>点击并拖动绘图区域以放大图表",
+    "subtitle": "资源：ConfluxScan.org<br/>点击并拖动绘图区域以放大图表",
     "averageBlockTime": {
       "title": "出块间隔",
       "subtitle": "生成一个区块所需花费时间",
