@@ -56,7 +56,7 @@ export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
         width={'26.0714rem'}
       >
         <ReCAPTCHA
-          sitekey="6LeSnTofAAAAAML11Df2KzLagoDb59fhVWb8ENSc"
+          sitekey="6Lf4-wYrAAAAAEyOeqFdmh124oUt4PjJSEVNk3NK"
           onChange={onRecaptchaChange}
           hl={i18n.language.indexOf('en') > -1 ? 'en' : 'zh'}
         />
