@@ -30,7 +30,7 @@ importers:
         specifier: 6.6.0
         version: 6.6.0(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.11.30))
       turbo:
-        specifier: latest
+        specifier: ^2.4.4
         version: 2.4.4
       vitest:
         specifier: ^1.6.0

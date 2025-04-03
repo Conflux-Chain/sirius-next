@@ -19,8 +19,6 @@ export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
       const parsedUrl = new URL(outerUrl, window.location.origin);
       const query = qs.parse(parsedUrl.search, { ignoreQueryPrefix: true });
 
-      query.token = value;
-
       const newUrl = `${parsedUrl.origin}${parsedUrl.pathname}?${qs.stringify(query)}`;
 
       window.open(newUrl);
