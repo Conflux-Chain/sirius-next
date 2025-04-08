@@ -28,7 +28,7 @@ export const Footer = memo(({ rightBottom, rightTop, left }: Props) => {
             key="divider"
             className={clsx(
               'footer-bottom-divider',
-              'bg-#d1d5ea! mt-1.07rem mb-0.57rem lt-sm:mt-0.79rem lt-sm:mb-0.29rem',
+              'border-#d1d5ea! mt-1.07rem mb-0.57rem lt-sm:mt-0.79rem lt-sm:mb-0.29rem',
             )}
           />
           <div className="flex lt-sm:px-0.21rem" key="right-bottom">
