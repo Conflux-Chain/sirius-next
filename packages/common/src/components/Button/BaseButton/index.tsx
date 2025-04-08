@@ -7,22 +7,31 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
-export interface BaseButtonProps extends ComponentProps<'div'> {
+export interface BaseButtonProps {
+  htmlType?: ComponentProps<'button'>['type'];
+  className?: string;
+  children?: React.ReactNode;
   disabled?: boolean;
   loading?: boolean;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+  style?: React.CSSProperties;
 }
 
 export const BaseButton = forwardRef<unknown, BaseButtonProps>(
-  ({ children, className, loading, disabled, onClick, ...props }, ref) => {
+  (
+    { children, className, loading, disabled, onClick, htmlType, ...props },
+    ref,
+  ) => {
     const handleClick: MouseEventHandler<HTMLElement> = e => {
       if (loading || disabled) return;
-      onClick?.(e as MouseEvent<HTMLDivElement>);
+      onClick?.(e as MouseEvent<HTMLButtonElement>);
     };
     return (
-      <div
-        ref={ref as ForwardedRef<HTMLDivElement>}
+      <button
+        ref={ref as ForwardedRef<HTMLButtonElement>}
+        type={htmlType}
         className={clsx(
-          'flex-center cursor-pointer',
+          'flex-center cursor-pointer border-none',
           disabled && 'cursor-not-allowed',
           loading && 'pointer-events-none',
           className,
@@ -31,7 +40,7 @@ export const BaseButton = forwardRef<unknown, BaseButtonProps>(
         {...props}
       >
         {children}
-      </div>
+      </button>
     );
   },
 );
