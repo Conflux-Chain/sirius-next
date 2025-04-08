@@ -31,7 +31,7 @@ export const BaseButton = forwardRef<unknown, BaseButtonProps>(
         ref={ref as ForwardedRef<HTMLButtonElement>}
         type={htmlType}
         className={clsx(
-          'flex-center cursor-pointer border-none',
+          'inline-flex justify-center items-center cursor-pointer border-none',
           disabled && 'cursor-not-allowed',
           loading && 'pointer-events-none',
           className,
