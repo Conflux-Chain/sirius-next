@@ -31,7 +31,7 @@ export const BaseButton = forwardRef<unknown, BaseButtonProps>(
         ref={ref as ForwardedRef<HTMLButtonElement>}
         type={htmlType}
         className={clsx(
-          'inline-flex justify-center items-center cursor-pointer border-none',
+          'sirius-btn inline-flex justify-center items-center cursor-pointer border-none',
           disabled && 'cursor-not-allowed',
           loading && 'pointer-events-none',
           className,
