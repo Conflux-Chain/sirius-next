@@ -2,7 +2,7 @@
  * Media queries utility
  */
 import { useEffect, useState } from 'react';
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 
 /*
  * Taken from https://github.com/DefinitelyTyped/DefinitelyTyped/issues/32914
@@ -55,9 +55,9 @@ const ResponsiveObserve = {
     window.addEventListener('resize', this.listener);
     this.listener();
   },
-  listener: debounce(() => {
+  listener: throttle(() => {
     ResponsiveObserve.dispatch(window.innerWidth);
-  }, 1000),
+  }, 100),
 };
 
 ResponsiveObserve.dispatch(window.innerWidth);
@@ -74,6 +74,20 @@ export const useBreakpoint = () => {
   }, []);
 
   return breakpoint;
+};
+
+export const useWindowSize = () => {
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const token = ResponsiveObserve.subscribe(() => {
+      setWindowSize(window.innerWidth);
+    });
+
+    return () => ResponsiveObserve.unsubscribe(token);
+  }, []);
+
+  return windowSize;
 };
 
 /* Example
