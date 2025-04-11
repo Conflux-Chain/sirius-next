@@ -23,6 +23,7 @@ type TextProps = {
   tag?: 'p' | 'span';
   type?: NormalTypes;
   hideTooltip?: boolean;
+  singleLine?: boolean;
 };
 type NativeAttrs = Omit<React.HTMLAttributes<any>, keyof TextProps>;
 
@@ -57,6 +58,7 @@ export const Text = React.memo(
     tag = 'p',
     type = 'default',
     hideTooltip = false,
+    singleLine = true,
     ...props
   }: NativeAttrs & TextProps) => {
     const Component = tag;
@@ -118,8 +120,9 @@ export const Text = React.memo(
       <span key="text">
         <Component
           className={clsx(
-            'sirius-text truncate vertical-bottom',
-            'all-[a]:truncate all-[a]:vertical-bottom all-[a]:cursor-pointer all-[a:hover]:text-#0626ae',
+            'sirius-text vertical-bottom',
+            'all-[a]:vertical-bottom all-[a]:cursor-pointer all-[a:hover]:text-#0626ae',
+            singleLine && 'truncate all-[a]:truncate',
             className,
           )}
           style={{

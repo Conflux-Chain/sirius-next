@@ -5,7 +5,7 @@ import { ActionButton } from './ActionButton';
 
 type ButtonType = 'default' | 'icon' | 'action';
 
-interface ButtonProps extends BaseButtonProps {
+export interface ButtonProps extends BaseButtonProps {
   type?: ButtonType;
   color?: 'default' | 'primary';
   size?: 'default' | 'small';

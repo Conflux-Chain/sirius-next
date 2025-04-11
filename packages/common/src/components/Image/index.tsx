@@ -69,7 +69,7 @@ export const Image: React.FC<ImageProps> = ({
         <Modal
           visible={previewVisible}
           onCancel={() => setPreviewVisible(false)}
-          backdropClassName="!bg-opacity-45"
+          backdropClassName="!bg-opacity-45 z-1080"
           containerClassName="!bg-transparent shadow-none"
           contentClassName="!p-0"
           closable={false}

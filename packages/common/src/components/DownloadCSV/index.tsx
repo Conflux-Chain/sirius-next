@@ -8,6 +8,8 @@ import iconInfo from '../../images/info.svg';
 import { Tooltip } from '../Tooltip';
 import qs from 'qs';
 
+const RECAPTCHA_SITE_KEY = '6Lf4-wYrAAAAAEyOeqFdmh124oUt4PjJSEVNk3NK';
+
 export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
   const { t, i18n } = useTranslation();
   const [recaptchaVisible, setRecaptchaVisible] = useState(false);
@@ -55,7 +57,7 @@ export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
         footer={null}
       >
         <ReCAPTCHA
-          sitekey="6Lf4-wYrAAAAAEyOeqFdmh124oUt4PjJSEVNk3NK"
+          sitekey={RECAPTCHA_SITE_KEY}
           onChange={onRecaptchaChange}
           hl={i18n.language.indexOf('en') > -1 ? 'en' : 'zh'}
         />
