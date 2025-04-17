@@ -3,6 +3,7 @@ import type {
   TranslationResource,
 } from '@cfxjs/sirius-next-i18n/types';
 import { LOCALSTORAGE_KEYS_MAP } from '../utils/constants';
+import { MessageInfo } from 'src/components/Message/types';
 
 export interface EnvState<T> {
   ENV_CONFIG: T;
@@ -81,6 +82,12 @@ export interface NametagCacheStore {
 export interface GasPriceDataState {
   gasPriceData: GasPriceBundle;
   setGasPrice: (data: GasPriceBundle) => void;
+}
+
+export interface MessageStore {
+  init: boolean;
+  messages: MessageInfo[];
+  setMessages: (messages: MessageInfo[]) => void;
 }
 
 export interface GasPriceDetail {
