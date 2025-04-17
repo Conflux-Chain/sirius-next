@@ -51,7 +51,7 @@
       "error": {
         "invalid": "Invalid file",
         "fileChanged": "Invalid file, the file has been changed, please upload the unchanged file",
-        "chainIdError": "Invaild file, Chaid ID is incorrect, please use file with Chaid ID is {{chainId}}"
+        "chainIdError": "Invalid file, Chain ID is incorrect, please use file with Chain ID is {{chainId}}"
       },
       "export": {
         "button": "Export",
@@ -766,7 +766,7 @@
       },
       "finalizedInterval": {
         "title": "Finality Intervals",
-        "subtitle": "The interval between lastest state and PoS finalized.",
+        "subtitle": "The interval between latest state and PoS finalized.",
         "yAxisTitle": "Interval",
         "seriesName": "Time Interval (Secs)",
         "yAxisTitle2": "Interval",
@@ -812,8 +812,8 @@
         "seriesName": "Reward (Day)",
         "yAxisTitle2": "Per capita reward",
         "seriesName2": "Per capita reward (Day)",
-        "yAxisTitle3": "Acounts",
-        "seriesName3": "Acounts (Day)"
+        "yAxisTitle3": "Accounts",
+        "seriesName3": "Accounts (Day)"
       },
       "dailyDeposit": {
         "title": "Deposit & Withdraw",
@@ -1164,9 +1164,9 @@
     "totalHolders": "A total of {{total}} holders",
     "totalRecordLimit": "Showing the last 10k records (A total of {{total}} records)",
     "remark": "Remark:",
-    "invalidBytecode": "Invaild bytecode",
-    "invalidABI": "Invaild ABI",
-    "invalidJsonFile": "Invaild JSON file",
+    "invalidBytecode": "Invalid bytecode",
+    "invalidABI": "Invalid ABI",
+    "invalidJsonFile": "Invalid JSON file",
     "importJsonFile": "Import JSON file",
     "showLess": "Show Less",
     "viewMore": "View More",
@@ -1827,7 +1827,7 @@
       "burntFeesLabel": "This represents the part of the tx fee based on CIP-1559, CIP-137 and CIP-107 that is burnt: baseFeePerGas*gasUsed*votingParam+storageInterestBurnt",
       "timestamp": "The date and time at which a block is mined.",
       "size": "The block size is actually determined by the block's gas limit.",
-      "transactions": "The amout of transactions which belong to the block.",
+      "transactions": "The amount of transactions which belong to the block.",
       "referenceBlocks": "The other blocks referred by the current block.",
       "powBaseBlockReward": "PoW Base Block Reward: {{amount}}",
       "transactionFees": "Transaction Fees: {{amount}}",
@@ -1872,8 +1872,8 @@
       }
     },
     "address": {
-      "balance": "The amout of assets which belong to the address.",
-      "token": "The amout of tokens which belong to the address.",
+      "balance": "The amount of assets which belong to the address.",
+      "token": "The amount of tokens which belong to the address.",
       "storageCollateral": "The amount of storage used by the current address, the unit is the KB.",
       "nonce": "Sequential running number for an address, beginning with 0 for the first transaction. For example, if the nonce of a transaction is 10, it would be the 11th transaction sent from the sender's address.",
       "stakedBegin": "Total CFX staked. Access ",
@@ -2409,7 +2409,7 @@
         "number": "Txn Number",
         "blockHash": "Block Hash",
         "blockNumber": "Block Number",
-        "payload": "Playload"
+        "payload": "Payload"
       }
     },
     "committees": {
