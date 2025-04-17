@@ -9,7 +9,9 @@ import {
   NametagCacheStore,
   GasPriceDataState,
   GasPriceBundle,
+  MessageStore,
 } from './types';
+import { MessageInfo } from 'src/components/Message/types';
 
 export const useEnv = create<EnvState<any>>(set => ({
   ENV_CONFIG: {},
@@ -88,3 +90,23 @@ export const useGasPrice = create<GasPriceDataState>(set => ({
 
 export const getEnvConfig = () => useEnv.getState().ENV_CONFIG;
 export const getTranslations = () => useI18n.getState().translations;
+
+export const useMessageStore = create<MessageStore>(set => ({
+  init: false,
+  messages: [],
+  setMessages: (messages: MessageInfo[]) => set({ messages, init: true }),
+}));
+
+export const addMessage = (message: MessageInfo) => {
+  useMessageStore
+    .getState()
+    .setMessages([...useMessageStore.getState().messages, message]);
+};
+
+export const removeMessage = (id: string) => {
+  useMessageStore
+    .getState()
+    .setMessages(useMessageStore.getState().messages.filter(m => m.id !== id));
+};
+
+export const getMessageInit = () => useMessageStore.getState().init;
