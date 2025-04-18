@@ -14,7 +14,13 @@ export default defineConfig({
     [
       /^bg-gradient-(?:repeating-)?linear-(.+)$/,
       ([, s]) => ({
-        'background-image': `linear-gradient${handler.bracket(s)}`,
+        'background-image': `linear-gradient${handler.bracket(s || '')}`,
+      }),
+    ],
+    [
+      /^text-transform-(.+)$/,
+      ([, s]) => ({
+        'text-transform': s,
       }),
     ],
   ],
