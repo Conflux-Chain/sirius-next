@@ -45,5 +45,6 @@ export default defineConfig({
     '@cfx-kit/ui-components',
     '@radix-ui/react-select',
     '@radix-ui/react-radio-group',
+    '@radix-ui/react-dropdown-menu',
   ],
 });
