@@ -23,6 +23,12 @@ export default defineConfig({
         'text-transform': s,
       }),
     ],
+    [
+      /^wb-(.+)$/,
+      ([, s]) => ({
+        'word-break': s,
+      }),
+    ],
   ],
   shortcuts: {
     'bg-linear-blue':

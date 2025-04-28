@@ -1,6 +1,6 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import clsx from 'clsx';
-import { ComponentProps } from 'react';
+import React, { ComponentProps } from 'react';
 
 export const DropdownMenu: React.FC<{
   children: React.ReactNode;
@@ -19,8 +19,9 @@ export const DropdownMenu: React.FC<{
 
 export const MenuItem: React.FC<
   ComponentProps<typeof DropdownMenuPrimitive.Item>
-> = ({ className, ...props }) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
+    ref={ref}
     className={clsx(
       'sirius-dropdown-menu-item',
       'data-[highlighted]:outline-0 hover-bg-#f5f5f5',
@@ -30,12 +31,13 @@ export const MenuItem: React.FC<
     )}
     {...props}
   />
-);
+));
 
 export const MenuContainer: React.FC<
   ComponentProps<typeof DropdownMenuPrimitive.Content>
-> = ({ className, ...props }) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Content
+    ref={ref}
     sideOffset={5}
     className={clsx(
       'sirius-dropdown-menu-group',
@@ -44,4 +46,4 @@ export const MenuContainer: React.FC<
     )}
     {...props}
   />
-);
+));
