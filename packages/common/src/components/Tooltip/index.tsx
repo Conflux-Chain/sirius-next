@@ -49,14 +49,18 @@ export const Tooltip: React.FC<TooltipProps> = ({
           <span
             ref={triggerRef}
             {...(title ? triggerProps : {})}
-            className={cn(className, triggerProps.className)}
+            className={cn(
+              'sirius-tooltip-trigger',
+              className,
+              triggerProps.className,
+            )}
           >
             {children}
           </span>
         );
       }}
       containerClassName={clsx(
-        'sirius-next-tooltip',
+        'sirius-tooltip-container',
         'lh-normal max-w-250px z-1000 w-max min-w-unset! text-transform-none',
         'all-[a]:text-[var(--theme-color-blue0)] all-[a:hover]:text-[var(--theme-color-blue2)]',
         '[&.ui-tooltip>[data-part=arrow]]:[--arrow-size:6px] [&.ui-tooltip>[data-part=arrow]]:[--arrow-background:#333]',
@@ -77,7 +81,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         };
         return (
           <div
-            className="px-8px py-6px text-12px text-#fff text-left shadow break-words ws-normal bg-#333 min-w-30px min-h-32px decoration-none rounded-2px"
+            className="sirius-tooltip-content px-8px py-6px text-12px text-#fff text-left shadow break-words ws-normal bg-#333 min-w-30px min-h-32px decoration-none rounded-2px"
             ref={_ref =>
               _ref
                 ? (triggerContentRef.current = _ref.parentElement)

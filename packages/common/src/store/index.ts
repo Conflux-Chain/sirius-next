@@ -10,8 +10,10 @@ import {
   GasPriceDataState,
   GasPriceBundle,
   MessageStore,
+  NotificationStore,
 } from './types';
 import { MessageInfo } from 'src/components/Message/types';
+import { NotificationInfo } from 'src/components/Notification';
 
 export const useEnv = create<EnvState<any>>(set => ({
   ENV_CONFIG: {},
@@ -110,3 +112,29 @@ export const removeMessage = (id: string) => {
 };
 
 export const getMessageInit = () => useMessageStore.getState().init;
+
+export const useNotificationStore = create<NotificationStore>(set => ({
+  init: false,
+  notifications: [],
+  setNotifications: (notifications: NotificationInfo[]) =>
+    set({ notifications, init: true }),
+}));
+
+export const addNotification = (notification: NotificationInfo) => {
+  useNotificationStore
+    .getState()
+    .setNotifications([
+      ...useNotificationStore.getState().notifications,
+      notification,
+    ]);
+};
+
+export const removeNotification = (id: string) => {
+  useNotificationStore
+    .getState()
+    .setNotifications(
+      useNotificationStore.getState().notifications.filter(n => n.id !== id),
+    );
+};
+
+export const getNotificationInit = () => useNotificationStore.getState().init;

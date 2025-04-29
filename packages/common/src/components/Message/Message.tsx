@@ -109,6 +109,7 @@ const MessageItem = ({
 
 export const Message: React.FC = () => {
   const { messages } = useMessageStore();
+  if (!messages || messages.length === 0) return null;
   return ReactDOM.createPortal(
     <div>
       <div className="m-0 p-0 fixed top-8px left-0 z-1010 w-full pointer-events-none text-14px text-[rgba(0,0,0,0.85)] lh-[1.5715]">

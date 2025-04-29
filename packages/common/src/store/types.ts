@@ -4,7 +4,7 @@ import type {
 } from '@cfxjs/sirius-next-i18n/types';
 import { LOCALSTORAGE_KEYS_MAP } from '../utils/constants';
 import { MessageInfo } from 'src/components/Message/types';
-
+import { NotificationInfo } from 'src/components/Notification/types';
 export interface EnvState<T> {
   ENV_CONFIG: T;
   SET_ENV_CONFIG: (env: T) => void;
@@ -88,6 +88,12 @@ export interface MessageStore {
   init: boolean;
   messages: MessageInfo[];
   setMessages: (messages: MessageInfo[]) => void;
+}
+
+export interface NotificationStore {
+  init: boolean;
+  notifications: NotificationInfo[];
+  setNotifications: (notifications: NotificationInfo[]) => void;
 }
 
 export interface GasPriceDetail {
