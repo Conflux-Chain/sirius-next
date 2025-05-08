@@ -88,3 +88,21 @@ export const useGasPrice = create<GasPriceDataState>(set => ({
 
 export const getEnvConfig = () => useEnv.getState().ENV_CONFIG;
 export const getTranslations = () => useI18n.getState().translations;
+
+export const useHighlightStore = create<{
+  highlight: {
+    scope?: string;
+    value?: unknown;
+  };
+  setHighlight: (scope?: string, value?: unknown) => void;
+}>(set => ({
+  highlight: {},
+  setHighlight: (scope, value) =>
+    set(state => ({
+      highlight: {
+        ...state.highlight,
+        scope,
+        value,
+      },
+    })),
+}));
