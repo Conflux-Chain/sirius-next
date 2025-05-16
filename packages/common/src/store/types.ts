@@ -28,12 +28,14 @@ export interface NetworksType {
   url: string;
   name: string;
   id: number;
+  space: 'evm' | 'core';
+  icon?: string;
 }
 
 export interface NetworksTypeEnv {
-  mainnet: NetworksType[];
-  testnet: NetworksType[];
-  devnet: NetworksType[];
+  mainnet?: NetworksType[];
+  testnet?: NetworksType[];
+  devnet?: NetworksType[];
 }
 
 export interface ENSType {
