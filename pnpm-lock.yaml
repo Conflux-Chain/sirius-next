@@ -143,8 +143,8 @@ importers:
         specifier: ^0.0.45
         version: 0.0.45(@types/react@18.2.67)(bufferutil@4.0.8)(ethers@6.11.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.4.3)(utf-8-validate@5.0.10)
       '@cfx-kit/ui-components':
-        specifier: ^0.0.17
-        version: 0.0.17(@zag-js/accordion@0.19.1)(@zag-js/checkbox@0.19.1)(@zag-js/dialog@0.19.1)(@zag-js/pagination@0.19.1)(@zag-js/popover@0.19.1)(@zag-js/react@0.19.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@zag-js/select@0.19.1)(@zag-js/switch@0.19.1)(@zag-js/toast@0.19.1)(@zag-js/tooltip@0.19.1)(react@18.2.0)
+        specifier: ^0.0.18
+        version: 0.0.18(@zag-js/accordion@0.19.1)(@zag-js/checkbox@0.19.1)(@zag-js/dialog@0.19.1)(@zag-js/pagination@0.19.1)(@zag-js/popover@0.19.1)(@zag-js/react@0.19.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@zag-js/select@0.19.1)(@zag-js/switch@0.19.1)(@zag-js/toast@0.19.1)(@zag-js/tooltip@0.19.1)(react@18.2.0)
       '@radix-ui/react-radio-group':
         specifier: ^1.2.3
         version: 1.2.3(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -622,8 +622,8 @@ packages:
       ethers: ^6.6.4
       react: ^18.0.0
 
-  '@cfx-kit/ui-components@0.0.17':
-    resolution: {integrity: sha512-1WXoZ03c26LCDSrglhNtu+VLX0gAPM+z4koI+Z+nh3Y3JIuK+m/91V+KqwjzVDMVTv9olVVjj7foT0emdAlYSQ==}
+  '@cfx-kit/ui-components@0.0.18':
+    resolution: {integrity: sha512-NceDBoLzV71FEAIw7o40GbJ33FofTDexhDaW4WZYpa49Lw7Xu0gKd1+cFXfv5dkhibDRHiFVD2okAvRELR08YA==}
     peerDependencies:
       '@zag-js/accordion': ^0.19.1
       '@zag-js/checkbox': ^0.19.1
@@ -7044,7 +7044,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@cfx-kit/ui-components@0.0.17(@zag-js/accordion@0.19.1)(@zag-js/checkbox@0.19.1)(@zag-js/dialog@0.19.1)(@zag-js/pagination@0.19.1)(@zag-js/popover@0.19.1)(@zag-js/react@0.19.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@zag-js/select@0.19.1)(@zag-js/switch@0.19.1)(@zag-js/toast@0.19.1)(@zag-js/tooltip@0.19.1)(react@18.2.0)':
+  '@cfx-kit/ui-components@0.0.18(@zag-js/accordion@0.19.1)(@zag-js/checkbox@0.19.1)(@zag-js/dialog@0.19.1)(@zag-js/pagination@0.19.1)(@zag-js/popover@0.19.1)(@zag-js/react@0.19.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@zag-js/select@0.19.1)(@zag-js/switch@0.19.1)(@zag-js/toast@0.19.1)(@zag-js/tooltip@0.19.1)(react@18.2.0)':
     dependencies:
       '@zag-js/accordion': 0.19.1
       '@zag-js/checkbox': 0.19.1
