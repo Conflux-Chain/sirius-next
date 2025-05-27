@@ -1648,7 +1648,8 @@
       "contractAdmin": "The address which owns the contract administration authority. The admin is able to destroy the contract. (Tethys zero address: cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2; Testnet zero address: cfxtest:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa6f0vrcsw)",
       "storageSponsor": "The sponsor address which pays storage collateral for transactions interacts with such a contract. ",
       "gasFeeSponsor": "The sponsor address which pays gas fee for transactions interacts with such a contract. "
-    }
+    },
+    "phishingWarning": "Security Reminder<br />Select Address: <br /><0>address</0><br /><br />In the 100 transactions before and after, the following addresses were found to have similar shortened forms to the selected address:<br /><br /><1>addresses</1><br />Please note, shortened addresses are not necessarily identical. To avoid phishing, always verify the full address before sending transactions."
   },
   "connectWallet": {
     "button": {
