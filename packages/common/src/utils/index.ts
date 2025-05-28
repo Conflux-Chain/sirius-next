@@ -1,7 +1,5 @@
 import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
-import useSWR from 'swr';
-import qs from 'qs';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
@@ -724,85 +722,6 @@ export function transferRisk(riskStr: string) {
   return 'lv0';
 }
 
-export const appendApiPrefix = (url: string) => {
-  // for cfx top N
-  if (url.startsWith('/stat/')) {
-    return url;
-  }
-  return `/v1${url}`;
-};
-
-export const simpleGetFetcher = async (...args: any[]) => {
-  let [url, query] = args;
-  if (query) {
-    url = qs.stringify({ url, query });
-  }
-  return await fetch(appendApiPrefix(url), {
-    method: 'get',
-  });
-};
-
-export const useSWRWithGetFecher = (
-  key: string | string[] | null,
-  swrOpts = {},
-) => {
-  const isTransferReq =
-    (typeof key === 'string' && key.startsWith('/transfer')) ||
-    (Array.isArray(key) &&
-      typeof key[0] === 'string' &&
-      key[0].startsWith('/transfer'));
-
-  const { data, error, mutate }: any = useSWR(key, simpleGetFetcher, {
-    ...swrOpts,
-  });
-
-  let tokenAddress: string | string[] = '';
-
-  // deal with token info
-  if (isTransferReq && data && data.list) {
-    tokenAddress = data.list.reduce(
-      (acc: string[], trans: { address: string }) => {
-        if (trans.address && !acc.includes(trans.address))
-          acc.push(trans.address);
-        return acc;
-      },
-      [],
-    );
-  }
-
-  const { data: tokenData }: any = useSWR(
-    qs.stringify({
-      url: '/token',
-      query: { addressArray: tokenAddress, fields: 'iconUrl' },
-    }),
-    simpleGetFetcher,
-  );
-
-  if (tokenData && tokenData.list) {
-    const newTransferList = data.list.map((trans: { address: string }) => {
-      if (tokenAddress.includes(trans.address)) {
-        const tokenInfo = tokenData.list.find(
-          (t: { address: string }) => t.address === trans.address,
-        );
-        if (tokenInfo) return { ...trans, token: { ...tokenInfo } };
-      }
-
-      return trans;
-    });
-
-    return {
-      data: {
-        ...data,
-        list: newTransferList,
-      },
-      error,
-      mutate,
-    };
-  }
-
-  return { data, error, mutate };
-};
-
 export const mergeDeep = (...objects: any[]): any => {
   return objects.reduce((prev, obj) => {
     if (isObject(obj)) {
@@ -821,94 +740,6 @@ export const mergeDeep = (...objects: any[]): any => {
     }
     return prev;
   }, {});
-};
-
-type EventName = string;
-type Callback = (data: any) => void;
-
-interface Subscribers {
-  [eventName: string]: Callback[];
-}
-
-const pubSubLib = () => {
-  const subscribers: Subscribers = {};
-
-  function publish(eventName: EventName, data: any): void {
-    const eventSubscribers = subscribers[eventName];
-    if (!Array.isArray(eventSubscribers)) {
-      return;
-    }
-    eventSubscribers.forEach(callback => {
-      callback(data);
-    });
-  }
-
-  function subscribe(eventName: EventName, callback: Callback): () => void {
-    if (!Array.isArray(subscribers[eventName])) {
-      subscribers[eventName] = [];
-    }
-    const eventSubscribers = subscribers[eventName] || [];
-    eventSubscribers.push(callback);
-    const index = eventSubscribers.length - 1;
-    return () => {
-      eventSubscribers.splice(index, 1);
-    };
-  }
-
-  return {
-    publish,
-    subscribe,
-  };
-};
-
-export const pubsub = pubSubLib();
-
-interface ErrorInfoType {
-  url?: string;
-  code?: number;
-  message?: string;
-  data?: string;
-  method?: string;
-}
-
-const isNil = (value: any) => value === null || value === undefined;
-export const publishRequestError = (
-  e: (Error & ErrorInfoType) | ErrorInfoType,
-  type: 'rpc' | 'http' | 'wallet' | 'code',
-) => {
-  let detail = '';
-  if (e.code && e.message) {
-    if (type === 'code') {
-      detail = e.message;
-    } else {
-      detail = `Error Code: ${e.code} \n`;
-      if (type === 'http') {
-        const origin = window.location.origin;
-        detail += `Rest Api Url: ${
-          e.url?.includes('https://') ? e.url : origin + e.url
-        } \n`;
-      }
-      if (type === 'rpc') {
-        // detail += `RPC Url: ${RPC_SERVER} \n`;
-        if (!isNil(e.method)) {
-          detail += `Method: ${e.method} \n`;
-        }
-        if (!isNil(e.data)) {
-          detail += `Data: ${e.data} \n`;
-        }
-      }
-      detail += `Error Message: ${e.message} \n`;
-    }
-  }
-
-  pubsub.publish('notify', {
-    type: 'request',
-    option: {
-      code: type === 'rpc' ? 30001 : e.code || 20000, // code is used for title, 20000 means unknown issue
-      message: e.message,
-      detail: detail,
-    },
-  });
 };
 
 export const HIDE_IN_DOT_NET =

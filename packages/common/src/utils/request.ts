@@ -1,5 +1,6 @@
 import qs from 'qs';
-import { publishRequestError } from './index';
+import { publishRequestError } from './pubsub';
+import useSWR from 'swr';
 
 interface FetchWithAbortType<T> {
   promise: Promise<T>;
@@ -66,11 +67,11 @@ const checkResponse = function (
   // 兼容 data.code 和 data.data, 是关于 core space 的数据结构
   if (response.status === 200 && (data.status === '1' || data.code === 0)) {
     return data.result || data.data;
-  } else if (/HEAD/i.test(opts?.method)) {
+  } else if (/HEAD/i.test(opts?.method || '')) {
     // handle of HEAD method
     return response;
   } else {
-    const code = Number(data?.status);
+    const code = Number(data.status ?? data.code);
     publishRequestError({ url, code, message: data.message }, 'http');
     const error: Partial<ErrorEvent> & {
       response?: ResponseType;
@@ -93,7 +94,7 @@ const fetchWithAbort = <T>(
     timeoutId = setTimeout(() => {
       controller.abort();
       publishRequestError(
-        { url, code: 408, message: 'Request timeout' },
+        { url, code: 20002, message: 'Request timeout' },
         'http',
       );
       reject(new Error('Request timeout'));
@@ -106,9 +107,19 @@ const fetchWithAbort = <T>(
       .then((...args) => checkResponse(url, ...args, opts))
       .then(data => resolve(data as T))
       .catch(error => {
-        if (error.name === 'AbortError') {
+        if (/HEAD/i.test(opts?.method || '')) {
+          return {};
+        }
+
+        // A fetch() promise will reject with a TypeError when a network error is encountered or CORS is misconfigured on the server-side,
+        // although this usually means permission issues or similar — a 404 does not constitute a network error, for example.
+        // For detail: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+        if (error.name === 'TypeError') {
+          publishRequestError({ url, code: 20004 }, 'http');
+          reject(new Error('Network error'));
+        } else if (error.name === 'AbortError') {
           publishRequestError(
-            { url, code: 0, message: 'Fetch aborted' },
+            { url, code: 20003, message: 'Fetch aborted' },
             'http',
           );
           reject(new Error('Fetch aborted'));
@@ -140,6 +151,92 @@ export const fetch = <T>(
   return promise;
 };
 
+export const appendApiPrefix = (url: string) => {
+  // for cfx top N
+  if (url.startsWith('/stat/')) {
+    return url;
+  }
+  if (url.startsWith('http')) {
+    return url;
+  }
+  return `/v1${url.startsWith('/') ? url : '/' + url}`;
+};
+
+export const fetchWithPrefix = <T>(url: string, opts?: FetchOptions) => {
+  return fetch<T>(appendApiPrefix(url), opts);
+};
+
+export const simpleGetFetcher = async <T>(...args: any[]) => {
+  let [url, query] = args;
+  if (query) {
+    url = qs.stringify({ url, query });
+  }
+  return await fetchWithPrefix<T>(url, {
+    method: 'get',
+  });
+};
+
+export const useSWRWithGetFecher = (
+  key: string | string[] | null,
+  swrOpts = {},
+) => {
+  const isTransferReq =
+    (typeof key === 'string' && key.startsWith('/transfer')) ||
+    (Array.isArray(key) &&
+      typeof key[0] === 'string' &&
+      key[0].startsWith('/transfer'));
+
+  const { data, error, mutate }: any = useSWR(key, simpleGetFetcher, {
+    ...swrOpts,
+  });
+
+  let tokenAddress: string | string[] = '';
+
+  // deal with token info
+  if (isTransferReq && data && data.list) {
+    tokenAddress = data.list.reduce(
+      (acc: string[], trans: { address: string }) => {
+        if (trans.address && !acc.includes(trans.address))
+          acc.push(trans.address);
+        return acc;
+      },
+      [],
+    );
+  }
+
+  const { data: tokenData }: any = useSWR(
+    qs.stringify({
+      url: '/token',
+      query: { addressArray: tokenAddress, fields: 'iconUrl' },
+    }),
+    simpleGetFetcher,
+  );
+
+  if (tokenData && tokenData.list) {
+    const newTransferList = data.list.map((trans: { address: string }) => {
+      if (tokenAddress.includes(trans.address)) {
+        const tokenInfo = tokenData.list.find(
+          (t: { address: string }) => t.address === trans.address,
+        );
+        if (tokenInfo) return { ...trans, token: { ...tokenInfo } };
+      }
+
+      return trans;
+    });
+
+    return {
+      data: {
+        ...data,
+        list: newTransferList,
+      },
+      error,
+      mutate,
+    };
+  }
+
+  return { data, error, mutate };
+};
+
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
 interface QueryParams {
   [key: string]: string;
@@ -152,18 +249,6 @@ interface Config {
   headers?: Headers;
   signal?: AbortSignal;
 }
-
-interface CustomResponse {
-  code: number;
-  data: any;
-  result: any;
-  message: string;
-  status: string;
-}
-
-const compatibleResult = (res: CustomResponse) => {
-  return res.data || res.result || {};
-};
 
 const queryAddress = (address: string[]) => {
   return address.reduce((prev, curr, index) => {

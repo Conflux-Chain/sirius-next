@@ -1,4 +1,4 @@
-import { publishRequestError } from './index';
+import { publishRequestError } from './pubsub';
 
 const request = async <T>(method: string, ...args: any[]): Promise<T> => {
   const CFX = (window as any).CFX;
