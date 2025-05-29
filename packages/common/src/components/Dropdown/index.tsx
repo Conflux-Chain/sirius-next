@@ -1,4 +1,4 @@
-import qs from 'qs';
+import qs from 'query-string';
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useClickAway } from '@cfx-kit/react-utils/dist/hooks.js';
@@ -55,9 +55,7 @@ export const TableSearchDropdown = ({
   keyList = [...new Set(keyList)];
 
   useEffect(() => {
-    const query = qs.parse(location.search || '', {
-      ignoreQueryPrefix: true,
-    });
+    const query = qs.parse(location.search || '');
     const realValue2 = options.reduce((prev, curr, index) => {
       if (query[curr.key] === curr.value) {
         return index;
@@ -77,9 +75,7 @@ export const TableSearchDropdown = ({
     if (onChange) {
       onChange(option.value);
     } else {
-      let { skip, ...query } = qs.parse(location.search || '', {
-        ignoreQueryPrefix: true,
-      });
+      let { skip, ...query } = qs.parse(location.search || '');
       let queryValue = '';
 
       keyList.forEach(k => {
@@ -92,15 +88,13 @@ export const TableSearchDropdown = ({
       if (queryValue !== option.value) {
         query[option.key] = option.value;
         history.push(
-          `${location.pathname}${qs.stringify(
-            {
+          qs.stringifyUrl({
+            url: location.pathname,
+            query: {
               skip: '0',
               ...query,
             },
-            {
-              addQueryPrefix: true,
-            },
-          )}`,
+          }),
         );
       }
     }
