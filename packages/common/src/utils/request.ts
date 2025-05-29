@@ -1,4 +1,4 @@
-import qs from 'qs';
+import qs from 'query-string';
 import { publishRequestError } from './pubsub';
 import useSWR from 'swr';
 
@@ -169,14 +169,14 @@ export const fetchWithPrefix = <T>(url: string, opts?: FetchOptions) => {
 export const simpleGetFetcher = async <T>(...args: any[]) => {
   let [url, query] = args;
   if (query) {
-    url = qs.stringify({ url, query });
+    url = qs.stringifyUrl({ url, query });
   }
   return await fetchWithPrefix<T>(url, {
     method: 'get',
   });
 };
 
-export const useSWRWithGetFecher = (
+export const useSWRWithGetFetcher = (
   key: string | string[] | null,
   swrOpts = {},
 ) => {
@@ -205,10 +205,12 @@ export const useSWRWithGetFecher = (
   }
 
   const { data: tokenData }: any = useSWR(
-    qs.stringify({
-      url: '/token',
-      query: { addressArray: tokenAddress, fields: 'iconUrl' },
-    }),
+    tokenAddress
+      ? qs.stringifyUrl({
+          url: '/token',
+          query: { addressArray: tokenAddress, fields: 'iconUrl' },
+        })
+      : null,
     simpleGetFetcher,
   );
 
@@ -259,7 +261,7 @@ const queryAddress = (address: string[]) => {
 export const sendRequestChart = async (config: Config) => {
   try {
     const res: any = await fetch(
-      `${config.url}?${qs.stringify(config.query)}`,
+      qs.stringifyUrl({ url: config.url, query: config.query }),
       {
         method: config.type || 'GET',
         body: config.body,

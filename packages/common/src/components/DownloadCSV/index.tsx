@@ -6,7 +6,6 @@ import { Modal } from '../Modal';
 import ReCAPTCHA from 'react-google-recaptcha';
 import iconInfo from '../../images/info.svg';
 import { Tooltip } from '../Tooltip';
-import qs from 'qs';
 
 export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
   const { t, i18n } = useTranslation();
@@ -16,12 +15,8 @@ export const DownloadCSV = ({ url: outerUrl }: { url: string }) => {
   const handleRecaptchaModalClose = () => setRecaptchaVisible(false);
   const onRecaptchaChange = (value: string | null) => {
     if (value) {
-      const parsedUrl = new URL(outerUrl, window.location.origin);
-      const query = qs.parse(parsedUrl.search, { ignoreQueryPrefix: true });
-
-      const newUrl = `${parsedUrl.origin}${parsedUrl.pathname}?${qs.stringify(query)}`;
-
-      window.open(newUrl);
+      // download csv file
+      window.open(outerUrl);
 
       setRecaptchaVisible(false);
     }
