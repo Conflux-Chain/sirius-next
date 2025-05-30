@@ -3,9 +3,9 @@ import { Divider } from '../Divider';
 import clsx from 'clsx';
 
 interface Props {
-  rightTop: JSX.Element[];
-  rightBottom: JSX.Element[];
-  left: JSX.Element[];
+  rightTop: React.ReactNode[];
+  rightBottom: React.ReactNode[];
+  left: React.ReactNode[];
 }
 
 export const Footer = memo(({ rightBottom, rightTop, left }: Props) => {
