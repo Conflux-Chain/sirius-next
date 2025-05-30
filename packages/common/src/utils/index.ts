@@ -4,6 +4,10 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
 import { fetch } from './request';
+import { GlobalDataType, NetworkSpace, NetworksType } from 'src/store/types';
+import IconCore from '../images/core-space/icon.svg';
+import IconEvm from '../images/espace/icon.svg';
+import IconBtc from '../images/bspace/icon.svg';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -746,29 +750,37 @@ export const HIDE_IN_DOT_NET =
   /.net$/.test(window.location.host) &&
   localStorage.getItem(LOCALSTORAGE_KEYS_MAP.hideInDotNet) !== 'false';
 
-export interface NetworksType {
-  url: string;
-  name: string;
-  id: number;
-}
-
 export const getNetwork = (
-  networks: Array<NetworksType>,
+  networks: GlobalDataType['networks'],
   id: number,
-): NetworksType => {
-  const defaultNetwork = { url: '', name: '', id: 0 };
-  if (!Array.isArray(networks)) {
-    return defaultNetwork;
-  }
-  const matchs = networks.filter(n => n.id === id);
+) => {
+  const list = [
+    ...(networks.mainnet ?? []),
+    ...(networks.testnet ?? []),
+    ...(networks.devnet ?? []),
+  ];
+  const matched = list.find(n => n.id === id);
 
-  if (matchs && matchs[0]) {
-    return matchs[0];
-  } else if (networks && networks[0]) {
-    return networks[0];
+  return matched || list[0] || { url: '', name: '', id: 0 };
+};
+export const gotoNetwork = (networkUrl?: string): void => {
+  networkUrl && window.location.assign(networkUrl);
+};
+export const getNetworkIcon = ({
+  space,
+  icon,
+}: {
+  space?: NetworkSpace;
+  icon?: string;
+}) => {
+  if (icon) return icon;
+  if (space === 'core') {
+    return IconCore;
+  } else if (space === 'evm') {
+    return IconEvm;
+  } else if (space === 'btc') {
+    return IconBtc;
   }
-
-  return defaultNetwork;
 };
 
 export const coreCorrespondsToEspace = (coreId: number) => {

@@ -24,11 +24,13 @@ export interface ContractsType {
   governance?: string;
 }
 
+export type NetworkSpace = 'core' | 'evm' | 'btc';
+
 export interface NetworksType {
-  url: string;
-  name: string;
   id: number;
-  space: 'evm' | 'core';
+  name: string;
+  url?: string;
+  space?: NetworkSpace;
   icon?: string;
 }
 
@@ -47,13 +49,7 @@ export interface ENSType {
 }
 
 export interface GlobalDataType {
-  networks: any;
-  // NetworksType[] // Core
-  // { // Evm
-  //     mainnet: NetworksType[];
-  //     testnet: NetworksType[];
-  //     devnet: NetworksType[];
-  // };
+  networks: NetworksTypeEnv;
   networkId: number;
   contracts: ContractsType;
   currency?: string;
