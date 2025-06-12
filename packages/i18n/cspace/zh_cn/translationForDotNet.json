@@ -254,7 +254,7 @@
       "view": "所有授权记录包含地址持有数字资产余额是 0 的。"
     },
     "tokenid": "数字资产 ID",
-    "error": {
+    "errors": {
       "cns": "查询的 Core ID 名称未在 CNS 上注册或当前不被 Confluxscan 支持。",
       "address": "查询的地址未解析到 Core ID 名称。",
       "invalidText": "搜索的字符串内容无效。"
