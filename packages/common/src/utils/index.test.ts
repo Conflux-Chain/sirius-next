@@ -12,6 +12,7 @@ import {
   convertObjBigNumbersToStrings,
   formatLargeNumber,
   mergeDeep,
+  formatABI,
 } from './index';
 import { test, expect, describe } from 'vitest';
 
@@ -518,5 +519,100 @@ describe('mergeDeep', () => {
     const obj1 = { a: { x: 1 }, b: [1, 2] };
     const obj2 = { a: 1, b: { x: 1 } };
     expect(mergeDeep(obj1, obj2)).toEqual({ a: 1, b: { x: 1 } });
+  });
+});
+
+describe('formatABI', () => {
+  test('return full formatted abi by default', () => {
+    expect(
+      formatABI(
+        '["function transferFrom(address, address, uint256)", "event Transfer(address from, address to, uint256 value)"]',
+      ),
+    ).toEqual([
+      'function transferFrom(address, address, uint256)',
+      'event Transfer(address from, address to, uint256 value)',
+    ]);
+  });
+
+  test('should return minimal formatted abi', () => {
+    expect(
+      formatABI(
+        '["function transferFrom(address from, address to, uint256 value)", "event Transfer(address from, address to, uint256 value)"]',
+        {
+          minimal: true,
+        },
+      ),
+    ).toEqual([
+      'function transferFrom(address,address,uint256)',
+      'event Transfer(address,address,uint256)',
+    ]);
+  });
+
+  test('return json formatted abi', () => {
+    const abiString = formatABI(
+      '["function transferFrom(address from, address to, uint256 value)", "event Transfer(address from, address to, uint256 value)"]',
+      {
+        json: true,
+      },
+    );
+    const abi = JSON.parse(abiString);
+    expect(abi[0].name).toEqual('transferFrom');
+    expect(abi[0].inputs[0].name).toEqual('from');
+    expect(abi[0].inputs[1].name).toEqual('to');
+    expect(abi[0].inputs[2].name).toEqual('value');
+    expect(abi[1].name).toEqual('Transfer');
+    expect(abi[1].inputs[0].name).toEqual('from');
+    expect(abi[1].inputs[1].name).toEqual('to');
+    expect(abi[1].inputs[2].name).toEqual('value');
+  });
+
+  test('empty abi is not allowed by default', () => {
+    try {
+      formatABI('[]');
+    } catch (error: any) {
+      expect(error?.message).toBe('abi is empty');
+    }
+  });
+  test('empty abi is allowed when allowEmpty is true', () => {
+    expect(formatABI('[]', { allowEmpty: true })).toEqual([]);
+  });
+
+  test('type is not allowed when allowTypes is provided', () => {
+    try {
+      formatABI(
+        '["function transferFrom(address from, address to, uint256 value)", "event Transfer(address from, address to, uint256 value)"]',
+        {
+          allowTypes: ['function'],
+        },
+      );
+    } catch (error: any) {
+      expect(error?.message).toBe('type is not allowed');
+    }
+  });
+
+  test('type is not allowed when allowTypes is provided', () => {
+    try {
+      formatABI(
+        '["function transferFrom(address from, address to, uint256 value)", "event Transfer(address from, address to, uint256 value)"]',
+        {
+          allowTypes: ['function'],
+        },
+      );
+    } catch (error: any) {
+      expect(error?.message).toBe('type is not allowed');
+    }
+  });
+
+  test('function param name is required when nameRequired is true', () => {
+    try {
+      formatABI(
+        '["function transferFrom(address, address to, uint256 value)", "event Transfer(address from, address to, uint256 value)"]',
+        {
+          nameRequired: true,
+        },
+      );
+    } catch (error: any) {
+      expect(error?.message).toBe('name is required');
+    }
   });
 });
