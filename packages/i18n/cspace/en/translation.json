@@ -216,9 +216,7 @@
       "license": "{{license}} license",
       "compilerVersion": "Compiler Version: ",
       "runs": "{{status}} with {{count}} runs",
-      "tipLeft": "You can ",
-      "tipCenter": "verify your contract",
-      "tipRight": " now!",
+      "tip": "You can now <1>verify and publish</1> your contract's source code, or simply <3>submit function signatures</3> to improve readability.",
       "isVerifiedTip": "The contract has been verified, the source code and ABI cannot be modified"
     },
     "code": "Code",
@@ -241,8 +239,9 @@
     "errorTokenICon": "For the non-CRC20 contract, the token icon cannot be uploaded",
     "beforeContractSubmitTip": "Before submitting, you need to connect to Fluent Wallet to prove that you are the admin or creator of the contract.",
     "invalidJsonAbi": "Unable to parse the valid ABI in the JSON file, please try again.",
-    "abiNotUploaded": "ABI not uploaded",
+    "abiNotUploaded": "ABI not uploaded. You can help improve the decoding of this transaction by <1>submitting function signatures</1>.",
     "abiError": "ABI error",
+    "similarWarning": "The displayed function is based on a user-submitted signature with a similar structure and may not precisely reflect the actual contract call.",
     "readContract": "Read Contract",
     "writeContract": "Write Contract",
     "readAsProxyContract": "Read as Proxy",
@@ -339,6 +338,20 @@
       "loading": "Verifying...",
       "success": "Verification Succeed",
       "error": "Verification Failed"
+    }
+  },
+  "abiVerification": {
+    "title": "Submit Signatures",
+    "subtitle": "Visible to all users. Recommended for common functions.",
+    "description": "Submit Signatures",
+    "error": {
+      "decodeError": "ABI parsing failed. Error: {{error}}",
+      "abiEmpty": "The submitted ABI contains no function definitions and cannot be decoded.",
+      "nameRequired": "Missing parameter names. Please complete and retry.",
+      "typeNotAllowed": "Only function signatures are supported. Please review and resubmit."
+    },
+    "placeholder": {
+      "abi": "Paste one or more function signatures, including parameter names such as from, to, value. e.g. [\"function transferFrom(address from, address to, uint256 value)\"]"
     }
   },
   "contractDetail": {
@@ -476,6 +489,7 @@
     "contractSponsor": "Contract Sponsor",
     "contractDeployment": "Contract Deployment",
     "contractVerification": "Contract Verification",
+    "abiVerification": "Submit Signatures",
     "contracts": "Internal Contracts",
     "chartsAndStatistics": "Charts & Stats",
     "ecosystem": "Ecosystem",
@@ -1332,6 +1346,9 @@
         "name": "Contract Name Tag",
         "address": "Contract Address",
         "transactionCount": "Txn"
+      },
+      "tooltip": {
+        "methodWarning": "Contract not verified, function name is for reference only."
       }
     },
     "pagination": {
@@ -1869,7 +1886,8 @@
         "0": "Legacy transaction: Transactions with type 0x0 are legacy transactions that use the transaction format existing before typed transactions were introduced in CIP-2718. They contain the parameters nonce, gasPrice, gasLimit, to, value, data, v, r,and s.",
         "1": "Access list transaction: Transactions with type 0x1 are transactions introduced in CIP-2930. They contain, along with the legacy parameters, an accessList parameter, which specifies an array of addresses and storage keys that the transaction plans to access .",
         "2": "CIP-1559 transaction: Transactions with type 0x2 are transactions introduced in CIP-1559. They use an in-protocol dynamically changing base fee per gas at each pivot block, the base fee per gas is adjusted to address network congestion as measured by a gas target."
-      }
+      },
+      "getRawTxJson": "Get raw Tx JSON"
     },
     "address": {
       "balance": "The amount of assets which belong to the address.",
@@ -1964,7 +1982,8 @@
         "112": "Announce Agreement",
         "113": "Withdraw of principal {{value}} CFX",
         "114": "Transfer {{type}} NFT (Token ID: {{id}})",
-        "115": "Transfer {{type}} NFT (Token ID: {{id}}, Amount: {{amount}})"
+        "115": "Transfer {{type}} NFT (Token ID: {{id}}, Amount: {{amount}})",
+        "116": "Submit Signatures"
       }
     },
     "tip": "Please connect to Fluent Wallet first!"

@@ -23,7 +23,7 @@ const request = async <T>(method: string, ...args: any[]): Promise<T> => {
   }
 };
 
-export const getAccount = async (...args: any[]) => {
+export const getAccount = async (...args: unknown[]) => {
   try {
     return request('cfx_getAccount', ...args);
   } catch (e) {

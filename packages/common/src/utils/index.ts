@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { utils as ethersUtils } from 'ethers';
 import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
 import { fetch } from './request';
 import { GlobalDataType, NetworkSpace, NetworksType } from 'src/store/types';
@@ -982,3 +983,61 @@ export const getIncreasePercent = (
     isNegative,
   };
 };
+
+export const viewJson = async (json: object) => {
+  const jsonString = encodeURI(
+    `data:text/json;charset=utf-8,${JSON.stringify(json)}`,
+  );
+  const iframe = `<iframe width='100%' height='100%' style='border: none;' src='${jsonString}'></iframe>`;
+  const newWindow = window.open(jsonString);
+  if (newWindow) {
+    newWindow.document.open();
+    newWindow.document.write(iframe);
+    newWindow.document.close();
+  }
+};
+
+type FragmentType = 'function' | 'event' | 'constructor' | 'error';
+interface FormatABIOptions {
+  allowEmpty?: boolean;
+  nameRequired?: boolean;
+  minimal?: boolean;
+  json?: boolean;
+  allowTypes?: FragmentType[];
+}
+export function formatABI(
+  _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
+  options: FormatABIOptions & { json: true },
+): string;
+export function formatABI(
+  _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
+  options?: FormatABIOptions,
+): string[];
+export function formatABI(
+  _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
+  {
+    allowEmpty = false,
+    nameRequired = false,
+    minimal = false,
+    json = false,
+    allowTypes = [],
+  }: FormatABIOptions = {},
+) {
+  // try to parse abi
+  const iface = new ethersUtils.Interface(_abi);
+  // if abi is empty and allowEmpty is false, throw error
+  if (!allowEmpty && iface.fragments.length === 0)
+    throw new Error('abi is empty');
+  if (
+    allowTypes.length > 0 &&
+    iface.fragments.some(f => !allowTypes.includes(f.type as FragmentType))
+  ) {
+    throw new Error('type is not allowed');
+  }
+  if (nameRequired && iface.fragments.some(f => f.inputs.some(i => !i.name))) {
+    throw new Error('name is required');
+  }
+  return json
+    ? iface.format('json')
+    : iface.format(minimal ? 'minimal' : 'full');
+}
