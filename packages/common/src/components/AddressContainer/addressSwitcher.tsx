@@ -61,7 +61,7 @@ export const CoreHexAddress = (props: Props & WithTranslation) => {
     globalData?.networks,
     coreCorrespondsToEspace(ENV_CONFIG.ENV_NETWORK_ID),
   );
-  const url = `${window.location.protocol}${network.url}/address/${hexAddress}`;
+  const url = `${network.url}/address/${hexAddress}`;
 
   return RenderAddress({
     cfxAddress: hexAddress,
