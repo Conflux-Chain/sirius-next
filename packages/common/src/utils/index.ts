@@ -997,12 +997,13 @@ export const viewJson = async (json: object) => {
   }
 };
 
+type FragmentType = 'function' | 'event' | 'constructor' | 'error';
 interface FormatABIOptions {
   allowEmpty?: boolean;
   nameRequired?: boolean;
   minimal?: boolean;
   json?: boolean;
-  allowTypes?: ('function' | 'event' | 'constructor' | 'error')[];
+  allowTypes?: FragmentType[];
 }
 export function formatABI(
   _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
@@ -1029,7 +1030,7 @@ export function formatABI(
     throw new Error('abi is empty');
   if (
     allowTypes.length > 0 &&
-    iface.fragments.some(f => !allowTypes.includes(f.type as any))
+    iface.fragments.some(f => !allowTypes.includes(f.type as FragmentType))
   ) {
     throw new Error('type is not allowed');
   }
