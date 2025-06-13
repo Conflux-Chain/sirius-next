@@ -215,9 +215,7 @@
       "license": "{{license}} license",
       "compilerVersion": "编译版本：",
       "runs": "{{status}} with {{count}} runs",
-      "tipLeft": "立刻前往",
-      "tipCenter": "验证您的合约",
-      "tipRight": "！",
+      "tip": "立即<1>验证并发布</1>你的合约源代码，或<3>提交函数签名</3>，以提升可读性。",
       "isVerifiedTip": "该合约已验证，源码和 ABI 无法修改"
     },
     "code": "合约",
@@ -240,8 +238,9 @@
     "errorTokenICon": "非 CRC20 合约，通证图标不可上传",
     "beforeContractSubmitTip": "提交合约信息前，您需连接钱包以确认您是该合约的管理者或拥有者。",
     "invalidJsonAbi": "无法解析 JSON 文件中的有效 ABI，请重试",
-    "abiNotUploaded": "没有上传 ABI",
+    "abiNotUploaded": "未上传 ABI。你可以通过<1>提交函数签名</1>来帮助解析此交易。",
     "abiError": "ABI 错误",
+    "similarWarning": "当前显示的函数基于用户提交的相似签名生成，可能与实际合约调用不完全一致。",
     "readContract": "读取合约",
     "writeContract": "写入合约",
     "readAsProxyContract": "读取代理合约",
@@ -338,6 +337,20 @@
       "loading": "验证中",
       "success": "验证成功",
       "error": "验证失败"
+    }
+  },
+  "abiVerification": {
+    "title": "提交函数签名",
+    "subtitle": "所有用户可见，推荐用于通用函数。",
+    "description": "提交函数签名",
+    "error": {
+      "decodeError": "ABI 解析失败。错误信息：{{error}}",
+      "abiEmpty": "提交的 ABI 未包含函数定义，无法进行解码。",
+      "nameRequired": "参数名称缺失，请补全后重试",
+      "typeNotAllowed": "仅支持函数（function）类型，请检查后重新提交。"
+    },
+    "placeholder": {
+      "abi": "粘贴一个或多个函数签名，需包含参数名称，如 from、to、value。例如：[\"function transferFrom(address from, address to, uint256 value)\"]"
     }
   },
   "contractDetail": {
@@ -475,6 +488,7 @@
     "contractSponsor": "合约代付",
     "contractDeployment": "合约部署",
     "contractVerification": "合约验证",
+    "abiVerification": "提交函数签名",
     "contracts": "内置合约",
     "chartsAndStatistics": "图表&统计",
     "ecosystem": "生态",
@@ -1329,6 +1343,9 @@
         "name": "合约名称标签",
         "address": "合约地址",
         "transactionCount": "交易数"
+      },
+      "tooltip": {
+        "methodWarning": "合约未验证，函数名称仅供参考"
       }
     },
     "pagination": {
@@ -1865,7 +1882,8 @@
         "0": "传统交易: 0x0交易类型是传统交易, 使用 CIP-2718 引入类型交易之前存在的交易格式。交易包含参数: nonce、gasPrice、gasLimit、to、value、data、v、r和s。",
         "1": "访问列表交易: 类型为0x1的交易是CIP-2930引入的交易。除了传统参数外, 还包含一个访问列表参数, 该参数指定了交易计划访问的地址数组和存储键。",
         "2": "CIP-1559交易: 类型为0x2的交易是CIP-1559引入的交易。交易使用协议中在每个Pivot区块动态变化的基础Gas费用, 基础Gas费用会根据Gas目标进行调整, 以应对网络拥塞。"
-      }
+      },
+      "getRawTxJson": "获取原始交易JSON"
     },
     "address": {
       "balance": "该地址的资产余额。",
@@ -1960,7 +1978,8 @@
         "112": "通知协议",
         "113": "提取本金 {{value}} CFX",
         "114": "转移 {{type}}数字藏品（通证 ID：{{id}}）",
-        "115": "转移 {{type}}数字藏品（通证 ID：{{id}}，数量：{{amount}}）"
+        "115": "转移 {{type}}数字藏品（通证 ID：{{id}}，数量：{{amount}}）",
+        "116": "提交函数签名"
       }
     },
     "tip": "请先连接 Fluent Wallet 钱包！"
