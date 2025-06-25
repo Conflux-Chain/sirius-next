@@ -13,7 +13,7 @@ import {
   Base32Address,
   isAddressEqual as _isAddressEqual,
 } from '@cfx-kit/dapp-utils/dist/address';
-import { reqContractInfo } from './request';
+import { getContractDetail } from './request';
 
 type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
 type EvmAddressType = 'user' | 'contract';
@@ -205,7 +205,7 @@ export const getEvmAddressType = addressHandlerWrapper(
   async (address: LooseAddressType): Promise<EvmAddressType | null> => {
     if (!address) return null;
     try {
-      const contract: any = await reqContractInfo(address, [
+      const contract = await getContractDetail(address, [
         'from',
         'transactionHash',
       ]);

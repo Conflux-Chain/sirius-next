@@ -1,7 +1,7 @@
 import qs from 'query-string';
 import { publishRequestError } from './pubsub';
 import useSWR from 'swr';
-
+import { BaseContractInfo } from './request.types';
 interface FetchWithAbortType<T> {
   promise: Promise<T>;
   abort: () => void;
@@ -322,16 +322,16 @@ export const reqContractAndToken = async (address: string[]) => {
   return res?.map;
 };
 
-export const reqContractInfo = (
+export const getContractDetail = <T extends string>(
   contractAddress?: string,
-  fields: string[] = [],
+  fields: T[] = [],
 ) => {
   const url = qs.stringifyUrl({
     url: `/v1/contract/${contractAddress}`,
     query: { fields },
   });
 
-  return fetch(url, {
+  return fetch<BaseContractInfo & Record<T, unknown>>(url, {
     method: 'GET',
   });
 };
