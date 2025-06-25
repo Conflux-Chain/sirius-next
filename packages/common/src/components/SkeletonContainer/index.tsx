@@ -19,11 +19,7 @@ export const SkeletonContainer = ({
 }: Props) => {
   return (
     <>
-      {shown ? (
-        <Skeleton style={{ ...SkeletonStyle, ...style }}>{children}</Skeleton>
-      ) : (
-        children
-      )}
+      {shown ? <Skeleton style={{ ...SkeletonStyle, ...style }} /> : children}
     </>
   );
 };
