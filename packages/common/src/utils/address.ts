@@ -1,5 +1,4 @@
 import SDK from 'js-conflux-sdk';
-import { getAccount } from './rpcRequest';
 import { NETWORK_ID } from './constants';
 import {
   checksumHexAddress,
@@ -14,6 +13,7 @@ import {
   Base32Address,
   isAddressEqual as _isAddressEqual,
 } from '@cfx-kit/dapp-utils/dist/address';
+import { getContractDetail } from './request';
 
 type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
 type EvmAddressType = 'user' | 'contract';
@@ -198,16 +198,6 @@ export const isSpecialAddress = addressHandlerWrapper(
 );
 
 // evm
-export const isContractCodeHashEmpty = (codeHash: string) => {
-  return (
-    codeHash ===
-      '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470' ||
-    codeHash === '0x' ||
-    codeHash === ''
-  );
-};
-
-// evm
 /**
  * Only evm address type
  */
@@ -215,11 +205,14 @@ export const getEvmAddressType = addressHandlerWrapper(
   async (address: LooseAddressType): Promise<EvmAddressType | null> => {
     if (!address) return null;
     try {
-      const account: any = await getAccount(address);
-      if (isContractCodeHashEmpty(account.codeHash)) {
-        return 'user';
+      const contract = await getContractDetail(address, [
+        'from',
+        'transactionHash',
+      ]);
+      if (contract && contract.from && contract.transactionHash) {
+        return 'contract';
       }
-      return 'contract';
+      return 'user';
     } catch (e) {
       console.log('getEvmAddressType error: ', e);
       throw e;
