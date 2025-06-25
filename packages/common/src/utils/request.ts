@@ -321,3 +321,17 @@ export const reqContractAndToken = async (address: string[]) => {
   });
   return res?.map;
 };
+
+export const reqContractInfo = (
+  contractAddress?: string,
+  fields: string[] = [],
+) => {
+  const url = qs.stringifyUrl({
+    url: `/v1/contract/${contractAddress}`,
+    query: { fields },
+  });
+
+  return fetch(url, {
+    method: 'GET',
+  });
+};
