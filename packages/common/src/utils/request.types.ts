@@ -46,3 +46,9 @@ export interface BaseContractInfo {
     map?: Record<string, unknown>;
   };
 }
+
+export interface DetectAccountTypeResponse {
+  isContract: boolean;
+  delegatedTo: string;
+  extraMessage: string;
+}

@@ -1,7 +1,8 @@
 import qs from 'query-string';
 import { publishRequestError } from './pubsub';
 import useSWR from 'swr';
-import { BaseContractInfo } from './request.types';
+import { BaseContractInfo, DetectAccountTypeResponse } from './request.types';
+import { getEnvConfig } from '../store';
 interface FetchWithAbortType<T> {
   promise: Promise<T>;
   abort: () => void;
@@ -164,6 +165,17 @@ export const appendApiPrefix = (url: string) => {
 
 export const fetchWithPrefix = <T>(url: string, opts?: FetchOptions) => {
   return fetch<T>(appendApiPrefix(url), opts);
+};
+
+export const fetchWithOpenApi = <T>(url: string, opts?: FetchOptions) => {
+  const ENV_CONFIG = getEnvConfig();
+  if (!ENV_CONFIG.ENV_OPEN_API_HOST) {
+    throw new Error('ENV_OPEN_API_HOST is not set');
+  }
+  return fetch<T>(
+    `${ENV_CONFIG.ENV_OPEN_API_HOST}${url.startsWith('/') ? url : '/' + url}`,
+    opts,
+  );
 };
 
 export const simpleGetFetcher = async <T>(...args: any[]) => {
@@ -334,4 +346,13 @@ export const getContractDetail = <T extends string>(
   return fetch<BaseContractInfo & Record<T, unknown>>(url, {
     method: 'GET',
   });
+};
+
+export const detectAccountType = (address: string) => {
+  return fetchWithOpenApi<DetectAccountTypeResponse>(
+    `/util/detectAccountType/?hex=${address}`,
+    {
+      method: 'GET',
+    },
+  );
 };

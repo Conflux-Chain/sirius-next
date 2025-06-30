@@ -13,10 +13,10 @@ import {
   Base32Address,
   isAddressEqual as _isAddressEqual,
 } from '@cfx-kit/dapp-utils/dist/address';
-import { getContractDetail } from './request';
+import { detectAccountType } from './request';
 
 type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
-type EvmAddressType = 'user' | 'contract';
+type EvmAddressType = 'user' | 'contract' | 'eoaWithCode';
 type LooseAddressType = string | undefined | null;
 
 interface AddressCache {
@@ -141,10 +141,14 @@ export const isCoreUserAddress = addressHandlerWrapper(
 
 // evm
 export const isEvmUserAddress = addressHandlerWrapper(
-  async (address: LooseAddressType): Promise<boolean> => {
+  async (
+    address: LooseAddressType,
+    includeEOAWithCode = false,
+  ): Promise<boolean> => {
     try {
       if (isZeroAddress(address)) return true;
-      return (await getEvmAddressType(address)) === 'user';
+      const type = await getEvmAddressType(address);
+      return type === 'user' || (includeEOAWithCode && type === 'eoaWithCode');
     } catch (e) {
       return false;
     }
@@ -163,9 +167,15 @@ export const isCoreContractAddress = addressHandlerWrapper(
 
 // evm
 export const isEvmContractAddress = addressHandlerWrapper(
-  async (address: LooseAddressType): Promise<boolean> => {
+  async (
+    address: LooseAddressType,
+    includeEOAWithCode = false,
+  ): Promise<boolean> => {
     try {
-      return (await getEvmAddressType(address)) === 'contract';
+      const type = await getEvmAddressType(address);
+      return (
+        type === 'contract' || (includeEOAWithCode && type === 'eoaWithCode')
+      );
     } catch (e) {
       return false;
     }
@@ -205,12 +215,13 @@ export const getEvmAddressType = addressHandlerWrapper(
   async (address: LooseAddressType): Promise<EvmAddressType | null> => {
     if (!address) return null;
     try {
-      const contract = await getContractDetail(address, [
-        'from',
-        'transactionHash',
-      ]);
-      if (contract && contract.from && contract.transactionHash) {
+      const response = await detectAccountType(address);
+      const { isContract, delegatedTo } = response;
+      if (isContract) {
         return 'contract';
+      }
+      if (delegatedTo) {
+        return 'eoaWithCode';
       }
       return 'user';
     } catch (e) {
