@@ -49,6 +49,6 @@ export interface BaseContractInfo {
 
 export interface DetectAccountTypeResponse {
   isContract: boolean;
-  delegatedTo: string;
+  delegatedTo: `0x${string}` | '' | null;
   extraMessage: string;
 }

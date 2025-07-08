@@ -16,7 +16,7 @@ import {
 import { detectAccountType } from './request';
 
 type CoreAddressType = 'user' | 'contract' | 'builtin' | 'null' | 'unknown';
-type EvmAddressType = 'user' | 'contract' | 'eoaWithCode';
+export type EvmAddressType = 'user' | 'contract' | 'eoaWithCode';
 type LooseAddressType = string | undefined | null;
 
 interface AddressCache {
@@ -229,7 +229,20 @@ export const getEvmAddressType = addressHandlerWrapper(
       throw e;
     }
   },
-  'getEvmAddressType',
+);
+
+// evm
+export const getDelegatedAddress = addressHandlerWrapper(
+  async (address: LooseAddressType): Promise<`0x${string}` | null> => {
+    if (!address) return null;
+    try {
+      const { delegatedTo } = await detectAccountType(address);
+      return delegatedTo || null;
+    } catch (e) {
+      console.log('getDelegatedAddress error: ', e);
+      throw e;
+    }
+  },
 );
 
 interface CoreAddressInfo {

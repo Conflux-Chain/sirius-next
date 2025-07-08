@@ -38,6 +38,9 @@ const convertLink = ({
   if (typeof link === 'string') {
     return link;
   }
+  if (link === false) {
+    return false;
+  }
 
   const address = hrefAddress || cfxAddress;
 
