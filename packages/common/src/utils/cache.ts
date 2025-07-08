@@ -54,13 +54,12 @@ export const fetchWithCache = <T extends (...params: any[]) => unknown>(
     } catch (_) {
       return fetcher(...args);
     }
-    const storage = mapStorage;
-    const { cache, data } = storage.getItem(cacheKey);
+    const { cache, data } = mapStorage.getItem(cacheKey);
     if (cache) {
       return data;
     }
     const res = fetcher(...args);
-    storage.setItem(cacheKey, {
+    mapStorage.setItem(cacheKey, {
       data: res as any,
       maxAge,
       createdAt: Date.now(),

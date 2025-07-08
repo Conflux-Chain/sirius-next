@@ -371,6 +371,27 @@
     "lockedDetailUnlockTime": "预计解锁时间",
     "viewLockedDetails": "点击查看锁定历史"
   },
+  "authList": {
+    "authorizations": "委托记录",
+    "authorizationList": "授权列表",
+    "delegateTo": "委托地址",
+    "authority": "授权方",
+    "delegatedAddress": "委托地址",
+    "nonce": "随机数",
+    "valid": "是否有效",
+    "yes": "Yes",
+    "no": "No",
+    "delegatedCode": "委托代码",
+    "txSender": "交易发起方",
+    "eoaWithCode": "EOA+CODE",
+    "yParity": "yParity",
+    "r": "r",
+    "s": "s",
+    "tooltip": {
+      "delegateTo": "账户可执行代码地址",
+      "valid": "检查 EOA 账户签署的 EIP-7702 信封是否通过所有验证（签名、随机数、链 ID 等）；如果通过，账户会立即执行指定的委托合约代码。"
+    }
+  },
   "blocks": {
     "title": "区块",
     "description": "区块",

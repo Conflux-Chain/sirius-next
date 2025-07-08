@@ -3,6 +3,7 @@ import { publishRequestError } from './pubsub';
 import useSWR from 'swr';
 import { BaseContractInfo, DetectAccountTypeResponse } from './request.types';
 import { getEnvConfig } from '../store';
+import { fetchWithCache } from './cache';
 interface FetchWithAbortType<T> {
   promise: Promise<T>;
   abort: () => void;
@@ -348,11 +349,17 @@ export const getContractDetail = <T extends string>(
   });
 };
 
-export const detectAccountType = (address: string) => {
-  return fetchWithOpenApi<DetectAccountTypeResponse>(
-    `/util/detectAccountType/?hex=${address}`,
-    {
-      method: 'GET',
-    },
-  );
-};
+export const detectAccountType = fetchWithCache(
+  (address: string) => {
+    return fetchWithOpenApi<DetectAccountTypeResponse>(
+      `/util/detectAccountType?hex=${address}`,
+      {
+        method: 'GET',
+      },
+    );
+  },
+  {
+    // 10 seconds
+    maxAge: 1000 * 10,
+  },
+);

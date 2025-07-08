@@ -372,6 +372,27 @@
     "apy": "(APY 4%)",
     "viewLockedDetails": "Click to view lock history"
   },
+  "authList": {
+    "authorizations": "Authorizations",
+    "authorizationList": "Authorization List",
+    "delegateTo": "Delegate to",
+    "authority": "Authority",
+    "delegatedAddress": "Delegated Address",
+    "nonce": "Nonce",
+    "valid": "Valid",
+    "yes": "Yes",
+    "no": "No",
+    "delegatedCode": "Delegated Code",
+    "txSender": "Tx Sender",
+    "eoaWithCode": "EOA+CODE",
+    "yParity": "yParity",
+    "r": "r",
+    "s": "s",
+    "tooltip": {
+      "delegateTo": "Account’s executable code address",
+      "valid": "Indicates if the EOA’s signed EIP-7702 envelope meets all validity checks (signature, nonce, chain ID, etc.). If valid, the account instantly delegates execution to the designated delegated contract."
+    }
+  },
   "blocks": {
     "title": "Blocks",
     "description": "Blocks",
