@@ -389,7 +389,6 @@
     "r": "r",
     "s": "s",
     "tooltip": {
-      "delegationTransaction": "Delegation transaction: Transactions with type 0x4 set a delegation designator (0xef0100 + target address) in the EOA’s code field. When such an EOA receives a call, the EVM executes the bytecode at the designated target address within the context of the EOA, giving the target contract access to the EOA’s storage and balance. This transaction type enables smart contract-like behavior—such as batched transactions (e.g., ERC-20 approvals and swaps) and custom permission control—while preserving the EOA’s original address and signing key. ",
       "delegateTo": "Account’s executable code address",
       "valid": "Indicates if the EOA’s signed EIP-7702 envelope meets all validity checks (signature, nonce, chain ID, etc.). If valid, the account instantly delegates execution to the designated delegated contract."
     }
@@ -1649,7 +1648,8 @@
       "txnType": {
         "0": "Legacy transaction: Transactions with type 0x0 are legacy transactions that use the transaction format existing before typed transactions were introduced in EIP-2718. They contain the parameters nonce, gasPrice, gasLimit, to, value, data, v, r,and s.",
         "1": "Access list transaction: Transactions with type 0x1 are transactions introduced in EIP-2930. They contain, along with the legacy parameters, an accessList parameter, which specifies an array of addresses and storage keys that the transaction plans to access .",
-        "2": "EIP-1559 transaction: Transactions with type 0x2 are transactions introduced in EIP-1559. They use an in-protocol dynamically changing base fee per gas at each pivot block, the base fee per gas is adjusted to address network congestion as measured by a gas target."
+        "2": "EIP-1559 transaction: Transactions with type 0x2 are transactions introduced in EIP-1559. They use an in-protocol dynamically changing base fee per gas at each pivot block, the base fee per gas is adjusted to address network congestion as measured by a gas target.",
+        "4": "Delegation transaction: Transactions with type 0x4 set a delegation designator (0xef0100 + target address) in the EOA’s code field. When such an EOA receives a call, the EVM executes the bytecode at the designated target address within the context of the EOA, giving the target contract access to the EOA’s storage and balance. This transaction type enables smart contract-like behavior—such as batched transactions (e.g., ERC-20 approvals and swaps) and custom permission control—while preserving the EOA’s original address and signing key. "
       },
       "getRawTxJson": "Get raw Tx JSON"
     },
