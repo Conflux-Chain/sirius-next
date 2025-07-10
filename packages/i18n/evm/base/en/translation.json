@@ -389,6 +389,7 @@
     "r": "r",
     "s": "s",
     "tooltip": {
+      "delegationTransaction": "Delegation transaction: Transactions with type 0x4 set a delegation designator (0xef0100 + target address) in the EOA’s code field. When such an EOA receives a call, the EVM executes the bytecode at the designated target address within the context of the EOA, giving the target contract access to the EOA’s storage and balance. This transaction type enables smart contract-like behavior—such as batched transactions (e.g., ERC-20 approvals and swaps) and custom permission control—while preserving the EOA’s original address and signing key. ",
       "delegateTo": "Account’s executable code address",
       "valid": "Indicates if the EOA’s signed EIP-7702 envelope meets all validity checks (signature, nonce, chain ID, etc.). If valid, the account instantly delegates execution to the designated delegated contract."
     }
