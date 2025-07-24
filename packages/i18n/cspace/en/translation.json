@@ -297,12 +297,22 @@
       "third": "3. Only single-file verification is supported.",
       "fourth": "4. Constructor arguments are not supported currently."
     },
+    "vyperNotice": {
+      "first": "1. Does not support external libraries or optimization settings.",
+      "second": "2. Source code should fit inside a single .vy file."
+    },
+    "stepTitle": {
+      "step1": "Contract Details",
+      "step2": "Upload Contract Source Code"
+    },
     "upload": "Upload Contract File",
     "submit": "Submit",
     "contractAddress": "Contract Address",
     "runs": "Runs",
+    "advancedConfiguration": "Advanced Configuration",
     "contractName": "Contract Name",
-    "compiler": "Compiler",
+    "compilerType": "Compiler Type",
+    "compilerVersion": "Compiler Version",
     "optimization": "Optimization",
     "license": "License",
     "evmVersion": "EVM Version to target",
@@ -311,6 +321,11 @@
     "libraryName": "Library_{{index}} Name",
     "libraryContractAddress": "Library_{{index}} Contract Address",
     "contractSourceCode": "Contract Source Code",
+    "button": {
+      "reset": "Reset",
+      "previous": "Previous",
+      "continue": "Continue"
+    },
     "error": {
       "required": "Required",
       "min": "The minimum value is 0",

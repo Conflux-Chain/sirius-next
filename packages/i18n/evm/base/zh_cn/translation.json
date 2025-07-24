@@ -286,12 +286,22 @@
       "third": "3. 仅支持单文件验证。",
       "fourth": "4. 目前暂不支持构造函数。"
     },
+    "vyperNotice": {
+      "first": "1. 不支持外部库或优化设置。",
+      "second": "2. 源代码应包含在单个 .vy 文件中。"
+    },
+    "stepTitle": {
+      "step1": "合约信息",
+      "step2": "上传合约代码"
+    },
     "upload": "上传合约文件",
     "submit": "提交",
     "contractAddress": "合约地址",
     "runs": "运行",
+    "advancedConfiguration": "高级配置",
     "contractName": "合约名称",
-    "compiler": "编译器",
+    "compilerType": "编译器类型",
+    "compilerVersion": "编译器版本",
     "optimization": "优化",
     "license": "许可协议",
     "evmVersion": "EVM 版本",
@@ -300,6 +310,11 @@
     "libraryName": "Library_{{index}} 合约名称",
     "libraryContractAddress": "Library_{{index}} 合约地址",
     "contractSourceCode": "合约源码",
+    "button": {
+      "reset": "重置",
+      "previous": "上一步",
+      "continue": "继续"
+    },
     "error": {
       "required": "请输入",
       "min": "最小值为 0",
