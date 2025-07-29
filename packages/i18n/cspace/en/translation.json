@@ -314,7 +314,7 @@
     "compilerType": "Compiler Type",
     "compilerVersion": "Compiler Version",
     "optimization": "Optimization",
-    "license": "License",
+    "license": "License Type",
     "evmVersion": "EVM Version to target",
     "contractLibraryAddress": "Contract Library Address",
     "contractLibraryAddressTip": "(for contracts that use libraries, supports up to 10 libraries)",
