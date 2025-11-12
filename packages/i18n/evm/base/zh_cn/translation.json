@@ -1,7 +1,12 @@
 {
   "nametag": {
     "label": "公共标签",
-    "tip": "公共标签："
+    "tip": "公共标签：",
+    "labels": {
+      "tooltips": {
+        "verified": "经 Confluxscan 评估为公众关注的代币。"
+      }
+    }
   },
   "profile": {
     "title": "用户",

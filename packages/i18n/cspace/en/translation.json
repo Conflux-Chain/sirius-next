@@ -1,7 +1,12 @@
 {
   "nametag": {
     "label": "Public Name Tag",
-    "tip": "Public Name Tag: "
+    "tip": "Public Name Tag: ",
+    "labels": {
+      "tooltips": {
+        "verified": "Evaluated to be a token of public interest by Confluxscan."
+      }
+    }
   },
   "ens": {
     "label": "CNS Name",

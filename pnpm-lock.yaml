@@ -203,8 +203,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       js-conflux-sdk:
-        specifier: 2.5.0
-        version: 2.5.0
+        specifier: 2.5.1
+        version: 2.5.1
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -4548,8 +4548,8 @@ packages:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
 
-  js-conflux-sdk@2.5.0:
-    resolution: {integrity: sha512-jfUaSUqAik693heCqr20P3EkdZ98ksW4pns35SxHAyiBb4cAsTZ1VfA5DtvCn8h/HcFm9arPKCksSi3MiBdxqQ==}
+  js-conflux-sdk@2.5.1:
+    resolution: {integrity: sha512-FnQPVfF82yOsgwi0sqOel+hy7Ho9RRO0hvXPLTHi4qZHClu8mCVyr/1VBP1N/WtwBjyeZ9KnkQRykyZlzwmrzQ==}
     hasBin: true
 
   js-cookie@2.2.1:
@@ -6038,7 +6038,7 @@ packages:
   superagent@6.1.0:
     resolution: {integrity: sha512-OUDHEssirmplo3F+1HWKUrUjvnQuA+nZI6i/JJBdXb5eq9IyEQwPyPpqND+SSsxf6TygpBEkUjISVRN4/VOpeg==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -12564,7 +12564,7 @@ snapshots:
 
   joycon@3.1.1: {}
 
-  js-conflux-sdk@2.5.0:
+  js-conflux-sdk@2.5.1:
     dependencies:
       '@conflux-dev/conflux-address-js': 1.3.16
       abi-util-lite: 0.1.0
@@ -14180,7 +14180,7 @@ snapshots:
     dependencies:
       component-emitter: 1.3.1
       cookiejar: 2.1.4
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.4.1
       fast-safe-stringify: 2.1.1
       form-data: 3.0.1
       formidable: 1.2.6
