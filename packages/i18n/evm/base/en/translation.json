@@ -1,4 +1,7 @@
 {
+  "banner": {
+    "upgradeToUSDT0": "USDT on Conflux has been upgraded to native USDT0. <0>Convert now</0> or <1>bridge</1> USDT0 to multi-chain seamlessly."
+  },
   "nametag": {
     "label": "Public Name Tag",
     "tip": "Public Name Tag: ",
