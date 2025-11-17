@@ -1,4 +1,7 @@
 {
+  "banner": {
+    "upgradeToUSDT0": "Conflux 上的 USDT 已升级为原生 USDT0。您可以<0>立即转换</0>, 或将 USDT0<1>无缝跨链</1>。"
+  },
   "nametag": {
     "label": "公共标签",
     "tip": "公共标签：",
