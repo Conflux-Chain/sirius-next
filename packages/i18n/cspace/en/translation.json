@@ -1,4 +1,7 @@
 {
+  "banner": {
+    "upgradeToUSDT0": "You can <0>bridge</0> your core space USDT to espace or <1>convert</1> your eSpace USDT to native USDT0 on Conflux."
+  },
   "nametag": {
     "label": "Public Name Tag",
     "tip": "Public Name Tag: ",
