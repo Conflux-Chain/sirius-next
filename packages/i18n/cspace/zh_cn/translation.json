@@ -1,4 +1,7 @@
 {
+  "banner": {
+    "upgradeToUSDT0": "您可以将您的core space USDT <0>桥接</0>到 espace上, 或将您的 eSpace USDT <1>转换</1>为Conflux上的原生 USDT0。"
+  },
   "nametag": {
     "label": "公共标签",
     "tip": "公共标签：",
