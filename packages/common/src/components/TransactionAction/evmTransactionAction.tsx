@@ -9,7 +9,7 @@ import {
 import { EVMAddressContainer } from '../AddressContainer/EVMAddressContainer';
 import { reqNametag, reqContractAndToken } from '../../utils/request';
 import { useNametagCacheStore } from '../../store';
-import {
+import type {
   TransactionActionProps,
   AddressNameTagContainerProps,
   MultiAction,
