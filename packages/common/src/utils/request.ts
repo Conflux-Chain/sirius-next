@@ -254,7 +254,7 @@ export const useSWRWithGetFetcher = (
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
 interface QueryParams {
-  [key: string]: string;
+  [key: string]: string | undefined;
 }
 interface Config {
   url: string;

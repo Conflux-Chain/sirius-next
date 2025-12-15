@@ -17,6 +17,7 @@ import {
   ScopeType,
   onCombination,
   ConstructorType,
+  minTimestamp,
 } from './config';
 import { useHighCharts } from './useHighCharts';
 
@@ -35,11 +36,12 @@ export function StockChartTemplate({ options, request }: ChartsProps) {
       url: request.url,
       query: {
         ...request.query,
-        limit: limit || defaultLimit,
+        limit: limit === 'all' ? undefined : limit,
+        minTimestamp,
         intervalType: intervalType,
       },
     });
-  }, [request.url, request.query, intervalType, limit, defaultLimit]);
+  }, [request.url, request.query, intervalType, limit]);
 
   const { data, isLoading } = useSWR(
     request.url + intervalType + limit,
