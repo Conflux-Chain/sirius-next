@@ -12,6 +12,7 @@ import {
   defaultLimit,
   defaultIntervalType,
   ConstructorType,
+  minTimestamp,
 } from './config';
 import { useHighCharts } from './useHighCharts';
 
@@ -25,11 +26,12 @@ export function PreviewChartTemplate({ options, request }: ChartsProps) {
       url: request.url,
       query: {
         ...request.query,
-        limit,
+        limit: limit === 'all' ? undefined : limit,
+        minTimestamp,
         intervalType,
       },
     });
-  }, [request.url, request.query, intervalType]);
+  }, [request.url, request.query, intervalType, limit]);
 
   const { data, isLoading } = useSWR(
     request.url + intervalType + limit,

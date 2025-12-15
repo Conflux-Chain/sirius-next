@@ -2,6 +2,8 @@ import Highcharts from 'highcharts/highstock';
 
 export const defaultLimit: string = '365';
 export const defaultIntervalType: string = 'day';
+// both core space and espace use this timestamp to query chart data
+export const minTimestamp = '1603756800'; // 2020-10-27 00:00:00 in utc seconds
 
 export interface ChildProps {
   preview?: boolean;
@@ -11,8 +13,8 @@ export interface ChartsProps {
   request: {
     url: string;
     query?: {
-      limit: string;
-      intervalType: string;
+      limit?: string;
+      intervalType?: string;
     };
     formatter: (data: any) => any;
   };
@@ -24,7 +26,7 @@ export interface ChartsProps {
 
 export interface ScopeItemType {
   label: string;
-  limit: number;
+  limit: number | string;
 }
 
 export interface ScopeType {
@@ -112,7 +114,7 @@ export const scope: ScopeType = {
     },
     {
       label: 'All',
-      limit: 2000,
+      limit: 'all',
     },
   ],
   month: [
@@ -126,7 +128,7 @@ export const scope: ScopeType = {
     },
     {
       label: 'All',
-      limit: 2000,
+      limit: 'all',
     },
   ],
 };
