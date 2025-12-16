@@ -31,6 +31,16 @@ To build all apps and packages, run the following command:
 pnpm build
 ```
 
+### Deploy
+
+Before publish, you need to run the following command to generate the changeset files.
+
+```
+pnpm changeset add
+```
+
+then you need commit the changeset files and push to the remote repository.
+
 ## 🗂 Directory Structure
 
 | Folder      | Contents                                                              |

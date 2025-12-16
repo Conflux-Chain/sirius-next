@@ -1,9 +1,17 @@
 {
   "name": "@cfxjs/sirius-next-i18n",
-  "version": "0.1.33",
+  "version": "0.2.0",
   "files": [
     "*/**"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Conflux-Chain/sirius-next"
+  },
+  "bugs": {
+    "url": "https://github.com/Conflux-Chain/sirius-next/issues"
+  },
+  "homepage": "https://github.com/Conflux-Chain/sirius-next",
   "scripts": {
     "build": "tsc"
   },

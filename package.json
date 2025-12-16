@@ -8,12 +8,14 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "changeset:publish": "changeset publish",
     "format": "prettier --write $(git diff --cached --name-only --diff-filter=d -- '*.json' '*.js' '*.ts' '*.tsx' '*.md')",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@cfxjs/sirius-next-eslint-config": "workspace:*",
     "@cfxjs/sirius-next-typescript-config": "workspace:*",
+    "@changesets/cli": "^2.27.9",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "nodemon": "^3.1.0",
@@ -22,7 +24,7 @@
     "vitest": "^1.6.0",
     "turbo": "^2.4.4"
   },
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@9.5.0",
   "engines": {
     "node": ">=18"
   },
