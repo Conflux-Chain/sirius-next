@@ -14,6 +14,7 @@
   "devDependencies": {
     "@cfxjs/sirius-next-eslint-config": "workspace:*",
     "@cfxjs/sirius-next-typescript-config": "workspace:*",
+    "@changesets/cli": "^2.27.9",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "nodemon": "^3.1.0",
