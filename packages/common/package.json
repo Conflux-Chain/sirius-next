@@ -5,6 +5,14 @@
   "files": [
     "dist/**"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Conflux-Chain/sirius-next"
+  },
+  "bugs": {
+    "url": "https://github.com/Conflux-Chain/sirius-next/issues"
+  },
+  "homepage": "https://github.com/Conflux-Chain/sirius-next",
   "scripts": {
     "build": "pnpm build:lib && pnpm build:css",
     "build:lib": "tsup",
