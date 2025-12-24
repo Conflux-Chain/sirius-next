@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.2
+
+### Patch Changes
+
+- add similar match i18n
+
 ## 0.2.1
 
 ### Patch Changes
