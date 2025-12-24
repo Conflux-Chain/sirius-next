@@ -206,6 +206,12 @@
     "updateToken": "Update Token Info",
     "verify": {
       "contractCodeVerified": "Contract Source Code Verified",
+      "verifiedTooltip": "The contract's source code has been verified to match its on-chain Bytecode. Source code verification does not imply the contract is safe to interact with.",
+      "contractCodeSimilarMatch": "Similar Match Source Code",
+      "similarMatchTips": {
+        "first": "This contract matches the deployed Bytecode of the Source Code for Contract <1>{{address}}</1>",
+        "second": "The constructor portion of the code might be different and could alter the actual behaviour of the contract"
+      },
       "contractName": "Contract Name: ",
       "optimizationEnabled": "Optimization Enabled: ",
       "otherSettings": "Other Settings: ",
@@ -299,9 +305,25 @@
       "first": "1. Does not support external libraries or optimization settings.",
       "second": "2. Source code should fit inside a single .vy file."
     },
+    "similarMatch": {
+      "tip1": "This contract verification mechanism detects identical smart contracts deployed across Conflux Core Space and Conflux eSpace. When bytecode from both spaces matches, verified contract source code can be shared between them, reducing duplication and improving transparency within the Conflux ecosystem.",
+      "tip2": "If the contract below has bytecode identical to a contract already verified in the other space, it will automatically receive Similar Match verification once confirmed.",
+      "contractAddress": "Contract Address: ",
+      "includeTestnet": "Check this box to allow testnet be a source for similar match.",
+      "includeMainnet": "Check this box to allow mainnet be a source for similar match.",
+      "errors": {
+        "notContract": "Error! Unable to locate Contract Code at <1> {{address}} </1>.",
+        "askIsContract": "Is this a valid Contract Address ?",
+        "verifyFailed": "Error! Unable to verify source code",
+        "noSimilarMatchFound": "No similar match found."
+      },
+      "verified": "The Contract Source code for <1> {{address}} </1> has already been verified.",
+      "viewLink": "Click here to view the <1> Verified Contract Source Code</1>"
+    },
     "stepTitle": {
       "step1": "Contract Details",
-      "step2": "Upload Contract Source Code"
+      "step2": "Upload Contract Source Code",
+      "stepSimilarMatch": "Cross-Space Similar Match"
     },
     "upload": "Upload Contract File",
     "submit": "Submit",
@@ -322,7 +344,8 @@
     "button": {
       "reset": "Reset",
       "previous": "Previous",
-      "continue": "Continue"
+      "continue": "Continue",
+      "verify": "Verify"
     },
     "error": {
       "required": "Required",

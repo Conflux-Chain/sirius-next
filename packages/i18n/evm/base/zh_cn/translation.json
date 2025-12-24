@@ -205,6 +205,12 @@
     "updateToken": "更新通证信息",
     "verify": {
       "contractCodeVerified": "合约源码已验证",
+      "verifiedTooltip": "该合约的源代码已验证与链上字节码相匹配。源代码验证并不意味着该合约可以安全交互。",
+      "contractCodeSimilarMatch": "相似匹配源代码",
+      "similarMatchTips": {
+        "first": "此合约与已部署的合约 <1>{{address}}</1> 的源代码字节码相匹配",
+        "second": "代码中的构造函数部分可能不同，这可能会改变合约的实际行为"
+      },
       "contractName": "合约名：",
       "optimizationEnabled": "是否优化：",
       "otherSettings": "其他设置：",
@@ -298,9 +304,24 @@
       "first": "1. 不支持外部库或优化设置。",
       "second": "2. 源代码应包含在单个 .vy 文件中。"
     },
+    "similarMatch": {
+      "tip1": "该合约验证机制用于识别部署在 Conflux Core Space 与 Conflux eSpace 上的相同智能合约。当两个空间的字节码一致时，已验证的合约源码可在两者之间共享，从而减少重复验证工作并提升 Conflux 生态的透明度。",
+      "tip2": "如果下方合约的字节码与另一空间中已验证的合约完全一致，则在匹配确认后会自动获得相似匹配验证。",
+      "includeTestnet": "勾选以允许testnet作为Similar Match检测的来源进行验证",
+      "includeMainnet": "勾选以允许mainnet作为Similar Match检测的来源进行验证",
+      "errors": {
+        "notContract": "错误！无法在地址 <1> {{address}} </1> 找到合约代码。",
+        "askIsContract": "请检查该地址是有效的合约地址吗？",
+        "verifyFailed": "错误！无法验证合约源码。",
+        "noSimilarMatchFound": "未找到相似匹配。"
+      },
+      "verified": "合约 <1> {{address}} </1> 的源码已完成验证。",
+      "viewLink": "点击<1>此处</1>查看已验证的合约源码。"
+    },
     "stepTitle": {
       "step1": "合约信息",
-      "step2": "上传合约代码"
+      "step2": "上传合约代码",
+      "stepSimilarMatch": "跨空间相似匹配"
     },
     "upload": "上传合约文件",
     "submit": "提交",
@@ -321,7 +342,8 @@
     "button": {
       "reset": "重置",
       "previous": "上一步",
-      "continue": "继续"
+      "continue": "继续",
+      "verify": "验证"
     },
     "error": {
       "required": "请输入",
