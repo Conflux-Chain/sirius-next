@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.2
+
+### Patch Changes
+
+- optimize modal
+
 ## 0.2.1
 
 ### Patch Changes
