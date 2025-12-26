@@ -126,12 +126,6 @@ const Modal: React.FC<ModalProps> = ({
     [closeOnEsc, onClose],
   );
 
-  const handleClickOutside = useCallback(() => {
-    if (onClose && maskClosable) {
-      onClose?.();
-    }
-  }, [onClose, maskClosable]);
-
   const handleBackdropClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (maskClosable && event.target === event.currentTarget && onClose) {
@@ -153,11 +147,6 @@ const Modal: React.FC<ModalProps> = ({
     'keydown',
     handleKeyDown as (event: Event) => void,
     open && closeOnEsc,
-  );
-  useEventListener(
-    'mousedown',
-    handleClickOutside as (event: Event) => void,
-    open && maskClosable,
   );
 
   if (!open) return null;
