@@ -269,9 +269,7 @@
       "array": "请输入有效的 {{type}} 数组，用中括号包裹",
       "tuple": "请输入有效的元组（符合参数顺序和格式的 json 数组或对象）",
       "tupleArray": "请输入有效的元组（符合参数顺序和格式的 json 数组或对象）数组",
-      "notSupport": "{{type}} 即将支持，敬请期待",
-      "testnet": "请在钱包中将网络切换至 Conflux eSpace (Testnet)",
-      "mainnet": "请在钱包中将网络切换至 Conflux Hydra"
+      "notSupport": "{{type}} 即将支持，敬请期待"
     },
     "tupleFormat": "元组类型：<code>{{type}}</code><br />参数名称：<code>{{params}}</code><br />元组参数数组：<code>{{paramsArray}}</code><br />元组参数对象：<code>{{paramsObject}}</code>",
     "tupleTips": "提示：可以参考 <code>元组参数数组</code> 或 <code>元组参数对象</code> 进行元组参数输入。<br />元组输入格式应为合法并符合参数顺序和格式的 <code>JSON 数组或对象</code>，例如：元组声明为 <code>{ uint num; string str; }</code>，则元组输入格式应为：<code>[1, \"text\"]</code> 或 <code>{ \"num\": 1, \"str\": \"text\" }</code>。<br />对于嵌套的元组，输入格式应为合法并符合参数顺序和格式的 <code>嵌套的 JSON 数组或对象</code>，例如：元组声明为 <code>struct A { string name; uint age; } struct B { uint id; A a; }</code>，则元组 B 输入格式应为：<code>[1, [\"Tom\", 28]]</code> 或 <code>{ \"id\": 1, \"a\": {\"name\": \"Tom\", \"age\": 28 }}</code>。",
@@ -349,8 +347,6 @@
       "required": "请输入",
       "min": "最小值为 0",
       "isNotAddress": "地址格式错误",
-      "isNotMainnet": "请输入 Conflux Hydra 地址",
-      "isNotTestnet": "请输入 Conflux eSpace (Testnet) 地址",
       "pleaseSelect": "请选择",
       "pleaseEnter": "请输入",
       "notMatch": "生成的字节码与存储在地址上的字节代码不匹配"
@@ -561,7 +557,6 @@
     "supportCenter": "帮助中心",
     "suggestionBox": "意见箱",
     "testnet": "Conflux eSpace (Testnet)",
-    "oceanus": "Conflux Hydra",
     "searchPlaceHolder": "请输入区块高度 / 区块哈希 / 交易哈希 / 地址 / 通证 / 合约名称标签",
     "searchPlaceHolderMobile": "区块高度/区块哈希/交易哈希/地址/通证/合约名称标签",
     "addressConverter": "地址格式转换",
@@ -1566,38 +1561,6 @@
       "age": "块龄"
     }
   },
-  "addressConverter": {
-    "title": "地址格式转换",
-    "subtitle": "通过使用最新的 Checksum 规则，Conflux 的旧地址会被转换为全新的地址。",
-    "button": "转换",
-    "inputPlaceholder": "输入地址",
-    "networkId": "network id (可选)",
-    "incorrectFormat": "地址格式不正确",
-    "lowercase": "全小写地址",
-    "checksum": "旧规则地址",
-    "newMainnetAddress": "Conflux Hydra 新地址 (二者皆可)",
-    "newTestnetAddress": "Conflux 测试网新地址 (二者皆可)",
-    "newCustomnetAddress": "Conflux 自定义 network id 新地址 (二者皆可)",
-    "notice": "注意，不能用任何钱包将 CFX 直接转至 BSC 的地址，需要通过 ",
-    "noticeLinkText": "Shuttleflow",
-    "noticeend": " 完成跨链转账。",
-    "noticeLink": "https://shuttleflow.io/",
-    "remark": "说明：",
-    "tip1": "1. 新地址的最后八位为校验和，其由原始地址通过校验算法生成，让地址拥有自校验的能力。",
-    "tip2": "2. Conflux 采用了不同于 EIP55 规则的新 Checksum 校验规则。",
-    "tip3": "3. Network-id 代表该地址的网络前缀，仅用于私有部署的 Conflux 网络。关于有效网络 ID 的信息请查看 ",
-    "tip3Link": "https://github.com/Conflux-Chain/CIPs/blob/master/CIPs/cip-37.md",
-    "tip3end": "CIP-37。",
-    "tip5": "5. 为防止资产丢失，请仔细查看",
-    "tip5Link": "https://forum.conflux.fun/t/topic/6720",
-    "tip5Middle": "有关地址格式的资产转账说明",
-    "tip5end": "。",
-    "tip4": "4. 除内置合约与零地址外，其它以 0x0 开头的地址不能被转换。",
-    "errorMessage": {
-      "0x0": "该地址为非内置合约或非零地址",
-      "0x8": "该合约不存在，请谨慎操作"
-    }
-  },
   "broadcastTx": {
     "title": "广播交易",
     "subtitle": "您可以在下方输入以 0x 开头的十六进制格式的已签名原始交易（例如字符：0-9, a-f）并将其在 Conflux 网络上广播。",
@@ -1618,20 +1581,6 @@
     "hour": "小时",
     "min": "分钟",
     "sec": "秒"
-  },
-  "notice": {
-    "mainnet": [
-      "1. 当前网络为 Conflux 主网第三阶段 Conflux Hydra，Conflux-Rust 版本号：{{version}}。",
-      "2. 钱包将于 2021 年 3 月 9 日 11:00 - 13:00 (GMT+8) 之间发布 0.6.0 版本，本次 Portal 升级为全面适配 CIP-37",
-      "3. 新旧地址格式只是做了一次编码转换，原有的私钥和助记词可以正常登录 Conflux 钱包账户，不会对个人资产有任何影响。"
-    ],
-    "testnet": [
-      "1. 当前网络为 Conflux eSpace (Testnet)，Conflux-Rust 版本号：{{version}}，所有数据均为 Conflux 测试网数据。",
-      "2. 钱包将于 2021 年 3 月 9 日 11:00 - 13:00 (GMT+8) 之间发布 0.6.0 版本，本次 Portal 升级为全面适配 CIP-37",
-      "3. 新旧地址格式只是做了一次编码转换，原有的私钥和助记词可以正常登录 Conflux 钱包账户，不会对个人资产有任何影响。"
-    ],
-    "link": "https://forum.conflux.fun/t/topic/5386",
-    "testnetLink": "https://forum.conflux.fun/t/topic/5386"
   },
   "toolTip": {
     "block": {
@@ -1753,9 +1702,6 @@
       "viewOnConfluxScan": "在 ConfluxScan 上查看",
       "networkNotice": "网络说明",
       "addressNotice": "地址说明",
-      "switchToMainnet": "请在钱包中将网络切换至 Conflux Hydra。",
-      "switchToTestnet": "请在钱包中将网络切换至 Conflux eSpace (Testnet)。",
-      "switchToScanNetwork": "请在钱包中将网络切换为 {{networkID}} 的网络",
       "cannotProcess": "无法处理",
       "upgradeTipAddress": "请切换钱包到正确的网络中。"
     },
@@ -1904,9 +1850,7 @@
       "typeRequired": "请选择至少一种举报类型",
       "descriptionRequired": "请输入至少 30 个字符的描述",
       "recaptchaRequired": "请进行 reCAPTCHA 验证",
-      "txnHashInvalid": "交易哈希格式错误",
-      "isNotMainnet": "请输入 Conflux Hydra 地址",
-      "isNotTestnet": "请输入 Conflux eSpace (Testnet) 地址"
+      "txnHashInvalid": "交易哈希格式错误"
     },
     "status": {
       "success": "提交成功",

@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.3
+
+### Patch Changes
+
+- feat: update hydra to Coral
+
 ## 0.2.2
 
 ### Patch Changes
