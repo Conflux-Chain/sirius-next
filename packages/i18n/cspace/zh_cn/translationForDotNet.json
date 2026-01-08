@@ -1,75 +1,62 @@
 {
   "NFTAsset": {
-    "totalOf721": "最新的 {{amount}} 个活跃数字资产",
-    "totalOf1155": "最新的 {{amount}} 个数字资产",
-    "listLimit": "（共计 {{total}} 个数字资产）"
+    "totalOf721": "最新的 {{amount}} 个活跃数字证书",
+    "totalOf1155": "最新的 {{amount}} 个数字证书",
+    "listLimit": "（共计 {{total}} 个数字证书）"
   },
   "nftDetail": {
-    "title": "数字资产详情",
+    "title": "数字证书详情",
     "id": "ID",
     "name": "名称",
     "type": "标准",
-    "contractInfoTip": "合约部署时设置的数字资产的名称和符号",
-    "error": {
-      "id": "请输入数字资产 ID"
-    }
-  },
-  "fccfx": {
-    "titleMyNFT": "我的数字资产",
-    "tip": {
-      "myNFT": "累计质押 1000FC 即可获得专属数字资产（每个账户最多可获得1个数字资产）"
-    }
+    "contractInfoTip": "合约部署时设置的数字证书的名称和符号"
   },
   "contract": {
-    "tokenTracker": "数字资产搜索器",
-    "tokenIcon": "数字资产图标",
-    "updateToken": "更新数字资产信息",
-    "errorTokenICon": "非 CRC20 合约，数字资产图标不可上传"
+    "tokenTracker": "数字证书搜索器",
+    "tokenIcon": "数字证书图标",
+    "updateToken": "更新数字证书信息",
+    "errorTokenICon": "非 CRC20 合约，数字证书图标不可上传"
   },
   "tokens": {
-    "title": "数字资产",
-    "description": "数字资产",
-    "tipCountAfter": "个数字资产（该列表仅展示一部分数字资产，其他未展示在列表中的数字资产可以通过搜索合约地址查看）",
-    "table": {
-      "token": "数字资产"
-    }
+    "title": "数字证书",
+    "description": "数字证书",
+    "crcTip": "{{crc}} 是发布在 Conflux 网络上，采用 {{erc}} 标准的数字证书。"
   },
   "header": {
-    "approval": "数字资产授权查询",
-    "tokens": "数字资产",
+    "approval": "数字证书授权查询",
+    "tokens": "数字证书",
     "tokens20": "CRC-20 数字证书",
     "tokens721": "CRC-721 数字证书",
     "tokens1155": "CRC-1155 数字证书",
     "charts": "区块链图表",
     "posCharts": "验证者图表",
-    "nftCharts": "数字资产图表",
-    "searchPlaceHolder": "请输入纪元 / 区块哈希 / 交易哈希 / 地址 / 数字资产 / 合约名称标签",
-    "searchPlaceHolderMobile": "纪元/区块哈希/交易哈希/地址/数字资产/合约名称标签",
-    "searchPlaceHolderWithWeb3": "请输入纪元 / 区块哈希 / 交易哈希 / 地址 / 数字资产 / 合约名称标签 / .web3 用户名",
-    "searchPlaceHolderMobileWithWeb3": "纪元/区块哈希/交易哈希/地址/数字资产/合约名称标签/.web3 用户名",
-    "nftChecker": "数字资产查看器",
-    "nftDetail": "数字资产详情",
+    "nftCharts": "数字证书图表",
+    "searchPlaceHolder": "请输入纪元 / 区块哈希 / 交易哈希 / 地址 / 数字证书 / 合约名称标签",
+    "searchPlaceHolderMobile": "纪元/区块哈希/交易哈希/地址/数字证书/合约名称标签",
+    "searchPlaceHolderWithWeb3": "请输入纪元 / 区块哈希 / 交易哈希 / 地址 / 数字证书 / 合约名称标签 / .web3 用户名",
+    "searchPlaceHolderMobileWithWeb3": "纪元/区块哈希/交易哈希/地址/数字证书/合约名称标签/.web3 用户名",
+    "nftChecker": "数字证书查看器",
+    "nftDetail": "数字证书详情",
     "search": {
-      "tokens": "数字资产"
+      "tokens": "数字证书"
     },
     "pos": {
       "posNickname": "验证者",
       "pos": "验证者"
     }
   },
-  "token": {
-    "token": "数字资产",
-    "notRegistered": "该数字资产尚未被注册，",
-    "tokens": "数字资产"
-  },
   "highcharts": {
     "nft": {
       "preview": {
-        "title": "数字资产图表",
-        "subtitle": "Conflux 链上数字资产的统计图表 （点击查看详情）"
+        "title": "数字证书图表",
+        "subtitle": "Conflux 链上数字证书的统计图表 （点击查看详情）"
+      },
+      "assets": {
+        "title": "数字藏品证书",
+        "subtitle": "数字藏品证书的增长量和累计总量。"
       },
       "breadcrumb": {
-        "charts": "数字资产图表"
+        "charts": "数字证书图表"
       }
     },
     "pos": {
@@ -90,93 +77,77 @@
       },
       "breadcrumb": {
         "charts": "区块链图表",
-        "token-transfer": "每日交易-数字资产"
+        "token-transfer": "每日交易-数字证书"
       },
       "tokenTransfer": {
-        "title": "每日交易数字资产",
-        "subtitle": "Conflux 网络上全部数字资产的每日转移数据统计"
+        "title": "每日交易数字证书",
+        "subtitle": "Conflux 网络上全部数字证书的每日转移数据统计"
       },
       "activeAccounts": {
-        "subtitle": "Conflux 网络上每日 CFX 或数字资产交易的发送方或接收方的去重地址"
+        "subtitle": "Conflux 网络上每日 CFX 或数字证书交易的发送方或接收方的去重地址"
       },
       "contract": {
-        "seriesName3": "每日数字资产转移数"
+        "seriesName3": "每日数字证书转移数"
       },
       "token": {
-        "title": "数字资产分析"
+        "title": "数字证书分析"
       }
     }
   },
   "charts": {
     "tokenTransferTps": {
-      "title": "转移 TPS",
-      "description": "每秒链上的数字资产转移数量"
-    },
-    "dailyTransactionTokens": {
-      "title": "日交易 -- 数字资产",
-      "description": "Conflux 网络上全部数字资产的每日转移数据统计"
-    },
-    "tokenAnalysis": {
-      "title": "数字资产分析"
-    },
-    "contractAnalysis": {
-      "tokenTransfer": "数字资产转移"
+      "title": "转移 TPS"
     }
   },
   "general": {
     "advancedSearch": {
       "label": {
-        "tokenId": "数字资产 ID",
-        "token": "数字资产",
-        "tokenSubTitle": "（最多支持选择 3 种数字资产）"
+        "tokenId": "数字证书 ID",
+        "token": "数字证书",
+        "tokenSubTitle": "（最多支持选择 3 种数字证书）"
       },
       "placeholder": {
-        "pleaseSelect": "请输入数字资产"
+        "pleaseSelect": "请输入数字证书"
       },
       "others": {
-        "recommend": "活跃数字资产",
-        "recommendTip": "仅展示表格中记录的所有数字资产"
+        "recommend": "活跃数字证书",
+        "recommendTip": "仅展示表格中记录的所有数字证书"
       }
     },
     "tokenTypeTag": {
-      "token": "数字资产"
-    },
-    "searchInputPlaceholder": {
-      "tokenID": "数字资产 ID"
+      "token": "数字证书"
     },
     "address": {
       "more": {
-        "editToken": "更新数字资产信息",
-        "NFTChecker": "数字资产查看器"
+        "editToken": "更新数字证书信息"
       }
     },
-    "token": "数字资产",
-    "abnormalToken": "非正常数字资产，未获取到其名称和符号",
-    "tokenTxns": "数字资产交易",
+    "token": "数字证书",
+    "abnormalToken": "非正常数字证书，未获取到其名称和符号",
     "table": {
       "block": {
         "miner": "节点地址"
       },
       "token": {
-        "token": "数字资产",
-        "tokenId": "数字资产 ID",
-        "view": "查看数字资产",
-        "erc1155QuantityTip": "一个账户的 CRC-1155 数字资产数量等于其拥有的数字资产 ID 的类别总数。",
+        "token": "数字证书",
+        "tokenId": "数字证书 ID",
+        "view": "查看数字证书",
+        "erc1155QuantityTip": "一个账户的 CRC-1155 数字证书数量等于其拥有的数字证书 ID 的类别总数。",
         "projectInfo": {
-          "security": "该数字资产可能出现安全性问题，请防范风险",
-          "blackList": "该数字资产已被列入黑名单",
+          "security": "该数字证书可能出现安全性问题，请防范风险",
+          "blackList": "该数字证书已被列入黑名单",
           "modal": {
-            "security": "该数字资产可能出现安全性问题，请防范风险（详情请查看下方“附加说明”）",
-            "remarkContent1": "如果出现下列情况之一，数字资产将被列入黑名单：",
-            "remarkContent4": "- 数字资产名称和符号涉及政治、暴恐、诈骗、色情、低俗、赌博、侵权、谣言等不良关键字"
+            "security": "该数字证书可能出现安全性问题，请防范风险（详情请查看下方“附加说明”）",
+            "remarkContent1": "如果出现下列情况之一，数字证书将被列入黑名单：",
+            "remarkContent4": "- 数字证书名称和符号涉及政治、暴恐、诈骗、色情、低俗、赌博、侵权、谣言等不良关键字"
           }
         }
       }
     }
   },
   "transaction": {
-    "tokenTransferred": "数字资产转移",
-    "tokenId": "数字资产ID"
+    "tokenTransferred": "数字证书转移",
+    "tokenId": "数字证书ID"
   },
   "block": {
     "miner": "PoW 节点"
@@ -188,72 +159,59 @@
   },
   "toolTip": {
     "tx": {
-      "tokenTransferred": "交易中数字资产转让的列表。"
+      "tokenTransferred": "交易中数字证书转让的列表。"
     },
     "address": {
-      "token": "该地址持有的数字资产。",
-      "currentVotingRights": "投票权将按以下公式授予：季度数×数字资产数×0.25。"
+      "token": "该地址持有的数字证书。",
+      "currentVotingRights": "投票权将按以下公式授予：季度数×数字证书数×0.25。"
     },
     "token": {
-      "price": "数字资产价格。",
-      "totalSupply": "该数字资产的总发行量。",
-      "holders": "持有该数字资产的所有地址数量。",
-      "transfers": "该合约地址发生的数字资产交易总数",
-      "contract": "部署该数字资产的合约。",
-      "decimals": "该数字资产的小数精度位数。"
+      "price": "数字证书价格。",
+      "totalSupply": "该数字证书的总发行量。",
+      "holders": "持有该数字证书的所有地址数量。",
+      "transfers": "该合约地址发生的数字证书交易总数",
+      "contract": "部署该数字证书的合约。",
+      "decimals": "该数字证书的小数精度位数。"
     },
     "contract": {
-      "token": "该合约地址持有的数字资产。",
-      "tokenTracker": "该合约上部署的数字资产。"
+      "token": "该合约地址持有的数字证书。",
+      "tokenTracker": "该合约上部署的数字证书。"
     }
   },
   "connectWallet": {
     "notify": {
       "action": {
-        "114": "转移 {{type}}数字资产（数字资产 ID：{{id}}）",
-        "115": "转移 {{type}}数字资产（数字资产 ID：{{id}}，数量：{{amount}}）"
+        "114": "转移 {{type}}数字证书（数字证书 ID：{{id}}）",
+        "115": "转移 {{type}}数字证书（数字证书 ID：{{id}}，数量：{{amount}}）"
       }
     }
   },
   "statistics": {
-    "tokens": "数字资产",
+    "tokens": "数字证书",
     "miners": "PoW 节点",
-    "overviewTokens": "数字资产",
-    "topTokensBySenders": "最佳数字资产--发送账户数",
-    "topTokensByReceivers": "最佳数字资产--接收账户数",
-    "topTokensByTxnCount": "最佳数字资产--交易数",
-    "topTokensByTxnAccountsCount": "最佳数字资产--交易账户数",
-    "topMinersByBlocksMined": "最佳 PoW 节点--挖出区块",
     "overviewColumns": {
-      "totalTokenSent": "数字资产发送总数",
-      "totalTokenReceived": "数字资产接收总数",
-      "totalTokenTransfersCount": "数字资产交易总数",
-      "totalTokenTransfersAccountsCount": "数字资产交易账户总数"
+      "totalTokenTransfersCount": "数字证书交易总数",
+      "totalTokenTransfersAccountsCount": "数字证书交易账户总数"
     },
     "column": {
-      "token": "数字资产"
+      "token": "数字证书"
     }
   },
-  "swap": {
-    "selectAToken": "选择数字资产"
-  },
   "balanceChecker": {
-    "tokenBalanceChecker": "数字资产余额检索器",
-    "tokenQuantity": "数字资产数量",
-    "tokenSupply": "数字资产供应",
-    "tokenQuantityForAccountAddress": "账户地址数字资产总数量",
-    "totalSupplyForContractAddress": "合约地址数字资产总供应量"
+    "tokenBalanceChecker": "数字证书余额检索器",
+    "tokenQuantity": "数字证书数量",
+    "tokenSupply": "数字证书供应"
   },
   "approval": {
-    "title": "数字资产授权查询",
-    "subtitle": "使用此工具将帮助你查询地址授权的合约项目记录，并支持撤销地址对项目的数字资产授权批准。",
-    "token": "数字资产",
-    "tokenType": "数字资产类型",
+    "title": "数字证书授权查询",
+    "subtitle": "使用此工具将帮助你查询地址授权的合约项目记录，并支持撤销地址对项目的数字证书授权批准。",
+    "token": "数字证书",
+    "tokenType": "数字证书类型",
     "tips": {
-      "support": "仅支持展示当前数字资产列表中的数字资产记录。",
-      "view": "所有授权记录包含地址持有数字资产余额是 0 的。"
+      "support": "仅支持展示当前数字证书列表中的数字证书记录。",
+      "view": "所有授权记录包含地址持有数字证书余额是 0 的。"
     },
-    "tokenid": "数字资产 ID",
+    "tokenid": "数字证书 ID",
     "errors": {
       "cns": "查询的 Core ID 名称未在 CNS 上注册或当前不被 Confluxscan 支持。",
       "address": "查询的地址未解析到 Core ID 名称。",
@@ -261,13 +219,16 @@
     }
   },
   "cns": {
-    "tokenid": "数字资产 ID"
+    "tokenid": "数字证书 ID"
   },
   "nftChecker": {
-    "title": "数字资产查看器",
-    "subtitle": "通过搜索地址查看某一账户拥有的数字资产（仅支持当前数字资产列表中的数字资产）",
-    "tokenId": "数字资产 ID",
-    "plzSearchDesc": "请在上方输入地址以查看其拥有的数字资产",
-    "amount": "数字资产数量"
+    "title": "数字证书查看器",
+    "subtitle": "通过搜索地址查看某一账户拥有的数字证书（仅支持当前数字证书列表中的数字证书）",
+    "tokenId": "数字证书 ID",
+    "plzSearchDesc": "请在上方输入地址以查看其拥有的数字证书",
+    "amount": "数字证书数量"
+  },
+  "addressDetail": {
+    "NFTAsset": "数字藏品证书"
   }
 }
