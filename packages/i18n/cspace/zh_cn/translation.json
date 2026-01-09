@@ -265,6 +265,10 @@
     "noWriteContract": "抱歉，未找到针对该合约的写入功能。",
     "notVerifyImplementContract": "在代理合约和执行合约均被<0>验证</0>后可使用代理合约的读写功能。",
     "pattern": "实现执行合约的 ABI 位于 <0>address</0>, 使用 <1>pattern</1> 代理模式.",
+    "beacon": {
+      "pattern1": "实现执行合约的 ABI 位于 <1>address</1> ，采用的是 <3>EIP-1967 Beacon Proxy</3> 模式。",
+      "pattern2": "该合约此前记录对应的 beacon 合约为 <1>address</1> 。"
+    },
     "expandAll": "全部展开",
     "reset": "重置",
     "payableAmountCfx": "payableAmount (cfx) ",

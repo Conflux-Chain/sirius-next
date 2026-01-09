@@ -256,6 +256,10 @@
     "noWriteContract": "Sorry, no public Write functions were found for this contract.",
     "notVerifyImplementContract": "Read / Write as Proxy function is available after the proxy and implementation <0>contract verification.</0>",
     "pattern": "ABI for the implementation contract at <0>address</0>, using <1>pattern</1> proxy pattern.",
+    "beacon": {
+      "pattern1": "ABI for the implementation contract at <1>address</1> using the <3>EIP-1967 Beacon Proxy</3> pattern.",
+      "pattern2": "Previously recorded to be associated with beacon contract on <1>address</1> ."
+    },
     "expandAll": "Expand All",
     "reset": "Reset",
     "payableAmount": "payableAmount (cfx) ",
