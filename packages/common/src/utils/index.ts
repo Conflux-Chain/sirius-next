@@ -10,6 +10,8 @@ import IconCore from '../images/core-space/icon.svg';
 import IconEvm from '../images/espace/icon.svg';
 import IconBtc from '../images/bspace/icon.svg';
 
+BigNumber.config({ EXPONENTIAL_AT: [-18, 34], DECIMAL_PLACES: 80 });
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -314,7 +316,7 @@ export const formatBalance = (
         : balance;
     const num = balanceValue.div(new BigNumber(10).pow(decimals));
     if (num.eq(0)) {
-      return num.toFixed();
+      return num.toFixed() as string;
     }
     if (isShowFull) {
       return toThousands(num.toFixed());

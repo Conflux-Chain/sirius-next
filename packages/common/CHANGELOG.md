@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.3
+
+### Patch Changes
+
+- feat: add DecimalsSelect
+
 ## 0.2.2
 
 ### Patch Changes
