@@ -108,6 +108,9 @@ export const DecimalsSelect = ({
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       open={open}
+      positioning={{
+        placement: 'auto',
+      }}
     >
       <div
         className={clsx(
