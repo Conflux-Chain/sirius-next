@@ -1,16 +1,23 @@
 import React, { HTMLAttributes, ComponentProps, useRef } from 'react';
-import _Popover from '@cfx-kit/ui-components/dist/Popover';
+import _Popover, {
+  PositioningOptions,
+} from '@cfx-kit/ui-components/dist/Popover';
 import clsx from 'clsx';
 import { cn } from 'src/utils';
 
-export interface PopoverProps
-  extends Omit<ComponentProps<typeof _Popover>, 'trigger'> {
+export type PopoverProps = Omit<
+  ComponentProps<typeof _Popover>,
+  'trigger' | 'positioning'
+> & {
   containerClassName?: string;
   content?: React.ReactNode;
   children?: React.ReactNode;
   triggerProps?: HTMLAttributes<HTMLElement>;
   className?: string;
-}
+  positioning?: Omit<PositioningOptions, 'placement'> & {
+    placement?: PositioningOptions['placement'] | 'auto';
+  };
+};
 
 export const Popover: React.FC<PopoverProps> = ({
   content,
@@ -49,7 +56,7 @@ export const Popover: React.FC<PopoverProps> = ({
       {...rest}
       positioning={{
         ...positioning,
-        placement,
+        placement: placement === 'auto' ? undefined : placement,
       }}
       arrow={arrow}
     >
