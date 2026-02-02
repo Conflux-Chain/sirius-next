@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.4
+
+### Patch Changes
+
+- fix: Popover support 'auto' placement
+
 ## 0.2.3
 
 ### Patch Changes
