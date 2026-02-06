@@ -31,7 +31,7 @@ const CustomOption: React.FC<{
       />
       <input
         className={clsx(
-          'w-0 flex-1 outline-none rounded-3px focus:border-#1E3DE4',
+          'w-0 flex-1 outline-none rounded-3px border-1px border-solid focus:border-#1E3DE4',
         )}
         onChange={e => onChange(e.target.value)}
         {...props}
