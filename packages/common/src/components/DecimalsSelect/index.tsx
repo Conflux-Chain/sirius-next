@@ -25,7 +25,14 @@ const CustomOption: React.FC<{
     <div className="w-full flex items-center gap-10px">
       {mode === 'pow' && '10^'}
       <input
-        className={clsx('w-0 flex-1')}
+        style={{ visibility: 'hidden' }}
+        className="w-0 h-0 absolute"
+        autoFocus
+      />
+      <input
+        className={clsx(
+          'w-0 flex-1 outline-none rounded-3px focus:border-#1E3DE4',
+        )}
         onChange={e => onChange(e.target.value)}
         {...props}
       />
