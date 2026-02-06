@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.5
+
+### Patch Changes
+
+- optimize DecimalsSelect UI
+
 ## 0.2.4
 
 ### Patch Changes
