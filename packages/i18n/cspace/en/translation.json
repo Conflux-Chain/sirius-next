@@ -1950,7 +1950,11 @@
       "tokenTracker": "The token which was deployed by the contract.",
       "contractCreator": "The address which deploys the contract.",
       "storageSponsor": "The sponsor address which pays storage collateral for transactions interacts with such a contract. ",
-      "gasFeeSponsor": "The sponsor address which pays gas fee for transactions interacts with such a contract. "
+      "gasFeeSponsor": "The sponsor address which pays gas fee for transactions interacts with such a contract. ",
+      "toggleFullscreen": "Toggle Fullscreen",
+      "searchPlaceholder": "Search Source Code",
+      "noMatchingSearchResult": "No matching result.",
+      "searchTips": "Press Enter / Down arrow key to find next and Up arrow key for previous. "
     },
     "phishingWarning": "Security Reminder<br />Select Address: <br /><0>address</0><br /><br />In the 100 transactions before and after, the following addresses were found to have similar shortened forms to the selected address:<br /><br /><1>addresses</1><br />Please note, shortened addresses are not necessarily identical. To avoid phishing, always verify the full address before sending transactions."
   },
