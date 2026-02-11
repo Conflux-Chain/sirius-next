@@ -1680,7 +1680,11 @@
       "contractCreator": "创建该合约的地址。",
       "contractAdmin": "管理员地址，有能力销毁合约。如果管理员地址不是零地址，则表示该合约处于调试阶段（Tethys 零地址为：cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2；Testnet 零地址为：cfxtest:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa6f0vrcsw）。",
       "storageSponsor": "为调用这个合约的交易支付存储押金的赞助地址。",
-      "gasFeeSponsor": "为调用这个合约的交易支付交易费的赞助商地址。"
+      "gasFeeSponsor": "为调用这个合约的交易支付交易费的赞助商地址。",
+      "toggleFullscreen": "切换全屏",
+      "searchPlaceholder": "搜索源代码",
+      "noMatchingSearchResult": "未搜索到结果",
+      "searchTips": "按回车键/向下箭头键查找下一个，按向上箭头键查找上一个。"
     },
     "phishingWarning": "安全提醒<br />已选地址：<br /><0>address</0><br /><br />在前后 100 条交易记录中，发现以下地址的缩略形式与已选地址相似：<br /><br /><1>addresses</1><br />请注意，缩写地址不代表完全相同。为防止钓鱼地址伪装，发送交易前务必核对完整地址。"
   },
