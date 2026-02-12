@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.7
+
+### Patch Changes
+
+- feat: enhance ace editor
+
 ## 0.2.6
 
 ### Patch Changes
