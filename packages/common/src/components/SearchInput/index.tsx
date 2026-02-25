@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, useRef } from 'react';
 import { InfoIconWithTooltip } from '../InfoIconWithTooltip';
 import clsx from 'clsx';
 
@@ -70,6 +70,7 @@ export const SearchInput: React.FC<
   onKeyDown,
   ...props
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className={clsx('flex items-center w-fit', wrapperClassName)}>
       {!inSearch && searchTips && (
@@ -101,6 +102,7 @@ export const SearchInput: React.FC<
               onKeyDown?.(e);
             }}
             className="outline-none border-none flex-1 w-0"
+            ref={inputRef}
             {...props}
           />
           {!!current && !!total && (
@@ -110,13 +112,21 @@ export const SearchInput: React.FC<
           )}
         </div>
         <div
-          onClick={findNext}
+          onClick={() => {
+            findNext();
+            // focus on input to make it easier to use keyboard
+            inputRef.current?.focus();
+          }}
           className="border-l-#BDBDBD border-l-1px border-l-solid w-26px h-26px flex-center cursor-pointer"
         >
           <Arrow />
         </div>
         <div
-          onClick={findPrevious}
+          onClick={() => {
+            findPrevious();
+            // focus on input to make it easier to use keyboard
+            inputRef.current?.focus();
+          }}
           className="border-l-#BDBDBD border-l-1px border-l-solid w-26px h-26px flex-center cursor-pointer"
         >
           <Arrow className="rotate-180" />
