@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.8
+
+### Patch Changes
+
+- fix: focus on input after click next/prev button
+
 ## 0.2.7
 
 ### Patch Changes
