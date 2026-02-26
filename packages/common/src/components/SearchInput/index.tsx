@@ -74,7 +74,7 @@ export const SearchInput: React.FC<
   return (
     <div className={clsx('flex items-center w-fit', wrapperClassName)}>
       {!inSearch && searchTips && (
-        <div className="flex-center h-full mr-3px shrink-0">
+        <div className="flex-center h-full mr-8px shrink-0">
           <InfoIconWithTooltip info={searchTips} size={18} />
         </div>
       )}
@@ -106,7 +106,7 @@ export const SearchInput: React.FC<
             {...props}
           />
           {!!current && !!total && (
-            <div className="shrink-0">
+            <div className="shrink-0 color-#9B9EAC">
               {current}/{total}
             </div>
           )}
