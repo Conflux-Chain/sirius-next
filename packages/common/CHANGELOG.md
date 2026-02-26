@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.9
+
+### Patch Changes
+
+- fix: search input style
+
 ## 0.2.8
 
 ### Patch Changes
