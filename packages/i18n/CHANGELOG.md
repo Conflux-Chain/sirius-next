@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.7
+
+### Patch Changes
+
+- feat: token holder filter
+
 ## 0.2.6
 
 ### Patch Changes

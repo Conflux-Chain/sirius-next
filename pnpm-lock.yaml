@@ -242,7 +242,7 @@ importers:
         specifier: ^17.5.0
         version: 17.5.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       swr:
-        specifier: ^2.2.5
+        specifier: 2.2.5
         version: 2.2.5(react@18.2.0)
       tailwind-merge:
         specifier: ^2.3.0
@@ -6841,6 +6841,11 @@ packages:
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  use-sync-external-store@1.6.0:
+    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   utf-8-validate@5.0.10:
     resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
@@ -14957,7 +14962,7 @@ snapshots:
     dependencies:
       client-only: 0.0.1
       react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
+      use-sync-external-store: 1.6.0(react@18.2.0)
 
   symbol-tree@3.2.4: {}
 
@@ -15443,6 +15448,10 @@ snapshots:
       '@types/react': 18.2.67
 
   use-sync-external-store@1.2.0(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+
+  use-sync-external-store@1.6.0(react@18.2.0):
     dependencies:
       react: 18.2.0
 

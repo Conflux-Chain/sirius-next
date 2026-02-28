@@ -480,6 +480,8 @@
     "tipCountAfter": "tokens (The following list only displays certain tokens, undisplayed tokens can be found by searching contract address)",
     "dataSource": "Market Data Source: <a href='https://coinmarketcap.com/' target='_blank'>CoinMarketCap</a>",
     "ercTip": "The {{erc}} is a digital asset published on the Conflux network using the {{erc}} standard.",
+    "filterByHolder": "Filter by Holder",
+    "balance": "Balance",
     "table": {
       "number": "#",
       "token": "Token",
