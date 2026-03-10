@@ -469,6 +469,8 @@
     "tipCountAfter": "个通证（该列表仅展示一部分通证，其他未展示在列表中的通证可以通过搜索合约地址查看）",
     "dataSource": "市场数据来源：<a href='https://coinmarketcap.com/zh/' target='_blank'>CoinMarketCap</a> 支持",
     "crcTip": "{{crc}} 是发布在 Conflux 网络上，采用 {{erc}} 标准的数字资产。",
+    "filterByHolder": "按持有人筛选",
+    "balance": "余额",
     "table": {
       "number": "#",
       "token": "通证",

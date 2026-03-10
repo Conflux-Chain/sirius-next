@@ -1,6 +1,5 @@
 import qs from 'query-string';
 import { publishRequestError } from './pubsub';
-import useSWR from 'swr';
 import { BaseContractInfo, DetectAccountTypeResponse } from './request.types';
 import { getEnvConfig } from '../store';
 import { fetchWithCache } from './cache';
@@ -187,69 +186,6 @@ export const simpleGetFetcher = async <T>(...args: any[]) => {
   return await fetchWithPrefix<T>(url, {
     method: 'get',
   });
-};
-
-export const useSWRWithGetFetcher = (
-  key: string | string[] | null,
-  swrOpts = {},
-) => {
-  const isTransferReq =
-    (typeof key === 'string' && key.startsWith('/transfer')) ||
-    (Array.isArray(key) &&
-      typeof key[0] === 'string' &&
-      key[0].startsWith('/transfer'));
-
-  const { data, error, mutate }: any = useSWR(key, simpleGetFetcher, {
-    ...swrOpts,
-  });
-
-  let tokenAddress: string | string[] = '';
-
-  // deal with token info
-  if (isTransferReq && data && data.list) {
-    tokenAddress = data.list.reduce(
-      (acc: string[], trans: { address: string }) => {
-        if (trans.address && !acc.includes(trans.address))
-          acc.push(trans.address);
-        return acc;
-      },
-      [],
-    );
-  }
-
-  const { data: tokenData }: any = useSWR(
-    tokenAddress
-      ? qs.stringifyUrl({
-          url: '/token',
-          query: { addressArray: tokenAddress, fields: 'iconUrl' },
-        })
-      : null,
-    simpleGetFetcher,
-  );
-
-  if (tokenData && tokenData.list) {
-    const newTransferList = data.list.map((trans: { address: string }) => {
-      if (tokenAddress.includes(trans.address)) {
-        const tokenInfo = tokenData.list.find(
-          (t: { address: string }) => t.address === trans.address,
-        );
-        if (tokenInfo) return { ...trans, token: { ...tokenInfo } };
-      }
-
-      return trans;
-    });
-
-    return {
-      data: {
-        ...data,
-        list: newTransferList,
-      },
-      error,
-      mutate,
-    };
-  }
-
-  return { data, error, mutate };
 };
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
