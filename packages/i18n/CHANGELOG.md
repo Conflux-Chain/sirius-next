@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.8
+
+### Patch Changes
+
+- feat: update hub link
+
 ## 0.2.7
 
 ### Patch Changes
