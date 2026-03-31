@@ -34,8 +34,18 @@ export interface BaseContractInfo {
     exactMatch?: boolean;
   };
   proxy?: Record<string, unknown>;
-  beacon?: Record<string, unknown>;
-  implementation?: Record<string, unknown>;
+  beacon?: {
+    address?: string;
+    verify?: {
+      exactMatch?: boolean;
+    };
+  };
+  implementation?: {
+    address?: string;
+    verify?: {
+      exactMatch?: boolean;
+    };
+  };
   destroy?: {
     status?: number;
     message?: string;
@@ -51,4 +61,46 @@ export interface DetectAccountTypeResponse {
   isContract: boolean;
   delegatedTo: `0x${string}` | '' | null;
   extraMessage: string;
+}
+
+export interface TransferItemResponse {
+  epochNumber: number;
+  transactionHash: string;
+  transactionTraceIndex: number;
+  from: string;
+  to: string;
+  value: string;
+  type: string;
+  timestamp: number;
+  syncTimestamp: number;
+  transactionLogIndex: null;
+  fromContractInfo?: {
+    address: string;
+    isVirtual?: boolean;
+    verify?: {
+      result?: number;
+    };
+  };
+  fromTokenInfo?: {
+    address: string;
+    name: string;
+    symbol: string;
+    decimals: number;
+    tokenType: string;
+  };
+  toContractInfo?: {
+    address: string;
+    isVirtual?: boolean;
+    verify?: {
+      result?: number;
+    };
+  };
+  toTokenInfo?: {
+    address: string;
+    name: string;
+    symbol: string;
+    decimals: number;
+    tokenType: string;
+  };
+  transferType?: string;
 }

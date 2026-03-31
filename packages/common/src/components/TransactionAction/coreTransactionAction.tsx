@@ -94,7 +94,7 @@ const AddressNameTagContainer: React.FC<AddressNameTagContainerProps> = ({
   const fetchContractAndToken = useCallback(
     async (address: string) => {
       try {
-        const data = await reqContractAndToken([address]);
+        const data = (await reqContractAndToken([address]))?.map;
         if (data[address]) {
           setContractCache({ [address]: data[address] });
         }
