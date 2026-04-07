@@ -30,6 +30,7 @@
     "@cfx-kit/ui-components": "^0.0.18",
     "@radix-ui/react-radio-group": "^1.2.3",
     "@radix-ui/react-select": "^2.0.0",
+    "@rc-component/table": "1.9.1",
     "@testing-library/react": "^15.0.5",
     "@types/i18next": "^13.0.0",
     "@types/lodash": "^4.17.0",
@@ -40,6 +41,7 @@
     "ace-builds": "1.4.12",
     "bignumber.js": "^9.1.2",
     "clsx": "^2.1.0",
+    "cive": "^0.8.1",
     "copyfiles": "^2.4.1",
     "dayjs": "^1.11.10",
     "ethers": "5.7.0",
@@ -62,6 +64,7 @@
     "swr": "2.2.5",
     "tailwind-merge": "^2.3.0",
     "unocss-preset-animations": "^1.0.2",
+    "viem": "^2.40.3",
     "vite": "^5.1.6",
     "zustand": "^4.5.2"
   },

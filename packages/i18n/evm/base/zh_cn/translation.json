@@ -1163,6 +1163,7 @@
         "traceOutcome": "执行结果",
         "traceResult": "返回值",
         "traceStatusTitle": "状态",
+        "gas": "燃料",
         "traceStatus": {
           "success": "成功",
           "fail": "失败",
@@ -1406,6 +1407,9 @@
     "status": "状态",
     "from": "发送方",
     "to": "接收方",
+    "internalTransactions": "内部交易",
+    "tipOfInternalTransactionsCount": "仅展示有价值的CFX转账, 最多100条记录。",
+    "cfxTransferInfo": "转移 <1>amount</1> 个 CFX 发送方 <3>address</3> 接收方 <5>address</5>",
     "tokenTransferred": "通证转移",
     "value": "价值",
     "gasUsed": "燃料限制 | 燃料用量 | 燃料计费",
@@ -1455,6 +1459,15 @@
       "title": "内部交易",
       "simple": "简单",
       "advanced": "高级"
+    },
+    "txTrace": {
+      "title": "交易追踪",
+      "proxyCall": "显示代理调用",
+      "listView": "列表视图",
+      "tooltip": {
+        "proxyCall": "切换显示或隐藏代理合约与实现执行合约之间的内部调用。",
+        "listView": "切换至列表视图展开所有内部交易步骤和完整追踪地址，便于精确定位合约执行的逻辑。"
+      }
     },
     "internalTxnsTip": {
       "from": "该合约调用从",

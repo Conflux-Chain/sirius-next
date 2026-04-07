@@ -141,10 +141,10 @@ importers:
     dependencies:
       '@cfx-kit/dapp-utils':
         specifier: ^0.2.12
-        version: 0.2.12(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
+        version: 0.2.12(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@cfx-kit/react-utils':
         specifier: ^0.0.65
-        version: 0.0.65(@types/react@18.2.67)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.4.3)(utf-8-validate@5.0.10)
+        version: 0.0.65(@types/react@18.2.67)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@cfx-kit/ui-components':
         specifier: ^0.0.18
         version: 0.0.18(@zag-js/accordion@0.19.1)(@zag-js/checkbox@0.19.1)(@zag-js/dialog@0.19.1)(@zag-js/pagination@0.19.1)(@zag-js/popover@0.19.1)(@zag-js/react@0.19.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@zag-js/select@0.19.1)(@zag-js/switch@0.19.1)(@zag-js/toast@0.19.1)(@zag-js/tooltip@0.19.1)(react@18.2.0)
@@ -154,6 +154,9 @@ importers:
       '@radix-ui/react-select':
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@rc-component/table':
+        specifier: 1.9.1
+        version: 1.9.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@testing-library/react':
         specifier: ^15.0.5
         version: 15.0.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -181,6 +184,9 @@ importers:
       bignumber.js:
         specifier: ^9.1.2
         version: 9.1.2
+      cive:
+        specifier: ^0.8.1
+        version: 0.8.1(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
       clsx:
         specifier: ^2.1.0
         version: 2.1.0
@@ -250,6 +256,9 @@ importers:
       unocss-preset-animations:
         specifier: ^1.0.2
         version: 1.0.2(@unocss/preset-wind@0.58.6)(unocss@0.58.6(postcss@8.4.38)(rollup@4.13.0)(vite@5.2.2(@types/node@20.11.30)))
+      viem:
+        specifier: ^2.40.3
+        version: 2.40.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       vite:
         specifier: ^5.1.6
         version: 5.2.2(@types/node@20.11.30)
@@ -1893,6 +1902,38 @@ packages:
   '@radix-ui/rect@1.0.1':
     resolution: {integrity: sha512-fyrgCaedtvMg9NK3en0pnOYJdtfwxUcNolezkNPUsoX57X8oQk+NkqcvzHXD2uKNij6GXmWU9NDru2IWjrO4BQ==}
 
+  '@rc-component/context@2.0.1':
+    resolution: {integrity: sha512-HyZbYm47s/YqtP6pKXNMjPEMaukyg7P0qVfgMLzr7YiFNMHbK2fKTAGzms9ykfGHSfyf75nBbgWw+hHkp+VImw==}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+
+  '@rc-component/resize-observer@1.1.1':
+    resolution: {integrity: sha512-NfXXMmiR+SmUuKE1NwJESzEUYUFWIDUn2uXpxCTOLwiRUUakd62DRNFjRJArgzyFW8S5rsL4aX5XlyIXyC/vRA==}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+
+  '@rc-component/table@1.9.1':
+    resolution: {integrity: sha512-FVI5ZS/GdB3BcgexfCYKi3iHhZS3Fr59EtsxORszYGrfpH1eWr33eDNSYkVfLI6tfJ7vftJDd9D5apfFWqkdJg==}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+
+  '@rc-component/util@1.9.0':
+    resolution: {integrity: sha512-5uW6AfhIigCWeEQDthTozlxiT4Prn6xYQWeO0xokjcaa186OtwPRHBZJ2o0T0FhbjGhZ3vXdbkv0sx3gAYW7Vg==}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+
+  '@rc-component/virtual-list@1.0.2':
+    resolution: {integrity: sha512-uvTol/mH74FYsn5loDGJxo+7kjkO4i+y4j87Re1pxJBs0FaeuMuLRzQRGaXwnMcV1CxpZLi2Z56Rerj2M00fjQ==}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+
   '@rollup/pluginutils@5.1.0':
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
@@ -3117,6 +3158,9 @@ packages:
   citty@0.1.6:
     resolution: {integrity: sha512-tskPPKEs8D2KPafUypv2gxwJP8h/OaJmC82QQGGDQcHvXX43xF2VDACcJVmZ0EuSxkpO9Kc4MlrA3q0+FG58AQ==}
 
+  cive@0.8.1:
+    resolution: {integrity: sha512-P7Ll9gFTCt6jHsC13VRRAgvEefQSapRMMJSKFvGcEUmtmaNXl/g2jwxcWDNYSGoZhf1HjufEeO1wjlt26AIMQw==}
+
   cjs-module-lexer@1.2.3:
     resolution: {integrity: sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==}
 
@@ -3171,6 +3215,10 @@ packages:
 
   clsx@2.1.0:
     resolution: {integrity: sha512-m3iNNWpd9rl3jvvcBnu70ylMdrXt8Vlq4HYadnU5fwcOtvkSQWPmj7amUcDT2qYI7risszBjI5AUIUox9D16pg==}
+    engines: {node: '>=6'}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
   co@4.6.0:
@@ -4477,6 +4525,9 @@ packages:
   is-map@2.0.3:
     resolution: {integrity: sha512-1Qed0/Hr2m+YqxnM09CjA2d/i6YZNfF6R2oRAOj36eUdS6qIV/huPJNSEpKbupewFs+ZsJlxsjjPbc0/afW6Lw==}
     engines: {node: '>= 0.4'}
+
+  is-mobile@5.0.0:
+    resolution: {integrity: sha512-Tz/yndySvLAEXh+Uk8liFCxOwVH6YutuR74utvOcu7I9Di+DwM0mtdPVZNaVvvBUM2OXxne/NhOs1zAO7riusQ==}
 
   is-negative-zero@2.0.3:
     resolution: {integrity: sha512-5KoIu2Ngpyek75jXodFvnafB6DJgr3u8uuK0LEZJjrU19DrMD3EVERaR8sjz8CCGgpZvxPl9SuE1GMVPFHx1mw==}
@@ -7105,18 +7156,6 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.16.0:
-    resolution: {integrity: sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.18.3:
     resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
     engines: {node: '>=10.0.0'}
@@ -7206,6 +7245,9 @@ packages:
   yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
+
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
   zustand@4.5.2:
     resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
@@ -7535,28 +7577,28 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@cfx-kit/dapp-utils@0.2.12(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)':
+  '@cfx-kit/dapp-utils@0.2.12(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
       '@cfx-kit/utils': 0.0.10
       '@ethersproject/abi': 5.8.0
       '@ethersproject/bignumber': 5.8.0
       '@ethersproject/units': 5.8.0
       '@noble/hashes': 1.4.0
-      abitype: 1.2.0(typescript@5.4.3)
+      abitype: 1.2.0(typescript@5.4.3)(zod@3.25.76)
       jsbi: 4.3.0
       ky: 0.33.3
       localstorage-enhance: 1.0.8
       lodash-es: 4.17.21
-      viem: 2.40.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
+      viem: 2.40.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
       - zod
 
-  '@cfx-kit/react-utils@0.0.65(@types/react@18.2.67)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.4.3)(utf-8-validate@5.0.10)':
+  '@cfx-kit/react-utils@0.0.65(@types/react@18.2.67)(bufferutil@4.0.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
-      '@cfx-kit/dapp-utils': 0.2.12(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
+      '@cfx-kit/dapp-utils': 0.2.12(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@cfx-kit/utils': 0.0.10
       '@cfxjs/use-wallet-react': 0.0.8(decimal.js@10.4.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(zustand@4.5.2(@types/react@18.2.67)(react@18.2.0))
       '@walletconnect/modal': 2.7.0(@types/react@18.2.67)(react@18.2.0)
@@ -9161,6 +9203,44 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.1
 
+  '@rc-component/context@2.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@rc-component/util': 1.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
+  '@rc-component/resize-observer@1.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@rc-component/util': 1.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
+  '@rc-component/table@1.9.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@rc-component/context': 2.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@rc-component/resize-observer': 1.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@rc-component/util': 1.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@rc-component/virtual-list': 1.0.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      clsx: 2.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
+  '@rc-component/util@1.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      is-mobile: 5.0.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-is: 18.2.0
+
+  '@rc-component/virtual-list@1.0.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@babel/runtime': 7.24.1
+      '@rc-component/resize-observer': 1.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@rc-component/util': 1.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      clsx: 2.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
   '@rollup/pluginutils@5.1.0(rollup@4.13.0)':
     dependencies:
       '@types/estree': 1.0.5
@@ -10483,13 +10563,15 @@ snapshots:
     dependencies:
       '@ethersproject/logger': 5.7.0
 
-  abitype@1.1.0(typescript@5.4.3):
+  abitype@1.1.0(typescript@5.4.3)(zod@3.25.76):
     optionalDependencies:
       typescript: 5.4.3
+      zod: 3.25.76
 
-  abitype@1.2.0(typescript@5.4.3):
+  abitype@1.2.0(typescript@5.4.3)(zod@3.25.76):
     optionalDependencies:
       typescript: 5.4.3
+      zod: 3.25.76
 
   ace-builds@1.4.12: {}
 
@@ -10963,6 +11045,19 @@ snapshots:
     dependencies:
       consola: 3.2.3
 
+  cive@0.8.1(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10):
+    dependencies:
+      '@noble/curves': 1.9.1
+      '@noble/hashes': 1.8.0
+      '@scure/bip32': 1.7.0
+      '@scure/bip39': 1.6.0
+      viem: 2.40.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+
   cjs-module-lexer@1.2.3: {}
 
   clean-regexp@1.0.0:
@@ -11017,6 +11112,8 @@ snapshots:
   clone@1.0.4: {}
 
   clsx@2.1.0: {}
+
+  clsx@2.1.1: {}
 
   co@4.6.0: {}
 
@@ -12663,6 +12760,8 @@ snapshots:
 
   is-map@2.0.3: {}
 
+  is-mobile@5.0.0: {}
+
   is-negative-zero@2.0.3: {}
 
   is-number-object@1.0.7:
@@ -13306,7 +13405,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
-      ws: 8.16.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.18.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -13875,7 +13974,7 @@ snapshots:
 
   outdent@0.5.0: {}
 
-  ox@0.9.6(typescript@5.4.3):
+  ox@0.9.6(typescript@5.4.3)(zod@3.25.76):
     dependencies:
       '@adraffy/ens-normalize': 1.11.1
       '@noble/ciphers': 1.3.0
@@ -13883,7 +13982,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.2.0(typescript@5.4.3)
+      abitype: 1.2.0(typescript@5.4.3)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.4.3
@@ -15488,15 +15587,15 @@ snapshots:
 
   value-equal@1.0.1: {}
 
-  viem@2.40.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10):
+  viem@2.40.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)(zod@3.25.76):
     dependencies:
       '@noble/curves': 1.9.1
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.1.0(typescript@5.4.3)
+      abitype: 1.1.0(typescript@5.4.3)(zod@3.25.76)
       isows: 1.0.7(ws@8.18.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))
-      ox: 0.9.6(typescript@5.4.3)
+      ox: 0.9.6(typescript@5.4.3)(zod@3.25.76)
       ws: 8.18.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     optionalDependencies:
       typescript: 5.4.3
@@ -15772,11 +15871,6 @@ snapshots:
       bufferutil: 4.0.8
       utf-8-validate: 5.0.10
 
-  ws@8.16.0(bufferutil@4.0.8)(utf-8-validate@5.0.10):
-    optionalDependencies:
-      bufferutil: 4.0.8
-      utf-8-validate: 5.0.10
-
   ws@8.18.3(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     optionalDependencies:
       bufferutil: 4.0.8
@@ -15852,6 +15946,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.0.0: {}
+
+  zod@3.25.76: {}
 
   zustand@4.5.2(@types/react@18.2.67)(react@18.2.0):
     dependencies:
