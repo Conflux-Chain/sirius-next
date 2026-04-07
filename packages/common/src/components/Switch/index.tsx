@@ -14,6 +14,7 @@ export const Switch: FC<SwitchProps> = ({
   style,
   checked: outerChecked,
   onChange,
+  disabled,
   ...rest
 }) => {
   const isSmallSize = size === 'small';
@@ -23,6 +24,8 @@ export const Switch: FC<SwitchProps> = ({
     <button
       type="button"
       role="switch"
+      aria-checked={checked}
+      aria-disabled={disabled}
       className={clsx(
         'sirius-switch m-0 p-0 text-#333 text-14px relative inline-block vertical-middle cursor-pointer rounded-100px border-0 transition-all duration-200',
         checked ? 'bg-[var(--theme-color-link)]' : 'bg-[rgba(0,0,0,0.25)]',
@@ -37,6 +40,7 @@ export const Switch: FC<SwitchProps> = ({
         setInnerChecked(!checked);
         onChange?.(!checked);
       }}
+      disabled={disabled}
       {...rest}
     >
       <div

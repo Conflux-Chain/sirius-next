@@ -86,8 +86,9 @@ export const decodeErrorResult = ({
 } => {
   if (space === 'core') {
     // cive not support decodeErrorResult method, temp solution
+    if (data.length < 10 || !data.startsWith('0x'))
+      throw new Error('Invalid data');
     const signature = data.slice(0, 10);
-    if (signature === '0x') throw new Error('Empty data');
 
     const abiItem = abi.find(
       x =>

@@ -21,12 +21,16 @@ export const InputData = ({
 }) => {
   if (dataType === 'utf8') {
     return <UTF8 data={input}></UTF8>;
-  } else if (dataType === 'json') {
+  } else if (
+    dataType === 'json' &&
+    decodedData.decodedParams &&
+    decodedData.abiItem
+  ) {
     return (
       <JsonDecode
-        decodedParams={decodedData.decodedParams!}
+        decodedParams={decodedData.decodedParams}
         decodedResults={decodedData.decodedResults}
-        abiItem={decodedData.abiItem!}
+        abiItem={decodedData.abiItem}
         input={input}
       ></JsonDecode>
     );
@@ -37,11 +41,15 @@ export const InputData = ({
         fullName={decodedData.fullName}
       ></GeneralDecode>
     );
-  } else if (dataType === 'optimizationDecode') {
+  } else if (
+    dataType === 'optimizationDecode' &&
+    decodedData.decodedParams &&
+    decodedData.abiItem
+  ) {
     return (
       <OptimizationDecode
-        decodedParams={decodedData.decodedParams!}
-        abiItem={decodedData.abiItem!}
+        decodedParams={decodedData.decodedParams}
+        abiItem={decodedData.abiItem}
         input={input}
         labelClassName={labelClassName}
         space={space}

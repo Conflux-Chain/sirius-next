@@ -283,8 +283,3 @@ export const useTxTrace = (hash: string, space: 'evm' | 'core') => {
       }),
   );
 };
-
-// TODO
-export const useCFXTransferListInTx = (hash: string, space: 'evm' | 'core') => {
-  const a = useTxTrace(hash, space);
-};

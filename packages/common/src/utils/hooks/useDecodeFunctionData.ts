@@ -52,7 +52,7 @@ const decodeFunctionDataByAbi = ({
       : output;
     const abiItem = getAbiItem({
       abi: abi,
-      name: methodID,
+      name: decodedParams.functionName ?? methodID,
     }) as AbiFunctionWithoutGas;
     if (!withOutput) {
       abiItem.outputs = [];

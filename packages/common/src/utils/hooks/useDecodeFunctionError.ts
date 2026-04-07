@@ -42,6 +42,20 @@ export const useDecodeFunctionError = ({
   const implementation = _implementation ?? data?.implementation?.address;
   const { data: implementationData, isLoading: implementationLoading } =
     useContractDetail(implementation, fields, !standardErrorAbi && !!errorData);
+  const decodedByStandardError = useMemo(() => {
+    if (!standardErrorAbi) return null;
+    try {
+      const result = decodeErrorResult({
+        abi: standardErrorAbi,
+        data: errorData,
+        space,
+      });
+      return result;
+    } catch (error) {
+      console.log('decode error data with standard error abi failed', error);
+      return null;
+    }
+  }, [errorData, standardErrorAbi, space]);
   const decoded = useMemo(() => {
     if (!data?.abi) return null;
     try {
@@ -66,22 +80,14 @@ export const useDecodeFunctionError = ({
       });
       return result;
     } catch (error) {
-      console.log('decode error data with contract abi failed', error);
+      console.log('decode error data with implementation abi failed', error);
       return null;
     }
   }, [errorData, implementationData, space]);
 
   return useMemo(() => {
     if (!errorData) return [null, false];
-    if (standardErrorAbi)
-      return [
-        decodeErrorResult({
-          abi: standardErrorAbi,
-          data: errorData,
-          space,
-        }),
-        false,
-      ];
+    if (decodedByStandardError) return [decodedByStandardError, false];
     if (decodedByImplementation)
       return [decodedByImplementation, implementationLoading];
     if (decoded) return [decoded, contractLoading];
@@ -93,7 +99,7 @@ export const useDecodeFunctionError = ({
     ];
   }, [
     errorData,
-    standardErrorAbi,
+    decodedByStandardError,
     decoded,
     decodedByImplementation,
     contractLoading,

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { DecodedFunctionData } from './useDecodeFunctionData';
 
 export type DataType =
@@ -68,6 +68,12 @@ export const useDecodedDataType = ({
     tip,
     dataType,
     dataTypeList,
-    setDataType: setSelectedType,
+    setDataType: useCallback(
+      (type: DataType) => {
+        if (!dataTypeList.includes(type)) return;
+        setSelectedType(type);
+      },
+      [dataTypeList],
+    ),
   };
 };

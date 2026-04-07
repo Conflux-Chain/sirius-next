@@ -111,7 +111,11 @@ const CommonTraceDetail = ({
         <div className="flex gap-5px mt-16px">
           {outputDataType !== 'optimizationDecode' && (
             <div className={clsx('w-150px shrink-0', !success && 'text-red')}>
-              {success ? 'Output Data' : 'Error'}
+              {outcome === 'success'
+                ? 'Output Data'
+                : outcome === 'fail'
+                  ? 'Failed'
+                  : 'Error'}
             </div>
           )}
           <div className="flex-1">
@@ -141,6 +145,7 @@ const CreateContractFailedTraceDetail = ({
   output,
   space,
   proxy,
+  outcome,
 }: Props) => {
   const [dataType, setDataType] = useState<DataType>('utf8');
   const { t } = useTranslation();
@@ -174,7 +179,9 @@ const CreateContractFailedTraceDetail = ({
         </Select>
       </div>
       <div className="flex gap-5px mt-16px">
-        <div className={clsx('w-150px shrink-0 text-red')}>Failed</div>
+        <div className={clsx('w-150px shrink-0 text-red')}>
+          {outcome === 'fail' ? 'Failed' : 'Error'}
+        </div>
         <div className="flex-1">
           <OutputData
             dataType={dataType}
