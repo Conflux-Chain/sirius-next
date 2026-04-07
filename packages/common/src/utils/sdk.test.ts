@@ -33,7 +33,7 @@ function buildErrorCalldata(
   };
   const selector = toFunctionSelector(formatCoreAbiItem(abiItem));
   if (values.length === 0) return selector;
-  const encoded = encodeAbiParameters(inputTypes, values as readonly unknown[]);
+  const encoded = encodeAbiParameters(inputTypes, values);
   return (selector + encoded.slice(2)) as `0x${string}`;
 }
 

@@ -27,7 +27,10 @@ interface OptionProps {
   children: React.ReactNode;
   value: string;
 }
-const Select = <T extends string = string>({
+const Select: {
+  <T extends string = string>(props: SelectProps<T>): JSX.Element;
+  Option: React.FC<OptionProps>;
+} = ({
   className = '',
   disableMatchWidth = true,
   size = 'medium',
@@ -37,7 +40,7 @@ const Select = <T extends string = string>({
   children,
   lable = '',
   ...props
-}: SelectProps<T>) => {
+}) => {
   const [open, setOpen] = useState(false);
 
   const selectedText = useMemo(() => {
