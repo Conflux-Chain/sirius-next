@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.9
+
+### Patch Changes
+
+- feat: tx trace
+
 ## 0.2.8
 
 ### Patch Changes

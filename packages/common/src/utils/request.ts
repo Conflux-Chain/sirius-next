@@ -1,6 +1,10 @@
 import qs from 'query-string';
 import { publishRequestError } from './pubsub';
-import { BaseContractInfo, DetectAccountTypeResponse } from './request.types';
+import {
+  BaseContractInfo,
+  DetectAccountTypeResponse,
+  MethodAbiItemResponse,
+} from './request.types';
 import { getEnvConfig } from '../store';
 import { fetchWithCache } from './cache';
 interface FetchWithAbortType<T> {
@@ -262,28 +266,37 @@ export const reqNametag = async (address: string[]) => {
   return res?.map;
 };
 
-export const reqContractAndToken = async (address: string[]) => {
-  const query = queryAddress(address);
+export const reqContractAndToken = fetchWithCache(
+  async (address: string[]) => {
+    const query = queryAddress(address);
 
-  const res: any = await fetch(`/v1/contract-and-token?${query}`, {
-    method: 'GET',
-  });
-  return res?.map;
-};
+    const res: any = await fetch(`/v1/contract-and-token?${query}`, {
+      method: 'GET',
+    });
+    return res;
+  },
+  {
+    key: 'contract-and-token',
+    maxAge: 1000 * 60 * 60,
+  },
+);
 
-export const getContractDetail = <T extends string>(
-  contractAddress?: string,
-  fields: T[] = [],
-) => {
-  const url = qs.stringifyUrl({
-    url: `/v1/contract/${contractAddress}`,
-    query: { fields },
-  });
+export const getContractDetail = fetchWithCache(
+  <T extends string>(contractAddress?: string, fields: T[] = []) => {
+    const url = qs.stringifyUrl({
+      url: `/v1/contract/${contractAddress}`,
+      query: { fields },
+    });
 
-  return fetch<BaseContractInfo & Record<T, unknown>>(url, {
-    method: 'GET',
-  });
-};
+    return fetch<BaseContractInfo & Record<T, unknown>>(url, {
+      method: 'GET',
+    });
+  },
+  {
+    key: 'contract-detail',
+    maxAge: 1000 * 60 * 60,
+  },
+);
 
 export const detectAccountType = fetchWithCache(
   (address: string) => {
@@ -299,3 +312,16 @@ export const detectAccountType = fetchWithCache(
     maxAge: 1000 * 10,
   },
 );
+
+export const reqAbiByMethodId = (methodId: string) => {
+  return fetchWithPrefix<{
+    list: MethodAbiItemResponse[];
+  }>(
+    qs.stringifyUrl({
+      url: '/stat/list-abi-method',
+      query: {
+        id: methodId,
+      },
+    }),
+  );
+};

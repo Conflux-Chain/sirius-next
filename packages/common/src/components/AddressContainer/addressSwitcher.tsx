@@ -11,6 +11,7 @@ import { getTranslations, getEnvConfig, useGlobalData } from '../../store';
 import { getNetwork, formatString, coreCorrespondsToEspace } from 'src/utils';
 import { Props } from './types';
 import { RenderAddress } from './addressView';
+import { ContractCreated } from '../Icons';
 
 // common
 export const ContractCreatedAddress = (
@@ -37,11 +38,7 @@ export const ContractCreatedAddress = (
       <div className={`mr-[2px] flex-shrink-0 ${isFull ? 'icon' : ''}`}>
         <Tooltip title={mergedProps.content}>
           <div className="relative w-[16px] h-[16px]">
-            <img
-              className="w-[16px] h-[16px] align-bottom mb-[3px]"
-              src={ContractIcon}
-              alt={mergedProps.content}
-            />
+            <ContractCreated className="w-[16px] h-[16px] align-bottom mb-[3px]" />
           </div>
         </Tooltip>
       </div>

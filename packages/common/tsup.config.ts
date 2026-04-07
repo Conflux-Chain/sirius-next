@@ -38,6 +38,7 @@ export default defineConfig({
     '.png': 'copy',
     '.svg': 'copy',
   },
+  target: 'es2020',
   dts: true,
   sourcemap: true,
   external: ['react', 'react-dom'],
@@ -45,5 +46,8 @@ export default defineConfig({
     '@cfx-kit/ui-components',
     '@radix-ui/react-select',
     '@radix-ui/react-radio-group',
+    '@rc-component/table',
+    'viem',
+    'cive',
   ],
 });
