@@ -14,6 +14,7 @@ export const Table = ({
       <_Table
         // temp set prefixCls = 'ant-table' to use antd table style
         prefixCls="ant-table"
+        className={className}
         {...rest}
         emptyText={<Empty show={true} />}
       />

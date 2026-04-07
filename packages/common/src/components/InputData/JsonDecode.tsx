@@ -55,7 +55,7 @@ export const JsonDecode = ({
     } catch (error) {
       return '';
     }
-  }, [decodedParams, decodedResults, abiItem, success]);
+  }, [input, decodedParams, decodedResults, abiItem, success]);
 
   return (
     <AceEditor

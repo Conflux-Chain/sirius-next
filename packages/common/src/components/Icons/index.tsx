@@ -91,6 +91,7 @@ export const Success: React.FC<React.SVGProps<SVGSVGElement>> = props => (
     height="16"
     viewBox="0 0 16 16"
     fill="none"
+    {...props}
   >
     <path
       fillRule="evenodd"
@@ -115,6 +116,7 @@ export const Failed: React.FC<React.SVGProps<SVGSVGElement>> = props => (
     height="16"
     viewBox="0 0 16 16"
     fill="none"
+    {...props}
   >
     <path
       fillRule="evenodd"

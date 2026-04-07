@@ -23,13 +23,13 @@ export const formatContractAndTokenInfoMap = (
 export interface ContractAndTokenInfo {
   contract: {
     name?: string;
-    address?: string;
+    address: string;
   };
   token: {
     name?: string;
     symbol?: string;
     iconUrl?: string;
-    address?: string;
+    address: string;
   };
 }
 
