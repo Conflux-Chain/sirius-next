@@ -55,3 +55,6 @@ export const NETWORK_ID = (() => {
   }
   return networkId;
 })();
+
+export const COMMON_ERROR_OUTPUT_PREFIX = '0x08c379a0';
+export const COMMON_PANIC_OUTPUT_PREFIX = '0x4e487b71';
