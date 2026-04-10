@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import {
   Select as RadixUISelect,
   SelectContent,
@@ -10,12 +10,12 @@ import {
 import { cn } from '../../utils';
 import { debounce } from 'lodash';
 
-interface SelectProps {
+interface SelectProps<T extends string = string> {
   className?: string;
   disableMatchWidth?: boolean;
   size?: 'small' | 'medium' | 'large';
-  value?: string;
-  onChange: (value: string) => void;
+  value?: T;
+  onChange: (value: T) => void;
   width?: string | number;
   children: React.ReactNode;
   lable?: string;
@@ -27,11 +27,14 @@ interface OptionProps {
   children: React.ReactNode;
   value: string;
 }
-const Select: React.FC<SelectProps> & { Option: React.FC<OptionProps> } = ({
+const Select: {
+  <T extends string = string>(props: SelectProps<T>): JSX.Element;
+  Option: React.FC<OptionProps>;
+} = ({
   className = '',
   disableMatchWidth = true,
   size = 'medium',
-  value = '',
+  value,
   onChange,
   width = 'auto',
   children,

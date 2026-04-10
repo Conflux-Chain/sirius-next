@@ -1165,6 +1165,7 @@
         "traceOutcome": "Outcome",
         "traceResult": "Result",
         "traceStatusTitle": "Status",
+        "gas": "Gas",
         "traceStatus": {
           "success": "success",
           "fail": "fail",
@@ -1409,6 +1410,9 @@
     "status": "Status",
     "from": "From",
     "to": "To",
+    "internalTransactions": "Internal Transactions",
+    "tipOfInternalTransactionsCount": "Only shows CFX transfers with value, up to 100 records.",
+    "cfxTransferInfo": "Transfer <1>amount</1> CFX From <3>address</3> To <5>address</5>",
     "tokenTransferred": "Token Transferred",
     "value": "Value",
     "gasUsed": "Limit | Gas Used | Gas Charged",
@@ -1458,6 +1462,15 @@
       "title": "Internal Txns",
       "simple": "Simple",
       "advanced": "Advanced"
+    },
+    "txTrace": {
+      "title": "Txn Trace",
+      "proxyCall": "Show Proxy Calls",
+      "listView": "List View",
+      "tooltip": {
+        "proxyCall": "Toggle to show or hide internal calls between proxy contracts and their implementation contracts.",
+        "listView": "List View displays all internal transaction steps and full trace address for precise indexing of contract execution logic."
+      }
     },
     "internalTxnsTip": {
       "from": "The contract call from",

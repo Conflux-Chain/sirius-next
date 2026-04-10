@@ -34,8 +34,18 @@ export interface BaseContractInfo {
     exactMatch?: boolean;
   };
   proxy?: Record<string, unknown>;
-  beacon?: Record<string, unknown>;
-  implementation?: Record<string, unknown>;
+  beacon?: {
+    address?: string;
+    verify?: {
+      exactMatch?: boolean;
+    };
+  };
+  implementation?: {
+    address?: string;
+    verify?: {
+      exactMatch?: boolean;
+    };
+  };
   destroy?: {
     status?: number;
     message?: string;
@@ -52,3 +62,18 @@ export interface DetectAccountTypeResponse {
   delegatedTo: `0x${string}` | '' | null;
   extraMessage: string;
 }
+
+export interface MethodAbiItemResponse {
+  fullName: string;
+  formatWithArg?: string;
+}
+
+// https://doc.confluxnetwork.org/docs/core/build/json-rpc/trace_rpc/#four-new-field-added-to-internal_transfer_action
+export type Pocket =
+  | 'balance'
+  | 'staking_balance'
+  | 'storage_collateral'
+  | 'sponsor_balance_for_gas'
+  | 'sponsor_balance_for_collateral'
+  | 'mint_or_burn'
+  | 'gas_payment';

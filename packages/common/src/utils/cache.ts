@@ -59,11 +59,21 @@ export const fetchWithCache = <T extends (...params: any[]) => unknown>(
       return data;
     }
     const res = fetcher(...args);
-    mapStorage.setItem(cacheKey, {
+    const capturedKey = cacheKey;
+    mapStorage.setItem(capturedKey, {
       data: res as any,
       maxAge,
       createdAt: Date.now(),
     });
+    // If the fetcher returns a rejected Promise, evict the cache entry so
+    // subsequent callers retry rather than re-receiving the same rejection.
+    // The `.catch()` is a side-effect only; `res` is returned unmodified so
+    // the caller still receives the rejection normally.
+    if (res instanceof Promise) {
+      void (res as Promise<unknown>).catch(() => {
+        mapStorage.removeItem(capturedKey);
+      });
+    }
     return res;
   }) as T;
 };
