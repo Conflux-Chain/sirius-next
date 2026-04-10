@@ -57,11 +57,16 @@ export const DecodedParameters = ({
             setContractAndTokenInfo(
               formatContractAndTokenInfoMap(data.map, addressType),
             );
+          } else {
+            setContractAndTokenInfo({});
           }
         })
         .catch(e => {
           console.log('reqContractAndToken or process error: ', e);
+          setContractAndTokenInfo({});
         });
+    } else {
+      setContractAndTokenInfo({});
     }
   }, [args, params, addressType]);
   return params.length > 0 ? (
