@@ -4,6 +4,7 @@ import { publishRequestError } from '../pubsub';
 import type { AbiFunctionWithoutGas } from 'src/utils/sdk';
 import { formatABI } from '..';
 import { formatAddress } from '../address';
+import { Pocket } from '../request.types';
 
 export interface TraceAction {
   createType: string;
@@ -15,7 +16,9 @@ export interface TraceAction {
   gas?: string;
   space: string;
 
-  // only for core space ↓↓↓↓↓↓↓↓
+  // ↓↓↓↓↓↓↓↓ only for core space ↓↓↓↓↓↓↓↓
+  fromPocket?: Pocket;
+  toPocket?: Pocket;
   fromSpace?: 'evm' | 'none' | 'native';
   toSpace?: 'evm' | 'none' | 'native';
 }
@@ -41,6 +44,14 @@ interface TokenInfo {
   tokenType: string;
 }
 
+interface NameTagInfo {
+  nameTag: string;
+  website?: string;
+  desc?: string;
+  labels?: string[];
+  caution?: number;
+}
+
 export interface OriginTreeTrace {
   calls: OriginTreeTrace[];
   action: TraceAction;
@@ -64,8 +75,13 @@ export interface OriginTraceData {
   tokenMap: Record<string, TokenInfo>;
   proxyMap: Record<string, ProxyType>;
   methodMap: Record<string, Record<string, string>>;
-  ensMap: Record<string, string>;
-  nameTagMap: Record<string, string>;
+  ensMap: Record<
+    string,
+    {
+      name?: string;
+    }
+  >;
+  nameTagMap: Record<string, NameTagInfo>;
   traceTree: OriginTreeTrace[];
 }
 
@@ -86,12 +102,8 @@ export interface ListTraceForUI {
   toContractInfo: ContractInfo | {};
   fromTokenInfo: TokenInfo | {};
   toTokenInfo: TokenInfo | {};
-  fromNameTagInfo?: {
-    nameTag?: string;
-  };
-  toNameTagInfo?: {
-    nameTag?: string;
-  };
+  fromNameTagInfo?: NameTagInfo;
+  toNameTagInfo?: NameTagInfo;
   fromENSInfo?: {
     name?: string;
   };
@@ -112,6 +124,8 @@ export interface ListTraceForUI {
   fromESpaceInfo?: {
     address?: string;
   };
+  fromPocket?: Pocket;
+  toPocket?: Pocket;
 }
 
 export interface TreeTraceForUI extends ListTraceForUI {
@@ -180,27 +194,13 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
       toContractInfo: contractInfo[to ?? ''] || {},
       fromTokenInfo: tokenInfo[from] || {},
       toTokenInfo: tokenInfo[to ?? ''] || {},
-      fromNameTagInfo: nameTagMap[from]
-        ? {
-            nameTag: 'nameTagMap[from]',
-          }
-        : undefined,
-      toNameTagInfo: nameTagMap[to ?? '']
-        ? {
-            nameTag: "nameTagMap[to ?? '']",
-          }
-        : undefined,
-      fromENSInfo: ensMap[from]
-        ? {
-            name: 'ensMap[from]',
-          }
-        : undefined,
-      toENSInfo: ensMap[to ?? '']
-        ? {
-            name: "ensMap[to ?? '']",
-          }
-        : undefined,
+      fromNameTagInfo: nameTagMap[from],
+      toNameTagInfo: nameTagMap[to ?? ''],
+      fromENSInfo: ensMap[from],
+      toENSInfo: ensMap[to ?? ''],
       isCallImpl: t.isCallImpl,
+      fromPocket: t.action.fromPocket,
+      toPocket: t.action.toPocket,
     };
     if (t.action.fromSpace === 'evm') {
       item.fromESpaceInfo = {

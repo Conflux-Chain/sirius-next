@@ -63,49 +63,17 @@ export interface DetectAccountTypeResponse {
   extraMessage: string;
 }
 
-export interface TransferItemResponse {
-  epochNumber: number;
-  transactionHash: string;
-  transactionTraceIndex: number;
-  from: string;
-  to: string;
-  value: string;
-  type: string;
-  timestamp: number;
-  syncTimestamp: number;
-  transactionLogIndex: null;
-  fromContractInfo?: {
-    address: string;
-    isVirtual?: boolean;
-    verify?: {
-      result?: number;
-    };
-  };
-  fromTokenInfo?: {
-    address: string;
-    name: string;
-    symbol: string;
-    decimals: number;
-    tokenType: string;
-  };
-  toContractInfo?: {
-    address: string;
-    isVirtual?: boolean;
-    verify?: {
-      result?: number;
-    };
-  };
-  toTokenInfo?: {
-    address: string;
-    name: string;
-    symbol: string;
-    decimals: number;
-    tokenType: string;
-  };
-  transferType?: string;
-}
-
 export interface MethodAbiItemResponse {
   fullName: string;
   formatWithArg?: string;
 }
+
+// https://doc.confluxnetwork.org/docs/core/build/json-rpc/trace_rpc/#four-new-field-added-to-internal_transfer_action
+export type Pocket =
+  | 'balance'
+  | 'staking_balance'
+  | 'storage_collateral'
+  | 'sponsor_balance_for_gas'
+  | 'sponsor_balance_for_collateral'
+  | 'mint_or_burn'
+  | 'gas_payment';

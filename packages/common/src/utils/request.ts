@@ -4,11 +4,9 @@ import {
   BaseContractInfo,
   DetectAccountTypeResponse,
   MethodAbiItemResponse,
-  TransferItemResponse,
 } from './request.types';
 import { getEnvConfig } from '../store';
 import { fetchWithCache } from './cache';
-import useSWR from 'swr';
 interface FetchWithAbortType<T> {
   promise: Promise<T>;
   abort: () => void;
@@ -314,24 +312,6 @@ export const detectAccountType = fetchWithCache(
     maxAge: 1000 * 10,
   },
 );
-
-export const useTransferList = (
-  query: Record<string, string>,
-  shouldFetch = true,
-) => {
-  const url = qs.stringifyUrl({
-    url: `/transfer`,
-    query: query,
-  });
-  return useSWR(shouldFetch ? url : null, () =>
-    fetchWithPrefix<{
-      list: TransferItemResponse[];
-      total: number;
-    }>(url).catch(() => {
-      return undefined;
-    }),
-  );
-};
 
 export const reqAbiByMethodId = (methodId: string) => {
   return fetchWithPrefix<{
