@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.11
+
+### Patch Changes
+
+- feat: tx trace
+
 ## 0.2.10
 
 ### Patch Changes
