@@ -101,7 +101,7 @@ export const ProxyContractAddress = (props: {
       >
         <a
           className={cn(
-            'block relative align-bottom cursor-pointer truncate max-w-190px',
+            'block relative align-bottom cursor-pointer truncate max-w-220px',
             className,
           )}
           href={`/address/${address}`}

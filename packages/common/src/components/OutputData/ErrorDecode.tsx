@@ -43,7 +43,9 @@ export const ErrorDecode = ({
         >
           Error:
         </div>
-        <Original data={errorData} />
+        <div className="flex-1">
+          <Original data={errorData} />
+        </div>
       </div>
     );
   return (
