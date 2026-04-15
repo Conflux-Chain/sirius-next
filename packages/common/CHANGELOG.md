@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.12
+
+### Patch Changes
+
+- feat: optimize ui
+
 ## 0.2.11
 
 ### Patch Changes
