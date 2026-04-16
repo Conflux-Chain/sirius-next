@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.13
+
+### Patch Changes
+
+- b4779d5: fix: output display error
+
 ## 0.2.12
 
 ### Patch Changes
