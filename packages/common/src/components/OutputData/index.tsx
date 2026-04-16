@@ -36,10 +36,7 @@ export const OutputData = ({
     if (!success) return <Original data={output}></Original>;
     if (decodedData) {
       return (
-        <GeneralDecode
-          data={output}
-          fullName={decodedData.fullName}
-        ></GeneralDecode>
+        <GeneralDecode data={output} includeMethodID={false}></GeneralDecode>
       );
     }
   } else if (dataType === 'optimizationDecode') {
