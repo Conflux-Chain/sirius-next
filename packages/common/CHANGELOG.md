@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.14
+
+### Patch Changes
+
+- becb994: fix: tx trace decode error
+
 ## 0.2.13
 
 ### Patch Changes
