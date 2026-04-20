@@ -85,7 +85,8 @@ export const RenderAddress = ({
 }: RenderAddressProps) => {
   const translations = getTranslations();
 
-  const name = content || ENSLabel || nametag || addressLabel || alias;
+  // Private name tags >CNS/ENS>Official tag/name>contract tag > contract token name > contract name
+  const name = addressLabel || content || ENSLabel || nametag || alias;
 
   const defaultStyle = {
     maxWidth: `${(name && isFullNameTag) || isFull ? 'auto' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
