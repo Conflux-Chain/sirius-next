@@ -55,6 +55,7 @@ const CommonTraceDetail = ({
     isContractCreated,
     decodedData,
   });
+  const isReturnDataEmpty = !output || output === '0x';
   let outputDataType = dataType;
   // when the transaction failed, the output is the error message, use utf8 as decode type
   if (
@@ -104,10 +105,11 @@ const CommonTraceDetail = ({
             decodedData={decodedData}
             space={space}
             labelClassName="text-#002257 w-150px"
+            success={success}
           />
         </div>
       </div>
-      {dataType !== 'json' && (
+      {dataType !== 'json' && !isReturnDataEmpty && (
         <div className="flex gap-5px mt-16px">
           {outputDataType !== 'optimizationDecode' && (
             <div className={clsx('w-150px shrink-0', !success && 'text-red')}>

@@ -55,19 +55,21 @@ const decodeFunctionDataByAbi = ({
       abi: abi,
       name: decodedParams.functionName ?? methodID,
     }) as AbiFunctionWithoutGas;
+    // if the output has only one value, decodeFunctionResult will return the value directly, otherwise it will return an array,
+    // so we need to check the length of abiItem.outputs to determine whether to wrap decodedResults in an array
+    const results =
+      decodedResults === undefined
+        ? undefined
+        : abiItem.outputs.length === 1
+          ? [decodedResults]
+          : (decodedResults as unknown[]);
     if (!withOutput) {
       abiItem.outputs = [];
     }
     const fullName = formatABI([abiItem])[0];
-
     return {
       decodedParams,
-      decodedResults:
-        decodedResults === undefined
-          ? undefined
-          : Array.isArray(decodedResults)
-            ? (decodedResults as unknown[])
-            : [decodedResults],
+      decodedResults: results,
       abiItem,
       fullName: fullName,
       failed: false,
