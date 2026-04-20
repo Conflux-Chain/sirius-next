@@ -12,12 +12,14 @@ export const InputData = ({
   input,
   space,
   labelClassName,
+  success,
 }: {
   decodedData: DecodedFunctionData;
   dataType: DataType;
   input: `0x${string}`;
   space: 'evm' | 'core';
   labelClassName?: string;
+  success?: boolean;
 }) => {
   if (dataType === 'utf8') {
     return <UTF8 data={input}></UTF8>;
@@ -32,6 +34,7 @@ export const InputData = ({
         decodedResults={decodedData.decodedResults}
         abiItem={decodedData.abiItem}
         input={input}
+        success={success}
       ></JsonDecode>
     );
   } else if (dataType === 'generalDecode') {
