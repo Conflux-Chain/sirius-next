@@ -11,6 +11,16 @@ import CommonPanic from 'src/abis/CommonPanic';
 
 const fields = ['abi' as const];
 
+interface Result {
+  abiItem?: AbiItem;
+  args?: readonly unknown[];
+  errorName: string;
+  // no abi for decoded
+  noAbi?: boolean;
+  // decoded failed
+  failed?: boolean;
+}
+
 export const useDecodeFunctionError = ({
   to,
   implementation: _implementation,
@@ -21,14 +31,7 @@ export const useDecodeFunctionError = ({
   to?: string;
   implementation?: string;
   space: 'evm' | 'core';
-}): [
-  {
-    abiItem?: AbiItem;
-    args?: readonly unknown[];
-    errorName: string;
-  } | null,
-  boolean,
-] => {
+}): [Result | null, boolean] => {
   const standardErrorAbi = useMemo(() => {
     if (errorData.startsWith(COMMON_ERROR_OUTPUT_PREFIX)) return CommonError;
     if (errorData.startsWith(COMMON_PANIC_OUTPUT_PREFIX)) return CommonPanic;
@@ -50,10 +53,13 @@ export const useDecodeFunctionError = ({
         data: errorData,
         space,
       });
-      return result;
+      return result as Result;
     } catch (error) {
       console.log('decode error data with standard error abi failed', error);
-      return null;
+      return {
+        errorName: 'unknown',
+        failed: true,
+      };
     }
   }, [errorData, standardErrorAbi, space]);
   const decoded = useMemo(() => {
@@ -64,10 +70,13 @@ export const useDecodeFunctionError = ({
         data: errorData,
         space,
       });
-      return result;
+      return result as Result;
     } catch (error) {
       console.log('decode error data with contract abi failed', error);
-      return null;
+      return {
+        errorName: 'unknown',
+        failed: true,
+      };
     }
   }, [errorData, data, space]);
   const decodedByImplementation = useMemo(() => {
@@ -78,22 +87,31 @@ export const useDecodeFunctionError = ({
         data: errorData,
         space,
       });
-      return result;
+      return result as Result;
     } catch (error) {
       console.log('decode error data with implementation abi failed', error);
-      return null;
+      return {
+        errorName: 'unknown',
+        failed: true,
+      };
     }
   }, [errorData, implementationData, space]);
 
   return useMemo(() => {
     if (!errorData) return [null, false];
-    if (decodedByStandardError) return [decodedByStandardError, false];
-    if (decodedByImplementation)
+    if (decodedByStandardError && !decodedByStandardError.failed)
+      return [decodedByStandardError, false];
+    if (decodedByImplementation && !decodedByImplementation.failed)
       return [decodedByImplementation, implementationLoading];
-    if (decoded) return [decoded, contractLoading];
+    if (decoded && !decoded.failed) return [decoded, contractLoading];
     return [
       {
         errorName: 'unknown',
+        noAbi: !decodedByStandardError && !decodedByImplementation && !decoded,
+        failed:
+          decodedByImplementation?.failed ||
+          decoded?.failed ||
+          decodedByStandardError?.failed,
       },
       contractLoading || implementationLoading,
     ];

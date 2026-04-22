@@ -73,6 +73,7 @@ export interface RenderAddressProps {
   maxWidth?: number;
   suffixSize?: number;
   prefix?: React.ReactNode;
+  ENSIcon?: React.ReactNode;
   suffix?: React.ReactNode;
   type?: 'pow' | 'pos';
   addressLabel?: string | Iterable<React.ReactNode> | null;
