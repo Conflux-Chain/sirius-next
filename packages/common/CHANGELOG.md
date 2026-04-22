@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.15
+
+### Patch Changes
+
+- 475e973: fix: tx trace ui
+
 ## 0.2.14
 
 ### Patch Changes
