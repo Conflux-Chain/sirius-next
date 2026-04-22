@@ -215,6 +215,9 @@ export const useDecodeFunctionData = ({
       return [decodedByContractAbi, contractLoading];
     if (decodedByMethodAbi && !decodedByMethodAbi.failed)
       return [decodedByMethodAbi, methodAbiLoading];
+    if (implementationLoading || contractLoading || methodAbiLoading) {
+      return [{}, true];
+    }
     if (
       (decodedByOuterAbi && decodedByOuterAbi.failed) ||
       (decodedByImplementationAbi && decodedByImplementationAbi.failed) ||

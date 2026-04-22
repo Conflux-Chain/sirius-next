@@ -12,6 +12,7 @@ import { InputData } from '../InputData';
 import { OutputData } from '../OutputData';
 import { AbiFunctionWithoutGas } from 'src/utils/sdk';
 import { useState } from 'react';
+import { AbiWarning } from '../InputData/AbiWarning';
 
 interface Props {
   to?: string;
@@ -40,7 +41,7 @@ const CommonTraceDetail = ({
   const success = outcome === 'success';
   const { t } = useTranslation();
   const translations = getTranslations();
-  const [decodedData] = useDecodeFunctionData({
+  const [decodedData, isLoading] = useDecodeFunctionData({
     to,
     input,
     output,
@@ -49,7 +50,7 @@ const CommonTraceDetail = ({
     abi,
     withOutput: true,
   });
-  const { dataType, setDataType, dataTypeList } = useDecodedDataType({
+  const { dataType, setDataType, dataTypeList, tip } = useDecodedDataType({
     to,
     input,
     isContractCreated,
@@ -137,6 +138,7 @@ const CommonTraceDetail = ({
           </div>
         </div>
       )}
+      {!isLoading && <AbiWarning tip={tip} className="ml-150px" />}
     </Card>
   );
 };
