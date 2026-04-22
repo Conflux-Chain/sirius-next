@@ -76,6 +76,7 @@ export const RenderAddress = ({
   style = {},
   maxWidth,
   prefix = null,
+  ENSIcon = null,
   suffix = null,
   type = 'pow',
   addressLabel = '',
@@ -85,8 +86,9 @@ export const RenderAddress = ({
 }: RenderAddressProps) => {
   const translations = getTranslations();
 
-  // Private name tags >CNS/ENS>Official tag/name>contract tag > contract token name > contract name
-  const name = addressLabel || content || ENSLabel || nametag || alias;
+  // Private name tags >Official tag/name>contract token name > contract tag > contract name>CNS/ENS
+  const name = addressLabel || content || nametag || alias || ENSLabel;
+  const isShowEns = name === ENSLabel && ENSLabel;
 
   const defaultStyle = {
     maxWidth: `${(name && isFullNameTag) || isFull ? 'auto' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
@@ -125,7 +127,7 @@ export const RenderAddress = ({
 
   return (
     <div className="inline-flex">
-      {prefix}
+      {prefix || (isShowEns ? ENSIcon : null)}
       <Text
         tag="span"
         hoverValue={

@@ -50,7 +50,7 @@ const parseProps = (
     aliasLabel = t(translations.general.zeroAddress);
   }
 
-  let prefixIcon: React.ReactNode = null;
+  let ENSIcon: React.ReactNode = null;
   // official name tag
   let officalNametag: React.ReactNode = null;
   // private name tag
@@ -84,12 +84,12 @@ const parseProps = (
   if (showENSLabel && gENSLabel) {
     const { label, icon } = getLabelInfo(gENSLabel, 'ens');
     ENSLabel = label;
-    prefixIcon = icon;
+    ENSIcon = icon;
   }
 
   return {
     alias: aliasLabel,
-    prefix: prefixIcon,
+    ENSIcon: ENSIcon,
     nametag: officalNametag,
     addressLabel,
     ENSLabel,

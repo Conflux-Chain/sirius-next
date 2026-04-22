@@ -3,6 +3,7 @@ import { useDecodeFunctionError } from 'src/utils/hooks/useDecodeFunctionError';
 import { Original } from '../InputData/Original';
 import { DecodedParameters } from '../InputData/OptimizationDecode';
 import { FunctionName } from '../InputData/FunctionName';
+import { AbiWarning } from '../InputData/AbiWarning';
 
 export const ErrorDecode = ({
   to,
@@ -45,6 +46,17 @@ export const ErrorDecode = ({
         </div>
         <div className="flex-1">
           <Original data={errorData} />
+          {!isLoading && (
+            <AbiWarning
+              tip={
+                decodedError?.failed
+                  ? 'contract.abiError'
+                  : decodedError?.noAbi
+                    ? 'contract.abiNotUploaded'
+                    : undefined
+              }
+            />
+          )}
         </div>
       </div>
     );
