@@ -9,41 +9,78 @@ import { shortenAddress } from '@cfx-kit/dapp-utils/dist/address';
 import { cn } from 'src/utils';
 import { ProxyType } from 'src/utils/hooks/useTxTrace';
 import { useAddressLabel } from 'src/utils/hooks/useAddressLabel';
+import { getLabelInfo } from '../AddressContainer/label';
+import { useMemo } from 'react';
+import { Link } from '../Link';
+import { CoreAddressContainerProps } from '../AddressContainer/types';
 
-export const ProxyContractAddress = (props: {
-  address: string;
-  alias?: string;
-  isFull?: boolean;
-  verify?: boolean;
-  showIcon?: boolean;
-  showAddressLabel?: boolean;
-  proxy: {
-    type: ProxyType;
-    implAddress: string;
-    beaconAddress?: string;
-  };
-  style?: React.CSSProperties;
-  className?: string;
-}) => {
+export const ProxyContractAddress = (
+  props: Pick<
+    CoreAddressContainerProps,
+    | 'value'
+    | 'alias'
+    | 'isFull'
+    | 'verify'
+    | 'showIcon'
+    | 'showAddressLabel'
+    | 'showENSLabel'
+    | 'ensInfo'
+    | 'showNametag'
+    | 'nametagInfo'
+  > & {
+    proxy: {
+      type: ProxyType;
+      implAddress: string;
+      beaconAddress?: string;
+    };
+    style?: React.CSSProperties;
+    className?: string;
+  },
+) => {
   const {
     showIcon = true,
     showAddressLabel = true,
     verify,
-    address,
+    value,
     alias,
     isFull = false,
     proxy,
     className,
     style,
+    showENSLabel = true,
+    ensInfo,
+    showNametag = true,
+    nametagInfo,
   } = props;
 
   const { t } = useTranslation();
   const translations = getTranslations();
-  const addressLabel = useAddressLabel(address, showAddressLabel);
-  const text =
-    addressLabel || alias || (isFull ? address : shortenAddress(address));
+  const addressLabel = useAddressLabel(value, showAddressLabel);
 
-  const isInnerContract = address && isInnerContractAddress(address);
+  const text = useMemo(() => {
+    const ENSLabel = showENSLabel ? ensInfo?.[value]?.name : undefined;
+    const nametag = showNametag ? nametagInfo?.[value]?.nametag : undefined;
+
+    // Private name tags > Official tag/name > contract token name > contract tag > contract name > CNS/ENS
+    return (
+      addressLabel ||
+      nametag ||
+      alias ||
+      ENSLabel ||
+      (isFull ? value : shortenAddress(value))
+    );
+  }, [
+    nametagInfo,
+    value,
+    showNametag,
+    addressLabel,
+    alias,
+    isFull,
+    showENSLabel,
+    ensInfo,
+  ]);
+
+  const isInnerContract = value && isInnerContractAddress(value);
 
   const typeText = t(
     isInnerContract
@@ -91,7 +128,7 @@ export const ProxyContractAddress = (props: {
         title={
           <div className="flex flex-col gap-5px">
             <div>
-              {proxy.type}: {address}
+              {proxy.type}: {value}
             </div>
             {proxy.beaconAddress && <div>Beacon: {proxy.beaconAddress}</div>}
             <div>Impl: {proxy.implAddress}</div>
@@ -99,16 +136,16 @@ export const ProxyContractAddress = (props: {
         }
         containerClassName="max-w-unset"
       >
-        <a
+        <Link
           className={cn(
             'block relative align-bottom cursor-pointer truncate max-w-220px',
             className,
           )}
-          href={`/address/${address}`}
+          href={`/address/${value}`}
           style={style}
         >
           {text}({proxy.type})
-        </a>
+        </Link>
       </Tooltip>
     </div>
   );
