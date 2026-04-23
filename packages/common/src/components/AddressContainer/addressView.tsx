@@ -86,7 +86,7 @@ export const RenderAddress = ({
 }: RenderAddressProps) => {
   const translations = getTranslations();
 
-  // Private name tags >Official tag/name>contract token name > contract tag > contract name>CNS/ENS
+  // Private name tags > Official tag/name > contract token name > contract tag > contract name > CNS/ENS
   const name = addressLabel || content || nametag || alias || ENSLabel;
   const isShowEns = !!ENSLabel && name === ENSLabel;
 

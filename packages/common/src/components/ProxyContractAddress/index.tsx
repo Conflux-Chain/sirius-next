@@ -9,6 +9,9 @@ import { shortenAddress } from '@cfx-kit/dapp-utils/dist/address';
 import { cn } from 'src/utils';
 import { ProxyType } from 'src/utils/hooks/useTxTrace';
 import { useAddressLabel } from 'src/utils/hooks/useAddressLabel';
+import { getLabelInfo } from '../AddressContainer/label';
+import { useMemo } from 'react';
+import { Link } from '../Link';
 
 export const ProxyContractAddress = (props: {
   address: string;
@@ -24,6 +27,21 @@ export const ProxyContractAddress = (props: {
   };
   style?: React.CSSProperties;
   className?: string;
+  showENSLabel?: boolean;
+  ensInfo?: {
+    [k: string]: {
+      address: string;
+      name: string;
+      expired?: number;
+    };
+  };
+  showNametag?: boolean;
+  nametagInfo?: {
+    [k: string]: {
+      address: string;
+      nametag: string;
+    };
+  };
 }) => {
   const {
     showIcon = true,
@@ -35,13 +53,43 @@ export const ProxyContractAddress = (props: {
     proxy,
     className,
     style,
+    showENSLabel = true,
+    ensInfo,
+    showNametag = true,
+    nametagInfo,
   } = props;
 
   const { t } = useTranslation();
   const translations = getTranslations();
   const addressLabel = useAddressLabel(address, showAddressLabel);
-  const text =
-    addressLabel || alias || (isFull ? address : shortenAddress(address));
+
+  const text = useMemo(() => {
+    let nametag = '';
+    const ENSLabel = showENSLabel ? ensInfo?.[address]?.name : undefined;
+    const nametags = nametagInfo?.[address];
+    if (showNametag && nametags) {
+      const { label } = getLabelInfo(nametags.nametag, 'nametag');
+      nametag = label;
+    }
+
+    // Private name tags > Official tag/name > contract token name > contract tag > contract name > CNS/ENS
+    return (
+      addressLabel ||
+      nametag ||
+      alias ||
+      ENSLabel ||
+      (isFull ? address : shortenAddress(address))
+    );
+  }, [
+    nametagInfo,
+    address,
+    showNametag,
+    addressLabel,
+    alias,
+    isFull,
+    showENSLabel,
+    ensInfo,
+  ]);
 
   const isInnerContract = address && isInnerContractAddress(address);
 
@@ -99,7 +147,7 @@ export const ProxyContractAddress = (props: {
         }
         containerClassName="max-w-unset"
       >
-        <a
+        <Link
           className={cn(
             'block relative align-bottom cursor-pointer truncate max-w-220px',
             className,
@@ -108,7 +156,7 @@ export const ProxyContractAddress = (props: {
           style={style}
         >
           {text}({proxy.type})
-        </a>
+        </Link>
       </Tooltip>
     </div>
   );
