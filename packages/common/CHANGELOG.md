@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.16
+
+### Patch Changes
+
+- e2207e7: fix: proxy address alias
+
 ## 0.2.15
 
 ### Patch Changes
