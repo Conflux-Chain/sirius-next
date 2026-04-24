@@ -1,6 +1,7 @@
 import qs from 'query-string';
 import { publishRequestError } from './pubsub';
 import {
+  AddressNameMap,
   BaseContractInfo,
   DetectAccountTypeResponse,
   MethodAbiItemResponse,
@@ -113,7 +114,7 @@ const fetchWithAbort = <T>(
       .then(data => resolve(data as T))
       .catch(error => {
         if (/HEAD/i.test(opts?.method || '')) {
-          return {};
+          return resolve({} as T);
         }
 
         // A fetch() promise will reject with a TypeError when a network error is encountered or CORS is misconfigured on the server-side,
@@ -324,4 +325,24 @@ export const reqAbiByMethodId = (methodId: string) => {
       },
     }),
   );
+};
+
+export const fetchAddressNameMap = (
+  addresses: string[],
+  params: {
+    withContractInfo?: 'true' | 'false';
+    withNameTagInfo?: 'true' | 'false';
+    withENSInfo?: 'true' | 'false';
+  } = {},
+) => {
+  const url = qs.stringifyUrl({
+    url: '/account/infos',
+    query: {
+      accounts: addresses.join(','),
+      ...params,
+    },
+  });
+  return fetchWithOpenApi<Record<string, AddressNameMap>>(url, {
+    method: 'GET',
+  });
 };

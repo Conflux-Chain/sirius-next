@@ -4,9 +4,9 @@ import { LOCALSTORAGE_KEYS_MAP } from '../constants';
 export const useAge = (format?: string) => {
   const [ageFormat, toggleAgeFormat] = useState(
     format ||
-      localStorage.getItem(LOCALSTORAGE_KEYS_MAP.ageFormat) !== 'datetime'
-      ? 'age'
-      : 'datetime',
+      (localStorage.getItem(LOCALSTORAGE_KEYS_MAP.ageFormat) !== 'datetime'
+        ? 'age'
+        : 'datetime'),
   );
   useEffect(() => {
     if (localStorage.getItem(LOCALSTORAGE_KEYS_MAP.ageFormat) !== ageFormat) {

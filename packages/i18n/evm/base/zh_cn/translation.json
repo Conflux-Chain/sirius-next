@@ -471,6 +471,9 @@
     "tipCountBefore": "共计",
     "tipCountAfter": "个 CFX 转移"
   },
+  "eip7702Authorizations": {
+    "title": "EIP-7702授权交易"
+  },
   "tokens": {
     "title": "通证",
     "description": "通证",
@@ -531,6 +534,8 @@
     "block": "区块",
     "txn": "交易",
     "transfers": "CFX 转移",
+    "aaTransactions": "账户抽象交易",
+    "eip7702Authorizations": "EIP-7702授权交易",
     "blockchain": "区块链",
     "accounts": "账户",
     "tokens": "通证",
