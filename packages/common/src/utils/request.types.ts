@@ -63,6 +63,41 @@ export interface DetectAccountTypeResponse {
   extraMessage: string;
 }
 
+export interface AddressNameMap {
+  contract?: {
+    name?: string;
+  };
+  token?: {
+    name?: string;
+    symbol?: string;
+    decimals?: number;
+    iconUrl?: string;
+    website?: string;
+    tokenType?: string;
+  };
+  verification?: {
+    name?: string;
+  };
+  eSpace?: {
+    address?: string;
+  };
+  ens?: {
+    name?: string;
+  };
+  nameTag?: {
+    nameTag?: string;
+    website?: string;
+    desc?: string;
+    labels?: string[];
+    caution?: string;
+  };
+  implementation?: {
+    name?: string;
+    address?: string;
+    proxyPattern?: string;
+  };
+}
+
 export interface MethodAbiItemResponse {
   fullName: string;
   formatWithArg?: string;
