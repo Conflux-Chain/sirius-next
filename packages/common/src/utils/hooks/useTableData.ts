@@ -115,7 +115,9 @@ export const useTableData = <T extends TableData = TableData>({
       current,
       pageSize,
       total:
-        Math.min(data?.total ?? 0, data?.listLimit ?? 0) || data?.total || 0,
+        data?.listLimit != null
+          ? Math.min(data?.total ?? 0, data.listLimit)
+          : data?.total ?? 0,
     },
     setPagination,
   };

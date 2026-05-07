@@ -41,6 +41,8 @@ export const getAddressNameInfo = (
     contractName: info.verification?.name,
     nametag: info.nameTag?.nameTag,
     ensName: info.ens?.name,
+    // only for core space
+    isEspaceAddress: !!info.eSpace?.address,
     // contract token name > contract tag > contract name
     // TODO: info.verification?.name
     alias: info.token?.name || info.contract?.name || info.verification?.name,

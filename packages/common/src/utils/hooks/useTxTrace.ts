@@ -29,29 +29,6 @@ export interface TraceResult {
   returnData: `0x${string}`;
 }
 
-interface ContractInfo {
-  address: string;
-  isVirtual: boolean;
-  verify: {
-    result: number;
-  };
-}
-interface TokenInfo {
-  address: string;
-  decimals: number;
-  symbol: string;
-  name: string;
-  tokenType: string;
-}
-
-interface NameTagInfo {
-  nameTag: string;
-  website?: string;
-  desc?: string;
-  labels?: string[];
-  caution?: number;
-}
-
 export interface OriginTreeTrace {
   calls: OriginTreeTrace[];
   action: TraceAction;
