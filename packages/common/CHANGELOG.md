@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.17
+
+### Patch Changes
+
+- 0f39df0: fix: function name
+
 ## 0.2.16
 
 ### Patch Changes
