@@ -69,6 +69,26 @@ const testAbi: Abi = [
   },
 ];
 
+const overloadedResultAbi: Abi = [
+  {
+    type: 'function',
+    name: 'calc',
+    inputs: [{ name: 'a', type: 'uint256' }],
+    outputs: [{ name: 'value', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'calc',
+    inputs: [
+      { name: 'a', type: 'uint256' },
+      { name: 'b', type: 'uint256' },
+    ],
+    outputs: [{ name: 'ok', type: 'bool' }],
+    stateMutability: 'view',
+  },
+];
+
 describe('decodeFunctionData', () => {
   let decodeFunctionData: Awaited<
     ReturnType<typeof getSdk>
@@ -182,6 +202,90 @@ describe('decodeFunctionResult', () => {
       space: 'core',
     });
     expect(result).toEqual(99999n);
+  });
+
+  test('evm: decodes function result when functionName is methodId', () => {
+    const encoded = encodeFunctionResult({
+      abi: testAbi,
+      functionName: 'getValue',
+      result: 54321n,
+    });
+    const methodId = toFunctionSelector('getValue(uint256)');
+
+    const result = decodeFunctionResult({
+      data: encoded,
+      abi: testAbi,
+      functionName: methodId,
+      space: 'evm',
+    });
+    expect(result).toEqual(54321n);
+  });
+
+  test('core: decodes function result when functionName is methodId', () => {
+    const encoded = encodeFunctionResult({
+      abi: testAbi,
+      functionName: 'getValue',
+      result: 888n,
+    });
+    const methodId = toFunctionSelector('getValue(uint256)');
+
+    const result = decodeFunctionResult({
+      data: encoded,
+      abi: testAbi,
+      functionName: methodId,
+      space: 'core',
+    });
+    expect(result).toEqual(888n);
+  });
+
+  test('evm: resolves overloaded function result by methodId', () => {
+    const encoded = encodeAbiParameters([{ name: 'ok', type: 'bool' }], [true]);
+    const methodId = toFunctionSelector('calc(uint256,uint256)');
+
+    const result = decodeFunctionResult({
+      data: encoded,
+      abi: overloadedResultAbi,
+      functionName: methodId,
+      space: 'evm',
+    });
+    expect(result).toBe(true);
+  });
+
+  test('core: resolves overloaded function result by methodId', () => {
+    const encoded = encodeAbiParameters([{ name: 'ok', type: 'bool' }], [true]);
+    const methodId = toFunctionSelector('calc(uint256,uint256)');
+
+    const result = decodeFunctionResult({
+      data: encoded,
+      abi: overloadedResultAbi,
+      functionName: methodId,
+      space: 'core',
+    });
+    expect(result).toBe(true);
+  });
+
+  test('evm: decodes empty output for no-return function by methodId', () => {
+    const methodId = toFunctionSelector('setValues(uint256,uint256)');
+
+    const result = decodeFunctionResult({
+      data: '0x',
+      abi: testAbi,
+      functionName: methodId,
+      space: 'evm',
+    });
+    expect(result).toBeUndefined();
+  });
+
+  test('core: decodes empty output for no-return function by methodId', () => {
+    const methodId = toFunctionSelector('setValues(uint256,uint256)');
+
+    const result = decodeFunctionResult({
+      data: '0x',
+      abi: testAbi,
+      functionName: methodId,
+      space: 'core',
+    });
+    expect(result).toBeUndefined();
   });
 });
 
