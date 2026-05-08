@@ -45,7 +45,7 @@ const decodeFunctionDataByAbi = ({
       ? !isReturnDataEmpty
         ? decodeFunctionResult({
             abi: abi,
-            functionName: decodedParams.functionName,
+            functionName: methodID,
             data: output,
             space,
           })
@@ -53,7 +53,7 @@ const decodeFunctionDataByAbi = ({
       : output;
     const abiItem = getAbiItem({
       abi: abi,
-      name: decodedParams.functionName ?? methodID,
+      name: methodID,
     }) as AbiFunctionWithoutGas;
     // if the output has only one value, decodeFunctionResult will return the value directly, otherwise it will return an array,
     // so we need to check the length of abiItem.outputs to determine whether to wrap decodedResults in an array
