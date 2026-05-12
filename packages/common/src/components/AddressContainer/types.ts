@@ -19,7 +19,9 @@ export interface CoreAddressContainerProps {
   showNametag?: boolean;
   tokenName?: string | null;
   contractName?: string | null;
+  showVerificationName?: boolean;
   verificationName?: string | null;
+  innerName?: string | null; // inner name is used for some special address, like the zero address
   // official name tag
   nametag?: string | Iterable<React.ReactNode> | null;
   // ens name tag
@@ -43,7 +45,9 @@ export interface EVMAddressContainerProps {
   showNametag?: boolean;
   tokenName?: string | null;
   contractName?: string | null;
+  showVerificationName?: boolean;
   verificationName?: string | null;
+  innerName?: string | null; // inner name is used for some special address, like the zero address
   // official name tag
   nametag?: string | Iterable<React.ReactNode> | null;
   isContract?: boolean;
@@ -69,7 +73,9 @@ export interface RenderAddressProps {
   type?: 'pow' | 'pos';
   tokenName?: string | null;
   contractName?: string | null;
+  showVerificationName?: boolean;
   verificationName?: string | null;
+  innerName?: string | null; // inner name is used for some special address, like the zero address
   addressLabel?: string | Iterable<React.ReactNode> | null;
   // ens name tag
   ENSLabel?: string | Iterable<React.ReactNode> | null;

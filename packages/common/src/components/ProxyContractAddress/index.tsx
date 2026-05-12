@@ -20,6 +20,7 @@ export const ProxyContractAddress = (
     | 'value'
     | 'contractName'
     | 'tokenName'
+    | 'showVerificationName'
     | 'verificationName'
     | 'isFull'
     | 'verify'
@@ -43,6 +44,7 @@ export const ProxyContractAddress = (
   const {
     showIcon = true,
     showAddressLabel = true,
+    showVerificationName = false,
     value,
     isFull = false,
     proxy,
@@ -74,7 +76,7 @@ export const ProxyContractAddress = (
       (showNametag ? nametag : undefined) ||
       tokenName ||
       contractName ||
-      verificationName ||
+      (showVerificationName && verificationName) ||
       (showENSLabel ? ensName : undefined) ||
       (isFull ? value : shortenAddress(value))
     );
@@ -85,6 +87,7 @@ export const ProxyContractAddress = (
     addressLabel,
     contractName,
     tokenName,
+    showVerificationName,
     verificationName,
     isFull,
     showENSLabel,

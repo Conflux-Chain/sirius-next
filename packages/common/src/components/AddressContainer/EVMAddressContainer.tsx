@@ -33,9 +33,9 @@ const parseProps = (
 
   const translations = getTranslations();
 
-  let verificationName = props.verificationName || nameInfo?.verificationName;
-  if (!verificationName && isZeroAddress(cfxAddress)) {
-    verificationName = t(translations.general.zeroAddress);
+  let innerName = props.innerName;
+  if (!innerName && isZeroAddress(cfxAddress)) {
+    innerName = t(translations.general.zeroAddress);
   }
 
   // official name tag
@@ -56,12 +56,13 @@ const parseProps = (
   }
 
   return {
-    verificationName,
+    innerName,
     nametag: officalNametag,
     addressLabel,
     cfxAddress,
     tokenName: props.tokenName || nameInfo?.tokenName,
     contractName: props.contractName || nameInfo?.contractName,
+    verificationName: props.verificationName || nameInfo?.verificationName,
     verify: props.verify || nameInfo?.verify,
     isContract: props.isContract || nameInfo?.isContract,
   };

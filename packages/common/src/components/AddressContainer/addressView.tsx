@@ -68,6 +68,7 @@ export const RenderAddress = ({
   cfxAddress,
   tokenName,
   contractName,
+  showVerificationName = false,
   verificationName,
   hoverValue,
   hrefAddress,
@@ -83,6 +84,7 @@ export const RenderAddress = ({
   addressLabel = '',
   ENSLabel = '',
   nametag = '',
+  innerName = '',
   hideAliasPrefixInHover = false,
 }: RenderAddressProps) => {
   const translations = getTranslations();
@@ -98,13 +100,15 @@ export const RenderAddress = ({
     // contract name tag
     contractName ||
     // contract verification name
-    verificationName ||
+    (showVerificationName && verificationName) ||
     // CNS/ENS
-    ENSLabel;
+    ENSLabel ||
+    // inner name is used for some special address, like the zero address
+    innerName;
   const isShowEns = !!ENSLabel && name === ENSLabel;
 
   const defaultStyle = {
-    maxWidth: `${(name && isFullNameTag) || isFull ? 'auto' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
+    maxWidth: `${(name && isFullNameTag) || isFull ? 'unset' : (maxWidth || defaultPCMaxWidth) + 'px'}`,
   };
 
   const href = convertLink({ link, type, hrefAddress, cfxAddress });

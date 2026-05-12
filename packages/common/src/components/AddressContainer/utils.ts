@@ -44,9 +44,8 @@ export const getAddressNameInfo = (
     // only for core space
     isEspaceAddress: !!info.eSpace?.address,
     // contract token name > contract tag > contract name
-    // TODO: info.verification?.name
-    alias: info.token?.name || info.contract?.name || info.verification?.name,
-    // alias: info.token?.name || info.contract?.name,
+    // alias: info.token?.name || info.contract?.name || info.verification?.name,
+    alias: info.token?.name || info.contract?.name,
     originInfo: info,
   };
 };
