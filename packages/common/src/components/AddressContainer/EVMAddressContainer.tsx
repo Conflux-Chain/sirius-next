@@ -9,7 +9,6 @@ import {
 } from '../../utils/address';
 import { useGlobalData, getTranslations } from '../../store';
 import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
-import { getLabelInfo } from './label';
 
 import { RenderAddress } from './addressView';
 import {
@@ -20,20 +19,23 @@ import {
 } from './addressSwitcher';
 import { GlobalDataType } from 'src/store/types';
 import { EVMAddressContainerProps } from './types';
+import { getAddressNameInfo } from './utils';
 
 const parseProps = (
   props: EVMAddressContainerProps & WithTranslation,
   globalData: GlobalDataType,
 ) => {
-  const { alias, t, showAddressLabel, showNametag, nametagInfo } = props;
+  const { t, showAddressLabel, showNametag, nametag, nameMap } = props;
   const value: string = props.value || '';
   const cfxAddress = formatAddress(value, 'hex');
 
+  const nameInfo = getAddressNameInfo(cfxAddress, nameMap);
+
   const translations = getTranslations();
 
-  let aliasLabel = alias;
-  if (!alias && isZeroAddress(cfxAddress)) {
-    aliasLabel = t(translations.general.zeroAddress);
+  let verificationName = props.verificationName || nameInfo?.verificationName;
+  if (!verificationName && isZeroAddress(cfxAddress)) {
+    verificationName = t(translations.general.zeroAddress);
   }
 
   // official name tag
@@ -44,33 +46,24 @@ const parseProps = (
   if (cfxAddress && showAddressLabel) {
     // global private name tag
     const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
-    const gAddressLabel =
+    addressLabel =
       addressLabels?.[convertCheckSum(cfxAddress)] ||
       addressLabels?.[cfxAddress.toLowerCase()];
-
-    if (gAddressLabel) {
-      const { label } = getLabelInfo(gAddressLabel, 'tag');
-      addressLabel = label;
-    }
   }
 
   if (cfxAddress && showNametag) {
-    const nametags =
-      nametagInfo?.[convertCheckSum(cfxAddress)] ||
-      nametagInfo?.[cfxAddress.toLowerCase()];
-
-    if (nametags) {
-      const nametag = nametags?.nametag ?? '';
-      const { label } = getLabelInfo(nametag, 'nametag');
-      officalNametag = label;
-    }
+    officalNametag = nametag || nameInfo?.nametag;
   }
 
   return {
-    alias: aliasLabel,
+    verificationName,
     nametag: officalNametag,
     addressLabel,
     cfxAddress,
+    tokenName: props.tokenName || nameInfo?.tokenName,
+    contractName: props.contractName || nameInfo?.contractName,
+    verify: props.verify || nameInfo?.verify,
+    isContract: props.isContract || nameInfo?.isContract,
   };
 };
 

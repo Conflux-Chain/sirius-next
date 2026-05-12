@@ -143,22 +143,13 @@ const AddressNameTagContainer: React.FC<AddressNameTagContainerProps> = ({
     }
   }, [value, fetchContractAndToken, fetchNameTag, nametagCache, contractCache]);
 
-  const nametagInfo = {
-    [value]: {
-      address: value,
-      nametag: nametagCache[value]?.nameTag || '',
-    },
-  };
-
   return (
     <EVMAddressContainer
       value={value}
-      alias={
-        contractCache[value]?.token?.name ||
-        contractCache[value]?.contract?.name
-      }
+      contractName={contractCache[value]?.contract?.name}
+      tokenName={contractCache[value]?.token?.name}
       isFullNameTag={true}
-      nametagInfo={nametagInfo}
+      nametag={nametagCache[value]?.nameTag || ''}
     />
   );
 };

@@ -35,10 +35,10 @@ export const getAddressNameInfo = (
     tokenSymbol: info.token?.symbol,
     tokenDecimals: info.token?.decimals,
     tokenIconUrl: info.token?.iconUrl,
-    contractTag: info.contract?.name,
     isContract: !!info.contract,
+    contractName: info.contract?.name,
     verify: !!info.verification?.name,
-    contractName: info.verification?.name,
+    verificationName: info.verification?.name,
     nametag: info.nameTag?.nameTag,
     ensName: info.ens?.name,
     // only for core space

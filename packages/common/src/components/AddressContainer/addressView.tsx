@@ -66,10 +66,11 @@ const convertLink = ({
 // common
 export const RenderAddress = ({
   cfxAddress,
-  alias,
+  tokenName,
+  contractName,
+  verificationName,
   hoverValue,
   hrefAddress,
-  content,
   link = '',
   isFull = false,
   isFullNameTag = false,
@@ -86,8 +87,20 @@ export const RenderAddress = ({
 }: RenderAddressProps) => {
   const translations = getTranslations();
 
-  // Private name tags > Official tag/name > contract token name > contract tag > contract name > CNS/ENS
-  const name = addressLabel || content || nametag || alias || ENSLabel;
+  // Private name tags > Official tag/name > contract token name > contract name tag > contract verification name > CNS/ENS
+  const name =
+    // Private name tags
+    addressLabel ||
+    // Official tag/name
+    nametag ||
+    // contract token name
+    tokenName ||
+    // contract name tag
+    contractName ||
+    // contract verification name
+    verificationName ||
+    // CNS/ENS
+    ENSLabel;
   const isShowEns = !!ENSLabel && name === ENSLabel;
 
   const defaultStyle = {
@@ -113,7 +126,7 @@ export const RenderAddress = ({
     },
     alias: {
       label: translations?.profile.address.publicNameTag,
-      value: alias,
+      value: tokenName || contractName || verificationName,
       hideLabel: hideAliasPrefixInHover,
     },
   };
@@ -121,8 +134,13 @@ export const RenderAddress = ({
   const checksumAddress = convertCheckSum(cfxAddress);
 
   const cfxAddressLabel =
-    typeof cfxAddress === 'string' && !isFull
-      ? shortenAddress(checksumAddress!)
+    typeof checksumAddress === 'string' && !isFull
+      ? type === 'pos'
+        ? shortenAddress(checksumAddress!, {
+            prefixLength: 10,
+            suffixLength: 0,
+          })
+        : shortenAddress(checksumAddress!)
       : checksumAddress;
 
   return (

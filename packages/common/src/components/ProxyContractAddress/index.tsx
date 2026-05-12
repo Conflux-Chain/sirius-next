@@ -9,24 +9,27 @@ import { shortenAddress } from '@cfx-kit/dapp-utils/dist/address';
 import { cn } from 'src/utils';
 import { ProxyType } from 'src/utils/hooks/useTxTrace';
 import { useAddressLabel } from 'src/utils/hooks/useAddressLabel';
-import { getLabelInfo } from '../AddressContainer/label';
 import { useMemo } from 'react';
 import { Link } from '../Link';
 import { CoreAddressContainerProps } from '../AddressContainer/types';
+import { getAddressNameInfo } from '../AddressContainer/utils';
 
 export const ProxyContractAddress = (
   props: Pick<
     CoreAddressContainerProps,
     | 'value'
-    | 'alias'
+    | 'contractName'
+    | 'tokenName'
+    | 'verificationName'
     | 'isFull'
     | 'verify'
     | 'showIcon'
     | 'showAddressLabel'
     | 'showENSLabel'
-    | 'ensInfo'
+    | 'ensName'
     | 'showNametag'
-    | 'nametagInfo'
+    | 'nametag'
+    | 'nameMap'
   > & {
     proxy: {
       type: ProxyType;
@@ -40,44 +43,52 @@ export const ProxyContractAddress = (
   const {
     showIcon = true,
     showAddressLabel = true,
-    verify,
     value,
-    alias,
     isFull = false,
     proxy,
     className,
     style,
     showENSLabel = true,
-    ensInfo,
     showNametag = true,
-    nametagInfo,
+    nameMap,
   } = props;
+
+  const nameInfo = getAddressNameInfo(value, nameMap);
+
+  const tokenName = props.tokenName ?? nameInfo?.tokenName;
+  const contractName = props.contractName ?? nameInfo?.contractName;
+  const verificationName = props.verificationName ?? nameInfo?.verificationName;
+  const verify = props.verify ?? nameInfo?.verify;
+
+  const nametag = props.nametag ?? nameInfo?.nametag;
+  const ensName = props.ensName ?? nameInfo?.ensName;
 
   const { t } = useTranslation();
   const translations = getTranslations();
   const addressLabel = useAddressLabel(value, showAddressLabel);
 
   const text = useMemo(() => {
-    const ENSLabel = showENSLabel ? ensInfo?.[value]?.name : undefined;
-    const nametag = showNametag ? nametagInfo?.[value]?.nametag : undefined;
-
     // Private name tags > Official tag/name > contract token name > contract tag > contract name > CNS/ENS
     return (
       addressLabel ||
-      nametag ||
-      alias ||
-      ENSLabel ||
+      (showNametag ? nametag : undefined) ||
+      tokenName ||
+      contractName ||
+      verificationName ||
+      (showENSLabel ? ensName : undefined) ||
       (isFull ? value : shortenAddress(value))
     );
   }, [
-    nametagInfo,
+    nametag,
     value,
     showNametag,
     addressLabel,
-    alias,
+    contractName,
+    tokenName,
+    verificationName,
     isFull,
     showENSLabel,
-    ensInfo,
+    ensName,
   ]);
 
   const isInnerContract = value && isInnerContractAddress(value);
