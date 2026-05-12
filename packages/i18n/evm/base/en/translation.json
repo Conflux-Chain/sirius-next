@@ -473,6 +473,9 @@
     "tipCountBefore": "A total of",
     "tipCountAfter": "records"
   },
+  "eip7702Authorizations": {
+    "title": "EIP-7702 Authorizations"
+  },
   "tokens": {
     "title": "Tokens",
     "description": "Tokens",
@@ -533,6 +536,8 @@
     "block": "Blocks",
     "txn": "Transactions",
     "transfers": "CFX Txns",
+    "aaTransactions": "AA Transactions",
+    "eip7702Authorizations": "EIP-7702 Authorizations",
     "blockchain": "Blockchain",
     "accounts": "Accounts",
     "tokens": "Tokens",

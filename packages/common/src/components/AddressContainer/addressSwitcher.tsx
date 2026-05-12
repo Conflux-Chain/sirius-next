@@ -8,7 +8,7 @@ import { Tooltip } from '../Tooltip';
 import { isPosAddress } from '@cfx-kit/dapp-utils/dist/address';
 import { formatAddress, isInnerContractAddress } from '../../utils/address';
 import { getTranslations, getEnvConfig, useGlobalData } from '../../store';
-import { getNetwork, formatString, coreCorrespondsToEspace } from 'src/utils';
+import { getNetwork, coreCorrespondsToEspace } from 'src/utils';
 import { Props } from './types';
 import { RenderAddress } from './addressView';
 import { ContractCreated } from '../Icons';
@@ -24,8 +24,7 @@ export const ContractCreatedAddress = (
   const contractAddress = formatAddress(contractCreated, outputType);
 
   const customProps = {
-    content: t(translations.transaction.contractCreation),
-    alias: t(translations.transaction.contractCreation),
+    contractName: t(translations.transaction.contractCreation),
     hrefAddress: contractAddress,
     cfxAddress: contractAddress,
     maxWidth: 160,
@@ -36,7 +35,7 @@ export const ContractCreatedAddress = (
     ...mergedProps,
     prefix: (
       <div className={`mr-[2px] flex-shrink-0 ${isFull ? 'icon' : ''}`}>
-        <Tooltip title={mergedProps.content}>
+        <Tooltip title={mergedProps.contractName}>
           <div className="relative w-[16px] h-[16px]">
             <ContractCreated className="w-[16px] h-[16px] align-bottom mb-[3px]" />
           </div>
@@ -81,7 +80,9 @@ export const CoreHexAddress = (props: Props & WithTranslation) => {
 export const InvalidAddress = (props: Props & WithTranslation) => {
   const {
     value,
-    alias,
+    tokenName,
+    contractName,
+    verificationName,
     t,
     isFull,
     maxWidth,
@@ -95,9 +96,10 @@ export const InvalidAddress = (props: Props & WithTranslation) => {
 
   return RenderAddress({
     cfxAddress: value,
-    alias,
+    contractName,
+    tokenName,
+    verificationName,
     hoverValue: `${tip}: ${value}`,
-    content: alias ? formatString(alias, 'tag') : value,
     link: false,
     isFull,
     isFullNameTag,
@@ -192,7 +194,9 @@ export const MyAddress = (props: Props & WithTranslation) => {
 // core
 export const PosAddress = (props: Props & WithTranslation) => {
   const {
-    alias,
+    tokenName,
+    contractName,
+    verificationName,
     isFull,
     isFullNameTag,
     maxWidth,
@@ -209,16 +213,14 @@ export const PosAddress = (props: Props & WithTranslation) => {
     return MyAddress(props);
   }
   const translations = getTranslations();
-  const content = alias
-    ? formatString(alias, 'tag')
-    : formatString(value, 'posAddress');
   if (!isPosAddress(value)) {
     const tip = t(translations.general.invalidPosAddress);
     return RenderAddress({
       cfxAddress: value,
-      alias,
+      tokenName,
+      contractName,
+      verificationName,
       hoverValue: `${tip}: ${value}`,
-      content,
       link: false,
       isFull,
       isFullNameTag,
@@ -238,13 +240,14 @@ export const PosAddress = (props: Props & WithTranslation) => {
 
   return RenderAddress({
     cfxAddress: value,
-    alias,
+    tokenName,
+    contractName,
+    verificationName,
     link,
     isFull,
     isFullNameTag,
     maxWidth,
     type: 'pos',
-    content,
     hideAliasPrefixInHover,
   });
 };

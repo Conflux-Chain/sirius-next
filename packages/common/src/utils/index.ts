@@ -419,7 +419,7 @@ export function checkInt(value: string, type: string) {
 export function checkUint(value: string, type: string) {
   const num = Number(type.slice(4));
   const min = new BigNumber(0);
-  const max = new BigNumber(Math.pow(2, num)).minus(1);
+  const max = new BigNumber(2).pow(num).minus(1);
   let isType = false;
   if (!isNaN(Number(value))) {
     const valNum = new BigNumber(value);
@@ -930,10 +930,9 @@ export const getDuration = (pFrom: number, pTo?: number) => {
   }
 };
 
-const cSymbol = getCurrencySymbol();
 export const formatPrice = (
   price: string | number,
-  symbol = cSymbol,
+  symbol = getCurrencySymbol(),
 ): [string, string] => {
   const p = new BigNumber(price);
   let precision = 2;

@@ -4,7 +4,7 @@ import { publishRequestError } from '../pubsub';
 import type { AbiFunctionWithoutGas } from 'src/utils/sdk';
 import { formatABI } from '..';
 import { formatAddress } from '../address';
-import { Pocket } from '../request.types';
+import { AddressNameMap, Pocket } from '../request.types';
 
 export interface TraceAction {
   createType: string;
@@ -29,29 +29,6 @@ export interface TraceResult {
   returnData: `0x${string}`;
 }
 
-interface ContractInfo {
-  address: string;
-  isVirtual: boolean;
-  verify: {
-    result: number;
-  };
-}
-interface TokenInfo {
-  address: string;
-  decimals: number;
-  symbol: string;
-  name: string;
-  tokenType: string;
-}
-
-interface NameTagInfo {
-  nameTag: string;
-  website?: string;
-  desc?: string;
-  labels?: string[];
-  caution?: number;
-}
-
 export interface OriginTreeTrace {
   calls: OriginTreeTrace[];
   action: TraceAction;
@@ -71,17 +48,9 @@ export type ProxyType = 'BeaconProxy' | 'Proxy';
 
 export interface OriginTraceData {
   addressArray: string[];
-  contractMap: Record<string, ContractInfo>;
-  tokenMap: Record<string, TokenInfo>;
   proxyMap: Record<string, ProxyType>;
   methodMap: Record<string, Record<string, string>>;
-  ensMap: Record<
-    string,
-    {
-      name?: string;
-    }
-  >;
-  nameTagMap: Record<string, NameTagInfo>;
+  nameMap: Record<string, AddressNameMap>;
   traceTree: OriginTreeTrace[];
 }
 
@@ -98,18 +67,7 @@ export interface ListTraceForUI {
   method?: string;
   contractCreated?: string;
   abi?: AbiFunctionWithoutGas[];
-  fromContractInfo: ContractInfo | {};
-  toContractInfo: ContractInfo | {};
-  fromTokenInfo: TokenInfo | {};
-  toTokenInfo: TokenInfo | {};
-  fromNameTagInfo?: NameTagInfo;
-  toNameTagInfo?: NameTagInfo;
-  fromENSInfo?: {
-    name?: string;
-  };
-  toENSInfo?: {
-    name?: string;
-  };
+  nameMap: Record<string, AddressNameMap>;
   proxy?: {
     type: ProxyType;
     beaconAddress?: string;
@@ -134,12 +92,9 @@ export interface TreeTraceForUI extends ListTraceForUI {
 
 const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
   const addressType = space === 'core' ? 'base32' : 'hex';
-  const contractInfo = data.contractMap || {};
-  const tokenInfo = data.tokenMap || {};
   const proxyMap = data.proxyMap || {};
-  const nameTagMap = data.nameTagMap || {};
-  const ensMap = data.ensMap || {};
   const methodMap = data.methodMap || {};
+  const nameMap = data.nameMap || {};
 
   let total = 0;
 
@@ -190,24 +145,19 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
       method,
       abi,
       contractCreated: isContractCreated ? t.result?.addr : undefined,
-      fromContractInfo: contractInfo[from] || {},
-      toContractInfo: contractInfo[to ?? ''] || {},
-      fromTokenInfo: tokenInfo[from] || {},
-      toTokenInfo: tokenInfo[to ?? ''] || {},
-      fromNameTagInfo: nameTagMap[from],
-      toNameTagInfo: nameTagMap[to ?? ''],
-      fromENSInfo: ensMap[from],
-      toENSInfo: ensMap[to ?? ''],
+      nameMap,
       isCallImpl: t.isCallImpl,
       fromPocket: t.action.fromPocket,
       toPocket: t.action.toPocket,
     };
     if (t.action.fromSpace === 'evm') {
+      // TODO
       item.fromESpaceInfo = {
         address: formatAddress(from, 'hex'),
       };
     }
     if (t.action.toSpace === 'evm') {
+      // TODO
       item.toESpaceInfo = {
         address: formatAddress(to, 'hex'),
       };

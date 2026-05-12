@@ -1,5 +1,5 @@
 import { isZeroAddress } from 'src/utils/address';
-import { Pocket } from 'src/utils/request.types';
+import { AddressNameMap, Pocket } from 'src/utils/request.types';
 
 // https://app.clickup.com/3719212/v/dc/3hg1c-23878/3hg1c-21778?block=block-vVZ_AG9Btz
 export const getPocketAlias = ({
@@ -21,4 +21,31 @@ export const getPocketAlias = ({
     return 'System gas_payment';
   }
   return null;
+};
+
+export const getAddressNameInfo = (
+  address?: string,
+  nameMap?: Record<string, AddressNameMap>,
+) => {
+  if (!nameMap || !address) return null;
+  const info = nameMap[address] || nameMap[address.toLowerCase()];
+  if (!info) return null;
+  return {
+    tokenName: info.token?.name,
+    tokenSymbol: info.token?.symbol,
+    tokenDecimals: info.token?.decimals,
+    tokenIconUrl: info.token?.iconUrl,
+    isContract: !!info.contract,
+    contractName: info.contract?.name,
+    verify: !!info.verification?.name,
+    verificationName: info.verification?.name,
+    nametag: info.nameTag?.nameTag,
+    ensName: info.ens?.name,
+    // only for core space
+    isEspaceAddress: !!info.eSpace?.address,
+    // contract token name > contract tag > contract name
+    // alias: info.token?.name || info.contract?.name || info.verification?.name,
+    alias: info.token?.name || info.contract?.name,
+    originInfo: info,
+  };
 };

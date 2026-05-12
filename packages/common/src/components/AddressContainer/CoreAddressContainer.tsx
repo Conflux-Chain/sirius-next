@@ -6,11 +6,9 @@ import {
   isCoreAddress,
   isCoreContractAddress,
   isZeroAddress,
-  convertCheckSum,
 } from '../../utils/address';
 import { useGlobalData, getTranslations } from '../../store';
 import { LOCALSTORAGE_KEYS_MAP } from '../../utils/constants';
-import { getLabelInfo } from './label';
 import { useENS } from '../../utils/hooks/useENS';
 
 import { RenderAddress } from './addressView';
@@ -24,76 +22,75 @@ import {
 } from './addressSwitcher';
 import { GlobalDataType } from 'src/store/types';
 import { CoreAddressContainerProps } from './types';
+import ICON_ENS from '../../images/logo-cns.svg';
+import { getAddressNameInfo } from './utils';
 
 const parseProps = (
   props: CoreAddressContainerProps & WithTranslation,
   globalData: GlobalDataType,
 ) => {
   const {
-    alias,
-    ensInfo,
     t,
     showAddressLabel,
     showNametag,
-    nametagInfo,
+    nametag,
     showENSLabel,
+    ensName,
+    nameMap,
+    cfxAddress,
   } = props;
-  const value: string = props.value || '';
-  const cfxAddress = formatAddress(value, 'base32');
-
-  let ENSMap = ensInfo || {};
 
   const translations = getTranslations();
 
-  let aliasLabel = alias;
-  if (!alias && isZeroAddress(cfxAddress)) {
-    aliasLabel = t(translations.general.zeroAddress);
+  const nameInfo = getAddressNameInfo(cfxAddress, nameMap);
+
+  let innerName = props.innerName;
+  if (!innerName && isZeroAddress(cfxAddress)) {
+    innerName = t(translations.general.zeroAddress);
   }
 
-  let ENSIcon: React.ReactNode = null;
-  // official name tag
-  let officalNametag: React.ReactNode = null;
   // private name tag
   let addressLabel: React.ReactNode = null;
+  // official name tag
+  let officalNametag: React.ReactNode = null;
   // ens name tag
   let ENSLabel: React.ReactNode = null;
-  // global ens name tag
-  const gENSLabel = cfxAddress && ENSMap[cfxAddress]?.name;
+  let ENSIcon: React.ReactNode = null;
 
   if (cfxAddress && showAddressLabel) {
     // global private name tag
     const addressLabels = globalData?.[LOCALSTORAGE_KEYS_MAP.addressLabel];
-    const gAddressLabel = addressLabels?.[cfxAddress];
-
-    if (gAddressLabel) {
-      const { label } = getLabelInfo(gAddressLabel, 'tag');
-      addressLabel = label;
-    }
+    addressLabel = addressLabels?.[cfxAddress];
   }
 
   if (cfxAddress && showNametag) {
-    const nametags = nametagInfo?.[cfxAddress];
-
-    if (nametags) {
-      const nametag = nametags?.nametag ?? '';
-      const { label } = getLabelInfo(nametag, 'nametag');
-      officalNametag = label;
-    }
+    officalNametag = nametag || nameInfo?.nametag;
   }
 
-  if (showENSLabel && gENSLabel) {
-    const { label, icon } = getLabelInfo(gENSLabel, 'ens');
-    ENSLabel = label;
-    ENSIcon = icon;
+  if (showENSLabel && ensName) {
+    ENSLabel = ensName;
+    ENSIcon = (
+      <img
+        src={ICON_ENS}
+        className="w-[16px] h-[16px] mb-[3px] mr-[2px]"
+        alt=""
+      />
+    );
   }
 
   return {
-    alias: aliasLabel,
-    ENSIcon: ENSIcon,
+    innerName,
     nametag: officalNametag,
     addressLabel,
     ENSLabel,
+    ENSIcon: ENSIcon,
     cfxAddress,
+    tokenName: props.tokenName || nameInfo?.tokenName,
+    contractName: props.contractName || nameInfo?.contractName,
+    verificationName: props.verificationName || nameInfo?.verificationName,
+    verify: props.verify || nameInfo?.verify,
+    ensName: props.ensName || nameInfo?.ensName,
+    isEspaceAddress: props.isEspaceAddress || nameInfo?.isEspaceAddress,
   };
 };
 
@@ -102,13 +99,14 @@ export const CoreAddressContainer = withTranslation()(
     const { globalData } = useGlobalData();
 
     // If the interface returns Ens content, there is no need to obtain it separately, or disable the display of Ens content (in most cases on the list page).
-    const unnecessaryEns = props.ensInfo || props.showENSLabel === false;
+    const unnecessaryEns = !!props.ensName || props.showENSLabel === false;
     const { ens } = useENS(unnecessaryEns ? null : props.value);
 
     // If a txn receipt has no 'to' address or 'contractCreated', show -- for temp
     if (!props.value && !props.contractCreated) {
       return <>--</>;
     }
+    const cfxAddress = formatAddress(props.value, 'base32');
 
     const defaultProps = {
       isFull: false,
@@ -120,7 +118,8 @@ export const CoreAddressContainer = withTranslation()(
       showAddressLabel: true,
       showENSLabel: true,
       showNametag: true,
-      ensInfo: ens,
+      cfxAddress,
+      ensName: ens ? ens[cfxAddress]?.name : undefined,
     };
 
     const mergeDefaultProps = _.assign({}, defaultProps, props);

@@ -1,8 +1,9 @@
+import { AddressNameMap } from 'src/utils/request.types';
+
 export type Props = CoreAddressContainerProps & EVMAddressContainerProps;
 
 export interface CoreAddressContainerProps {
   value: string; // address value
-  alias?: string; // address alias, such as contract name, miner name, default null
   contractCreated?: string; // contract creation address
   maxWidth?: number; // address max width for view, default 200/170 for default, 400 for full
   isFull?: boolean; // show full address, default false
@@ -15,28 +16,23 @@ export interface CoreAddressContainerProps {
   isEspaceAddress?: boolean; //Only Core. check the address if is a eSpace hex address, if yes, link to https://evm.confluxscan.net/address/{hex_address}
   showAddressLabel?: boolean;
   showENSLabel?: boolean;
-  ensInfo?: {
-    [k: string]: {
-      address: string;
-      name: string;
-      expired?: number;
-    };
-  };
   showNametag?: boolean;
+  tokenName?: string | null;
+  contractName?: string | null;
+  showVerificationName?: boolean;
+  verificationName?: string | null;
+  innerName?: string | null; // inner name is used for some special address, like the zero address
+  // official name tag
   nametag?: string | Iterable<React.ReactNode> | null;
-  nametagInfo?: {
-    [k: string]: {
-      address: string;
-      nametag: string;
-    };
-  };
+  // ens name tag
+  ensName?: string | null;
   cfxAddress?: string;
   isPosAddress?: boolean;
   hideAliasPrefixInHover?: boolean;
+  nameMap?: Record<string, AddressNameMap>;
 }
 export interface EVMAddressContainerProps {
   value: string; // address value
-  alias?: string; // address alias, such as contract name, miner name, default null
   contractCreated?: string; // contract creation address
   maxWidth?: number; // address max width for view, default 200/170 for default, 400 for full
   isFull?: boolean; // show full address, default false
@@ -47,24 +43,23 @@ export interface EVMAddressContainerProps {
   verify?: boolean; // show verified contract icon or unverified contract icon
   showAddressLabel?: boolean;
   showNametag?: boolean;
+  tokenName?: string | null;
+  contractName?: string | null;
+  showVerificationName?: boolean;
+  verificationName?: string | null;
+  innerName?: string | null; // inner name is used for some special address, like the zero address
+  // official name tag
   nametag?: string | Iterable<React.ReactNode> | null;
-  nametagInfo?: {
-    [k: string]: {
-      address: string;
-      nametag: string;
-    };
-  };
   isContract?: boolean;
   hideAliasPrefixInHover?: boolean;
+  nameMap?: Record<string, AddressNameMap>;
 }
 
 export interface RenderAddressProps {
   cfxAddress?: string;
-  alias?: string;
   hoverValue?: string;
   hrefAddress?: string;
   isContract?: boolean;
-  content?: string;
   isLink?: boolean;
   link?: string | boolean;
   isFull?: boolean;
@@ -76,8 +71,15 @@ export interface RenderAddressProps {
   ENSIcon?: React.ReactNode;
   suffix?: React.ReactNode;
   type?: 'pow' | 'pos';
+  tokenName?: string | null;
+  contractName?: string | null;
+  showVerificationName?: boolean;
+  verificationName?: string | null;
+  innerName?: string | null; // inner name is used for some special address, like the zero address
   addressLabel?: string | Iterable<React.ReactNode> | null;
+  // ens name tag
   ENSLabel?: string | Iterable<React.ReactNode> | null;
+  // official name tag
   nametag?: string | Iterable<React.ReactNode> | null;
   hideAliasPrefixInHover?: boolean;
 }
