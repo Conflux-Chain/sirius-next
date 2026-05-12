@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.18
+
+### Patch Changes
+
+- 6c1bafd: feat: support nameMap
+
 ## 0.2.17
 
 ### Patch Changes
