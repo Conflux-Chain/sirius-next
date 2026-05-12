@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.10
+
+### Patch Changes
+
+- 6c1bafd: feat: support nameMap
+
 ## 0.2.9
 
 ### Patch Changes
