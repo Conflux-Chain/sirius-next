@@ -14,11 +14,11 @@ export const enhanceDataWithNameMap = (
   list?: Record<string, unknown>[],
   nameMap?: Record<string, AddressNameMap>,
 ) => {
-  if (!nameMap) return list;
+  if (!nameMap || !list) return list;
   const normalizedNameMap = transformNameMapKeysToLowerCase(nameMap);
 
   return (
-    list?.map(item => {
+    list.map(item => {
       const newItem = {
         ...item,
         nameMap: normalizedNameMap,

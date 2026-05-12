@@ -37,9 +37,8 @@ const parseProps = (
     showENSLabel,
     ensName,
     nameMap,
+    cfxAddress,
   } = props;
-  const value: string = props.value || '';
-  const cfxAddress = formatAddress(value, 'base32');
 
   const translations = getTranslations();
 
@@ -107,6 +106,7 @@ export const CoreAddressContainer = withTranslation()(
     if (!props.value && !props.contractCreated) {
       return <>--</>;
     }
+    const cfxAddress = formatAddress(props.value, 'base32');
 
     const defaultProps = {
       isFull: false,
@@ -118,7 +118,8 @@ export const CoreAddressContainer = withTranslation()(
       showAddressLabel: true,
       showENSLabel: true,
       showNametag: true,
-      ensInfo: ens,
+      cfxAddress,
+      ensName: ens ? ens[cfxAddress]?.name : undefined,
     };
 
     const mergeDefaultProps = _.assign({}, defaultProps, props);
