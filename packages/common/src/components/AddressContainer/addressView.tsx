@@ -68,7 +68,6 @@ export const RenderAddress = ({
   cfxAddress,
   tokenName,
   contractName,
-  showVerificationName = false,
   verificationName,
   hoverValue,
   hrefAddress,
@@ -100,7 +99,7 @@ export const RenderAddress = ({
     // contract name tag
     contractName ||
     // contract verification name
-    (showVerificationName && verificationName) ||
+    verificationName ||
     // CNS/ENS
     ENSLabel ||
     // inner name is used for some special address, like the zero address
