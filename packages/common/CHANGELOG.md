@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.19
+
+### Patch Changes
+
+- dcfcf2e: fix: verificationName tooltip
+
 ## 0.2.18
 
 ### Patch Changes
