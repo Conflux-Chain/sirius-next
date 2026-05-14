@@ -25,7 +25,14 @@ const parseProps = (
   props: EVMAddressContainerProps & WithTranslation,
   globalData: GlobalDataType,
 ) => {
-  const { t, showAddressLabel, showNametag, nametag, nameMap } = props;
+  const {
+    t,
+    showAddressLabel,
+    showNametag,
+    nametag,
+    nameMap,
+    showVerificationName,
+  } = props;
   const value: string = props.value || '';
   const cfxAddress = formatAddress(value, 'hex');
 
@@ -62,7 +69,9 @@ const parseProps = (
     cfxAddress,
     tokenName: props.tokenName || nameInfo?.tokenName,
     contractName: props.contractName || nameInfo?.contractName,
-    verificationName: props.verificationName || nameInfo?.verificationName,
+    verificationName: showVerificationName
+      ? props.verificationName || nameInfo?.verificationName
+      : undefined,
     verify: props.verify || nameInfo?.verify,
     isContract: props.isContract || nameInfo?.isContract,
   };

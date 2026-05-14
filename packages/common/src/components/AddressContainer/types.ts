@@ -73,7 +73,6 @@ export interface RenderAddressProps {
   type?: 'pow' | 'pos';
   tokenName?: string | null;
   contractName?: string | null;
-  showVerificationName?: boolean;
   verificationName?: string | null;
   innerName?: string | null; // inner name is used for some special address, like the zero address
   addressLabel?: string | Iterable<React.ReactNode> | null;

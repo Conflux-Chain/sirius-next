@@ -38,6 +38,7 @@ const parseProps = (
     ensName,
     nameMap,
     cfxAddress,
+    showVerificationName,
   } = props;
 
   const translations = getTranslations();
@@ -87,7 +88,9 @@ const parseProps = (
     cfxAddress,
     tokenName: props.tokenName || nameInfo?.tokenName,
     contractName: props.contractName || nameInfo?.contractName,
-    verificationName: props.verificationName || nameInfo?.verificationName,
+    verificationName: showVerificationName
+      ? props.verificationName || nameInfo?.verificationName
+      : undefined,
     verify: props.verify || nameInfo?.verify,
     ensName: props.ensName || nameInfo?.ensName,
     isEspaceAddress: props.isEspaceAddress || nameInfo?.isEspaceAddress,
