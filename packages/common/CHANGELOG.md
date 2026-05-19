@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.20
+
+### Patch Changes
+
+- 8b39e0e: fix: address nameMap
+
 ## 0.2.19
 
 ### Patch Changes
