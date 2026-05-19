@@ -115,22 +115,22 @@ export const RenderAddress = ({
   const Wrapper = href ? 'a' : 'div';
 
   const tooltipContent: TooltipContent = {
-    ENSLabel: {
-      label: (translations as any)?.ens?.tip,
-      value: ENSLabel,
+    addressLabel: {
+      label: translations?.profile.address.myNameTag,
+      value: addressLabel,
     },
     nametag: {
       label: translations?.nametag?.tip,
       value: nametag,
     },
-    addressLabel: {
-      label: translations?.profile.address.myNameTag,
-      value: addressLabel,
-    },
     alias: {
       label: translations?.profile.address.publicNameTag,
       value: tokenName || contractName || verificationName,
       hideLabel: hideAliasPrefixInHover,
+    },
+    ENSLabel: {
+      label: (translations as any)?.ens?.tip,
+      value: ENSLabel,
     },
   };
 

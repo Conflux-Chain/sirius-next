@@ -1,14 +1,9 @@
 import { useMemo } from 'react';
-import { useAddressNameMap } from './useAddressNameMap';
+import {
+  transformNameMapKeysToLowerCase,
+  useAddressNameMap,
+} from './useAddressNameMap';
 import { AddressNameMap } from '../request.types';
-
-export const transformNameMapKeysToLowerCase = (
-  nameMap?: Record<string, AddressNameMap>,
-) =>
-  nameMap &&
-  Object.fromEntries(
-    Object.entries(nameMap).map(([k, v]) => [k.toLowerCase(), v]),
-  );
 
 export const enhanceDataWithNameMap = (
   list?: Record<string, unknown>[],
