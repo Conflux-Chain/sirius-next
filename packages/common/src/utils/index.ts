@@ -1042,3 +1042,30 @@ export function formatABI(
     ? iface.format('json')
     : iface.format(minimal ? 'minimal' : 'full');
 }
+
+export function decodeAANonce(nonceInput: string | BigNumber) {
+  const originNonce = new BigNumber(nonceInput);
+
+  if (!originNonce.isInteger() || originNonce.isNegative()) {
+    throw new Error('nonce must be a non-negative integer');
+  }
+
+  // 2^64
+  const TWO_POW_64 = new BigNumber(2).pow(64);
+
+  // key = originNonce >> 64
+  // 等价于 floor(originNonce / 2^64)
+  const key = originNonce.dividedToIntegerBy(TWO_POW_64);
+
+  // nonce = originNonce & ((1 << 64) - 1)
+  // 等价于 originNonce % 2^64
+  const nonce = originNonce.modulo(TWO_POW_64);
+
+  return {
+    originNonce: originNonce.toFixed(0),
+    key: key.toFixed(0),
+    nonce: nonce.toFixed(0),
+
+    keyHex: `0x${key.toString(16).padStart(48, '0')}`,
+  };
+}

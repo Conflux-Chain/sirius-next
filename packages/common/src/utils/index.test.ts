@@ -13,6 +13,7 @@ import {
   formatLargeNumber,
   mergeDeep,
   formatABI,
+  decodeAANonce,
 } from './index';
 import { test, expect, describe } from 'vitest';
 
@@ -614,5 +615,58 @@ describe('formatABI', () => {
     } catch (error: any) {
       expect(error?.message).toBe('name is required');
     }
+  });
+});
+
+describe('decodeAANonce', () => {
+  const TWO_POW_64 = new BigNumber(2).pow(64);
+
+  test('should decode zero nonce', () => {
+    expect(decodeAANonce('0')).toEqual({
+      originNonce: '0',
+      key: '0',
+      nonce: '0',
+      keyHex: '0x000000000000000000000000000000000000000000000000',
+    });
+  });
+
+  test('should keep values below 2^64 in nonce', () => {
+    expect(decodeAANonce(TWO_POW_64.minus(1))).toEqual({
+      originNonce: '18446744073709551615',
+      key: '0',
+      nonce: '18446744073709551615',
+      keyHex: '0x000000000000000000000000000000000000000000000000',
+    });
+  });
+
+  test('should split key and nonce from a packed nonce', () => {
+    const originNonce = TWO_POW_64.multipliedBy(123).plus(456);
+
+    expect(decodeAANonce(originNonce.toFixed(0))).toEqual({
+      originNonce: '2268949521066274849224',
+      key: '123',
+      nonce: '456',
+      keyHex: '0x00000000000000000000000000000000000000000000007b',
+    });
+  });
+
+  test('should accept BigNumber input', () => {
+    const originNonce = TWO_POW_64.multipliedBy(16).plus(15);
+
+    expect(decodeAANonce(originNonce)).toEqual({
+      originNonce: '295147905179352825871',
+      key: '16',
+      nonce: '15',
+      keyHex: '0x000000000000000000000000000000000000000000000010',
+    });
+  });
+
+  test('should reject negative or fractional nonce', () => {
+    expect(() => decodeAANonce('-1')).toThrow(
+      'nonce must be a non-negative integer',
+    );
+    expect(() => decodeAANonce('1.1')).toThrow(
+      'nonce must be a non-negative integer',
+    );
   });
 });

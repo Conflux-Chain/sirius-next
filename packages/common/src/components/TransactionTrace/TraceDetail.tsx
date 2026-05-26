@@ -22,10 +22,7 @@ interface Props {
   abi?: AbiFunctionWithoutGas[];
   outcome?: 'success' | 'fail' | 'reverted';
   space: 'evm' | 'core';
-  proxy?: {
-    beaconAddress?: string;
-    implAddress: string;
-  };
+  implementation?: string;
 }
 
 const CommonTraceDetail = ({
@@ -36,7 +33,7 @@ const CommonTraceDetail = ({
   abi,
   isContractCreated,
   space,
-  proxy,
+  implementation,
 }: Props) => {
   const success = outcome === 'success';
   const { t } = useTranslation();
@@ -127,7 +124,7 @@ const CommonTraceDetail = ({
               output={output}
               decodedData={decodedData}
               space={space}
-              proxy={proxy}
+              implementation={implementation}
               success={success}
               to={to}
               labelClassName={clsx(
@@ -148,7 +145,7 @@ const CreateContractFailedTraceDetail = ({
   to,
   output,
   space,
-  proxy,
+  implementation,
   outcome,
 }: Props) => {
   const [dataType, setDataType] = useState<DataType>('utf8');
@@ -191,7 +188,7 @@ const CreateContractFailedTraceDetail = ({
             dataType={dataType}
             output={output}
             space={space}
-            proxy={proxy}
+            implementation={implementation}
             success={false}
             to={to}
             labelClassName="w-150px text-red"

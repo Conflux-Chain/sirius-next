@@ -474,6 +474,15 @@
   "eip7702Authorizations": {
     "title": "EIP-7702授权交易"
   },
+  "accountAbstraction": {
+    "title": "账户抽象",
+    "tabs": {
+      "aaTransactions": "账户抽象交易列表",
+      "bundleTransactions": "打包交易列表"
+    },
+    "internalTxFailed": "内部交易出错: execution reverted",
+    "aaTxFailed": "交易回执状态失败"
+  },
   "tokens": {
     "title": "通证",
     "description": "通证",
@@ -1001,7 +1010,10 @@
         "rangePicker": "日期",
         "epochNumber": "区块高度",
         "minEpochNumber": "最小区块高度",
-        "maxEpochNumber": "最大区块高度"
+        "maxEpochNumber": "最大区块高度",
+        "sender": "发送方",
+        "bundler": "打包器",
+        "entryPoint": "入口合约"
       },
       "error": {
         "invalidHash": "哈希值格式错误",
@@ -1137,6 +1149,21 @@
         "transactionFee": "交易费",
         "age": "块龄",
         "pendingReason": "原因"
+      },
+      "aaTransaction": {
+        "userOpHash": "账户抽象交易哈希",
+        "bundleHash": "打包交易哈希",
+        "gasUsed": "燃料用量",
+        "from": "发送方",
+        "bundler": "打包器",
+        "entryPoint": "入口合约",
+        "aaCount": "AA交易笔数",
+        "aaTransactionFee": "AA交易费",
+        "transactionFee": "手续费",
+        "position": "位置",
+        "internalTxns": "内部交易",
+        "tokenTxns": "通证交易",
+        "nftTxns": "数字藏品交易"
       },
       "token": {
         "number": "#",
@@ -1431,6 +1458,21 @@
     "nonce": "Nonce: {{num}}",
     "blockHash": "区块哈希",
     "position": "Position in block: {{num}}",
+    "bundleTx": {
+      "title": "AA Bundle"
+    },
+    "aaTx": {
+      "title": "AA Txn",
+      "aaHash": "AA 交易哈希",
+      "bundleHash": "Bundle 交易哈希",
+      "signature": "签名",
+      "bundler": "Bundler",
+      "entryPoint": "入口合约",
+      "paymaster": "Paymaster",
+      "initCode": "初始化代码",
+      "transactionFee": "AA 交易费",
+      "gasUsed": "燃料限制 | 燃料用量"
+    },
     "storageLimit": "存储用量/限制",
     "storageCollateralized": "存储押金",
     "storageReleased": "存储释放",
@@ -1632,6 +1674,10 @@
     },
     "tx": {
       "transactionHash": "交易哈希是一个唯一的66字符的标识符，该标识符在每次交易执行时都会生成。",
+      "aaTransactionHash": "账户抽象（AA）交易哈希是在每次执行账户抽象交易时生成的唯一的 66 个字符标识符。",
+      "bundleTransactionHash": "该账户抽象交易被打包进的那笔交易的交易哈希。",
+      "entryPoint": "用于创建该账户抽象交易的入口合约。",
+      "initCode": "创建新的智能合约账户时使用的初始化字节码。",
       "executedEpoch": "交易被实际执行的纪元。",
       "proposedEpoch": "交易发送者希望该笔交易被执行的纪元。交易只能在与期望被执行纪元相差不超过 100,000 的纪元中执行。",
       "timestamp": "交易数据记录的日期和时间。",
@@ -1648,6 +1694,7 @@
       "transactionFee": "交易所使用的燃料费用。",
       "burntFees": "此交易销毁的CFX总量。",
       "transactionAttributes": "此交易相关的属性信息。",
+      "signature": "这是智能账户生成的加密签名，用来授权 Bundler 处理用户操作（UserOp）并将其打包提交到链上。",
       "gasCharged": "Conflux 协议要求产生计费的燃气用量不少于燃气限制的 3/4. 一般计费燃气等于燃气用量，但如果燃气用量低于 3/4 的燃气限制，计费燃气等于 3/4 的燃气限制。",
       "gasLimitTip": "燃料限制：为交易发生提供的最大燃料用量。 普通的 CFX 转账使用 21,000 个单位，而合约则会使用更高的单位。",
       "gasUsedTip": "燃料用量：此交易最终使用的燃料用量与最终燃料用量与占交易燃料限制的百分比。",
@@ -1666,7 +1713,9 @@
         "2": "EIP-1559交易: 类型为0x2的交易是EIP-1559引入的交易。交易使用协议中在每个Pivot区块动态变化的基础Gas费用, 基础Gas费用会根据Gas目标进行调整, 以应对网络拥塞。",
         "4": "委托交易：类型为 0x4 的交易会在 EOA（外部拥有账户）的代码字段中设置一个“委托标识符”（0xef0100 + 目标地址）。当该 EOA 接收到调用时，EVM 会在该 EOA 的上下文中执行目标地址中的字节码，从而使目标合约能够访问该 EOA 的存储和余额。该交易类型实现了类智能合约的功能，例如批量交易（如 ERC-20 授权与交换）和权限管理，同时保留了原始 EOA 的地址和签名能力。"
       },
-      "getRawTxJson": "获取原始交易JSON"
+      "getRawTxJson": "获取原始交易JSON",
+      "bundleTx": "一个包含一笔或多笔账户抽象交易的捆绑包。",
+      "aaTx": "账户抽象交易也称为用户操作。"
     },
     "address": {
       "balance": "该地址的资产余额。",
