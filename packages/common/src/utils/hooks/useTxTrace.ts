@@ -48,6 +48,7 @@ export type ProxyType = 'BeaconProxy' | 'Proxy';
 
 export interface OriginTraceData {
   addressArray: string[];
+  authMap: Record<string, string>;
   proxyMap: Record<string, ProxyType>;
   methodMap: Record<string, Record<string, string>>;
   nameMap: Record<string, AddressNameMap>;
@@ -75,13 +76,9 @@ export interface ListTraceForUI {
   };
   isCallBeacon?: boolean;
   isCallImpl?: boolean;
+  // only for evm space ↓↓↓↓↓↓↓↓
+  delegatedTo?: string;
   // only for core space ↓↓↓↓↓↓↓↓
-  toESpaceInfo?: {
-    address?: string;
-  };
-  fromESpaceInfo?: {
-    address?: string;
-  };
   fromPocket?: Pocket;
   toPocket?: Pocket;
 }
@@ -95,6 +92,7 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
   const proxyMap = data.proxyMap || {};
   const methodMap = data.methodMap || {};
   const nameMap = data.nameMap || {};
+  const authMap = data.authMap || {};
 
   let total = 0;
 
@@ -114,9 +112,13 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
     const methodId = t.action.input?.slice(0, 10);
     const from = formatAddress(t.action.from, addressType);
     const to = formatAddress(t.action.to, addressType);
+    const delegatedTo = to && authMap[to];
     let method = methodId;
     let abi: AbiFunctionWithoutGas[] | undefined = undefined;
-    const methodABI = methodId && to ? methodMap[methodId]?.[to] : undefined;
+    const methodABI =
+      methodId && (delegatedTo || to)
+        ? methodMap[methodId]?.[delegatedTo || to]
+        : undefined;
     if (methodABI) {
       try {
         const result = formatABI(`["${methodABI}"]`, {
@@ -146,22 +148,11 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
       abi,
       contractCreated: isContractCreated ? t.result?.addr : undefined,
       nameMap,
+      delegatedTo,
       isCallImpl: t.isCallImpl,
       fromPocket: t.action.fromPocket,
       toPocket: t.action.toPocket,
     };
-    if (t.action.fromSpace === 'evm') {
-      // TODO
-      item.fromESpaceInfo = {
-        address: formatAddress(from, 'hex'),
-      };
-    }
-    if (t.action.toSpace === 'evm') {
-      // TODO
-      item.toESpaceInfo = {
-        address: formatAddress(to, 'hex'),
-      };
-    }
     if (
       parent &&
       parent.to &&
@@ -251,8 +242,16 @@ export const hideProxyCallInTreeTrace = (data: TreeTraceForUI[]) => {
   return handler(data);
 };
 
-export const useTxTrace = (hash: string, space: 'evm' | 'core') => {
-  const url = `/transferTree/${hash}`;
+export const useTxTrace = (
+  hash: string,
+  space: 'evm' | 'core',
+  {
+    isAATx = false,
+  }: {
+    isAATx?: boolean;
+  } = {},
+) => {
+  const url = `/transferTree/${hash}${isAATx ? '?txType=aa' : ''}`;
 
   return useSWRImmutable([url, space], () =>
     fetchWithPrefix(url)

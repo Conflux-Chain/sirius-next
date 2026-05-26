@@ -10,20 +10,19 @@ export const ErrorDecode = ({
   errorData,
   space,
   labelClassName,
-  proxy,
+  implementation,
+  fallback,
 }: {
-  errorData: `0x${string}`;
+  errorData?: `0x${string}`;
   to?: string;
   space: 'evm' | 'core';
   labelClassName?: string;
-  proxy?: {
-    beaconAddress?: string;
-    implAddress: string;
-  };
+  implementation?: string;
+  fallback?: React.ReactNode;
 }) => {
   const [decodedError, isLoading] = useDecodeFunctionError({
     to,
-    implementation: proxy?.implAddress,
+    implementation,
     errorData,
     space,
   });
@@ -35,30 +34,32 @@ export const ErrorDecode = ({
     decodedError.abiItem.type !== 'error'
   )
     return (
-      <div className="flex min-h-32px">
-        <div
-          className={cn(
-            'w-100px shrink-0 grow-0 text-14px lh-18px pt-6px text-#6a737d',
-            labelClassName,
-          )}
-        >
-          Error:
+      fallback || (
+        <div className="flex min-h-32px">
+          <div
+            className={cn(
+              'w-100px shrink-0 grow-0 text-14px lh-18px pt-6px text-#6a737d',
+              labelClassName,
+            )}
+          >
+            Error:
+          </div>
+          <div className="flex-1">
+            <Original data={errorData ?? ''} />
+            {!isLoading && (
+              <AbiWarning
+                tip={
+                  decodedError?.failed
+                    ? 'contract.abiError'
+                    : decodedError?.noAbi
+                      ? 'contract.abiNotUploaded'
+                      : undefined
+                }
+              />
+            )}
+          </div>
         </div>
-        <div className="flex-1">
-          <Original data={errorData} />
-          {!isLoading && (
-            <AbiWarning
-              tip={
-                decodedError?.failed
-                  ? 'contract.abiError'
-                  : decodedError?.noAbi
-                    ? 'contract.abiNotUploaded'
-                    : undefined
-              }
-            />
-          )}
-        </div>
-      </div>
+      )
     );
   return (
     <>

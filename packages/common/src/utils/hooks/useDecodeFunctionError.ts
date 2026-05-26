@@ -27,12 +27,13 @@ export const useDecodeFunctionError = ({
   errorData,
   space,
 }: {
-  errorData: `0x${string}`;
+  errorData?: `0x${string}`;
   to?: string;
   implementation?: string;
   space: 'evm' | 'core';
 }): [Result | null, boolean] => {
   const standardErrorAbi = useMemo(() => {
+    if (!errorData) return null;
     if (errorData.startsWith(COMMON_ERROR_OUTPUT_PREFIX)) return CommonError;
     if (errorData.startsWith(COMMON_PANIC_OUTPUT_PREFIX)) return CommonPanic;
     return null;
@@ -46,7 +47,7 @@ export const useDecodeFunctionError = ({
   const { data: implementationData, isLoading: implementationLoading } =
     useContractDetail(implementation, fields, !standardErrorAbi && !!errorData);
   const decodedByStandardError = useMemo(() => {
-    if (!standardErrorAbi) return null;
+    if (!standardErrorAbi || !errorData) return null;
     try {
       const result = decodeErrorResult({
         abi: standardErrorAbi,
@@ -63,7 +64,7 @@ export const useDecodeFunctionError = ({
     }
   }, [errorData, standardErrorAbi, space]);
   const decoded = useMemo(() => {
-    if (!data?.abi) return null;
+    if (!data?.abi || !errorData) return null;
     try {
       const result = decodeErrorResult({
         abi: JSON.parse(data.abi as string),
@@ -80,7 +81,7 @@ export const useDecodeFunctionError = ({
     }
   }, [errorData, data, space]);
   const decodedByImplementation = useMemo(() => {
-    if (!implementationData?.abi) return null;
+    if (!implementationData?.abi || !errorData) return null;
     try {
       const result = decodeErrorResult({
         abi: JSON.parse(implementationData.abi as string),

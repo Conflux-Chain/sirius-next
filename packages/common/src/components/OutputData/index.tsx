@@ -13,7 +13,7 @@ export const OutputData = ({
   to,
   space,
   success,
-  proxy,
+  implementation,
   labelClassName,
 }: {
   decodedData?: DecodedFunctionData;
@@ -23,10 +23,7 @@ export const OutputData = ({
   to?: string;
   labelClassName?: string;
   success?: boolean;
-  proxy?: {
-    beaconAddress?: string;
-    implAddress: string;
-  };
+  implementation?: string;
 }) => {
   const isReturnDataEmpty = !output || output === '0x';
   if (isReturnDataEmpty) return null;
@@ -46,7 +43,7 @@ export const OutputData = ({
           to={to}
           space={space}
           errorData={output}
-          proxy={proxy}
+          implementation={implementation}
           labelClassName={labelClassName}
         ></ErrorDecode>
       );

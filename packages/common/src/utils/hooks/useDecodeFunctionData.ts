@@ -108,7 +108,7 @@ export const useDecodeFunctionData = ({
   output,
   space,
   success,
-  supportMethodAbi,
+  supportMethodAbi = false,
   withOutput,
 }: {
   input: Hex;
@@ -165,7 +165,7 @@ export const useDecodeFunctionData = ({
     });
   }, [input, output, implementationData?.abi, success, space, withOutput]);
   const needMethodAbi =
-    !!supportMethodAbi &&
+    supportMethodAbi &&
     needContractAbi &&
     // contract abi decoded failed
     !contractLoading &&

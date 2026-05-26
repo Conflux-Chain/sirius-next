@@ -15,6 +15,7 @@ export const useAddressNameMap = (addresses: string[], shouldFetch = true) => {
   const key = useMemo(() => {
     return shouldFetch && addresses.length > 0
       ? `address-name-map-${addresses
+          .filter(i => !!i)
           .map(i => i.toLowerCase())
           .sort()
           .join(',')}`
