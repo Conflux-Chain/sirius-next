@@ -10,20 +10,17 @@ export const ErrorDecode = ({
   errorData,
   space,
   labelClassName,
-  proxy,
+  implementation,
 }: {
-  errorData: `0x${string}`;
+  errorData?: `0x${string}`;
   to?: string;
   space: 'evm' | 'core';
   labelClassName?: string;
-  proxy?: {
-    beaconAddress?: string;
-    implAddress: string;
-  };
+  implementation?: string;
 }) => {
   const [decodedError, isLoading] = useDecodeFunctionError({
     to,
-    implementation: proxy?.implAddress,
+    implementation,
     errorData,
     space,
   });
@@ -45,7 +42,7 @@ export const ErrorDecode = ({
           Error:
         </div>
         <div className="flex-1">
-          <Original data={errorData} />
+          <Original data={errorData ?? ''} />
           {!isLoading && (
             <AbiWarning
               tip={

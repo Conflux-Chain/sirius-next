@@ -14,7 +14,7 @@ export const InputData = ({
   labelClassName,
   success,
 }: {
-  decodedData: DecodedFunctionData;
+  decodedData?: DecodedFunctionData;
   dataType: DataType;
   input: `0x${string}`;
   space: 'evm' | 'core';
@@ -25,8 +25,8 @@ export const InputData = ({
     return <UTF8 data={input}></UTF8>;
   } else if (
     dataType === 'json' &&
-    decodedData.decodedParams &&
-    decodedData.abiItem
+    decodedData?.decodedParams &&
+    decodedData?.abiItem
   ) {
     return (
       <JsonDecode
@@ -41,13 +41,13 @@ export const InputData = ({
     return (
       <GeneralDecode
         data={input}
-        fullName={decodedData.fullName}
+        fullName={decodedData?.fullName}
       ></GeneralDecode>
     );
   } else if (
     dataType === 'optimizationDecode' &&
-    decodedData.decodedParams &&
-    decodedData.abiItem
+    decodedData?.decodedParams &&
+    decodedData?.abiItem
   ) {
     return (
       <OptimizationDecode

@@ -183,7 +183,7 @@ export const fetchWithOpenApi = <T>(url: string, opts?: FetchOptions) => {
   );
 };
 
-export const simpleGetFetcher = async <T>(...args: any[]) => {
+export const simpleGetFetcher = async <T>(args: any[]) => {
   let [url, query] = args;
   if (query) {
     url = qs.stringifyUrl({ url, query });
