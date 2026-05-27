@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.21
+
+### Patch Changes
+
+- 9222b26: fix: transaction action token symbol display
+
 ## 0.2.20
 
 ### Patch Changes
