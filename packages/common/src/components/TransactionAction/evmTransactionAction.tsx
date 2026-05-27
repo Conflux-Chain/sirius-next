@@ -23,9 +23,12 @@ const Token = (
   tokenExhibit: string[], // icon, name, symbol
 ) => {
   const customInfoToken = filterByTokenAddress(customInfo.token || {}, address);
+  const showIcon = tokenExhibit.includes('icon');
+  const showName = tokenExhibit.includes('name');
+  const showSymbol = tokenExhibit.includes('symbol');
   return customInfoToken && customInfoToken['token'] ? (
     <>
-      {tokenExhibit.includes('icon') ? (
+      {showIcon ? (
         customInfoToken['token']['iconUrl'] ? (
           <img
             className="w-[16px] h-[16px] mt-[2px]"
@@ -44,7 +47,7 @@ const Token = (
       ) : (
         <></>
       )}
-      {tokenExhibit.includes('name') ? (
+      {showName ? (
         <Link href={`/address/${formatAddress(address, 'hex')}`}>
           {customInfoToken['token']['name'] ? (
             `${customInfoToken['token']['name']}`
@@ -55,11 +58,13 @@ const Token = (
       ) : (
         <></>
       )}
-      {tokenExhibit.includes('symbol') ? (
+      {showSymbol ? (
         <Link href={`/address/${formatAddress(address, 'hex')}`}>
+          {showName ? '(' : ''}
           {customInfoToken['token']['symbol']
             ? customInfoToken['token']['symbol']
-            : TokenSymbol}{' '}
+            : TokenSymbol}
+          {showName ? ')' : ''}{' '}
         </Link>
       ) : (
         <></>
@@ -67,15 +72,21 @@ const Token = (
     </>
   ) : (
     <>
-      {tokenExhibit.includes('icon') && (
+      {showIcon && (
         <img
           className="w-[16px] h-[16px] mt-[2px]"
           src={TokenIcon}
           alt="icon"
         />
       )}
-      {tokenExhibit.includes('name') && <div>{TokenName}</div>}
-      {tokenExhibit.includes('symbol') && <div>({TokenSymbol})</div>}
+      {showName && <div>{TokenName}</div>}
+      {showSymbol && (
+        <div>
+          {showName ? '(' : ''}
+          {TokenSymbol}
+          {showName ? ')' : ''}
+        </div>
+      )}
     </>
   );
 };
