@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.22
+
+### Patch Changes
+
+- ed41781: feat: aa tx detail
+
 ## 0.2.21
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.11
+
+### Patch Changes
+
+- ed41781: feat: aa tx detail
+
 ## 0.2.10
 
 ### Patch Changes
