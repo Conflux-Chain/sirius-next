@@ -33,6 +33,7 @@ export const allComponentsEntry = getFilesEntry('./src', {});
 export default defineConfig({
   entry: allComponentsEntry,
   format: ['esm'],
+  clean: false,
   publicDir: './public',
   loader: {
     '.png': 'copy',

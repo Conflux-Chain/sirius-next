@@ -3,35 +3,8 @@ import { formatAddress } from '../../utils/address';
 import { Link } from '../Link';
 import { DefaultTokenIcon } from '../Icons';
 import clsx from 'clsx';
-
-export const formatContractAndTokenInfoMap = (
-  m: any,
-  addressType: 'hex' | 'base32',
-): Record<string, ContractAndTokenInfo> => {
-  try {
-    return Object.entries<ContractAndTokenInfo>(m)
-      .map(a => ({
-        [formatAddress(a[0], addressType)]: a[1],
-        [a[0]]: a[1],
-      }))
-      .reduce((prev, curr) => Object.assign(prev, curr), {});
-  } catch (error) {
-    return {};
-  }
-};
-
-export interface ContractAndTokenInfo {
-  contract: {
-    name?: string;
-    address: string;
-  };
-  token: {
-    name?: string;
-    symbol?: string;
-    iconUrl?: string;
-    address: string;
-  };
-}
+import { useAddressNameMap } from 'src/utils/hooks/useAddressNameMap';
+import { getAddressNameInfo } from '../AddressContainer/utils';
 
 const Icon = ({ icon, className }: { icon?: string; className?: string }) => {
   return icon ? (
@@ -48,39 +21,44 @@ const Icon = ({ icon, className }: { icon?: string; className?: string }) => {
 };
 
 interface Props {
-  info?: ContractAndTokenInfo;
+  address: string;
   addressType: 'hex' | 'base32';
 }
 
-export const ContractDetail = ({ info, addressType }: Props) => {
-  if (info) {
-    const { contract, token } = info;
+export const ContractDetail = ({ address, addressType }: Props) => {
+  const { data: nameMap } = useAddressNameMap([address]);
+  const nameInfo = getAddressNameInfo(address, nameMap);
+  if (nameInfo) {
+    const {
+      tokenName,
+      tokenSymbol,
+      tokenIconUrl,
+      contractName,
+      verificationName,
+    } = nameInfo;
     let child: React.ReactNode = null;
 
-    if (token && (token.name || token.symbol)) {
-      const name = token['name'] || '--';
-      let symbol = token['symbol'];
-      symbol = `(${symbol ? symbol : '--'})`;
-      const icon = token['iconUrl'];
+    if (tokenName || tokenSymbol) {
+      const name = tokenName || '--';
+      const symbol = `(${tokenSymbol ? tokenSymbol : '--'})`;
+      const icon = tokenIconUrl;
 
       child = (
         <>
           <Icon icon={icon} />
-          <Link href={`/token/${formatAddress(token.address, addressType)}`}>
+          <Link href={`/token/${formatAddress(address, addressType)}`}>
             {name} {symbol}
           </Link>{' '}
         </>
       );
-    } else if (contract && contract.name) {
-      const name = contract['name'];
-      const icon = token && token['iconUrl'];
+    } else if (contractName || verificationName) {
+      const name = contractName || verificationName;
+      const icon = tokenIconUrl;
 
       child = (
         <>
           <Icon icon={icon} />
-          <Link
-            href={`/address/${formatAddress(contract.address, addressType)}`}
-          >
+          <Link href={`/address/${formatAddress(address, addressType)}`}>
             {name}
           </Link>{' '}
         </>

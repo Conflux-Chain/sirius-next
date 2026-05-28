@@ -1,11 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { reqContractAndToken } from '../../utils/request';
+import React, { useMemo } from 'react';
 import { parseArgs } from './utils';
 import _ from 'lodash';
-import {
-  ContractDetail,
-  formatContractAndTokenInfoMap,
-} from './ContractDetail';
+import { ContractDetail } from './ContractDetail';
 import { Link } from '../Link';
 import { Text } from '../Text';
 import { FunctionName, getParameterType } from './FunctionName';
@@ -27,9 +23,6 @@ export const DecodedParameters = ({
   labelClassName?: string;
   space: 'evm' | 'core';
 }) => {
-  const [contractAndTokenInfo, setContractAndTokenInfo] = useState<
-    ReturnType<typeof formatContractAndTokenInfoMap>
-  >({});
   const addressType = space === 'core' ? 'base32' : 'hex';
   const data = useMemo(() => {
     if (!args) return {};
@@ -43,32 +36,6 @@ export const DecodedParameters = ({
     return object;
   }, [args, params]);
 
-  useEffect(() => {
-    let addressList =
-      args
-        ?.map((t, i) => (params[i]?.type === 'address' ? (t as string) : false))
-        .filter((t): t is string => !!t) ?? [];
-    addressList = _.uniq(addressList);
-
-    if (addressList.length) {
-      reqContractAndToken(addressList)
-        .then(data => {
-          if (data.total) {
-            setContractAndTokenInfo(
-              formatContractAndTokenInfoMap(data.map, addressType),
-            );
-          } else {
-            setContractAndTokenInfo({});
-          }
-        })
-        .catch(e => {
-          console.log('reqContractAndToken or process error: ', e);
-          setContractAndTokenInfo({});
-        });
-    } else {
-      setContractAndTokenInfo({});
-    }
-  }, [args, params, addressType]);
   return params.length > 0 ? (
     <div className="flex min-h-32px">
       <div
@@ -85,14 +52,13 @@ export const DecodedParameters = ({
           let value: React.ReactNode = data[argName];
           if (item.type === 'address' && value) {
             const address = value as string;
-            const contractInfo = contractAndTokenInfo[address];
 
             value = (
               <>
                 <Link href={`/address/${address}`}>
                   {convertCheckSum(address)}{' '}
                 </Link>
-                <ContractDetail info={contractInfo} addressType={addressType} />
+                <ContractDetail address={address} addressType={addressType} />
                 <AddressLabel address={address} space={space} />
               </>
             );

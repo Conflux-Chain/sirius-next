@@ -67,7 +67,9 @@ export const TreeTraceTable = ({
                   outcome={record.result?.outcome}
                   isContractCreated={!!record.contractCreated}
                   space={space}
-                  proxy={record.proxy}
+                  implementation={
+                    record.delegatedTo ?? record.proxy?.implAddress
+                  }
                 />
               )}
               {isTreeExpanded && (

@@ -158,7 +158,7 @@ export const ProxyContractAddress = (
           href={`/address/${value}`}
           style={style}
         >
-          {text}({proxy.type})
+          {text} ({proxy.type})
         </Link>
       </Tooltip>
     </div>
