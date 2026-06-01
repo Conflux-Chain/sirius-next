@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.12
+
+### Patch Changes
+
+- 3b91823: feat: add unit test
+
 ## 0.2.11
 
 ### Patch Changes

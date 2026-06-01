@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.23
+
+### Patch Changes
+
+- 3b91823: feat: add unit test
+
 ## 0.2.22
 
 ### Patch Changes
