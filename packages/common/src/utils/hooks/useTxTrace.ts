@@ -1,7 +1,7 @@
 import useSWRImmutable from 'swr/immutable';
-import { fetchWithPrefix } from 'src/utils/request';
+import { fetchWithPrefix } from '../request';
 import { publishRequestError } from '../pubsub';
-import type { AbiFunctionWithoutGas } from 'src/utils/sdk';
+import type { AbiFunctionWithoutGas } from '../sdk';
 import { formatABI } from '..';
 import { formatAddress } from '../address';
 import { AddressNameMap, Pocket } from '../request.types';

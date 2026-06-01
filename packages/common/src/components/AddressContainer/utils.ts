@@ -1,5 +1,5 @@
-import { isZeroAddress } from 'src/utils/address';
-import { AddressNameMap, Pocket } from 'src/utils/request.types';
+import { isZeroAddress } from '../../utils/address';
+import { AddressNameMap, Pocket } from '../../utils/request.types';
 
 // https://app.clickup.com/3719212/v/dc/3hg1c-23878/3hg1c-21778?block=block-vVZ_AG9Btz
 export const getPocketAlias = ({
