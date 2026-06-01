@@ -1,4 +1,4 @@
-import type { AbiParameter } from 'src/utils/sdk';
+import type { AbiParameter } from '../../utils/sdk';
 
 const parseParams = (params: unknown, abiParam: AbiParameter): unknown => {
   if (abiParam.type === 'tuple' && 'components' in abiParam) {
