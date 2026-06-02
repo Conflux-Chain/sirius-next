@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.13
+
+### Patch Changes
+
+- 4a020a0: fix: xss
+
 ## 0.2.12
 
 ### Patch Changes
