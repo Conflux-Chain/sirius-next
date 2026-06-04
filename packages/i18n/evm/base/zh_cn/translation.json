@@ -256,8 +256,7 @@
     "notVerifyImplementContract": "在代理合约和执行合约均被<0>验证</0>后可使用代理合约的读写功能。",
     "pattern": "实现执行合约的 ABI 位于 <0>address</0>, 使用 <1>pattern</1> 代理模式.",
     "beacon": {
-      "pattern1": "实现执行合约的 ABI 位于 <1>address</1> ，采用的是 <3>EIP-1967 Beacon Proxy</3> 模式。",
-      "pattern2": "该合约此前记录对应的 beacon 合约为 <1>address</1> 。"
+      "pattern1": "该代理合约采用 <1>EIP-1967 Beacon Proxy</1> 模式，当前实现合约为 <3>address</3>，Beacon 合约为 <5>address</5>。"
     },
     "expandAll": "全部展开",
     "reset": "重置",
