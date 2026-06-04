@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.14
+
+### Patch Changes
+
+- f33c9be: fix: beacon proxy i18n
+
 ## 0.2.13
 
 ### Patch Changes
