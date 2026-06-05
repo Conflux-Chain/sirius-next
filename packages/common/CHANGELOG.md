@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.24
+
+### Patch Changes
+
+- 3f92a28: fix: error report
+
 ## 0.2.23
 
 ### Patch Changes
