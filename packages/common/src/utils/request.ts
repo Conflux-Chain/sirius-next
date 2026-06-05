@@ -15,6 +15,7 @@ interface FetchWithAbortType<T> {
 
 interface FetchOptions extends RequestInit {
   timeout?: number;
+  showErrorMessage?: boolean;
 }
 
 const TIMEOUT_TIMESTAMP = 60000;
@@ -52,8 +53,8 @@ const parseJSON = async (response: Response) => {
     if ((error as any).name === 'AbortError') {
       return { data: response, response };
     }
-    publishRequestError({ url: response.url, code: 20001 }, 'http');
     (error as any).response = response;
+    (error as any).status = 20001;
     throw error;
   }
 };
@@ -68,7 +69,7 @@ const checkResponse = function (
     data: any;
     response: Response;
   },
-  opts: any,
+  opts: FetchOptions,
 ) {
   // 兼容 data.code 和 data.data, 是关于 core space 的数据结构
   if (response.status === 200 && (data.status === '1' || data.code === 0)) {
@@ -78,11 +79,12 @@ const checkResponse = function (
     return response;
   } else {
     const code = Number(data.status ?? data.code);
-    publishRequestError({ url, code, message: data.message }, 'http');
     const error: Partial<ErrorEvent> & {
       response?: ResponseType;
+      status?: number;
     } = new Error(data.message);
     error.response = data;
+    error.status = code;
     throw error;
   }
 };
@@ -93,16 +95,18 @@ const fetchWithAbort = <T>(
 ): FetchWithAbortType<T> => {
   const controller = new AbortController();
   const opts: FetchOptions = { ...options, signal: controller.signal };
+  const showErrorMessage = options.showErrorMessage ?? true;
   const timeout = options.timeout || TIMEOUT_TIMESTAMP;
 
   let timeoutId: ReturnType<typeof setTimeout>;
   const promise: Promise<T> = new Promise((resolve, reject) => {
     timeoutId = setTimeout(() => {
       controller.abort();
-      publishRequestError(
-        { url, code: 20002, message: 'Request timeout' },
-        'http',
-      );
+      showErrorMessage &&
+        publishRequestError(
+          { url, code: 20002, message: 'Request timeout' },
+          'http',
+        );
       reject(new Error('Request timeout'));
     }, timeout);
 
@@ -121,19 +125,21 @@ const fetchWithAbort = <T>(
         // although this usually means permission issues or similar — a 404 does not constitute a network error, for example.
         // For detail: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         if (error.name === 'TypeError') {
-          publishRequestError({ url, code: 20004 }, 'http');
+          showErrorMessage && publishRequestError({ url, code: 20004 }, 'http');
           reject(new Error('Network error'));
         } else if (error.name === 'AbortError') {
-          publishRequestError(
-            { url, code: 20003, message: 'Fetch aborted' },
-            'http',
-          );
+          showErrorMessage &&
+            publishRequestError(
+              { url, code: 20003, message: 'Fetch aborted' },
+              'http',
+            );
           reject(new Error('Fetch aborted'));
         } else {
-          publishRequestError(
-            { url, code: (error as any).status, message: error.message },
-            'http',
-          );
+          showErrorMessage &&
+            publishRequestError(
+              { url, code: (error as any).status, message: error.message },
+              'http',
+            );
           reject(error);
         }
       })
