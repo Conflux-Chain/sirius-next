@@ -10,6 +10,8 @@ import IconCore from '../images/core-space/icon.svg';
 import IconEvm from '../images/espace/icon.svg';
 import IconBtc from '../images/bspace/icon.svg';
 
+export * from './ipfsGateway';
+
 BigNumber.config({ EXPONENTIAL_AT: [-18, 34], DECIMAL_PLACES: 80 });
 
 export function cn(...inputs: ClassValue[]) {
