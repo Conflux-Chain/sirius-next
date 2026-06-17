@@ -102,6 +102,9 @@ const fetchWithAbort = <T>(
   const promise: Promise<T> = new Promise((resolve, reject) => {
     timeoutId = setTimeout(() => {
       controller.abort();
+      if (/HEAD/i.test(opts?.method || '')) {
+        return resolve({} as T);
+      }
       showErrorMessage &&
         publishRequestError(
           { url, code: 20002, message: 'Request timeout' },
