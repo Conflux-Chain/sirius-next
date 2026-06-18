@@ -450,10 +450,18 @@ export const detectIPFSGateways = async ({
   const normalizedGatewayList = gatewayList
     .map(gateway => normalizeIPFSGateway(gateway))
     .filter((gateway): gateway is string => Boolean(gateway));
+  const safePageSize =
+    Number.isFinite(pageSize) && pageSize > 0
+      ? Math.max(1, Math.floor(pageSize))
+      : DEFAULT_PAGE_SIZE;
 
-  for (let skip = 0; skip < normalizedGatewayList.length; skip += pageSize) {
+  for (
+    let skip = 0;
+    skip < normalizedGatewayList.length;
+    skip += safePageSize
+  ) {
     const taskArray = normalizedGatewayList
-      .slice(skip, skip + pageSize)
+      .slice(skip, skip + safePageSize)
       .map(gateway =>
         detectIPFSGateway(gateway, {
           fetcher,

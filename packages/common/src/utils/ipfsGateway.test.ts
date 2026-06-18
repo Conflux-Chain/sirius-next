@@ -262,4 +262,35 @@ describe('ipfsGateway', () => {
     expect(result.availableGateways).toHaveLength(2);
     expect(fetcher).toHaveBeenCalledTimes(2);
   });
+
+  test('uses a safe page size when pageSize is not positive', async () => {
+    const fetcher = vi.fn(() =>
+      createResponse('Hello from IPFS Gateway Checker', {
+        contentType: 'text/plain',
+      }),
+    ) as unknown as typeof globalThis.fetch;
+
+    await expect(
+      detectIPFSGateways({
+        gateways: ['https://gateway-1.example', 'https://gateway-2.example'],
+        pageSize: 0,
+        fetcher,
+        useCache: false,
+      }),
+    ).resolves.toMatchObject({
+      availableGateways: expect.any(Array),
+    });
+    await expect(
+      detectIPFSGateways({
+        gateways: ['https://gateway-3.example'],
+        pageSize: -1,
+        fetcher,
+        useCache: false,
+      }),
+    ).resolves.toMatchObject({
+      availableGateways: expect.any(Array),
+    });
+
+    expect(fetcher).toHaveBeenCalledTimes(3);
+  });
 });
