@@ -241,7 +241,7 @@ describe('request', () => {
     );
 
     await expect(
-      simpleGetFetcher('/account', { address: 'cfx:test' }),
+      simpleGetFetcher(['/account', { address: 'cfx:test' }]),
     ).resolves.toEqual({ ok: true });
 
     expect(window.fetch).toHaveBeenCalledWith(
