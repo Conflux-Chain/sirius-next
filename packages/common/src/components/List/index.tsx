@@ -55,7 +55,7 @@ export const List: React.FC<ListProps> = ({ list, className }) => {
             title={item != null ? item.title : ''}
             noBorder={item != null ? noBorder(index) : true}
           >
-            {item != null ? item.children || <Skeleton /> : null}
+            {item != null ? item.children ?? <Skeleton /> : null}
           </Description>
         ))}
       </Card>
