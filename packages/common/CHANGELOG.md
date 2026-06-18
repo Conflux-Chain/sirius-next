@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.25
+
+### Patch Changes
+
+- 2e5449f: fix nft ipfs gateway
+
 ## 0.2.24
 
 ### Patch Changes
