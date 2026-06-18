@@ -20,6 +20,14 @@ interface FetchOptions extends RequestInit {
 
 const TIMEOUT_TIMESTAMP = 60000;
 
+const isHeadRequest = (opts?: FetchOptions) =>
+  opts?.method?.toUpperCase() === 'HEAD';
+
+const createHeadFailureResponse = (
+  status: number,
+  statusText: string,
+): Response => new Response(null, { status, statusText });
+
 const checkStatus = (response: Response) => {
   if (
     (response.status >= 200 && response.status < 300) ||
@@ -74,7 +82,7 @@ const checkResponse = function (
   // 兼容 data.code 和 data.data, 是关于 core space 的数据结构
   if (response.status === 200 && (data.status === '1' || data.code === 0)) {
     return data.result || data.data;
-  } else if (/HEAD/i.test(opts?.method || '')) {
+  } else if (isHeadRequest(opts)) {
     // handle of HEAD method
     return response;
   } else {
@@ -102,8 +110,8 @@ const fetchWithAbort = <T>(
   const promise: Promise<T> = new Promise((resolve, reject) => {
     timeoutId = setTimeout(() => {
       controller.abort();
-      if (/HEAD/i.test(opts?.method || '')) {
-        return resolve({} as T);
+      if (isHeadRequest(opts)) {
+        return resolve(createHeadFailureResponse(408, 'Request timeout') as T);
       }
       showErrorMessage &&
         publishRequestError(
@@ -120,8 +128,13 @@ const fetchWithAbort = <T>(
       .then((...args) => checkResponse(url, ...args, opts))
       .then(data => resolve(data as T))
       .catch(error => {
-        if (/HEAD/i.test(opts?.method || '')) {
-          return resolve({} as T);
+        if (isHeadRequest(opts)) {
+          return resolve(
+            createHeadFailureResponse(
+              599,
+              error?.message || 'Request failed',
+            ) as T,
+          );
         }
 
         // A fetch() promise will reject with a TypeError when a network error is encountered or CORS is misconfigured on the server-side,
