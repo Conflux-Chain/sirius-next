@@ -1,6 +1,6 @@
 {
   "name": "@cfxjs/sirius-next-common",
-  "version": "0.2.21-fix-error-publish",
+  "version": "0.2.21-fix-nft-ipfs-gateway-1",
   "type": "module",
   "files": [
     "dist/**"
