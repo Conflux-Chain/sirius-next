@@ -1016,7 +1016,10 @@
         "maxEpochNumber": "Max Block Height",
         "sender": "From",
         "bundler": "Bundler",
-        "entryPoint": "Entry Point"
+        "entryPoint": "Entry Point",
+        "author": "Authority",
+        "delegatedAddress": "Delegated Address",
+        "txSender": "Tx Sender"
       },
       "error": {
         "invalidHash": "Invalid hash format",

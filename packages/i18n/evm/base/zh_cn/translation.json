@@ -1015,7 +1015,10 @@
         "maxEpochNumber": "最大区块高度",
         "sender": "发送方",
         "bundler": "打包器",
-        "entryPoint": "入口合约"
+        "entryPoint": "入口合约",
+        "author": "授权方",
+        "delegatedAddress": "委托地址",
+        "txSender": "交易发送方"
       },
       "error": {
         "invalidHash": "哈希值格式错误",
