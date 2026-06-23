@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.2.15
+
+### Patch Changes
+
+- 445544d: feat: add 7702 list search options i18n
+
 ## 0.2.14
 
 ### Patch Changes
