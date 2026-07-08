@@ -1,6 +1,7 @@
 import qs from 'query-string';
 import { publishRequestError } from './pubsub';
 import {
+  AbiByIdResponse,
   AddressNameMap,
   BaseContractInfo,
   DetectAccountTypeResponse,
@@ -368,3 +369,18 @@ export const fetchAddressNameMap = (
     method: 'GET',
   });
 };
+
+export const reqAbiById = fetchWithCache(
+  (params: { function?: string; error?: string; event?: string }) => {
+    const url = qs.stringifyUrl({
+      url: '/contract/lookupAbi',
+      query: params,
+    });
+    return fetchWithOpenApi<AbiByIdResponse>(url, {
+      method: 'GET',
+    });
+  },
+  {
+    maxAge: 1000 * 60 * 60,
+  },
+);

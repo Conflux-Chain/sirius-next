@@ -112,3 +112,15 @@ export type Pocket =
   | 'sponsor_balance_for_collateral'
   | 'mint_or_burn'
   | 'gas_payment';
+
+interface AbiItemInOpenApi {
+  signature?: string;
+  fullFormat?: string;
+  hasVerifiedContract?: boolean;
+}
+
+export interface AbiByIdResponse {
+  function?: Record<string, AbiItemInOpenApi[]>;
+  event?: Record<string, AbiItemInOpenApi[]>;
+  error?: Record<string, AbiItemInOpenApi[]>;
+}
