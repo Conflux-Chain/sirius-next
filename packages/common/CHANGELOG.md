@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.26
+
+### Patch Changes
+
+- feat: support error abi
+
 ## 0.2.25
 
 ### Patch Changes
