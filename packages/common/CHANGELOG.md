@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.27
+
+### Patch Changes
+
+- fix: tree trace table support scroll
+
 ## 0.2.26
 
 ### Patch Changes

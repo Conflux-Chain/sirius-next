@@ -7,6 +7,7 @@ import { TreeTraceForUI } from 'src/utils/hooks/useTxTrace';
 export const TreeTraceTable = ({
   data,
   columns,
+  scroll = { x: 1200 },
   loading = false,
   showHeader = true,
   colorReverse,
@@ -16,6 +17,7 @@ export const TreeTraceTable = ({
 }: {
   data?: TreeTraceForUI[];
   columns: TableProps<TreeTraceForUI>['columns'];
+  scroll?: TableProps<TreeTraceForUI>['scroll'];
   loading?: boolean;
   showHeader?: boolean;
   colorReverse?: boolean;
@@ -31,6 +33,7 @@ export const TreeTraceTable = ({
     <Table
       columns={columns}
       rowKey="index"
+      scroll={scroll}
       data={data}
       loading={loading}
       showHeader={showHeader}
@@ -76,6 +79,7 @@ export const TreeTraceTable = ({
                 <TreeTraceTable
                   data={record.calls}
                   columns={columns}
+                  // scroll={scroll}
                   showHeader={false}
                   colorReverse={
                     colorReverse ? index % 2 !== 0 : index % 2 === 0
