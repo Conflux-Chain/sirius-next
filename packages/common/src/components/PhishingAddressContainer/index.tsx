@@ -125,7 +125,6 @@ const PhishingTooltip: React.FC<{
           <SimilarAddresses list={list} />
         </Trans>
       }
-      portalled
     >
       <PhishingWarningIcon className="text-#FFBB37" />
     </Tooltip>
