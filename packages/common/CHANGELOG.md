@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.28
+
+### Patch Changes
+
+- fix: tooltip ui
+
 ## 0.2.27
 
 ### Patch Changes

@@ -22,6 +22,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   positioning = {},
   className,
   containerClassName,
+  portalled = true,
   ...rest
 }) => {
   const { placement = 'top' } = positioning;
@@ -62,6 +63,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       openDelay={0}
       closeOnPointerDown={false}
       {...rest}
+      portalled={portalled}
       positioning={{
         ...positioning,
         placement,
