@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.2.29
+
+### Patch Changes
+
+- fix: general decode error
+
 ## 0.2.28
 
 ### Patch Changes
