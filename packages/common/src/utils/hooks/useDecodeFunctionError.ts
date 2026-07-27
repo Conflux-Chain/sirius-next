@@ -13,6 +13,14 @@ import { formatABI } from '..';
 
 const fields = ['abi' as const];
 
+interface Params {
+  errorData?: `0x${string}`;
+  to?: string;
+  abi?: AbiItem[];
+  implementation?: string;
+  space: 'evm' | 'core';
+  supportErrorAbi?: boolean;
+}
 interface Result {
   abiItem?: AbiItem;
   args?: readonly unknown[];
@@ -28,30 +36,29 @@ export const useDecodeFunctionError = ({
   implementation: _implementation,
   errorData,
   space,
-  supportErrorAbi,
-}: {
-  errorData?: `0x${string}`;
-  to?: string;
-  implementation?: string;
-  space: 'evm' | 'core';
-  supportErrorAbi?: boolean;
-}): [Result | null, boolean] => {
+  abi: outerAbi,
+  supportErrorAbi = false,
+}: Params): [Result | null, boolean] => {
+  const isErrorDataEmpty = !errorData || errorData === '0x';
+  const hasOuterAbi = outerAbi && outerAbi.length > 0;
   const standardErrorAbi = useMemo(() => {
-    if (!errorData) return null;
+    if (isErrorDataEmpty) return null;
     if (errorData.startsWith(COMMON_ERROR_OUTPUT_PREFIX)) return CommonError;
     if (errorData.startsWith(COMMON_PANIC_OUTPUT_PREFIX)) return CommonPanic;
     return null;
-  }, [errorData]);
+  }, [errorData, isErrorDataEmpty]);
+  const needContractAbi =
+    !standardErrorAbi && !hasOuterAbi && !isErrorDataEmpty;
   const { data, isLoading: contractLoading } = useContractDetail(
     to,
     fields,
-    !standardErrorAbi && !!errorData,
+    needContractAbi,
   );
   const implementation = _implementation ?? data?.implementation?.address;
   const { data: implementationData, isLoading: implementationLoading } =
-    useContractDetail(implementation, fields, !standardErrorAbi && !!errorData);
+    useContractDetail(implementation, fields, needContractAbi);
   const decodedByStandardError = useMemo(() => {
-    if (!standardErrorAbi || !errorData) return null;
+    if (!standardErrorAbi || isErrorDataEmpty) return null;
     try {
       const result = decodeErrorResult({
         abi: standardErrorAbi,
@@ -66,9 +73,26 @@ export const useDecodeFunctionError = ({
         failed: true,
       };
     }
-  }, [errorData, standardErrorAbi, space]);
+  }, [errorData, isErrorDataEmpty, standardErrorAbi, space]);
+  const decodedByOuterAbi = useMemo(() => {
+    if (!outerAbi || isErrorDataEmpty) return null;
+    try {
+      const result = decodeErrorResult({
+        abi: outerAbi,
+        data: errorData,
+        space,
+      });
+      return result as Result;
+    } catch (error) {
+      console.log('decode error data with abi in params failed', error);
+      return {
+        errorName: 'unknown',
+        failed: true,
+      };
+    }
+  }, [errorData, isErrorDataEmpty, outerAbi, space]);
   const decoded = useMemo(() => {
-    if (!data?.abi || !errorData) return null;
+    if (!data?.abi || isErrorDataEmpty) return null;
     try {
       const result = decodeErrorResult({
         abi: JSON.parse(data.abi as string),
@@ -83,9 +107,9 @@ export const useDecodeFunctionError = ({
         failed: true,
       };
     }
-  }, [errorData, data, space]);
+  }, [errorData, isErrorDataEmpty, data, space]);
   const decodedByImplementation = useMemo(() => {
-    if (!implementationData?.abi || !errorData) return null;
+    if (!implementationData?.abi || isErrorDataEmpty) return null;
     try {
       const result = decodeErrorResult({
         abi: JSON.parse(implementationData.abi as string),
@@ -100,10 +124,11 @@ export const useDecodeFunctionError = ({
         failed: true,
       };
     }
-  }, [errorData, implementationData, space]);
+  }, [errorData, isErrorDataEmpty, implementationData, space]);
   const errorId = errorData?.startsWith('0x') ? errorData.slice(0, 10) : null;
   const needErrorAbi =
     supportErrorAbi &&
+    !isErrorDataEmpty &&
     !!errorId &&
     // contract abi decoded failed
     !contractLoading &&
@@ -117,7 +142,7 @@ export const useDecodeFunctionError = ({
     needErrorAbi,
   );
   const decodedByErrorAbi = useMemo(() => {
-    if (!errorAbiResponse || !errorData || !errorId) return null;
+    if (!errorAbiResponse || isErrorDataEmpty || !errorId) return null;
     const errorAbiList = errorAbiResponse?.error?.[errorId];
     // decode tx data with error abi only if there is only one abi
     if (!errorAbiList || errorAbiList.length !== 1) return null;
@@ -143,12 +168,14 @@ export const useDecodeFunctionError = ({
         failed: true,
       };
     }
-  }, [errorAbiResponse, errorData, errorId, space]);
+  }, [errorAbiResponse, errorData, isErrorDataEmpty, errorId, space]);
 
   return useMemo(() => {
-    if (!errorData) return [null, false];
+    if (isErrorDataEmpty) return [null, false];
     if (decodedByStandardError && !decodedByStandardError.failed)
       return [decodedByStandardError, false];
+    if (decodedByOuterAbi && !decodedByOuterAbi.failed)
+      return [decodedByOuterAbi, false];
     if (decodedByImplementation && !decodedByImplementation.failed)
       return [decodedByImplementation, implementationLoading];
     if (decoded && !decoded.failed) return [decoded, contractLoading];
@@ -161,11 +188,13 @@ export const useDecodeFunctionError = ({
         errorName: 'unknown',
         noAbi:
           !decodedByStandardError &&
+          !decodedByOuterAbi &&
           !decodedByImplementation &&
           !decoded &&
           !decodedByErrorAbi,
         failed:
           decodedByStandardError?.failed ||
+          decodedByOuterAbi?.failed ||
           decodedByImplementation?.failed ||
           decoded?.failed ||
           decodedByErrorAbi?.failed,
@@ -174,7 +203,9 @@ export const useDecodeFunctionError = ({
     ];
   }, [
     errorData,
+    isErrorDataEmpty,
     decodedByStandardError,
+    decodedByOuterAbi,
     decoded,
     decodedByImplementation,
     decodedByErrorAbi,

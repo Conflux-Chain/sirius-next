@@ -104,14 +104,14 @@ export const useDecodeFunctionData = ({
   to,
   abi: outerAbi,
   implementation: _implementation,
-  input,
+  input = '0x',
   output,
   space,
   success,
   supportMethodAbi = false,
   withOutput,
 }: {
-  input: Hex;
+  input?: Hex;
   output?: Hex;
   to?: string;
   implementation?: string;
@@ -122,7 +122,8 @@ export const useDecodeFunctionData = ({
   withOutput?: boolean;
 }): [DecodedFunctionData, boolean] => {
   const hasOuterAbi = outerAbi && outerAbi.length > 0;
-  const needContractAbi = !hasOuterAbi && !!input;
+  const isDataEmpty = !input || input === '0x';
+  const needContractAbi = !hasOuterAbi && !isDataEmpty;
   const { data: contractData, isLoading: contractLoading } = useContractDetail(
     to,
     fields,

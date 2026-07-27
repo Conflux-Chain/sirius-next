@@ -92,9 +92,9 @@ export const getTranslations = () => useI18n.getState().translations;
 export const useHighlightStore = create<{
   highlight: {
     scope?: string;
-    value?: unknown;
+    value?: string;
   };
-  setHighlight: (scope?: string, value?: unknown) => void;
+  setHighlight: (scope?: string, value?: string) => void;
 }>(set => ({
   highlight: {},
   setHighlight: (scope, value) =>

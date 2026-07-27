@@ -4,23 +4,31 @@ import { Original } from '../InputData/Original';
 import { DecodedParameters } from '../InputData/OptimizationDecode';
 import { FunctionName } from '../InputData/FunctionName';
 import { AbiWarning } from '../InputData/AbiWarning';
+import type { AbiItem } from 'src/utils/sdk';
+
+interface Props {
+  errorData?: `0x${string}`;
+  to?: string;
+  space: 'evm' | 'core';
+  abi?: AbiItem[];
+  labelClassName?: string;
+  contentClassName?: string;
+  implementation?: string;
+}
 
 export const ErrorDecode = ({
   to,
   errorData,
+  abi,
   space,
   labelClassName,
+  contentClassName,
   implementation,
-}: {
-  errorData?: `0x${string}`;
-  to?: string;
-  space: 'evm' | 'core';
-  labelClassName?: string;
-  implementation?: string;
-}) => {
+}: Props) => {
   const [decodedError, isLoading] = useDecodeFunctionError({
     to,
     implementation,
+    abi,
     errorData,
     space,
   });
@@ -42,7 +50,7 @@ export const ErrorDecode = ({
           Error:
         </div>
         <div className="flex-1">
-          <Original data={errorData ?? ''} />
+          <Original data={errorData ?? ''} className={contentClassName} />
           {!isLoading && (
             <AbiWarning
               tip={
@@ -78,6 +86,7 @@ export const ErrorDecode = ({
           params={decodedError.abiItem.inputs}
           label="Parameters:"
           labelClassName={labelClassName}
+          contentClassName={contentClassName}
           space={space}
         />
       )}

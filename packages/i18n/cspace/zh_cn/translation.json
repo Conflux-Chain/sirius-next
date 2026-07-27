@@ -2519,5 +2519,23 @@
     "latest60Blocks": "最新 60 个纪元",
     "baseFee": "Base: {{amount}}",
     "maxPriorityFee": "Priority: {{amount}}"
+  },
+  "simulateTrace": {
+    "button": {
+      "reSimulate": "重新模拟",
+      "simulate": "模拟",
+      "calldata": "调用数据",
+      "debug": "调试"
+    },
+    "simulateTransaction": "模拟交易",
+    "contract": "合约",
+    "function": "函数",
+    "simulateTrace": "模拟追踪",
+    "simulateLogs": "模拟日志",
+    "simulatedResult": "模拟结果",
+    "estimatedGas": "预估 Gas",
+    "success": "成功",
+    "bool": "(布尔值): true",
+    "reverted": "回滚"
   }
 }

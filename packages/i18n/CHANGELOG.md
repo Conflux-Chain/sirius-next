@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.3.0
+
+### Minor Changes
+
+- feat: add simulate trace
+
 ## 0.2.15
 
 ### Patch Changes

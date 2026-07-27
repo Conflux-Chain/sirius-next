@@ -268,7 +268,7 @@
       "uint": "请输入一个范围在 0 ~ 2^{{num}}-1 非负整数",
       "bytes": "请输入以 0x 开头的十六进制字节数组",
       "bytesM": "请输入以 0x 开头的 长度为{{length}} 的十六进制字节数组",
-      "numberLimit": "请输入小数位数不超过18位的非负数字",
+      "cfx": "请输入小数位数不超过18位的非负数字",
       "array": "请输入有效的 {{type}} 数组，用中括号包裹",
       "tuple": "请输入有效的元组（符合参数顺序和格式的 json 数组或对象）",
       "tupleArray": "请输入有效的元组（符合参数顺序和格式的 json 数组或对象）数组",
@@ -2070,5 +2070,23 @@
     "latest60Blocks": "最新 60 个区块",
     "baseFee": "Base: {{amount}}",
     "maxPriorityFee": "Priority: {{amount}}"
+  },
+  "simulateTrace": {
+    "button": {
+      "reSimulate": "重新模拟",
+      "simulate": "模拟",
+      "calldata": "调用数据",
+      "debug": "调试"
+    },
+    "simulateTransaction": "模拟交易",
+    "contract": "合约",
+    "function": "函数",
+    "simulateTrace": "模拟追踪",
+    "simulateLogs": "模拟日志",
+    "simulatedResult": "模拟结果",
+    "estimatedGas": "预估 Gas",
+    "success": "成功",
+    "bool": "(布尔值): true",
+    "reverted": "回滚"
   }
 }
