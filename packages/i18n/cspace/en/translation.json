@@ -2524,5 +2524,23 @@
     "latest60Blocks": "Latest 60 epochs",
     "baseFee": "Base: {{amount}}",
     "maxPriorityFee": "Priority: {{amount}}"
+  },
+  "simulateTrace": {
+    "button": {
+      "reSimulate": "Re-simulate",
+      "simulate": "Simulate",
+      "calldata": "Calldata",
+      "debug": "Debug"
+    },
+    "simulateTransaction": "Simulate Transaction",
+    "contract": "Contract",
+    "function": "Function",
+    "simulateTrace": "Simulate Trace",
+    "simulateLogs": "Simulate Logs",
+    "simulatedResult": "Simulated Result",
+    "estimatedGas": "Estimated gas",
+    "success": "Success",
+    "bool": "(bool)",
+    "reverted": "Reverted"
   }
 }

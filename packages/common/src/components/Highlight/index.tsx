@@ -4,14 +4,17 @@ import { useHighlightStore } from 'src/store';
 
 export const ValueHighlight: React.FC<
   {
-    value?: unknown;
+    value?: string | null;
     scope: string;
   } & React.HTMLAttributes<HTMLDivElement>
 > = ({ value, scope, children, className, ...props }) => {
   const eventRef = useRef(false);
   const { highlight, setHighlight } = useHighlightStore();
   const isHighlight = useMemo(
-    () => value && highlight.scope === scope && highlight.value === value,
+    () =>
+      value &&
+      highlight.scope === scope &&
+      highlight.value?.toLowerCase?.() === value.toLowerCase(),
     [value, scope, highlight.value, highlight.scope],
   );
   const handleMouseEnter = useCallback(

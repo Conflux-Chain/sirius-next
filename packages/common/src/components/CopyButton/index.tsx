@@ -2,29 +2,39 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
 import { useI18n } from '../../store';
+import copy from 'copy-to-clipboard';
+
+type Value = string | null | undefined;
 
 interface CopyButtonProps {
+  children?: React.ReactNode;
   size?: number;
-  copyText: string;
+  copyText?: Value;
+  getCopyText?: () => Value | Promise<Value>;
   tooltipText?: string;
   className?: string;
   color?: string;
 }
 
 export const CopyButton = React.memo(
-  ({ size, copyText, tooltipText, className, color }: CopyButtonProps) => {
+  ({
+    size,
+    copyText,
+    getCopyText,
+    tooltipText,
+    className,
+    color,
+    children,
+  }: CopyButtonProps) => {
     const { translations } = useI18n();
     const { t } = useTranslation();
     const [text, setText] = useState(
       tooltipText || t(translations.general.copyButton.copyToClipboard),
     );
-    const handleClick = () => {
-      const oInput = document.createElement('input');
-      oInput.value = copyText;
-      document.body.appendChild(oInput);
-      oInput.select();
-      const copyResult = document.execCommand('copy');
-      document.body.removeChild(oInput);
+    const handleClick = async () => {
+      const text = copyText || (await getCopyText?.());
+      if (!text) return;
+      const copyResult = copy(text);
       if (copyResult) {
         setText(t(translations.general.copyButton.success));
       } else {
@@ -45,7 +55,11 @@ export const CopyButton = React.memo(
         positioning={{ placement: 'top-start' }}
         className="inline-flex items-center"
       >
-        <div onClick={handleClick} className="cursor-pointer flex">
+        <div
+          onClick={handleClick}
+          className="cursor-pointer flex items-center gap-10px"
+        >
+          {children}
           <svg
             className={`icon ${className}`}
             viewBox="0 0 1024 1024"

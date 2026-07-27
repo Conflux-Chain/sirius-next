@@ -1,10 +1,18 @@
 import useSWRImmutable from 'swr/immutable';
 import { fetchWithPrefix } from '../request';
-import { publishRequestError } from '../pubsub';
 import type { AbiFunctionWithoutGas } from '../sdk';
 import { formatABI } from '..';
 import { formatAddress } from '../address';
 import { AddressNameMap, Pocket } from '../request.types';
+import BigNumber from 'bignumber.js';
+
+export const isDelegateCall = (callType?: string) =>
+  callType && callType.toLowerCase() === 'delegatecall';
+export const isStaticCall = (callType?: string) =>
+  callType && callType.toLowerCase() === 'staticcall';
+export const isCreateCall = (callType?: string) =>
+  callType &&
+  (callType.toLowerCase() === 'create' || callType.toLowerCase() === 'create2');
 
 export interface TraceAction {
   createType: string;
@@ -62,7 +70,9 @@ export interface ListTraceForUI {
   to?: string;
   value: string;
   input?: `0x${string}`;
-  result?: TraceResult;
+  gasUsed?: string;
+  outcome?: 'success' | 'fail' | 'reverted';
+  output?: `0x${string}`;
   gas?: string;
   isProxyCall?: boolean;
   method?: string;
@@ -142,7 +152,8 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
       to: to,
       input: t.action.input,
       value: t.action.value,
-      result: t.result,
+      outcome: t.result?.outcome,
+      output: t.result?.returnData,
       gas: t.action.gas,
       method,
       abi,
@@ -153,6 +164,10 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
       fromPocket: t.action.fromPocket,
       toPocket: t.action.toPocket,
     };
+    if (item.gas && t.result?.gasLeft) {
+      const gasBn = new BigNumber(item.gas);
+      item.gasUsed = gasBn.minus(t.result.gasLeft).toString();
+    }
     if (
       parent &&
       parent.to &&
@@ -164,7 +179,7 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
       if (
         index === 0 &&
         proxyMap[parent.to] === 'Proxy' &&
-        t.action.callType === 'delegatecall'
+        isDelegateCall(t.action.callType)
       ) {
         parent.proxy = {
           type: 'Proxy',
@@ -177,11 +192,11 @@ const formatTraceData = (data: OriginTraceData, space: 'evm' | 'core') => {
       if (
         index === 0 &&
         proxyMap[parent.to] === 'BeaconProxy' &&
-        t.action.callType === 'staticcall' &&
+        isStaticCall(t.action.callType) &&
         second &&
         second.action.to &&
         second.action.from === parent.to &&
-        second.action.callType === 'delegatecall'
+        isDelegateCall(second.action.callType)
       ) {
         parent.proxy = {
           type: 'BeaconProxy',
@@ -254,15 +269,11 @@ export const useTxTrace = (
   const url = `/transferTree/${hash}${isAATx ? '?txType=aa' : ''}`;
 
   return useSWRImmutable([url, space], () =>
-    fetchWithPrefix(url)
-      .then((resp: any) => {
-        if (resp?.traceTree) {
-          const { list, total } = formatTraceData(resp, space);
-          return { list, total };
-        }
-      })
-      .catch(e => {
-        publishRequestError({ code: 60002, message: e.message }, 'code');
-      }),
+    fetchWithPrefix<OriginTraceData>(url).then(resp => {
+      if (resp?.traceTree) {
+        const { list, total } = formatTraceData(resp, space);
+        return { list, total };
+      }
+    }),
   );
 };

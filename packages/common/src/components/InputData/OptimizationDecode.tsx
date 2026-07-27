@@ -15,12 +15,14 @@ export const DecodedParameters = ({
   label,
   params,
   labelClassName,
+  contentClassName,
   space,
 }: {
   label: string;
   args?: readonly unknown[];
   params: readonly AbiParameter[];
   labelClassName?: string;
+  contentClassName?: string;
   space: 'evm' | 'core';
 }) => {
   const addressType = space === 'core' ? 'base32' : 'hex';
@@ -46,7 +48,12 @@ export const DecodedParameters = ({
       >
         {label}
       </div>
-      <div className="bg-#f7f7f8 w-full max-h-200px overflow-auto">
+      <div
+        className={cn(
+          'bg-#f7f7f8 w-full max-h-200px overflow-auto',
+          contentClassName,
+        )}
+      >
         {params.map((item, index) => {
           const argName = item.name ?? `arg${index}`;
           let value: React.ReactNode = data[argName];

@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.3.0
+
+### Minor Changes
+
+- feat: add simulate trace
+
 ## 0.2.29
 
 ### Patch Changes

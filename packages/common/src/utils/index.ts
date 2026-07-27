@@ -5,12 +5,12 @@ import { twMerge } from 'tailwind-merge';
 import { utils as ethersUtils } from 'ethers';
 import { LOCALSTORAGE_KEYS_MAP, getCurrencySymbol } from './constants';
 import { fetch } from './request';
-import { GlobalDataType, NetworkSpace, NetworksType } from 'src/store/types';
+import { GlobalDataType, NetworkSpace } from 'src/store/types';
 import IconCore from '../images/core-space/icon.svg';
 import IconEvm from '../images/espace/icon.svg';
 import IconBtc from '../images/bspace/icon.svg';
 
-BigNumber.config({ EXPONENTIAL_AT: [-18, 34], DECIMAL_PLACES: 80 });
+BigNumber.config({ EXPONENTIAL_AT: [-80, 80], DECIMAL_PLACES: 80 });
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -1069,3 +1069,6 @@ export function decodeAANonce(nonceInput: string | BigNumber) {
     keyHex: `0x${key.toString(16).padStart(48, '0')}`,
   };
 }
+
+export const generateRandomId = () =>
+  `${Date.now().toString(16)}${Math.random().toString(16).slice(2)}`;
