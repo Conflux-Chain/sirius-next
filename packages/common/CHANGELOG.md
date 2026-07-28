@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.3.1
+
+### Patch Changes
+
+- feat: support no ENV_WALLET_CONFIG env
+
 ## 0.3.0
 
 ### Minor Changes

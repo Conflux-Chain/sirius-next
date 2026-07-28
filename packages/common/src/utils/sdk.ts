@@ -40,7 +40,17 @@ const clientMap: Record<Space, EVMPublicClient | CorePublicClient | null> = {
 
 function getPublicClient(space: 'evm' | 'core') {
   const ENV_CONFIG = getEnvConfig();
-  const config = ENV_CONFIG.ENV_WALLET_CONFIG;
+  const config = ENV_CONFIG.ENV_WALLET_CONFIG || {
+    chainId: ENV_CONFIG.ENV_NETWORK_ID,
+    chainName: 'Conflux Network',
+    rpcUrls: [ENV_CONFIG.ENV_RPC_SERVER],
+    blockExplorerUrls: [window.location.origin],
+    nativeCurrency: {
+      name: 'Conflux',
+      symbol: 'CFX',
+      decimals: 18,
+    },
+  };
   if (!clientMap[space]) {
     clientMap[space] =
       space === 'core'
