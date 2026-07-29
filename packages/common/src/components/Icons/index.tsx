@@ -290,3 +290,36 @@ export const DefaultTokenIcon: React.FC<
     </defs>
   </svg>
 );
+
+export const ExternalLink: React.FC<React.SVGProps<SVGSVGElement>> = props => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+    {...props}
+  >
+    <path
+      d="M12.25 9.38529V10.976C12.25 11.6788 11.7277 12.2485 11.0833 12.2485H2.91667C2.27233 12.2485 1.75 11.6788 1.75 10.976V2.8875C1.75 2.25928 2.25928 1.75 2.8875 1.75H5.30882"
+      stroke="currentColor"
+      stroke-width="1.05"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M12.232 5.81279L12.2661 1.72209L8.1754 1.75618"
+      stroke="currentColor"
+      stroke-width="1.05"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M12.153 1.7779L7.20328 6.72765"
+      stroke="currentColor"
+      stroke-width="1.05"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
