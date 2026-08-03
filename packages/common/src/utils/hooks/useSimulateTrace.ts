@@ -9,9 +9,10 @@ import {
   TreeTraceForUI,
 } from './useTxTrace';
 import { AddressNameMap } from '../request.types';
-import { AbiFunctionWithoutGas, estimateGas, Space } from '../sdk';
+import { AbiFunctionWithoutGas, estimateGas } from '../sdk';
 import { formatAddress } from '../address';
 import BigNumber from 'bignumber.js';
+import { Hex, Space } from '../types';
 
 export interface SimulateLog {
   address: string;
@@ -19,6 +20,8 @@ export interface SimulateLog {
   data: string;
   transactionLogIndex?: number;
 }
+
+type BlockTag = 'latest' | 'safe' | 'finalized' | 'earliest' | 'pending' | Hex;
 
 interface SimulateTraceCall {
   from: string;
@@ -45,10 +48,10 @@ export interface SimulateTraceResponse {
 }
 
 export interface SimulateTraceTxParams {
-  from?: string;
-  to?: string;
+  from: Hex;
+  to?: Hex;
   value?: string;
-  data?: string;
+  data?: Hex;
   gas?: string;
   gasPrice?: string;
   maxFeePerGas?: string;
@@ -208,7 +211,7 @@ const formatSimulateTraceData = (
 };
 export const querySimulateTrace = async (
   tx: SimulateTraceTxParams,
-  tag = 'latest',
+  tag: BlockTag = 'latest',
   params: SimulateTraceConfig = {
     tracer: 'callTracer',
     tracerConfig: {
@@ -253,27 +256,36 @@ export const querySimulateTrace = async (
   });
 };
 
-export const useSimulateTrace = (
-  simulateTx: SimulateTraceTxParams,
+export const useSimulateTrace = ({
+  tx,
   tag = 'latest',
-  params: SimulateTraceConfig = {
+  params = {
     tracer: 'callTracer',
     tracerConfig: {
       onlyTopCall: false,
       withLog: true,
     },
   },
-) => {
+  disabled = false,
+}: {
+  tx?: SimulateTraceTxParams;
+  tag?: BlockTag;
+  params?: SimulateTraceConfig;
+  disabled?: boolean;
+}) => {
   let key = null;
-  if (simulateTx.from) {
-    key = JSON.stringify([simulateTx, tag, params]);
+  if (!disabled && tx) {
+    key = JSON.stringify([tx, tag, params]);
   }
 
-  return useSWRImmutable(key, () =>
-    querySimulateTrace(simulateTx, tag, params).then(resp => {
-      if (resp?.traceCall) {
-        return formatSimulateTraceData(resp, simulateTx.space);
-      }
-    }),
+  return useSWRImmutable(
+    key,
+    () =>
+      tx &&
+      querySimulateTrace(tx, tag, params).then(resp => {
+        if (resp?.traceCall) {
+          return formatSimulateTraceData(resp, tx.space);
+        }
+      }),
   );
 };
