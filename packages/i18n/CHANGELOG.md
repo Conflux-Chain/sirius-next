@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.3.1
+
+### Patch Changes
+
+- 7e41fe0: feat: encode calldata
+
 ## 0.3.0
 
 ### Minor Changes

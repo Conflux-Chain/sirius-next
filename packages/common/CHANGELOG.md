@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.3.3
+
+### Patch Changes
+
+- 7e41fe0: feat: encode calldata
+
 ## 0.3.2
 
 ### Patch Changes
