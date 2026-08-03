@@ -8,10 +8,9 @@ import {
 import { useContractDetail } from './useContractDetail';
 import { formatABI } from '..';
 import { useMethodAbi } from './useMethodAbi';
+import { Hex } from '../types';
 
 const fields = ['abi' as const];
-
-export type Hex = `0x${string}`;
 
 const decodeFunctionDataByAbi = ({
   abi: _abi,

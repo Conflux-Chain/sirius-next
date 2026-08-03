@@ -2533,8 +2533,10 @@
       "debug": "Debug"
     },
     "simulateTransaction": "Simulate Transaction",
+    "from": "From",
     "contract": "Contract",
     "function": "Function",
+    "invalidUrl": "invalid url",
     "simulateTrace": "Simulate Trace",
     "simulateLogs": "Simulate Logs",
     "simulatedResult": "Simulated Result",

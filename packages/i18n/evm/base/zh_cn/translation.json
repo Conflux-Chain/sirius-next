@@ -2079,8 +2079,10 @@
       "debug": "调试"
     },
     "simulateTransaction": "模拟交易",
+    "from": "发送方",
     "contract": "合约",
     "function": "函数",
+    "invalidUrl": "无效的链接",
     "simulateTrace": "模拟追踪",
     "simulateLogs": "模拟日志",
     "simulatedResult": "模拟结果",

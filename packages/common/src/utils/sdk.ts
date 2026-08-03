@@ -30,8 +30,7 @@ import {
   decodeErrorResult as decodeCoreErrorResult,
   defineChain as defineCoreChain,
 } from './cive-plugins';
-
-export type Space = 'evm' | 'core';
+import { Space } from './types';
 
 const clientMap: Record<Space, EVMPublicClient | CorePublicClient | null> = {
   evm: null,
@@ -257,6 +256,6 @@ export const decodeErrorResult = ({
 };
 
 export { getAbiItem };
-export type { AbiParameter, AbiItem, AbiStateMutability, Hex };
+export type { AbiParameter, AbiItem, AbiStateMutability };
 export type AbiError = AbiItem & { type: 'error' };
 export type AbiFunctionWithoutGas = Omit<AbiItem & { type: 'function' }, 'gas'>;
