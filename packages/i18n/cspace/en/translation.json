@@ -540,6 +540,7 @@
     "contractVerification": "Contract Verification",
     "abiVerification": "Submit Signatures",
     "contracts": "Internal Contracts",
+    "verifiedContracts": "Verified Contracts",
     "chartsAndStatistics": "Charts & Stats",
     "ecosystem": "Ecosystem",
     "stakingAndGovernance": "Staking & Governance",
@@ -919,7 +920,8 @@
         "cfx-holder-accounts": "CFX Holders Statistics",
         "account-growth": "Account Growth",
         "active-accounts": "Active Accounts",
-        "contracts": "Contracts Statistics"
+        "contracts": "Contracts Statistics",
+        "verifiedContracts": "Verified Contracts Statistics"
       },
       "averageBlockTime": {
         "title": "Average Block Time",
@@ -1009,6 +1011,14 @@
         "seriesName": "Contract Count (Day)",
         "yAxisTitle2": "Contract Growth Count per Day",
         "seriesName2": "Total Contract Growth Count (Day)"
+      },
+      "verifiedContracts": {
+        "title": "Verified Contracts Statistics",
+        "subtitle": "The statistics of verified contracts on the Conflux network.",
+        "yAxisTitle": "Verified Contract Count/Growth Count",
+        "seriesName": "Verified Contract Count (Day)",
+        "yAxisTitle2": "Verified Contract Growth Count per Day",
+        "seriesName2": "Total Verified Contract Growth Count (Day)"
       },
       "contract": {
         "title": "Contract Statistics",
@@ -1180,7 +1190,8 @@
         "rangePicker": "Date",
         "epochNumber": "Epoch",
         "minEpochNumber": "Min Epoch",
-        "maxEpochNumber": "Max Epoch"
+        "maxEpochNumber": "Max Epoch",
+        "contractName": "Contract Name"
       },
       "error": {
         "invalidHash": "Invalid hash format",
@@ -1396,8 +1407,22 @@
         "address": "Contract Address",
         "transactionCount": "Txn"
       },
+      "verifiedContracts": {
+        "address": "Address",
+        "contractName": "Contract Name",
+        "compiler": "Compiler",
+        "version": "Version",
+        "balance": "Balance",
+        "txns": "Txns",
+        "setting": "Setting",
+        "verified": "Verified",
+        "license": "License"
+      },
       "tooltip": {
-        "methodWarning": "Contract not verified, function name is for reference only."
+        "methodWarning": "Contract not verified, function name is for reference only.",
+        "optimizationEnabled": "Optimization Enabled",
+        "constructorArguments": "Constructor Arguments",
+        "compilerVersionWarning": "{{count}} known solidity compiler vulnerabilities exists for this compiler version"
       }
     },
     "pagination": {
@@ -2544,5 +2569,13 @@
     "success": "Success",
     "bool": "(bool)",
     "reverted": "Reverted"
+  },
+  "verifiedContracts": {
+    "title": "Verified Contracts",
+    "description": "Verified Contracts",
+    "totalContractsDeployed": "Contracts Deployed (Total)",
+    "newContractsDeployed": "Contracts Deployed (24h)",
+    "totalContractsVerified": "Contracts Verified (Total)",
+    "newContractsVerified": "Contracts Verified (24h)"
   }
 }

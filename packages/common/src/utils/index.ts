@@ -876,7 +876,7 @@ export const fromDripToGdrip = (
  * @param isShowFull Whether to show all numbers
  */
 export const fromDripToCfx = (
-  num: number | string,
+  num: number | string | BigNumber,
   isShowFull: boolean = false,
   _opt = {},
 ) => {
