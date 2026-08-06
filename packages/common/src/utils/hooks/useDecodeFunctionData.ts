@@ -29,18 +29,23 @@ const decodeFunctionDataByAbi = ({
   withOutput?: boolean;
   similarWarning?: boolean;
 }) => {
+  let abiItem: AbiFunctionWithoutGas | undefined = undefined;
   try {
     const abi = typeof _abi === 'string' ? JSON.parse(_abi) : _abi;
     const hasAbi = abi && abi.length > 0;
     if (!hasAbi) return null;
     const isReturnDataEmpty = !output || output === '0x';
     const methodID = input.slice(0, 10);
+    abiItem = getAbiItem({
+      abi: abi,
+      name: methodID,
+    }) as AbiFunctionWithoutGas;
     const decodedParams = decodeFunctionData({
       abi: abi,
       data: input,
       space,
     });
-    let decodedResults = success
+    const decodedResults = success
       ? !isReturnDataEmpty
         ? decodeFunctionResult({
             abi: abi,
@@ -50,10 +55,6 @@ const decodeFunctionDataByAbi = ({
           })
         : undefined
       : output;
-    const abiItem = getAbiItem({
-      abi: abi,
-      name: methodID,
-    }) as AbiFunctionWithoutGas;
     // if the output has only one value, decodeFunctionResult will return the value directly, otherwise it will return an array,
     // so we need to check the length of abiItem.outputs to determine whether to wrap decodedResults in an array
     const results =
@@ -76,8 +77,14 @@ const decodeFunctionDataByAbi = ({
     };
   } catch (error) {
     console.log('decode function data and result error', error);
+    if (!withOutput && abiItem) {
+      abiItem.outputs = [];
+    }
+    const fullName = abiItem ? formatABI([abiItem])[0] : undefined;
     return {
       failed: true,
+      abiItem,
+      fullName,
       similarWarning,
     };
   }
@@ -218,18 +225,13 @@ export const useDecodeFunctionData = ({
     if (implementationLoading || contractLoading || methodAbiLoading) {
       return [{}, true];
     }
-    if (
-      (decodedByOuterAbi && decodedByOuterAbi.failed) ||
-      (decodedByImplementationAbi && decodedByImplementationAbi.failed) ||
-      (decodedByContractAbi && decodedByContractAbi.failed) ||
-      (decodedByMethodAbi && decodedByMethodAbi.failed)
-    ) {
-      return [
-        {
-          failed: true,
-        },
-        false,
-      ];
+    const decoded =
+      decodedByOuterAbi ||
+      decodedByImplementationAbi ||
+      decodedByContractAbi ||
+      decodedByMethodAbi;
+    if (decoded) {
+      return [decoded, false];
     }
     return [
       {
