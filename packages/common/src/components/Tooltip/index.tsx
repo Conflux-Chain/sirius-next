@@ -83,6 +83,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
                 ? (triggerContentRef.current = _ref.parentElement)
                 : (triggerContentRef.current = null)
             }
+            // Prevent mouse interactions inside the portalled tooltip from bubbling to ancestor click-away handlers.
+            onMouseDown={e => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
             {...contentProps}
           >
             {title}
