@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.3.5
+
+### Patch Changes
+
+- fix: tooltip click event
+
 ## 0.3.4
 
 ### Patch Changes
