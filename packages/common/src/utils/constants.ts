@@ -46,7 +46,7 @@ export const getCurrencySymbol = () => {
 export const NETWORK_ID = (() => {
   const ENV_CONFIG = getEnvConfig();
   let networkId = ENV_CONFIG.ENV_NETWORK_ID;
-  let cacheNetworkId = Number(
+  const cacheNetworkId = Number(
     localStorage.getItem(LOCALSTORAGE_KEYS_MAP.networkId),
   );
 

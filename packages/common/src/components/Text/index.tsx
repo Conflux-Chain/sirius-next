@@ -80,7 +80,7 @@ export const Text = React.memo(
     if (bp === 's' && typeof textContent === 'string') {
       const hoverValueMaxCount = outerHoverValueMaxCount || 34; // default text count is 36
       let textContentCopy: string = textContent;
-      let newTextContent: Array<React.ReactNode> = [];
+      const newTextContent: Array<React.ReactNode> = [];
       let count = 0;
       while (textContentCopy.length > hoverValueMaxCount) {
         newTextContent.push(

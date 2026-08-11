@@ -28,7 +28,7 @@ export const ParamTitle = ({
 }: Props) => {
   const { t } = useTranslation();
   const { translations } = useI18n();
-  let nameText = name || '<input>';
+  const nameText = name || '<input>';
   return (
     <span className="inline-block text-14px text-#002257 lh-22px mt-8px">
       {nameText}

@@ -208,11 +208,9 @@ export const fetchWithOpenApi = <T>(url: string, opts?: FetchOptions) => {
 };
 
 export const simpleGetFetcher = async <T>(args: any[]) => {
-  let [url, query] = args;
-  if (query) {
-    url = qs.stringifyUrl({ url, query });
-  }
-  return await fetchWithPrefix<T>(url, {
+  const [url, query] = args;
+  const requestUrl = query ? qs.stringifyUrl({ url, query }) : url;
+  return await fetchWithPrefix<T>(requestUrl, {
     method: 'get',
   });
 };

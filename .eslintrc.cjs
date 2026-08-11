@@ -2,7 +2,7 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   ignorePatterns: ['apps/**', 'packages/**'],
-  extends: ['@cfxjs/sirius-next-eslint-config/library.js'],
+  extends: [require.resolve('@cfxjs/sirius-next-eslint-config/library.js')],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: true,

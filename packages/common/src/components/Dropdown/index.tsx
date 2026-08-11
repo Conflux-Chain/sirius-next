@@ -75,7 +75,8 @@ export const TableSearchDropdown = ({
     if (onChange) {
       onChange(option.value);
     } else {
-      let { skip, ...query } = qs.parse(location.search || '');
+      const query = qs.parse(location.search || '');
+      delete query.skip;
       let queryValue = '';
 
       keyList.forEach(k => {

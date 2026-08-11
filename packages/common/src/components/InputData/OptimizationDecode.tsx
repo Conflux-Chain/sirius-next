@@ -29,7 +29,7 @@ export const DecodedParameters = ({
   const data = useMemo(() => {
     if (!args) return {};
     const array = parseArgs(args, params);
-    let object: Record<string, string> = {};
+    const object: Record<string, string> = {};
     params.forEach((item, index) => {
       object[item.name ?? `arg${index}`] = Array.isArray(array[index])
         ? JSON.stringify(array[index], null, 4)
@@ -72,7 +72,7 @@ export const DecodedParameters = ({
           }
 
           let type: React.ReactNode = item.type || 'unknown';
-          let fullType = getParameterType(item);
+          const fullType = getParameterType(item);
           if (/\(.*\)/.test(item.type) || item.type.includes('tuple')) {
             type = (
               <span className="flex items-center">

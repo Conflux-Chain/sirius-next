@@ -434,7 +434,7 @@ export const tooltipCustomLabel = {
         ? '%H:%M, %a %d, %b %Y (UTC)'
         : '%a %e, %b %Y (UTC)';
     const header = Highcharts.dateFormat(timeRules, point.x);
-    let pointFormat = `<table>
+    const pointFormat = `<table>
     <tr>
       <th colspan="2" style="font-weight: normal;">${header}</th>
     </tr>

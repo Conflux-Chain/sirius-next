@@ -73,9 +73,9 @@ Vite-based apps that consume them.
 - TypeScript + ESM everywhere (`"type": "module"` at root and in packages).
 - Prettier: single quotes, semicolons, `trailingComma: all`, `arrowParens: avoid`,
   `printWidth: 80`. Runs via lint-staged / Husky on commit; do not fight it.
-- Root `.eslintrc.js` ignores `apps/**` and `packages/**`; each workspace owns
-  its own ESLint config that extends `@cfxjs/sirius-next-eslint-config`. Lint
-  rules are enforced with `--max-warnings 0` — warnings fail the build.
+- Root `.eslintrc.cjs` ignores `apps/**` and `packages/**`; each workspace owns
+  its own ESLint config. Lint rules are enforced with `--max-warnings 0` —
+  warnings fail the build.
 - Tests live next to source as `*.test.ts(x)` and run under vitest with a jsdom
   environment. Jest config files exist in `packages/common` but the canonical
   runner is vitest (`pnpm test` at the root).
