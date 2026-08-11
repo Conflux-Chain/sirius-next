@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.3.2
+
+### Patch Changes
+
+- 3edd5b2: feat: add verified contracts statistics
+
 ## 0.3.1
 
 ### Patch Changes

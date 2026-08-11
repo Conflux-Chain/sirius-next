@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.3.6
+
+### Patch Changes
+
+- 3edd5b2: feat: add verified contracts statistics
+
 ## 0.3.5
 
 ### Patch Changes
