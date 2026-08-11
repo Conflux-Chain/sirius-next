@@ -15,8 +15,8 @@ export const FileUpload = React.forwardRef(
     ref: React.LegacyRef<HTMLInputElement>,
   ) => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      let reader = new FileReader();
-      let file = e.target.files?.[0];
+      const reader = new FileReader();
+      const file = e.target.files?.[0];
 
       if (file) {
         reader.onloadend = () => {

@@ -8,7 +8,7 @@ export interface CoreAddressContainerProps {
   maxWidth?: number; // address max width for view, default 200/170 for default, 400 for full
   isFull?: boolean; // show full address, default false
   isFullNameTag?: boolean; // show full nametag
-  link?: boolean; // add link to address, default true
+  link?: boolean | string; // add link to address, default true
   isMe?: boolean; // when `address === portal selected address`, set isMe to true to add special tag, default false
   suffixAddressSize?: number; // suffix address size, default is 8
   showIcon?: boolean; // whether show contract icon, default true
@@ -37,7 +37,7 @@ export interface EVMAddressContainerProps {
   maxWidth?: number; // address max width for view, default 200/170 for default, 400 for full
   isFull?: boolean; // show full address, default false
   isFullNameTag?: boolean; // show full nametag
-  link?: boolean; // add link to address, default true
+  link?: boolean | string; // add link to address, default true
   isMe?: boolean; // when `address === portal selected address`, set isMe to true to add special tag, default false
   showIcon?: boolean; // whether show contract icon, default true
   verify?: boolean; // show verified contract icon or unverified contract icon

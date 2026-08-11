@@ -84,7 +84,7 @@ export const useMultiAceSearch = ({
               skipCurrent: true,
               backwards: false,
             }) as unknown as RangeType | false;
-            let startRange = range as RangeType;
+            const startRange = range as RangeType;
             while (range) {
               // 如果 range 存在，说明有搜索结果， stage + 1 且记录 range 位置
               start++;

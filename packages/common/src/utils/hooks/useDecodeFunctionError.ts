@@ -202,7 +202,6 @@ export const useDecodeFunctionError = ({
       false,
     ];
   }, [
-    errorData,
     isErrorDataEmpty,
     decodedByStandardError,
     decodedByOuterAbi,
@@ -212,6 +211,5 @@ export const useDecodeFunctionError = ({
     contractLoading,
     implementationLoading,
     errorAbiLoading,
-    space,
   ]);
 };

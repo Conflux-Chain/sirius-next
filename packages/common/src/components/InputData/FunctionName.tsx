@@ -49,11 +49,11 @@ export const FunctionName = ({
       <span>{abiItem.name}</span>
       <span className="m-0.1rem ml-0.3571rem">(</span>
       {args.map((a, index) => {
-        let type = <span className="text-#d96349">{a.type}</span>;
-        let arg = a.name && (
+        const type = <span className="text-#d96349">{a.type}</span>;
+        const arg = a.name && (
           <span className="ml-0.3571rem text-#e79d35"> {a.name}</span>
         );
-        let comma =
+        const comma =
           index !== args.length - 1 ? (
             <span className="mr-0.3571rem">, </span>
           ) : null;
@@ -74,11 +74,11 @@ export const FunctionName = ({
           <span className="ml-0.3571rem">returns</span>
           <span className="m-0.1rem ml-0.3571rem">(</span>
           {results.map((a, index) => {
-            let type = <span className="text-#d96349">{a.type}</span>;
-            let arg = a.name && (
+            const type = <span className="text-#d96349">{a.type}</span>;
+            const arg = a.name && (
               <span className="ml-0.3571rem text-#e79d35"> {a.name}</span>
             );
-            let comma =
+            const comma =
               index !== results.length - 1 ? (
                 <span className="mr-0.3571rem">, </span>
               ) : null;

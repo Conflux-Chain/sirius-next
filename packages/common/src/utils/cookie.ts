@@ -72,6 +72,9 @@ const docCookies = {
   },
   keys: /* optional method: you can safely remove it! */ function () {
     const aKeys = document.cookie
+      // This is the standard docCookies key parser; the cross-alternative
+      // backreference is intentional.
+      // eslint-disable-next-line no-useless-backreference
       .replace(/((?:^|\s*;)[^=]+)(?=;|$)|^\s*|\s*(?:=[^;]*)?(?:\1|$)/g, '')
       .split(/\s*(?:=[^;]*)?;\s*/);
     for (let nIdx = 0; nIdx < aKeys.length; nIdx++) {

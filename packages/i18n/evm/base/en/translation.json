@@ -562,6 +562,7 @@
     "contractVerification": "Contract Verification",
     "abiVerification": "Submit Signatures",
     "contracts": "Internal Contracts",
+    "verifiedContracts": "Verified Contracts",
     "chartsAndStatistics": "Charts & Stats",
     "ecosystem": "Ecosystem",
     "stakingAndGovernance": "Staking & Governance",
@@ -723,7 +724,8 @@
       "holder-accounts": "CFX Holders Statistics",
       "account-growth": "Account Growth",
       "active-accounts": "Active Accounts",
-      "contracts": "Contracts Statistics"
+      "contracts": "Contracts Statistics",
+      "verifiedContracts": "Verified Contracts Statistics"
     },
     "subtitle": "Source: ConfluxScan.org<br/>Click and drag in the plot area to zoom in",
     "averageBlockTime": {
@@ -812,6 +814,14 @@
       "seriesName": "Contract Count (Day)",
       "yAxisTitle2": "Contract Growth Count per Day",
       "seriesName2": "Total Contract Growth Count (Day)"
+    },
+    "verifiedContracts": {
+      "title": "Verified Contracts Statistics",
+      "subtitle": "The statistics of verified contracts on the Conflux network.",
+      "yAxisTitle": "Verified Contract Count/Growth Count",
+      "seriesName": "Verified Contract Count (Day)",
+      "yAxisTitle2": "Verified Contract Growth Count per Day",
+      "seriesName2": "Total Verified Contract Growth Count (Day)"
     },
     "contract": {
       "title": "Contract Statistics",
@@ -1019,7 +1029,8 @@
         "entryPoint": "Entry Point",
         "author": "Authority",
         "delegatedAddress": "Delegated Address",
-        "txSender": "Tx Sender"
+        "txSender": "Tx Sender",
+        "contractName": "Contract Name"
       },
       "error": {
         "invalidHash": "Invalid hash format",
@@ -1144,7 +1155,10 @@
         "cross": "The number of cross space transactions from Core to eSpace in the block. Reference link: http://doc.confluxnetwork.org/docs/espace/build/cross-space-bridge/",
         "avgGasPrice": "The average gas price of cross space transactions in the block is not included.",
         "gasLimit": "Conflux eSpace is Conflux's fully EVM-compatible space(chain). The eSpace block is produced when block height can be fully divided by 5 on Conflux Network. The basic limit of eSpace block is 30,000,000 and therefore total limit in the epoch: eSpaceBlockContained*basicLimit",
-        "methodWarning": "Contract not verified, function name is for reference only."
+        "methodWarning": "Contract not verified, function name is for reference only.",
+        "optimizationEnabled": "Optimization Enabled",
+        "constructorArguments": "Constructor Arguments",
+        "compilerVersionWarning": "{{count}} known solidity compiler vulnerabilities exists for this compiler version"
       },
       "transaction": {
         "hash": "Txn Hash",
@@ -1254,6 +1268,17 @@
         "name": "Contract Name Tag",
         "address": "Contract Address",
         "transactionCount": "Txn"
+      },
+      "verifiedContracts": {
+        "address": "Address",
+        "contractName": "Contract Name",
+        "compiler": "Compiler",
+        "version": "Version",
+        "balance": "Balance",
+        "txns": "Txns",
+        "setting": "Setting",
+        "verified": "Verified",
+        "license": "License"
       }
     },
     "pagination": {
@@ -2103,5 +2128,13 @@
     "success": "Success",
     "bool": "(bool): true",
     "reverted": "Reverted"
+  },
+  "verifiedContracts": {
+    "title": "Verified Contracts",
+    "description": "Verified Contracts",
+    "totalContractsDeployed": "Contracts Deployed (Total)",
+    "newContractsDeployed": "Contracts Deployed (24h)",
+    "totalContractsVerified": "Contracts Verified (Total)",
+    "newContractsVerified": "Contracts Verified (24h)"
   }
 }

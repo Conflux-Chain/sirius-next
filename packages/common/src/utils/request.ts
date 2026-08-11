@@ -4,6 +4,7 @@ import {
   AbiByIdResponse,
   AddressNameMap,
   BaseContractInfo,
+  ContractsStatistics,
   DetectAccountTypeResponse,
   MethodAbiItemResponse,
 } from './request.types';
@@ -207,11 +208,9 @@ export const fetchWithOpenApi = <T>(url: string, opts?: FetchOptions) => {
 };
 
 export const simpleGetFetcher = async <T>(args: any[]) => {
-  let [url, query] = args;
-  if (query) {
-    url = qs.stringifyUrl({ url, query });
-  }
-  return await fetchWithPrefix<T>(url, {
+  const [url, query] = args;
+  const requestUrl = query ? qs.stringifyUrl({ url, query }) : url;
+  return await fetchWithPrefix<T>(requestUrl, {
     method: 'get',
   });
 };
@@ -332,6 +331,7 @@ export const detectAccountType = fetchWithCache(
     );
   },
   {
+    key: 'detectAccountType',
     // 10 seconds
     maxAge: 1000 * 10,
   },
@@ -381,6 +381,35 @@ export const reqAbiById = fetchWithCache(
     });
   },
   {
+    key: 'reqAbiById',
     maxAge: 1000 * 60 * 60,
   },
 );
+
+export const reqContractsStatistics = (params: Record<string, string> = {}) => {
+  const url = qs.stringifyUrl({
+    url: '/statistics/contract',
+    query: params,
+  });
+  return fetchWithOpenApi<{
+    total: number;
+    list: ContractsStatistics[];
+  }>(url, {
+    method: 'GET',
+  });
+};
+
+export const reqVerifiedContractsStatistics = (
+  params: Record<string, string> = {},
+) => {
+  const url = qs.stringifyUrl({
+    url: '/statistics/contract/verified',
+    query: params,
+  });
+  return fetchWithOpenApi<{
+    total: number;
+    list: ContractsStatistics[];
+  }>(url, {
+    method: 'GET',
+  });
+};

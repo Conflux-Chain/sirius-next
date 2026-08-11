@@ -538,6 +538,7 @@
     "contractVerification": "合约验证",
     "abiVerification": "提交函数签名",
     "contracts": "内置合约",
+    "verifiedContracts": "已验证合约",
     "chartsAndStatistics": "图表&统计",
     "ecosystem": "生态",
     "stakingAndGovernance": "质押 & 治理",
@@ -917,7 +918,8 @@
         "cfx-holder-accounts": "CFX 持有账户数",
         "account-growth": "账户增长",
         "active-accounts": "活跃账户数",
-        "contracts": "全部合约"
+        "contracts": "全部合约",
+        "verifiedContracts": "已验证合约"
       },
       "averageBlockTime": {
         "title": "出块间隔",
@@ -1007,6 +1009,14 @@
         "seriesName": "合约数",
         "yAxisTitle2": "每日增长合约数",
         "seriesName2": "每日增长合约数"
+      },
+      "verifiedContracts": {
+        "title": "已验证合约增长",
+        "subtitle": "Conflux 网络上每日新增的已验证合约数量",
+        "yAxisTitle": "已验证合约数/增长账户数",
+        "seriesName": "已验证合约数",
+        "yAxisTitle2": "每日增长已验证合约数",
+        "seriesName2": "每日增长已验证合约数"
       },
       "contract": {
         "title": "合约分析",
@@ -1178,7 +1188,8 @@
         "rangePicker": "日期",
         "epochNumber": "纪元",
         "minEpochNumber": "最小纪元",
-        "maxEpochNumber": "最大纪元"
+        "maxEpochNumber": "最大纪元",
+        "contractName": "合约名称"
       },
       "error": {
         "invalidHash": "哈希值格式错误",
@@ -1392,8 +1403,22 @@
         "address": "合约地址",
         "transactionCount": "交易数"
       },
+      "verifiedContracts": {
+        "address": "合约地址",
+        "contractName": "合约名称",
+        "compiler": "编译器类型",
+        "version": "编译器版本",
+        "balance": "余额",
+        "txns": "交易数",
+        "setting": "编译设置",
+        "verified": "验证日期",
+        "license": "许可证类型"
+      },
       "tooltip": {
-        "methodWarning": "合约未验证，函数名称仅供参考"
+        "methodWarning": "合约未验证，函数名称仅供参考",
+        "optimizationEnabled": "已启用优化",
+        "constructorArguments": "构造器参数",
+        "compilerVersionWarning": "该编译器版本存在{{count}}个已知的 Solidity 编译器漏洞"
       }
     },
     "pagination": {
@@ -2539,5 +2564,13 @@
     "success": "成功",
     "bool": "(布尔值): true",
     "reverted": "回滚"
+  },
+  "verifiedContracts": {
+    "title": "已验证合约",
+    "description": "已验证合约",
+    "totalContractsDeployed": "已部署合约总数",
+    "newContractsDeployed": "过去 24 小时部署的合约数",
+    "totalContractsVerified": "已验证合约总数",
+    "newContractsVerified": "过去 24 小时验证的合约数"
   }
 }

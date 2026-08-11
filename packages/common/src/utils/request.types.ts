@@ -124,3 +124,9 @@ export interface AbiByIdResponse {
   event?: Record<string, AbiItemInOpenApi[]>;
   error?: Record<string, AbiItemInOpenApi[]>;
 }
+
+export interface ContractsStatistics {
+  count: string;
+  total: string;
+  statTime: string;
+}

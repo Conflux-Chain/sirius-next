@@ -41,7 +41,7 @@ export const formatValuesToArgs = (
   const objValues: any[] = [];
   // Special convert for various types before call sdk
   items.forEach(function (value, index) {
-    let val = value['val'];
+    const val = value['val'];
     if (value['type'] === 'bool') {
       if (val === 'true' || val === '1') {
         value['val'] = true;

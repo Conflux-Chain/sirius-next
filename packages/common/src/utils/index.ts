@@ -19,7 +19,7 @@ export function cn(...inputs: ClassValue[]) {
 export const toThousands = (num: any, delimiter = ',', prevDelimiter = ',') => {
   if ((typeof num !== 'number' || isNaN(num)) && typeof num !== 'string')
     return '';
-  let str = num + '';
+  const str = num + '';
   return str
     .replace(new RegExp(prevDelimiter, 'igm'), '')
     .split('.')
@@ -90,7 +90,7 @@ export const replaceAll = (str: string, find: string, replace: string) => {
  */
 export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   // 无法通过 bignumber.js 格式化的不处理
-  let bNum = new BigNumber(num).toFixed();
+  const bNum = new BigNumber(num).toFixed();
   if (bNum === 'NaN') {
     return '';
   }
@@ -123,9 +123,9 @@ export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   const [intStr, decimalStr = '0'] = bNum.split('.');
   // 3. 只能处理 27 位数的单位，大于 27 位的字符串从头部截断保留
   // 3.1 获取大于小数点前 27 位的数字 intStrFront
-  let intStrFront = intStr ? intStr.slice(-Infinity, -27) : 0;
+  const intStrFront = intStr ? intStr.slice(-Infinity, -27) : 0;
   // 3.2 获取小数点前 27 位数字 intStrEnd
-  let intStrEnd = intStr ? intStr.slice(-27) : 0;
+  const intStrEnd = intStr ? intStr.slice(-27) : 0;
   // 4. intStrEnd 转千分符形式
   const intStrEndAfterToThousands = toThousands(intStrEnd, option.delimiter);
   // 5. intStrEnd 添加单位，此处不对数字有效性做验证，即可能值为 100.000，100.000k 或 000.000Y
@@ -481,7 +481,7 @@ export function checkCfxType(value: string | number) {
   if (valNum.isNegative()) {
     return false;
   }
-  let index = String(value).indexOf('.');
+  const index = String(value).indexOf('.');
   if (index !== -1) {
     if (String(value).slice(index + 1).length > 18) {
       return false;
@@ -632,7 +632,7 @@ export const convertObjBigNumbersToStrings: any = (input: NestedArray) => {
   if (Array.isArray(input)) {
     return convertBigNumbersToStrings(input);
   }
-  for (let key in input as any) {
+  for (const key in input as any) {
     if (isLikeBigNumber(input[key])) {
       newObj[key] = (input[key] as BigNumber).toString(10);
     } else if (Array.isArray(input[key])) {
@@ -830,7 +830,7 @@ export const formatString = (
     case 'hexAddress':
       result = getEllipsStr(str, 6, 4);
       break;
-    default:
+    default: {
       let num = 12;
       if (typeof type === 'number') num = type;
       if (str.length > num) {
@@ -838,6 +838,8 @@ export const formatString = (
       } else {
         result = str;
       }
+      break;
+    }
   }
   return result;
 };
@@ -876,7 +878,7 @@ export const fromDripToGdrip = (
  * @param isShowFull Whether to show all numbers
  */
 export const fromDripToCfx = (
-  num: number | string,
+  num: number | string | BigNumber,
   isShowFull: boolean = false,
   _opt = {},
 ) => {
@@ -1010,10 +1012,13 @@ export function formatABI(
   _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
   options: FormatABIOptions & { json: true },
 ): string;
+// The overloads intentionally reuse the implementation name.
+// eslint-disable-next-line no-redeclare
 export function formatABI(
   _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
   options?: FormatABIOptions,
 ): string[];
+// eslint-disable-next-line no-redeclare
 export function formatABI(
   _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
   {

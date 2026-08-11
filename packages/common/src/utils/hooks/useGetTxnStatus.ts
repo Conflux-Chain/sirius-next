@@ -93,11 +93,9 @@ export const useGetTxnStatus = (
   method?: any, // getTransactionByHash or getTransactionReceipt,
 ) => {
   // 0 for success, 1 for error occured, null when the transaction is skipped or not packed.
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [status, setStatus] = useState<{ [key: string]: any }>({});
   const markedHashs = useRef<{ [key: string]: boolean }>({});
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const newHashs = txnHashs.filter(h => !markedHashs.current[h]);
     if (newHashs.length) {

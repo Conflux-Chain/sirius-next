@@ -126,7 +126,9 @@ export const isZeroAddress = addressHandlerWrapper(
       } else if (_isBase32Address(address)) {
         return formatAddress(address, 'hex') === SDK.CONST.ZERO_ADDRESS_HEX;
       }
-    } catch (e) {}
+    } catch {
+      return false;
+    }
     return false;
   },
 );
@@ -267,7 +269,9 @@ export const getCoreAddressInfo = addressHandlerWrapper(
         const { netId, type } = decode(address);
         return { netId, type } as CoreAddressInfo;
       }
-    } catch (e) {}
+    } catch {
+      return null;
+    }
     return null;
   },
 );

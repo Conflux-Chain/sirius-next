@@ -63,7 +63,6 @@ export const TableSearchDropdown = ({
       return prev;
     }, 0);
     setSelected(realValue2);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   const handleClick = (index: number) => {
@@ -75,7 +74,8 @@ export const TableSearchDropdown = ({
     if (onChange) {
       onChange(option.value);
     } else {
-      let { skip, ...query } = qs.parse(location.search || '');
+      const query = qs.parse(location.search || '');
+      delete query.skip;
       let queryValue = '';
 
       keyList.forEach(k => {
