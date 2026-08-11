@@ -830,7 +830,7 @@ export const formatString = (
     case 'hexAddress':
       result = getEllipsStr(str, 6, 4);
       break;
-    default:
+    default: {
       let num = 12;
       if (typeof type === 'number') num = type;
       if (str.length > num) {
@@ -838,6 +838,8 @@ export const formatString = (
       } else {
         result = str;
       }
+      break;
+    }
   }
   return result;
 };
@@ -1010,10 +1012,13 @@ export function formatABI(
   _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
   options: FormatABIOptions & { json: true },
 ): string;
+// The overloads intentionally reuse the implementation name.
+// eslint-disable-next-line no-redeclare
 export function formatABI(
   _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
   options?: FormatABIOptions,
 ): string[];
+// eslint-disable-next-line no-redeclare
 export function formatABI(
   _abi: ConstructorParameters<typeof ethersUtils.Interface>[0],
   {

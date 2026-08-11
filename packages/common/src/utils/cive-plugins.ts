@@ -18,38 +18,40 @@ import {
 import { NETWORK_ID } from './constants';
 
 export function defineChain<
-  formatters extends ChainFormatters,
-  const chain extends Chain<formatters>,
->(chain: chain): Prettify<Assign<Chain<undefined>, chain>> {
+  TFormatters extends ChainFormatters,
+  const TChain extends Chain<TFormatters>,
+>(chain: TChain): Prettify<Assign<Chain<undefined>, TChain>> {
   return {
     formatters: undefined,
     fees: undefined,
     serializers: undefined,
     ...chain,
-  } as Assign<Chain<undefined>, chain>;
+  } as Assign<Chain<undefined>, TChain>;
 }
 
-type DecodeErrorResultParameters<abi extends Abi | readonly unknown[] = Abi> = {
-  abi?: abi | undefined;
+type DecodeErrorResultParameters<
+  AbiType extends Abi | readonly unknown[] = Abi,
+> = {
+  abi?: AbiType | undefined;
   data: Hex;
 };
 type DecodeErrorResultReturnType<
-  abi extends Abi | readonly unknown[] = Abi,
-  allErrorNames extends ContractErrorName<abi> = ContractErrorName<abi>,
+  AbiType extends Abi | readonly unknown[] = Abi,
+  AllErrorNames extends ContractErrorName<AbiType> = ContractErrorName<AbiType>,
 > =
-  IsNarrowable<abi, Abi> extends true
+  IsNarrowable<AbiType, Abi> extends true
     ? UnionEvaluate<
         {
-          [errorName in allErrorNames]: {
-            abiItem: abi extends Abi
-              ? Abi extends abi
+          [errorName in AllErrorNames]: {
+            abiItem: AbiType extends Abi
+              ? Abi extends AbiType
                 ? AbiItem
                 : any
               : AbiItem;
-            args: ContractErrorArgs<abi, errorName>;
+            args: ContractErrorArgs<AbiType, errorName>;
             errorName: errorName;
           };
-        }[allErrorNames]
+        }[AllErrorNames]
       >
     : {
         abiItem: AbiItem;
@@ -57,9 +59,11 @@ type DecodeErrorResultReturnType<
         errorName: string;
       };
 
-export function decodeErrorResult<const abi extends Abi | readonly unknown[]>(
-  parameters: DecodeErrorResultParameters<abi>,
-): DecodeErrorResultReturnType<abi> {
+export function decodeErrorResult<
+  const AbiType extends Abi | readonly unknown[],
+>(
+  parameters: DecodeErrorResultParameters<AbiType>,
+): DecodeErrorResultReturnType<AbiType> {
   const { abi, data } = parameters as DecodeErrorResultParameters;
 
   if (data.length < 10 || !data.startsWith('0x'))

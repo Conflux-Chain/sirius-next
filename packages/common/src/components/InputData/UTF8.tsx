@@ -9,7 +9,9 @@ export const UTF8 = ({ data }: Props) => {
   const str = useMemo(() => {
     try {
       return hex2utf8(data.startsWith('0x') ? data.substr(2) : data);
-    } catch (e) {}
+    } catch {
+      return undefined;
+    }
   }, [data]);
 
   return (

@@ -24,9 +24,5 @@ const request = async <T>(method: string, ...args: any[]): Promise<T> => {
 };
 
 export const getAccount = async (...args: unknown[]) => {
-  try {
-    return request('cfx_getAccount', ...args);
-  } catch (e) {
-    throw e;
-  }
+  return request('cfx_getAccount', ...args);
 };
