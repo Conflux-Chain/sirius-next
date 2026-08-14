@@ -420,6 +420,13 @@
     "apy": "(APY 4%)",
     "viewLockedDetails": "Click to view lock history"
   },
+  "otherTransactions": {
+    "title": "Other Transactions",
+    "tabs": {
+      "authorizations": "Authorizations",
+      "aaTransactions": "AA Transactions"
+    }
+  },
   "authList": {
     "authorizations": "Authorizations",
     "authorizationList": "Authorization List",

@@ -418,6 +418,13 @@
     "lockedDetailUnlockTime": "预计解锁时间",
     "viewLockedDetails": "点击查看锁定历史"
   },
+  "otherTransactions": {
+    "title": "其他交易",
+    "tabs": {
+      "authorizations": "委托记录",
+      "aaTransactions": "账户抽象交易列表"
+    }
+  },
   "authList": {
     "authorizations": "委托记录",
     "authorizationList": "授权列表",
