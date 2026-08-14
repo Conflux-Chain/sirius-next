@@ -2,6 +2,9 @@
 
 本文档描述 `sirius-next` 当前已经实现的 calldata URL 编解码能力、使用方式和集成状态。
 
+跨语言编码协议见
+[`encodeCalldataForUrl` 实现规范](./encode-calldata-for-url-implementation.md)。
+
 ## 当前状态
 
 编解码逻辑已经在公共包中实现，并通过参考向量、异常输入和大小边界测试：
