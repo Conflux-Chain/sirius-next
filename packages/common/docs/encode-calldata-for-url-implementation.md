@@ -2,6 +2,8 @@
 
 本文档定义当前 `sirius-next` 公共包生成 calldata URL 参数时遵守的协议。其他前端、后端、CLI 或语言实现可以依照本规范生成与当前解码器兼容的 `data` 值。
 
+使用方式和页面接入顺序见 [Calldata URL 编码与解码](./calldata-url.md)。
+
 ## 当前参考实现
 
 - 编码和解码：

@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.3.3
+
+### Patch Changes
+
+- feat: add other-transaction i18n & update agent doc
+
 ## 0.3.2
 
 ### Patch Changes
