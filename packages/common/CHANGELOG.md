@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.3.7
+
+### Patch Changes
+
+- feat: check label valid
+
 ## 0.3.6
 
 ### Patch Changes
