@@ -42,7 +42,13 @@ export default defineConfig({
   target: 'es2020',
   dts: true,
   sourcemap: true,
-  external: ['react', 'react-dom'],
+  external: [
+    'react',
+    'react-dom',
+    'i18next',
+    'react-i18next',
+    'react-router-dom',
+  ],
   noExternal: [
     '@cfx-kit/ui-components',
     '@radix-ui/react-select',

@@ -84,9 +84,8 @@ export const replaceAll = (str: string, find: string, replace: string) => {
  * @param {number|string} num 数字或字符串，应尽量使用字符串格式，数字格式如果长度超过 Number.MAX_SAFE_INTEGER 或 Number.MIN_SAFE_INTEGER 可能会有精度损失
  * @param {object} opt 配置参数
  * @returns {string} 格式化后字符串格式数字
- * @todo: 支持四舍五入，向上取整
- * @todo: 支持整数位小数设置精度
- * @todo: 支持负数格式化
+ * @todo [待确认]: 在确认 Core/EVM 页面所需展示语义后，再增加四舍五入、向上
+ *   取整、整数位精度和负数格式化；当前调用方依赖向下取整行为。
  */
 export const formatNumber = (num: number | string | BigNumber, opt?: any) => {
   // 无法通过 bignumber.js 格式化的不处理
@@ -515,31 +514,22 @@ export const getTimeByBlockInterval = (
 };
 
 /**
- *
- * @param {number|string} data
+ * 判断字符串是否为当前表单允许的非负十进制输入。
+ * 当前实现允许输入过程中的 `.`、`0.` 和 `.0`，但拒绝负号、科学计数法和
+ * 前导零整数；Core/EVM 表单调用方依赖这一语义。
+ * @param {string} data
  * @returns {boolean}
  * @example
  * 0    -> true
  * .    -> true
  * 0.   -> true
  * .0   -> true
- * 0.0  -> true
- * 0..0 -> false
- * x    -> false
- * e    -> false
- * @todo support config, such as negative and exponential notation
- */
-
-/**
- *
- * @param {number|string} data
- * @returns {boolean}
- * @example
- * 0    -> true
- * .    -> false
  * 11   -> true
  * 011  -> false
  * -1   -> false
+ * e    -> false
+ * @todo [待确认] 若业务需要支持负数或科学计数法，应增加显式配置并先补齐
+ *   实际表单调用方的兼容测试，不要直接放宽当前正则。
  */
 export const isSafeNumberOrNumericStringInput = (data: string) =>
   /^\d+\.?\d*$|^\.\d*$/.test(data);

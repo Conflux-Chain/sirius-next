@@ -16,12 +16,17 @@ Vite-based apps that consume them.
 - Build everything: `pnpm build` (Turbo: `^build` first, outputs to `dist/**`).
 - Dev (all apps/packages in watch): `pnpm dev`.
 - Lint everything: `pnpm lint`.
-- Test (root, vitest + jsdom): `pnpm test`.
-- Run a single test file: `pnpm test <path>` e.g.
-  `pnpm test packages/common/src/utils/cache.test.ts`.
-- Filter to one package with pnpm, e.g.
-  `pnpm --filter @cfxjs/sirius-next-common build` or
-  `pnpm --filter @cfxjs/sirius-next-common test -- <path>`.
+- Test all packages (Turbo, Vitest + jsdom): `pnpm test`.
+- Run one common test file with its package-local config, e.g.
+  `pnpm --filter @cfxjs/sirius-next-common exec vitest run src/utils/cache.test.ts`.
+  Do not pass `packages/common/...` to the root `pnpm test`: Turbo runs the
+  package task with `packages/common` as its working directory, so that path is
+  resolved twice and produces `No test files found`.
+- Run common coverage: `pnpm test:coverage`; run consumer smoke probes with
+  `pnpm test:consumers`.
+- Filter other package commands with pnpm, e.g.
+  `pnpm --filter @cfxjs/sirius-next-common build`. A package with tests owns its
+  own `vitest.config.ts` and test scripts; there is no root test alias.
 - Add a changeset before any publishable change: `pnpm changeset add`, then
   commit the generated file. Publishing is automated by `.github/workflows/release.yml`
   (changesets/action) on push to `main`; do not hand-edit versions.
@@ -47,7 +52,8 @@ Vite-based apps that consume them.
   `@cfxjs/sirius-next-common/dist/components/Button`. When adding files under
   `src/`, no config update is needed, but renaming/moving changes the public
   subpath. `images/`, `test/`, and `*.test.*` are excluded.
-- **Externals/noExternal**: `react` and `react-dom` are external. UI libs
+- **Externals/noExternal**: `react`, `react-dom`, `i18next`, `react-i18next`,
+  and `react-router-dom` are external peer dependencies. UI libs
   (`@cfx-kit/ui-components`, `@radix-ui/react-select`, `@radix-ui/react-radio-group`,
   `@rc-component/table`, `viem`, `cive`) are bundled in via `noExternal` — do
   not assume they'll be peer-resolved at runtime.
@@ -76,9 +82,9 @@ Vite-based apps that consume them.
 - Root `.eslintrc.cjs` ignores `apps/**` and `packages/**`; each workspace owns
   its own ESLint config. Lint rules are enforced with `--max-warnings 0` —
   warnings fail the build.
-- Tests live next to source as `*.test.ts(x)` and run under vitest with a jsdom
-  environment. Jest config files exist in `packages/common` but the canonical
-  runner is vitest (`pnpm test` at the root).
+- Tests live next to source as `*.test.ts(x)` and run under Vitest 3.2.3 with a
+  jsdom environment. `packages/common/vitest.config.ts` is authoritative;
+  the former common Jest config and direct Jest test dependencies were removed.
 - Do not commit to `dist/`; it's rebuilt by CI and in `.gitignore`-equivalent
   workflow.
 - Translation keys: add to both `cspace/en` and `cspace/zh_cn` (and relevant

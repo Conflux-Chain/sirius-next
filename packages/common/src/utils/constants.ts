@@ -1,9 +1,11 @@
 import { getEnvConfig } from '../store';
 import lodash from 'lodash';
 /**
- * @todo
- * 1. setNFTCacheInfo cacheKey
- * 2. GlobalTip
+ * Local storage keys shared by the scan consumers.
+ *
+ * @todo [待确认] 检查 `setNFTCacheInfo` 是否仍需要独立、稳定且包含必要网络
+ *   维度的 cache key；检查 `GlobalTip` 遗留注释是否仍对应现行通知需求。确认
+ *   前不要改变现有 key，避免影响 Core/EVM 用户的本地数据。
  *
  * @export
  * @enum {number}

@@ -240,7 +240,11 @@ url.searchParams.set('to', to);
 
 应通过标准 URL API 设置 `data`，不要手工拼接或再次 Base64 编码。
 
-当前 `apps/core` 和 `apps/evm` 尚未调用编解码 API；它目前是公共包提供的待接入能力。
+当前实际页面消费者是同一工作区中的 `sirius-eth`：Simulate 页面调用
+`decodeCalldataFromUrl`，Contract ABI 方法入口调用 `encodeCalldataForUrl`。
+`sirius` Core Space scan 以及本仓库的 `apps/core`、`apps/evm` 目前尚未调用
+这些 API。这里的“已接入”仅表示 eSpace scan 页面已消费公共能力，不表示页面部署
+已经迁移到 `sirius-next`。
 
 ## 不同平台的 raw DEFLATE 配置
 
@@ -294,6 +298,8 @@ pnpm --filter @cfxjs/sirius-next-common exec vitest run src/utils/calldataUrl.te
 
 ## 当前项目边界
 
-本规范只说明已经存在的公共包能力。页面路由、错误展示、ABI 解码和 RPC 调用顺序尚未在当前 `apps` 中接入。
+本规范只说明已经存在的公共包能力。`sirius-eth` 已有页面接入，但页面路由、错误
+展示、ABI 解码和 RPC 调用顺序仍由各 scan 项目自行维护；这些能力尚未在当前
+`apps/*` 中组装成生产页面。
 
 接入页面时必须先检查 `decodeCalldataFromUrl` 的结果；只有 `ok === true` 时才能把 `data` 传给 ABI 解码器或 RPC。

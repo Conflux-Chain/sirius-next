@@ -11,7 +11,8 @@ export const prodTargetId = 'G-BWQ72S5QE8';
 export const testTargetId = 'G-17W5VXCYSL';
 export const devTargetId = 'G-VCXQ7FY6EV';
 
-// TODO userId bind portal address
+// TODO [待确认] 是否将 Portal 地址绑定为 GA userId。实现前必须确认产品目的、
+// 用户同意与隐私要求，并定义地址切换、断开连接和跨网络场景的行为。
 
 export const getTrackId = () => {
   return window.location.hostname.includes('confluxscan.org')

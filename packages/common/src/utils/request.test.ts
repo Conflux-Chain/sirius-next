@@ -133,16 +133,68 @@ describe('request', () => {
     await expectation;
   });
 
-  test('rejects aborted fetch requests', async () => {
+  test('publishes one notification when a non-HEAD request times out', async () => {
+    vi.useFakeTimers();
+    const notifications: any[] = [];
+    const unsubscribe = pubsub.subscribe('notify', data => {
+      notifications.push(data);
+    });
+    vi.spyOn(window, 'fetch').mockImplementation(
+      (_input, init) =>
+        new Promise<Response>((_, reject) => {
+          init?.signal?.addEventListener(
+            'abort',
+            () => reject(new DOMException('Aborted', 'AbortError')),
+            { once: true },
+          );
+        }),
+    );
+
+    try {
+      const promise = fetch('/slow', { method: 'GET', timeout: 1000 });
+      const expectation = expect(promise).rejects.toThrow('Request timeout');
+      await vi.advanceTimersByTimeAsync(1000);
+
+      await expectation;
+      expect(notifications).toHaveLength(1);
+      expect(notifications[0]).toMatchObject({
+        type: 'request',
+        option: {
+          code: 20002,
+          message: 'Request timeout',
+        },
+      });
+    } finally {
+      unsubscribe();
+    }
+  });
+
+  test('rejects aborted fetch requests and publishes one notification', async () => {
+    const notifications: any[] = [];
+    const unsubscribe = pubsub.subscribe('notify', data => {
+      notifications.push(data);
+    });
     const abortError = new DOMException('Aborted', 'AbortError');
     vi.spyOn(window, 'fetch').mockRejectedValue(abortError);
 
-    await expect(
-      fetch('/aborted', {
-        method: 'GET',
-        showErrorMessage: false,
-      }),
-    ).rejects.toThrow('Fetch aborted');
+    try {
+      await expect(
+        fetch('/aborted', {
+          method: 'GET',
+        }),
+      ).rejects.toThrow('Fetch aborted');
+
+      expect(notifications).toHaveLength(1);
+      expect(notifications[0]).toMatchObject({
+        type: 'request',
+        option: {
+          code: 20003,
+          message: 'Fetch aborted',
+        },
+      });
+    } finally {
+      unsubscribe();
+    }
   });
 
   test('returns response for successful HEAD requests', async () => {
