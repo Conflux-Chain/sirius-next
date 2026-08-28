@@ -15,7 +15,18 @@
 - 测试向量：
   `packages/common/src/utils/test/fixtures/calldataUrlEncoding.json`
 
-当前 `apps/core` 和 `apps/evm` 尚未调用这些 API。因此，本仓库目前提供的是可复用的公共包能力，不代表 Simulate 页面已经完成以下接入：
+当前公共包的实际页面消费者是同一工作区中的 `sirius-eth`：
+
+- `sirius-eth/src/app/containers/SimulatePage/index.tsx` 从 URL 读取 `data`，解码成功后再
+  继续 Simulate Trace 流程；
+- `sirius-eth/src/app/components/ContractAbi/Func.tsx` 使用编码 API 生成 Simulate URL。
+
+以下消费者目前仍未接入：
+
+- Core Space scan `sirius`；
+- 本仓库的 `apps/core` 和 `apps/evm`。
+
+因此，公共包能力已经有 EVM scan 页面消费，但不代表所有页面都完成以下接入：
 
 - 从 URL 查询参数读取并解码 `data`
 - 向用户展示 `missing`、`invalid-format` 或 `too-large`
@@ -203,7 +214,7 @@ const result = decodeCalldataFromUrl(searchParams.get('data'), {
 
 ## 页面接入约束
 
-未来在 `apps/core` 或 `apps/evm` 中接入时，应保证以下顺序：
+当前 `sirius-eth` 接入以及未来新增 scan/app 页面都必须保证以下顺序：
 
 1. 读取 URL 中唯一的 `data` 参数。
 2. 根据页面是否允许缺失或空字符串形式的参数，调用 `decodeCalldataFromUrl` 并设置 `allowEmptyData`。
@@ -212,6 +223,9 @@ const result = decodeCalldataFromUrl(searchParams.get('data'), {
 5. 仅使用解码后的 `result.data` 构造 `debug_traceCall` 或其他 RPC 请求。
 
 生成链接时应调用 `encodeCalldataForUrl`，并通过标准 `URL` API 设置 `data`。
+
+Core Space 不应因为复用 calldata codec 就被默认视为支持 Simulate Trace；是否接入
+仍需单独确认 Core 的页面、RPC 和 tracer 契约。
 
 ## 测试
 

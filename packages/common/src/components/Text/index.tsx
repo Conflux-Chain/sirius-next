@@ -39,11 +39,12 @@ const getTypeColor = (type: NormalTypes) => {
   return colors[type] || colors.default;
 };
 
-// note:
-// 1. maxWidth priority is higher than maxCount
-// 2. maxCount only apply to string
-// 3. if hoverValue is provided, use hoverValue as Tooltip text, otherwise use children
-//    if text of prop tooltip is provided, use as Tooltip text
+// Behavior contract:
+// 1. maxWidth has priority over maxCount.
+// 2. maxCount applies only to string children.
+// 3. hoverValue is preferred as Tooltip text; otherwise children are used.
+// 4. On mobile, long tooltip text is split into fixed-size segments for the current
+//    address/table layouts. Changes require narrow-screen and multilingual visual checks.
 export const Text = React.memo(
   ({
     className,
@@ -74,11 +75,12 @@ export const Text = React.memo(
     }
 
     let textContent = hoverValue || children;
-    // 控制移动端字符串类型 tooltip 的长度
-    // 这里有个问题，就是截断的位置可能是一个完整的单词，暂时没有办法处理，如果为了避免这种情况，需要由外面传入前对内容进行处理，比如设置固定宽度小于 24rem
-    // @todo 后续可以试下读取文本长度，动态设置容器宽度值的方式，可以避免截断位置的问题
+    // 当前移动端 tooltip 默认按 34 个字符分段，兼容地址和表格中的长文本。
+    // 分段可能落在完整单词中；改为动态宽度前，需要结合英文、中文、地址和窄屏
+    // 页面完成视觉回归，不能只根据单个调用方判断。
+    // @todo [待确认] 评估按实际文本宽度动态设置容器宽度的方案。
     if (bp === 's' && typeof textContent === 'string') {
-      const hoverValueMaxCount = outerHoverValueMaxCount || 34; // default text count is 36
+      const hoverValueMaxCount = outerHoverValueMaxCount || 34; // default text count is 34
       let textContentCopy: string = textContent;
       const newTextContent: Array<React.ReactNode> = [];
       let count = 0;

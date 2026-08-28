@@ -109,18 +109,39 @@ const fetchWithAbort = <T>(
   const timeout = options.timeout || TIMEOUT_TIMESTAMP;
 
   let timeoutId: ReturnType<typeof setTimeout>;
+  let settled = false;
   const promise: Promise<T> = new Promise((resolve, reject) => {
+    const resolveRequest = (value: T) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      resolve(value);
+    };
+    const rejectRequest = (reason: unknown) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      reject(reason);
+    };
+
     timeoutId = setTimeout(() => {
+      if (settled) {
+        return;
+      }
       controller.abort();
       if (isHeadRequest(opts)) {
-        return resolve(createHeadFailureResponse(408, 'Request timeout') as T);
+        return resolveRequest(
+          createHeadFailureResponse(408, 'Request timeout') as T,
+        );
       }
       showErrorMessage &&
         publishRequestError(
           { url, code: 20002, message: 'Request timeout' },
           'http',
         );
-      reject(new Error('Request timeout'));
+      rejectRequest(new Error('Request timeout'));
     }, timeout);
 
     window
@@ -128,10 +149,16 @@ const fetchWithAbort = <T>(
       .then(checkStatus)
       .then(parseJSON)
       .then((...args) => checkResponse(url, ...args, opts))
-      .then(data => resolve(data as T))
+      .then(data => resolveRequest(data as T))
       .catch(error => {
+        // The timeout handler settles the request before aborting the fetch,
+        // so the resulting AbortError must not publish a second notification.
+        if (settled) {
+          return;
+        }
+
         if (isHeadRequest(opts)) {
-          return resolve(
+          return resolveRequest(
             createHeadFailureResponse(
               599,
               error?.message || 'Request failed',
@@ -144,21 +171,21 @@ const fetchWithAbort = <T>(
         // For detail: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         if (error.name === 'TypeError') {
           showErrorMessage && publishRequestError({ url, code: 20004 }, 'http');
-          reject(new Error('Network error'));
+          rejectRequest(new Error('Network error'));
         } else if (error.name === 'AbortError') {
           showErrorMessage &&
             publishRequestError(
               { url, code: 20003, message: 'Fetch aborted' },
               'http',
             );
-          reject(new Error('Fetch aborted'));
+          rejectRequest(new Error('Fetch aborted'));
         } else {
           showErrorMessage &&
             publishRequestError(
               { url, code: (error as any).status, message: error.message },
               'http',
             );
-          reject(error);
+          rejectRequest(error);
         }
       })
       .finally(() => clearTimeout(timeoutId));

@@ -3,32 +3,45 @@ import { getEnvConfig } from '../store';
 type EventName = string;
 type Callback = (data: any) => void;
 
-interface Subscribers {
-  [eventName: string]: Callback[];
+interface Subscription {
+  callback: Callback;
+  active: boolean;
 }
 
 const pubSubLib = () => {
-  const subscribers: Subscribers = {};
+  const subscribers = new Map<EventName, Set<Subscription>>();
 
   function publish(eventName: EventName, data: any): void {
-    const eventSubscribers = subscribers[eventName];
-    if (!Array.isArray(eventSubscribers)) {
+    const eventSubscribers = subscribers.get(eventName);
+    if (!eventSubscribers) {
       return;
     }
-    eventSubscribers.forEach(callback => {
-      callback(data);
+
+    [...eventSubscribers].forEach(subscription => {
+      if (subscription.active) {
+        subscription.callback(data);
+      }
     });
   }
 
   function subscribe(eventName: EventName, callback: Callback): () => void {
-    if (!Array.isArray(subscribers[eventName])) {
-      subscribers[eventName] = [];
+    let eventSubscribers = subscribers.get(eventName);
+    if (!eventSubscribers) {
+      eventSubscribers = new Set();
+      subscribers.set(eventName, eventSubscribers);
     }
-    const eventSubscribers = subscribers[eventName] || [];
-    eventSubscribers.push(callback);
-    const index = eventSubscribers.length - 1;
+    const subscription: Subscription = { callback, active: true };
+    eventSubscribers.add(subscription);
+
     return () => {
-      eventSubscribers.splice(index, 1);
+      if (!subscription.active) {
+        return;
+      }
+      subscription.active = false;
+      eventSubscribers.delete(subscription);
+      if (eventSubscribers.size === 0) {
+        subscribers.delete(eventName);
+      }
     };
   }
 
