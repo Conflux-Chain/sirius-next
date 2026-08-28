@@ -101,6 +101,12 @@ focused. For publishable package changes, create a changeset with
 testing performed, related issue(s), and screenshots for visible UI changes.
 Open a ready-for-review PR rather than a draft.
 
+Before every commit, review the code diff against `README.md` and the relevant
+documents under `docs/`. Synchronize any changed behavior, public API, command,
+test baseline, architecture, migration status, risk, or TODO before committing;
+keep `.github/copilot-instructions.md` as a concise index instead of a duplicate
+architecture document.
+
 ## Configuration & Security
 
 Keep local secrets only in ignored `.env.*.local` files. Do not commit API keys,
