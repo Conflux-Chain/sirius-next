@@ -57,6 +57,8 @@ shared configuration; do not introduce unused disables. Use PascalCase component
 directories and files (for example, `components/Modal/index.tsx`), camelCase for
 utilities and hooks (`useHighCharts.ts`), and colocate styles/assets with the
 feature when practical.
+When changing `packages/i18n`, update both `cspace/en` and `cspace/zh_cn`, plus
+the relevant `evm/*` locale folders; missing locale keys are a review blocker.
 
 ## Testing Guidelines
 
@@ -100,6 +102,12 @@ focused. For publishable package changes, create a changeset with
 `pnpm changeset add`. Pull requests should clearly state the user-facing change,
 testing performed, related issue(s), and screenshots for visible UI changes.
 Open a ready-for-review PR rather than a draft.
+
+Before every commit, review the code diff against `README.md` and the relevant
+documents under `docs/`. Synchronize any changed behavior, public API, command,
+test baseline, architecture, migration status, risk, or TODO before committing;
+keep `.github/copilot-instructions.md` as a concise index instead of a duplicate
+architecture document.
 
 ## Configuration & Security
 

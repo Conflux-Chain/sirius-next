@@ -21,8 +21,8 @@
 
 当前状态快照（2026-08-28 核验，接手时仍需重新检查）：
 
-- `sirius-next`：分支 `codex/ai-refactor`，HEAD `5da5627`；工作树包含本轮未提交
-  的代码和文档改动。
+- `sirius-next`：分支 `codex/ai-refactor`，上一轮功能代码基线为已推送的
+  `d3a9b0c`；接手时重新检查工作树，不把本文快照当作实时状态。
 - `sirius`：分支 `dev`，HEAD `47ac9e8c`，当前工作树干净。
 - `sirius-eth`：分支 `feat/verified-contracts`，HEAD `ca4646e`，相对
   `origin/feat/verified-contracts` ahead 1 commit，当前工作树干净。

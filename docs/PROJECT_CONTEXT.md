@@ -1,7 +1,7 @@
 # 项目上下文与交接说明
 
 > 面向接手 `sirius-next` 的开发者和后续 agent。内容基于仓库源码、配置、文档
-> 和相邻 scan 消费方核查，并在 2026-08-28 按当前工作树更新；未获仓库材料或
+> 和相邻 scan 消费方核查，并在 2026-08-28 按当前代码基线更新；未获仓库材料或
 > 项目决策支持的判断只列在“待确认事项”中。
 
 相关交接文档：[架构说明](./ARCHITECTURE.md)、[Handoff Backlog](./TODO.md)、
@@ -187,17 +187,17 @@ pnpm changeset add
 
 ## 5. 当前分支与工作树快照
 
-2026-08-28 交接核验结果：
+2026-08-28 交接核验结果（上一轮功能代码提交 `d3a9b0c` 已推送）：
 
-- next 当前分支为 `codex/ai-refactor`；工作树包含本轮尚未提交的代码、锁文件和
-  文档改动。下次接手先运行 `git status --short --branch`，不要用 reset、checkout
-  或批量格式化覆盖这些改动。
+- next 当前分支为 `codex/ai-refactor`；上一轮功能代码已与远端同步。接手时仍须
+  运行 `git status --short --branch`，不要把本文的动态状态当作事实，也不要用
+  reset、checkout 或批量格式化覆盖用户已有改动。
 - `/Users/mac/Desktop/code/sirius` 和 `/Users/mac/Desktop/code/sirius-eth` 在本轮
   核验时均为独立、无未提交改动的外部仓库；它们不是 next workspace 成员。
 - 本轮关键变更集中在 `packages/common` 的 peer/runtime 边界、request/pubsub
   和 cache/RPC/store/SDK 回归、ABI/Trace hook 测试、Vitest/Jest 配置、consumer
-  smoke script，以及对应交接文档。完整清单以 `git diff HEAD --name-status` 为准，
-  不要仅凭本节推断文件是否已提交。
+  smoke script，以及对应交接文档。功能提交的完整清单以
+  `git show --name-status --oneline d3a9b0c` 为准，不要仅凭本节推断文件是否已提交。
 
 每次接手和交付前重新检查三个仓库的状态；除非任务明确授权，不要修改两个 scan
 仓库。
@@ -214,6 +214,8 @@ pnpm changeset add
 - 不要在未确认 Core/EVM 调用方、隐私要求或协议兼容性的情况下放宽输入语义、改变
   通知 code、移除地址兼容层、修改 local storage key 或实现 GA userId。
 - commit subject 遵循 Conventional Commit 风格并保持聚焦。
+- 每次提交前先对照代码 diff 同步受影响的 README、架构、项目上下文和 TODO；提交
+  后不要留下已经失真的分支、测试基线或工作树快照。
 - PR 说明用户可见变化、验证方式、关联 issue；可见 UI 变化附截图。
 - PR 直接创建 ready-for-review，不创建 draft。
 
