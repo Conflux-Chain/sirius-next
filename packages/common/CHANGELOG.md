@@ -1,5 +1,15 @@
 # @cfxjs/sirius-next-common
 
+## 0.4.0
+
+### Minor Changes
+
+- d3a9b0c: Declare React, Router, and i18n runtime packages as peer dependencies and add packed-consumer smoke tests for Core and EVM scan dependency versions.
+
+  Prevent timeout-triggered aborts from emitting a duplicate request error notification and add timeout/abort regression coverage.
+
+  Fix pubsub unsubscription ordering and self-unsubscription behavior without changing its public API.
+
 ## 0.3.7
 
 ### Patch Changes
