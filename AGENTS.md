@@ -57,6 +57,8 @@ shared configuration; do not introduce unused disables. Use PascalCase component
 directories and files (for example, `components/Modal/index.tsx`), camelCase for
 utilities and hooks (`useHighCharts.ts`), and colocate styles/assets with the
 feature when practical.
+When changing `packages/i18n`, update both `cspace/en` and `cspace/zh_cn`, plus
+the relevant `evm/*` locale folders; missing locale keys are a review blocker.
 
 ## Testing Guidelines
 

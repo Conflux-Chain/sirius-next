@@ -196,8 +196,8 @@ pnpm changeset add
   核验时均为独立、无未提交改动的外部仓库；它们不是 next workspace 成员。
 - 本轮关键变更集中在 `packages/common` 的 peer/runtime 边界、request/pubsub
   和 cache/RPC/store/SDK 回归、ABI/Trace hook 测试、Vitest/Jest 配置、consumer
-  smoke script，以及对应交接文档。完整清单以 `git diff HEAD --name-status` 为准，
-  不要仅凭本节推断文件是否已提交。
+  smoke script，以及对应交接文档。功能提交的完整清单以
+  `git show --name-status --oneline d3a9b0c` 为准，不要仅凭本节推断文件是否已提交。
 
 每次接手和交付前重新检查三个仓库的状态；除非任务明确授权，不要修改两个 scan
 仓库。
