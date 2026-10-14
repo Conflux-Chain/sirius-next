@@ -230,6 +230,11 @@ Simulate 页面；Core Space scan 和 `apps/*` 尚未接入该能力。日志索
 前端遍历顺序生成，源码仍标记为应改用接口返回的真实索引并排序。实现排序前，
 必须先确认 `/v1/traceCallView` 对嵌套 call、缺失索引和同索引日志的语义。
 
+请求支持 `maxPriorityFeePerGas`。调用方未提供 `maxFeePerGas` 或 `gasPrice` 时，
+以 `max(22 Gdrip, maxPriorityFeePerGas)` 补齐费用上限；没有 priority fee 时
+保留 22 Gdrip 默认值。使用 bigint 避免精度损失，显式费用参数保持原值。
+按当前项目的模拟接口约定，前端不查询或叠加区块 base fee；该策略仅用于模拟请求。
+
 ### 6.4 Calldata URL
 
 `utils/calldataUrl.ts` 已实现 Hex、`b1.` Base64URL、`d1.` raw DEFLATE 的
