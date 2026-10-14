@@ -55,6 +55,7 @@ export interface SimulateTraceTxParams {
   gas?: string;
   gasPrice?: string;
   maxFeePerGas?: string;
+  maxPriorityFeePerGas?: string;
   // simulate trace not support core space now
   space: Exclude<Space, 'core'>;
 }
