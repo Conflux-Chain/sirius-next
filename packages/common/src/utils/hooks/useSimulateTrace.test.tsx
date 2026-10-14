@@ -268,6 +268,50 @@ describe('useSimulateTrace', () => {
     });
   });
 
+  test.each([
+    ['small tip', '0x3b9aca00', 22_000_000_000n],
+    ['tip above the old cap', '30000000000', 30_000_000_000n],
+    ['zero tip', '0x0', 22_000_000_000n],
+    ['large fee', '0x20000000000001', 9_007_199_254_740_993n],
+  ])(
+    'keeps the fallback cap at least 22 Gdrip and at least the %s',
+    async (_, tip, expectedCap) => {
+      const tx = { ...baseTx, maxPriorityFeePerGas: tip };
+
+      await querySimulateTrace(tx, '0x123');
+
+      const request = JSON.parse(fetchWithPrefix.mock.calls[0]![1].body);
+      expect(request.params[0]).toMatchObject({
+        maxPriorityFeePerGas: tip,
+        maxFeePerGas: `0x${expectedCap.toString(16)}`,
+      });
+      expect(request.params[1]).toBe('0x123');
+      expect(tx).not.toHaveProperty('maxFeePerGas');
+    },
+  );
+
+  test.each([
+    { maxFeePerGas: '0x0', maxPriorityFeePerGas: '0x0' },
+    { maxFeePerGas: '0x123', maxPriorityFeePerGas: '0x100' },
+    { gasPrice: '0x0' },
+    { gasPrice: '0x123' },
+  ])('preserves explicit fee fields %j with one trace request', async fees => {
+    await querySimulateTrace({ ...baseTx, ...fees });
+
+    const request = JSON.parse(fetchWithPrefix.mock.calls[0]![1].body);
+    const { space: _, ...expected } = { ...baseTx, ...fees };
+    expect(request.params[0]).toEqual(expected);
+    expect(fetchWithPrefix).toHaveBeenCalledTimes(1);
+  });
+
+  test('keeps the old fallback with one trace request when no fees are supplied', async () => {
+    await querySimulateTrace(baseTx);
+
+    const request = JSON.parse(fetchWithPrefix.mock.calls[0]![1].body);
+    expect(request.params[0].maxFeePerGas).toBe('0x51f4d5c00');
+    expect(fetchWithPrefix).toHaveBeenCalledTimes(1);
+  });
+
   test('continues without gas when gas estimation fails', async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
     estimateGas.mockRejectedValue(new Error('estimate failed'));

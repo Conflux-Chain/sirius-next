@@ -239,7 +239,14 @@ export const querySimulateTrace = async (
     }
   }
   if (!simulateTx.maxFeePerGas && !simulateTx.gasPrice) {
-    simulateTx.maxFeePerGas = simulateTx.maxPriorityFeePerGas || '0x51f4d5c00'; // 22 Gdrip
+    let feeCap = 22_000_000_000n; // 22 Gdrip
+    if (simulateTx.maxPriorityFeePerGas !== undefined) {
+      const priorityFee = BigInt(simulateTx.maxPriorityFeePerGas);
+      if (priorityFee > feeCap) {
+        feeCap = priorityFee;
+      }
+    }
+    simulateTx.maxFeePerGas = `0x${feeCap.toString(16)}`;
   }
 
   const data = JSON.stringify({
