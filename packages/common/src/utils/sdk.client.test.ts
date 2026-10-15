@@ -11,6 +11,7 @@ const coreHttpMock = vi.fn();
 
 const evmClient = {
   estimateGas: vi.fn(),
+  request: vi.fn(),
   simulateContract: vi.fn(),
 };
 const coreClient = {
@@ -75,6 +76,7 @@ describe('sdk public clients', () => {
     createPublicCoreClientMock.mockReset().mockReturnValue(coreClient);
     coreHttpMock.mockReset().mockReturnValue(coreTransport);
     evmClient.estimateGas.mockReset();
+    evmClient.request.mockReset();
     evmClient.simulateContract.mockReset();
     coreClient.estimateGasAndCollateral.mockReset();
     coreClient.simulateContract.mockReset();
@@ -145,6 +147,141 @@ describe('sdk public clients', () => {
       value: undefined,
       account: undefined,
     });
+  });
+
+  test('Core forwards access lists using base32 addresses and retains duplicates', async () => {
+    coreClient.estimateGasAndCollateral.mockResolvedValue({ gasLimit: 42000n });
+    const { estimateGas } = await loadSdk();
+    const storageKey = `0x${'01'.repeat(32)}` as const;
+    const entry = {
+      address: CORE_ADDRESS,
+      storageKeys: [storageKey, storageKey],
+    };
+    await expect(
+      estimateGas({ space: 'core', accessList: [entry, entry] }),
+    ).resolves.toBe(42000n);
+    expect(coreClient.estimateGasAndCollateral).toHaveBeenCalledWith(
+      expect.objectContaining({ accessList: [entry, entry] }),
+    );
+    expect(evmClient.request).not.toHaveBeenCalled();
+  });
+
+  test('Core rejects authorizationList before initializing or invoking any client', async () => {
+    const { estimateGas } = await loadSdk();
+    // @ts-expect-error Core authorization lists are also rejected at runtime.
+    const result = estimateGas({ space: 'core', authorizationList: [] });
+    await expect(result).rejects.toThrow('does not support authorizationList');
+    expect(createPublicCoreClientMock).not.toHaveBeenCalled();
+    expect(coreClient.estimateGasAndCollateral).not.toHaveBeenCalled();
+    expect(evmClient.request).not.toHaveBeenCalled();
+  });
+
+  test('EVM estimates with RPC authorization quantities, access lists, fees and block', async () => {
+    const { estimateGas } = await loadSdk();
+    evmClient.request.mockResolvedValue('0x5208');
+    const authorizationList = [
+      {
+        address: EVM_ADDRESS,
+        chainId: '0x0',
+        nonce: '0x20000000000001',
+        yParity: '0x1',
+        r: '0x1',
+        s: '0x2',
+      },
+    ] as const;
+    const accessList = [{ address: EVM_ADDRESS, storageKeys: [] }];
+    await expect(
+      estimateGas({
+        space: 'evm',
+        to: EVM_ADDRESS,
+        account: EVM_ADDRESS,
+        data: CALL_DATA,
+        value: '10',
+        maxFeePerGas: '30000000000',
+        maxPriorityFeePerGas: '2',
+        accessList,
+        authorizationList,
+        tag: '0x123',
+      }),
+    ).resolves.toBe(21000n);
+    expect(evmClient.request).toHaveBeenCalledWith({
+      method: 'eth_estimateGas',
+      params: [
+        {
+          from: EVM_ADDRESS,
+          to: EVM_ADDRESS,
+          data: CALL_DATA,
+          value: '0xa',
+          maxFeePerGas: '0x6fc23ac00',
+          maxPriorityFeePerGas: '0x2',
+          accessList,
+          authorizationList,
+        },
+        '0x123',
+      ],
+    });
+    expect(evmClient.estimateGas).not.toHaveBeenCalled();
+  });
+
+  test.each([
+    ['safe', { blockTag: 'safe' }],
+    ['pending', { blockTag: 'pending' }],
+    ['0x0', { blockNumber: 0n }],
+    ['0x20000000000001', { blockNumber: 9007199254740993n }],
+  ] as const)(
+    'EVM uses the high-level estimator without authorizations at %s',
+    async (tag, block) => {
+      const { estimateGas } = await loadSdk();
+      evmClient.estimateGas.mockResolvedValue(21000n);
+      const accessList = [{ address: EVM_ADDRESS, storageKeys: [] }];
+      await expect(
+        estimateGas({
+          space: 'evm',
+          to: EVM_ADDRESS,
+          account: EVM_ADDRESS,
+          value: '0',
+          accessList,
+          maxFeePerGas: '9007199254740993',
+          maxPriorityFeePerGas: '0x0',
+          tag,
+        }),
+      ).resolves.toBe(21000n);
+      expect(evmClient.estimateGas).toHaveBeenCalledWith({
+        to: EVM_ADDRESS,
+        account: EVM_ADDRESS,
+        value: 0n,
+        data: undefined,
+        accessList,
+        maxFeePerGas: 9007199254740993n,
+        maxPriorityFeePerGas: 0n,
+        ...block,
+      });
+      expect(evmClient.request).not.toHaveBeenCalled();
+    },
+  );
+
+  test.each(['0x0', '9007199254740993'])(
+    'EVM forwards legacy price %s through the high-level estimator',
+    async gasPrice => {
+      const { estimateGas } = await loadSdk();
+      await estimateGas({ space: 'evm', gasPrice });
+      expect(evmClient.estimateGas).toHaveBeenCalledWith(
+        expect.objectContaining({ gasPrice: BigInt(gasPrice) }),
+      );
+      expect(evmClient.request).not.toHaveBeenCalled();
+    },
+  );
+
+  test('EVM rejects malformed lists before submitting an estimate', async () => {
+    const { estimateGas } = await loadSdk();
+    await expect(
+      estimateGas({
+        space: 'evm',
+        accessList: [{ address: 'bad', storageKeys: [] }],
+      }),
+    ).rejects.toThrow('accessList');
+    expect(evmClient.request).not.toHaveBeenCalled();
+    expect(evmClient.estimateGas).not.toHaveBeenCalled();
   });
 
   test('simulateContract delegates to the EVM client', async () => {

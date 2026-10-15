@@ -2562,6 +2562,8 @@
     "contract": "Contract",
     "function": "Function",
     "invalidUrl": "invalid url",
+    "invalidAccessList": "Invalid accessList URL parameter.",
+    "invalidAuthorizationList": "Invalid authorizationList URL parameter. Provide a non-empty signed list and a valid to address.",
     "simulateTrace": "Simulate Trace",
     "simulateLogs": "Simulate Logs",
     "simulatedResult": "Simulated Result",

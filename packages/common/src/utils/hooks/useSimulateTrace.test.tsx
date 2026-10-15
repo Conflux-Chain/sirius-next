@@ -242,6 +242,12 @@ describe('useSimulateTrace', () => {
       value: '7',
       data: METHOD_ID,
       space: 'evm',
+      accessList: undefined,
+      authorizationList: undefined,
+      gasPrice: undefined,
+      maxFeePerGas: '0x51f4d5c00',
+      maxPriorityFeePerGas: undefined,
+      tag: 'safe',
     });
     const [url, options] = fetchWithPrefix.mock.calls[0] as [
       string,
@@ -310,6 +316,86 @@ describe('useSimulateTrace', () => {
     const request = JSON.parse(fetchWithPrefix.mock.calls[0]![1].body);
     expect(request.params[0].maxFeePerGas).toBe('0x51f4d5c00');
     expect(fetchWithPrefix).toHaveBeenCalledTimes(1);
+  });
+
+  const accessList = [
+    { address: TARGET, storageKeys: [`0x${'01'.repeat(32)}` as const] },
+  ];
+  const authorizationList = [
+    {
+      address: IMPL,
+      chainId: '0x0',
+      nonce: '0x20000000000001',
+      yParity: '0x1',
+      r: '0x1',
+      s: '0x2',
+    },
+  ] as const;
+
+  test.each([
+    { accessList },
+    { authorizationList },
+    { accessList, authorizationList },
+  ])('passes lists to both estimation and trace: %j', async lists => {
+    const tx = { ...baseTx, gas: undefined, ...lists };
+    await querySimulateTrace(tx, 'safe');
+    expect(estimateGas).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ...lists,
+        tag: 'safe',
+        maxFeePerGas: '0x51f4d5c00',
+      }),
+    );
+    const request = JSON.parse(fetchWithPrefix.mock.calls[0]![1].body);
+    expect(request.params[0]).toMatchObject({ ...lists, gas: '0x64' });
+    expect(tx.gas).toBeUndefined();
+  });
+
+  test('explicit gas skips estimation while retaining both lists', async () => {
+    await querySimulateTrace({ ...baseTx, accessList, authorizationList });
+    expect(estimateGas).not.toHaveBeenCalled();
+    expect(
+      JSON.parse(fetchWithPrefix.mock.calls[0]![1].body).params[0],
+    ).toMatchObject({ accessList, authorizationList, gas: baseTx.gas });
+  });
+
+  test('keeps lists when estimation fails and still traces', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    estimateGas.mockRejectedValue(new Error('unsupported estimate'));
+    await querySimulateTrace({
+      ...baseTx,
+      gas: undefined,
+      accessList,
+      authorizationList,
+    });
+    const tx = JSON.parse(fetchWithPrefix.mock.calls[0]![1].body).params[0];
+    expect(tx).toMatchObject({ accessList, authorizationList });
+    expect(tx).not.toHaveProperty('gas');
+  });
+
+  test('invalid lists and Core traces fail before any RPC', async () => {
+    await expect(
+      querySimulateTrace({ ...baseTx, to: undefined, authorizationList }),
+    ).rejects.toThrow('requires a to address');
+    await expect(
+      querySimulateTrace({
+        ...baseTx,
+        accessList: [{ address: TARGET, storageKeys: ['0x01'] }],
+      }),
+    ).rejects.toThrow('accessList');
+    await expect(
+      // @ts-expect-error Core traces remain unsupported, including at runtime.
+      querySimulateTrace({ ...baseTx, space: 'core' }),
+    ).rejects.toThrow('only supports EVM');
+    expect(estimateGas).not.toHaveBeenCalled();
+    expect(fetchWithPrefix).not.toHaveBeenCalled();
+  });
+
+  test('deployment without authorizationList remains supported', async () => {
+    await querySimulateTrace({ ...baseTx, to: undefined, accessList });
+    const tx = JSON.parse(fetchWithPrefix.mock.calls[0]![1].body).params[0];
+    expect(tx).not.toHaveProperty('to');
+    expect(tx.accessList).toEqual(accessList);
   });
 
   test('continues without gas when gas estimation fails', async () => {

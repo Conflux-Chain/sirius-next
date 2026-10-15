@@ -98,7 +98,9 @@ sourcemap，通过 UnoCSS 生成组件样式。源码和发布记录确认已有
 - AA 失败原因和 AA 交易详情相关组件；
 - 表格、图表、Modal、表单、搜索、文件上传、CSV 下载等通用 UI；
 - SWR 请求、RPC/SDK、ENS、IPFS gateway、合约统计和 Gas 等工具/hooks；
-- Simulate Trace hook 和 calldata URL 编解码工具。
+- Simulate Trace hook 和 calldata URL 编解码工具；EVM 模拟支持访问/授权列表，
+  Core Gas 估算支持访问列表、legacy/EIP-1559 费用参数和 epoch `tag`，拒绝授权列表。协议和验证边界见
+  [交易列表说明](../packages/common/docs/simulate-transaction-lists.md)。
 
 `common` 已有相邻 Vitest 测试，覆盖地址、输入数据、ABI 数值、请求、SDK、
 IPFS、表格/Trace hooks 和 calldata codec 等。这说明该包有发布与测试基础，

@@ -164,6 +164,13 @@
 以下事项应在相关公共能力已有 scan 消费方验证后处理，避免脱离真实消费者
 契约进行兼容层清理或无边界重构。
 
+- [x] EVM Simulate Trace 支持 `accessList` / `authorizationList`，Gas 估算保留
+      列表和区块/费用上下文；Core 估算支持 `accessList`、`gasPrice`、
+      `maxFeePerGas`、`maxPriorityFeePerGas` 和 epoch `tag` 并拒绝授权列表；
+      零 epoch 映射 `earliest`，不支持的标签在请求前拒绝。
+      详见 [交易列表说明](../packages/common/docs/simulate-transaction-lists.md)。
+- [ ] 交易列表发布验收：升级 scan 的 common/i18n 依赖，在真实后端/节点验证
+      EIP-7702 授权执行及 `authMap`/ABI 映射；本地单元/序列化测试不能替代。
 - [ ] `useSimulateTrace.ts`：当前消费者是 `sirius-eth` Simulate 页面。使用真实
       log index 并排序前，先确认接口字段、嵌套 call 的全局顺序、缺失索引回退和
       同索引稳定排序，并补充真实 trace fixture。

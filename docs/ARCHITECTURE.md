@@ -201,9 +201,21 @@ EVM 风格 `status/result` 响应，并通过 pub/sub 发布错误通知。普�
 `Object.prototype` 属性影响。修改这套行为必须同时考虑 `publishRequestError` 和
 scan 的全局通知消费者。
 
-`sdk.ts` 按 `space` 缓存一个 public client：EVM 使用 viem 的 `estimateGas`，Core
-使用 cive 的 `estimateGasAndCollateral` 并返回 `gasLimit`；两者都把字符串 value
-转为 bigint，优先使用 `ENV_WALLET_CONFIG`，否则从环境 RPC 配置构造 fallback chain。
+`sdk.ts` 按 `space` 缓存一个 public client：EVM 普通调用使用 viem 的
+`estimateGas`，包括携带访问列表、费用或区块参数的请求；费用转 bigint，
+Hex 区块号转 `blockNumber`，命名标签传 `blockTag`，保留 viem 的请求校验
+（例如超大费用上限、tip 超过非零上限）；混用 legacy/1559 费用仍由节点校验。
+仅携带 `authorizationList` 时通过 client.request 调用 `eth_estimateGas`，
+保留授权数量的 Hex 精度。Core 使用 cive 的
+`estimateGasAndCollateral` 并返回 `gasLimit`，支持 base32 地址的 `accessList`
+及 `gasPrice`、`maxFeePerGas`、`maxPriorityFeePerGas`；费用接受十进制/Hex
+字符串，经 bigint 转换后交给 cive 序列化，保留零值和大整数精度，省略时不补默认值。
+Core 费用组合与大小关系交由节点校验。Core `tag` 支持 `latest_state`（默认）、
+`latest_confirmed`、`latest_checkpoint`、`earliest` 和 Hex epoch 编号；
+命名标签传 `epochTag`，非零编号转 bigint 后传 `epochNumber`，零编号映射
+`earliest` 以规避 cive 的零值默认回退。不支持的标签及非法编号在 RPC 前报错。
+类型和运行时均拒绝 `authorizationList`。字符串 value 按 SDK/RPC 需要转为
+bigint/Hex；client 优先使用 `ENV_WALLET_CONFIG`，否则从环境 RPC 配置构造 fallback chain。
 切换网络或修改这些初始化字段时，必须明确 client cache 的生命周期，不能只改 store
 而假设已有 client 会自动刷新。
 
@@ -234,6 +246,12 @@ Simulate 页面；Core Space scan 和 `apps/*` 尚未接入该能力。日志索
 以 `max(22 Gdrip, maxPriorityFeePerGas)` 补齐费用上限；没有 priority fee 时
 保留 22 Gdrip 默认值。使用 bigint 避免精度损失，显式费用参数保持原值。
 按当前项目的模拟接口约定，前端不查询或叠加区块 base fee；该策略仅用于模拟请求。
+
+请求现支持 `accessList` 与 RPC 格式的 `authorizationList`，共用严格校验与
+数量规范化；授权列表必须非空且提供 `to`。Gas 估算使用相同列表、费用和区块
+上下文，失败时仍保留列表继续 trace。Core Simulate Trace 仍不支持。页面 URL
+协议、Core 估算边界和发布验证要求见
+[`simulate-transaction-lists.md`](../packages/common/docs/simulate-transaction-lists.md)。
 
 ### 6.4 Calldata URL
 

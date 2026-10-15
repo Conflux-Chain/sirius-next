@@ -13,6 +13,10 @@ import { AbiFunctionWithoutGas, estimateGas } from '../sdk';
 import { formatAddress } from '../address';
 import BigNumber from 'bignumber.js';
 import { Hex, Space } from '../types';
+import {
+  normalizeTransactionLists,
+  type TransactionLists,
+} from '../transactionLists';
 
 export interface SimulateLog {
   address: string;
@@ -47,7 +51,7 @@ export interface SimulateTraceResponse {
   nameMap?: Record<string, AddressNameMap>;
 }
 
-export interface SimulateTraceTxParams {
+export interface SimulateTraceTxParams extends TransactionLists {
   from: Hex;
   to?: Hex;
   value?: string;
@@ -222,22 +226,12 @@ export const querySimulateTrace = async (
 ) => {
   const url = `/traceCallView`;
 
-  const { space, ...simulateTx } = tx;
-
-  if (!simulateTx.gas) {
-    try {
-      const gasLimit = await estimateGas({
-        account: simulateTx.from,
-        to: simulateTx.to,
-        value: simulateTx.value,
-        data: simulateTx.data as `0x${string}`,
-        space,
-      });
-      simulateTx.gas = `0x${gasLimit.toString(16)}`;
-    } catch (error) {
-      console.log('estimate gas failed:', error);
-    }
+  const { space, ...rawTx } = tx;
+  if (space !== 'evm') {
+    throw new Error('Simulate trace only supports EVM Space');
   }
+  const simulateTx = { ...rawTx, ...normalizeTransactionLists(rawTx) };
+
   if (!simulateTx.maxFeePerGas && !simulateTx.gasPrice) {
     let feeCap = 22_000_000_000n; // 22 Gdrip
     if (simulateTx.maxPriorityFeePerGas !== undefined) {
@@ -247,6 +241,27 @@ export const querySimulateTrace = async (
       }
     }
     simulateTx.maxFeePerGas = `0x${feeCap.toString(16)}`;
+  }
+
+  if (!simulateTx.gas) {
+    try {
+      const gasLimit = await estimateGas({
+        account: simulateTx.from,
+        to: simulateTx.to,
+        value: simulateTx.value,
+        data: simulateTx.data as `0x${string}`,
+        space,
+        accessList: simulateTx.accessList,
+        authorizationList: simulateTx.authorizationList,
+        gasPrice: simulateTx.gasPrice,
+        maxFeePerGas: simulateTx.maxFeePerGas,
+        maxPriorityFeePerGas: simulateTx.maxPriorityFeePerGas,
+        tag,
+      });
+      simulateTx.gas = `0x${gasLimit.toString(16)}`;
+    } catch (error) {
+      console.log('estimate gas failed:', error);
+    }
   }
 
   const data = JSON.stringify({
