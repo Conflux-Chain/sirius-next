@@ -62,6 +62,14 @@ creates temporary packed-package fixtures, and does not modify either scan
 repository. Override the paths with `SIRIUS_CORE_PATH` and `SIRIUS_EVM_PATH`
 when the sibling projects are located elsewhere.
 
+### Simulate transaction lists
+
+EVM simulation supports access lists and signed authorization lists. Core gas
+estimation supports access lists, legacy/EIP-1559 fee parameters, and epoch tags,
+but rejects authorization lists; Core simulation remains unsupported. See
+[the transaction-list contract](packages/common/docs/simulate-transaction-lists.md)
+for URL parameters, validation, gas estimation, and consumer release requirements.
+
 ### Test coverage
 
 To run the common package tests and generate a V8 coverage report, run:
