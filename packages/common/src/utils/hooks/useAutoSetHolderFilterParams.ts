@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import qs from 'query-string';
+import qs from '@cfxjs/sirius-next-compat/dist/queryString.js';
 import { useSearchParams } from './useSearchParams';
 import { isAddressEqual } from '../address';
 

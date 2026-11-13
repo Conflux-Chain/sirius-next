@@ -77,6 +77,16 @@ Node.js 18 以上、pnpm 9.5，并由 Turborepo 编排：
 
 ### 2.2 公共包
 
+- `packages/compat`：可独立发布的 `@cfxjs/sirius-next-compat`，负责第三方库的
+  行为适配、稳定类型与旧构建器兼容，不依赖 common、React 或业务状态。
+  首个入口为 `dist/queryString.js`，按 ES2017 独立打包查询依赖；运行时
+  polyfill 由宿主提供。common 通过 workspace 依赖直接消费 compat 的
+  queryString 入口。实现、相邻测试与产物安全检查归 compat 管理。
+  根目录 `pnpm build` 由 Turbo 保证先构建 compat 再构建 common；
+  `pnpm test:consumers` 先执行该工作区构建，再运行打包消费者探针。
+  直接构建 common 时需自行先构建 compat；Turbo 测试也会先构建上游包，
+  避免干净环境缺少 dist。
+
 - `packages/common`：可发布包 `@cfxjs/sirius-next-common`，承载共享组件、
   hooks、请求、状态、ABI、地址与交易解码、图片和样式。
 - `packages/i18n`：可发布包 `@cfxjs/sirius-next-i18n`，按 `cspace` 与

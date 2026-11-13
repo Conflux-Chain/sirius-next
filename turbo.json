@@ -10,9 +10,11 @@
       "dependsOn": ["^lint"]
     },
     "test": {
+      "dependsOn": ["^build"],
       "cache": false
     },
     "test:coverage": {
+      "dependsOn": ["^build"],
       "cache": false
     },
     "dev": {

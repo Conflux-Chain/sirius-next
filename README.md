@@ -14,6 +14,27 @@ For the three-repository workspace layout, source-repository rules, and the
 component migration workflow, see
 [docs/CROSS_REPO_CONTEXT.md](docs/CROSS_REPO_CONTEXT.md).
 
+### Third-party compatibility package
+
+`@cfxjs/sirius-next-compat` owns framework-independent third-party adapters.
+Its first entry is `@cfxjs/sirius-next-compat/dist/queryString.js`: an independent
+ES2017 bundle with the patched decoder and stable query types. Common and scan
+consumers import this API directly from compat.
+See [the compatibility package contract](packages/compat/README.md).
+
+```sh
+pnpm --filter @cfxjs/sirius-next-compat build
+pnpm --filter @cfxjs/sirius-next-compat test --run
+pnpm --filter @cfxjs/sirius-next-compat test:query-string-bundle
+pnpm test:consumers
+```
+
+Common depends on compat through `workspace:*`; pnpm pack converts this to a
+registry version. Publish compat before common. Before publication, consumers
+must install both local archives and resolve common's compat dependency to the
+local archive; a common archive alone is insufficient. Neither package is
+published by these validation commands.
+
 ### Develop
 
 To develop all apps and packages, run the following command:
@@ -26,12 +47,19 @@ pnpm install
 pnpm dev
 ```
 
+The root command runs `turbo dev`, starting development tasks in parallel.
+Compat's watcher performs its own initial build and rebuilds on source changes.
+There is no separate compat build prerequisite or first-build readiness ordering
+between the development tasks.
+
 During incremental migration, establish a soft connection so the scan projects
 can consume the local packages from this repository.
 
 ```
+ln -s ../../../sirius-next/packages/compat ../sirius/node_modules/@cfxjs/sirius-next-compat
 ln -s ../../../sirius-next/packages/common ../sirius/node_modules/@cfxjs/sirius-next-common
 ln -s ../../../sirius-next/packages/i18n ../sirius/node_modules/@cfxjs/sirius-next-i18n
+ln -s ../../../sirius-next/packages/compat ../sirius-eth/node_modules/@cfxjs/sirius-next-compat
 ln -s ../../../sirius-next/packages/common ../sirius-eth/node_modules/@cfxjs/sirius-next-common
 ln -s ../../../sirius-next/packages/i18n ../sirius-eth/node_modules/@cfxjs/sirius-next-i18n
 ```
@@ -72,14 +100,14 @@ for URL parameters, validation, gas estimation, and consumer release requirement
 
 ### Test coverage
 
-To run the common package tests and generate a V8 coverage report, run:
+To run the common and compat package tests and generate V8 coverage reports, run:
 
 ```
 pnpm test:coverage
 ```
 
 The text summary is printed to the terminal. HTML and JSON summary reports are
-written to `coverage/common/`.
+written to `coverage/common/` and `coverage/compat/`, respectively.
 
 ### Deploy
 

@@ -1,0 +1,8 @@
+{
+  "extends": "@cfxjs/sirius-next-typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules", "dist"]
+}

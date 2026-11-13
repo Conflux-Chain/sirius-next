@@ -1,5 +1,9 @@
-import { memo } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { memo, type ComponentType } from 'react';
+import {
+  WithTranslation,
+  WithTranslationProps,
+  withTranslation,
+} from 'react-i18next';
 import _ from 'lodash';
 import {
   formatAddress,
@@ -97,7 +101,9 @@ const parseProps = (
   };
 };
 
-export const CoreAddressContainer = withTranslation()(
+export const CoreAddressContainer: ComponentType<
+  CoreAddressContainerProps & WithTranslationProps
+> = withTranslation()(
   memo((props: CoreAddressContainerProps & WithTranslation) => {
     const { globalData } = useGlobalData();
 

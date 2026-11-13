@@ -51,7 +51,7 @@
   读取源代码，并在迁移记录中固定来源 commit。
 
 本地开发期间，scan 项目可以按照根目录 [README](../README.md) 的说明，通过
-软链接消费 `sirius-next` 的 `common` 和 `i18n` 包。软链接是当前增量迁移的
+软链接消费 `sirius-next` 的 `common`、`compat` 和 `i18n` 包。软链接是当前增量迁移的
 集成方式，不表示 scan 页面已经迁入 `sirius-next`。
 
 ## 3. AI agent 接手任务时的读取顺序

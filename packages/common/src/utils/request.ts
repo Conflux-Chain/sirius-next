@@ -1,4 +1,4 @@
-import qs from 'query-string';
+import qs from '@cfxjs/sirius-next-compat/dist/queryString.js';
 import { publishRequestError } from './pubsub';
 import {
   AbiByIdResponse,

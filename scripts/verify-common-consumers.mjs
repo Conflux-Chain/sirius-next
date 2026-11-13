@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, '..');
 const commonDir = join(repoRoot, 'packages/common');
+const compatDir = join(repoRoot, 'packages/compat');
 const commonPackage = JSON.parse(
   readFileSync(join(commonDir, 'package.json'), 'utf8'),
 );
@@ -34,7 +35,7 @@ const consumers = [
 ];
 
 const peerDependencies = Object.keys(commonPackage.peerDependencies);
-const fixtureDependencies = ['clsx', 'query-string'];
+const fixtureDependencies = ['clsx'];
 const probeSource = `
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -120,7 +121,12 @@ const linkPackage = (nodeModulesDir, packageName, sourceRoot) => {
   symlinkSync(source, destination, 'dir');
 };
 
-const createPackedConsumer = (consumer, packageTarball, fixtureRoot) => {
+const createPackedConsumer = (
+  consumer,
+  packageTarball,
+  compatTarball,
+  fixtureRoot,
+) => {
   const consumerRoot = join(fixtureRoot, consumer.name);
   const nodeModulesDir = join(consumerRoot, 'node_modules');
   mkdirSync(nodeModulesDir, { recursive: true });
@@ -129,6 +135,11 @@ const createPackedConsumer = (consumer, packageTarball, fixtureRoot) => {
   const packageDestination = join(nodeModulesDir, '@cfxjs/sirius-next-common');
   mkdirSync(dirname(packageDestination), { recursive: true });
   renameSync(join(consumerRoot, 'package'), packageDestination);
+  execFileSync('tar', ['-xzf', compatTarball, '-C', consumerRoot]);
+  renameSync(
+    join(consumerRoot, 'package'),
+    join(nodeModulesDir, '@cfxjs/sirius-next-compat'),
+  );
 
   for (const dependency of peerDependencies) {
     linkPackage(nodeModulesDir, dependency, consumer.root);
@@ -169,8 +180,20 @@ try {
   assert.equal(packedFiles.length, 1, 'expected one common package tarball');
   packageTarball = join(packDir, packedFiles[0]);
 
+  const compatPackDir = join(fixtureRoot, 'compat-pack');
+  mkdirSync(compatPackDir);
+  execFileSync('pnpm', ['pack', '--pack-destination', compatPackDir], {
+    cwd: compatDir,
+    stdio: 'inherit',
+  });
+  const compatFiles = readdirSync(compatPackDir).filter(file =>
+    file.endsWith('.tgz'),
+  );
+  assert.equal(compatFiles.length, 1, 'expected one compat package tarball');
+  const compatTarball = join(compatPackDir, compatFiles[0]);
+
   for (const consumer of consumers) {
-    createPackedConsumer(consumer, packageTarball, fixtureRoot);
+    createPackedConsumer(consumer, packageTarball, compatTarball, fixtureRoot);
     console.log(`${consumer.name} consumer passed`);
   }
 } finally {

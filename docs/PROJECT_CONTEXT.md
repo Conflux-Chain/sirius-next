@@ -18,6 +18,7 @@
 - `apps/evm` 是 EVM 方向的应用壳；
 - `packages/common` 提供共享 React 组件、hooks、ABI、请求/RPC、地址与
   交易数据处理、图片和样式；
+- `packages/compat` 提供独立的第三方库兼容适配，首个模块为 queryString；
 - `packages/i18n` 提供共享多语言资源；
 - `packages/eslint-config`、`packages/typescript-config` 提供工具配置。
 
@@ -32,10 +33,11 @@
 
 两个 app 的 `App.tsx` 目前仍是带计数器的 Vite demo，包清单尚未接入完整的
 产品级路由和页面；它们不是当前 scan 页面迁移或生产部署的宿主。当前已积累并
-持续发布的主体是 `common` 和 `i18n`。
+持续发布的主体是 `common` 和 `i18n`；新增 `compat` 包已准备首次发布的
+Changeset，发布时需先于依赖它的 common。
 
 根 `README.md` 说明：增量迁移期间，本地开发需要把本仓库的 `common`、
-`i18n` 软链接进相邻 scan 项目 `sirius` 和 `sirius-eth` 的 `node_modules`。
+`compat`、`i18n` 软链接进相邻 scan 项目 `sirius` 和 `sirius-eth` 的 `node_modules`。
 这是当前公共包替换旧逻辑的集成方式，不是等待新 app 完成后才临时使用的方案。
 旧项目中的页面仍由各自项目维护和部署；该说明不代表旧仓库一定存在于当前机器，
 也不代表本仓库负责其页面代码。
@@ -81,6 +83,7 @@
 | `apps/core`                  | React 18 + TypeScript + Vite 的 Core Space 应用壳/集成占位 |
 | `apps/evm`                   | React 18 + TypeScript + Vite 的 EVM 应用壳/集成占位        |
 | `packages/common`            | 共享组件、hooks、ABI、请求/RPC、链数据工具和 UnoCSS        |
+| `packages/compat`            | 第三方库兼容适配、独立查询字符串产物                       |
 | `packages/i18n`              | Core/EVM 多场景英文、简体中文资源                          |
 | `packages/eslint-config`     | 共享 ESLint 配置                                           |
 | `packages/typescript-config` | 共享 TypeScript 配置                                       |
@@ -121,7 +124,13 @@ IPFS、表格/Trace hooks 和 calldata codec 等。这说明该包有发布与�
 当前明确不测试日志索引：接口尚不支持真实 log index，不能把遍历序号当作已完成
 的协议能力。
 
-本轮验证基线为 `pnpm test` 和 `pnpm test:coverage` 均通过：21 个测试文件、332
+当前验证基线（2026-11-13）：`pnpm test` 通过，共 24 个测试文件、423 项测试
+（common 417 项、compat 6 项）；`pnpm lint`、compat 独立 bundle 与畸形输入
+检查、`pnpm test:consumers` 均通过。消费者检查的工作区构建命中缓存，本轮重新
+打包并执行了 Core/EVM 冒烟探针；不等同于 scan 的真实依赖升级、完整构建或页面
+回归。本轮未重新测量覆盖率。
+
+历史验证记录（2026-08-28）：`pnpm test` 和 `pnpm test:coverage` 均通过，21 个测试文件、332
 个测试；总体 V8 覆盖率为 lines/statements 24.84%、branches 74.23%、functions
 41.63%。`pnpm build`、`pnpm lint`、`pnpm test:consumers`、common TypeScript 检查、
 Prettier 检查和 `git diff --check` 也已通过。测试输出仍有既有 `useTableData` 的

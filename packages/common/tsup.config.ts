@@ -43,6 +43,7 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   external: [
+    '@cfxjs/sirius-next-compat',
     'react',
     'react-dom',
     'i18next',

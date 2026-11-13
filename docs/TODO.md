@@ -21,7 +21,8 @@
 
 - **已确认**：这是 ConfluxScan 下一代前端 pnpm workspace；`apps/core` 面向
   Core Space，`apps/evm` 面向 EVM，共享能力和翻译分别位于
-  `packages/common`、`packages/i18n`。
+  `packages/common`、`packages/i18n`；新增 `packages/compat` 承载独立的第三方
+  兼容适配。
 - **已确认**：两个应用仍是 Vite 示例壳，不能据此认定应用迁移已经完成。
 - **已确认**：当前不把 scan 页面迁入本仓库；Core Space 和 eSpace 继续在各自
   的 scan 项目中维护页面、Space 特有逻辑和独立部署。
@@ -51,7 +52,19 @@
   SDK Core/EVM client、ABI fallback/loading/error priority 和 EVM Simulate Trace
   回归测试；Simulate Trace 日志真实索引仍未实现。
 
-### 本轮验证结果（2026-08-28）
+### queryString 兼容包进展（2026-11-13）
+
+- [x] **已确认**：新增 `@cfxjs/sirius-next-compat/dist/queryString.js`，独立打包
+      query-string 9.3.1 与 decode-uri-component 0.5.1；common 已改为直接消费
+      compat，并准备两个包的 Changeset。行为边界及构建要求见
+      [compat 契约](../packages/compat/README.md)。
+- [x] **已确认**：`pnpm test` 通过，共 24 个测试文件、423 项测试；`pnpm lint`、
+      独立 bundle 与畸形输入检查、Core/EVM 打包消费者冒烟检查均通过。
+      消费者检查的工作区构建命中缓存，本轮重新打包并运行探针；未重测覆盖率。
+- [ ] 先发布 compat，再发布依赖它的 common；在 scan 中完成真实依赖升级、
+      构建和页面回归。打包探针不替代这些检查。
+
+### 历史验证结果（2026-08-28）
 
 - **已确认**：`pnpm test`、`pnpm test:coverage`：21 个测试文件、332 个测试通过；
   lines/statements 24.84%、branches 74.23%、functions 41.63%。

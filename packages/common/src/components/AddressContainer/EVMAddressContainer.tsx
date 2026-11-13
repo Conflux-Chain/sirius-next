@@ -1,5 +1,9 @@
-import { memo } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { memo, type ComponentType } from 'react';
+import {
+  WithTranslation,
+  WithTranslationProps,
+  withTranslation,
+} from 'react-i18next';
 import _ from 'lodash';
 import {
   formatAddress,
@@ -77,7 +81,9 @@ const parseProps = (
   };
 };
 
-export const EVMAddressContainer = withTranslation()(
+export const EVMAddressContainer: ComponentType<
+  EVMAddressContainerProps & WithTranslationProps
+> = withTranslation()(
   memo((props: EVMAddressContainerProps & WithTranslation) => {
     const { globalData } = useGlobalData();
 

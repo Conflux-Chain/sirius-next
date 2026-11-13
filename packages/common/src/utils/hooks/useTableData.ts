@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import qs from 'query-string';
+import qs from '@cfxjs/sirius-next-compat/dist/queryString.js';
 import useSWR, { SWRConfiguration, KeyedMutator } from 'swr';
 import { fetchWithPrefix } from '../request';
 import { useSearchParams } from './useSearchParams';
