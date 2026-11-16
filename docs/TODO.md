@@ -199,6 +199,9 @@
 
 ### P2：质量门禁
 
+- [ ] 修复 Dropdown 在 React 18 `createRoot` 下打开后立即关闭的既有事件时序问题。
+      2026-11-16 的安全升级浏览器检查使用旧/新 click-away hook 均可复现；
+      `ReactDOM.render` 场景通过。
 - [ ] 每项改动先运行最小相关 Vitest；可行时再运行根目录 `pnpm test`。
 - [ ] 合入前运行受影响 workspace 的 lint/build；跨 package 改动运行
       `pnpm lint`、`pnpm build`，并按需运行 scan 项目的检查。

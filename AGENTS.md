@@ -29,7 +29,7 @@ scan dependency upgrade, build, page regression check, or deployment check.
 
 ## Build, Test, and Development Commands
 
-- `pnpm install` installs workspace dependencies (Node.js 18 or later; pnpm 9.5).
+- `pnpm install` installs workspace dependencies (Node.js 22 or later; pnpm 9.5).
 - `pnpm dev` starts all development tasks through Turborepo.
 - `pnpm --filter core start` or `pnpm --filter evm start` runs one Vite app.
 - `pnpm build` builds every workspace package and app.

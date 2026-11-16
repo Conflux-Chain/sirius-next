@@ -5,7 +5,7 @@ import React, {
   MouseEventHandler,
 } from 'react';
 import _Tooltip from '@cfx-kit/ui-components/dist/Tooltip';
-import { useClickAway } from '@cfx-kit/react-utils/dist/hooks';
+import { useClickAway } from '../../utils/hooks/useClickAway';
 import { cn } from 'src/utils';
 
 export interface TooltipProps

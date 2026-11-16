@@ -1,7 +1,7 @@
 import qs from 'query-string';
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useClickAway } from '@cfx-kit/react-utils/dist/hooks.js';
+import { useClickAway } from '../../utils/hooks/useClickAway';
 import clsx from 'clsx';
 import Button from '../Button';
 

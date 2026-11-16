@@ -48,7 +48,7 @@ flowchart TD
 ```
 
 工作区由 `pnpm-workspace.yaml` 收纳 `apps/*` 和 `packages/*`。根目录要求
-Node.js 18 以上、pnpm 9.5，并由 Turborepo 编排：
+Node.js 22 以上、pnpm 9.5，并由 Turborepo 编排：
 
 - `build` 先构建依赖包，缓存 `dist/**`。
 - `lint` 先检查依赖包。
