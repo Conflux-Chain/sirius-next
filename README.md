@@ -16,6 +16,10 @@ component migration workflow, see
 
 ### Develop
 
+Use Node.js 22 or later and pnpm 9.5.0. `.nvmrc` pins Node.js 22.23.4 for
+local development; the published common package also requires Node.js >=22.
+Tests run on Node.js 22 and 24 in CI; releases use Node.js 24.
+
 To develop all apps and packages, run the following command:
 
 ```
@@ -80,6 +84,13 @@ pnpm test:coverage
 
 The text summary is printed to the terminal. HTML and JSON summary reports are
 written to `coverage/common/`.
+
+### Query parameter compatibility
+
+Common uses `query-string@10.0.0`, which removes the vulnerable
+`decode-uri-component` dependency. Invalid UTF-8 bytes decode to replacement
+characters; query objects and dates must be converted explicitly before
+serialization.
 
 ### Deploy
 

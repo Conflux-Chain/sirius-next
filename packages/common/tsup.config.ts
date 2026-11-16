@@ -1,5 +1,6 @@
 import { defineConfig } from 'tsup';
 import { readdirSync, statSync } from 'fs';
+import { queryStringCompat } from './scripts/query-string-compat.mjs';
 
 const getFilesEntry = (
   filePath: string,
@@ -42,6 +43,7 @@ export default defineConfig({
   target: 'es2020',
   dts: true,
   sourcemap: true,
+  esbuildPlugins: [queryStringCompat],
   external: [
     'react',
     'react-dom',
@@ -50,6 +52,10 @@ export default defineConfig({
     'react-router-dom',
   ],
   noExternal: [
+    'query-string',
+    'filter-obj',
+    'split-on-first',
+    /^core-js-pure(?:\/|$)/,
     '@cfx-kit/ui-components',
     '@radix-ui/react-select',
     '@radix-ui/react-radio-group',
