@@ -55,7 +55,8 @@ pnpm build
 ### Verify scan consumers
 
 To verify that the packed common package shares the Router and i18n runtime
-instances provided by both sibling scan projects, run:
+instances provided by both sibling scan projects, and that its chart adapter
+renders under their Webpack development and production builds, run:
 
 ```
 pnpm test:consumers
@@ -65,6 +66,12 @@ The check reads the current `node_modules` of `../sirius` and `../sirius-eth`,
 creates temporary packed-package fixtures, and does not modify either scan
 repository. Override the paths with `SIRIUS_CORE_PATH` and `SIRIUS_EVM_PATH`
 when the sibling projects are located elsewhere.
+
+Chart checks use each consumer's installed Webpack, jsdom, Highcharts and React
+wrapper dependencies. Webpack 4 runs in a child process with Node's legacy
+OpenSSL provider. These fixtures do not replace a scan dependency upgrade,
+full build or browser page regression. See
+[chart compatibility and release checks](packages/common/docs/chart-compatibility.md).
 
 ### Simulate transaction lists
 

@@ -143,6 +143,16 @@ const createPackedConsumer = (consumer, packageTarball, fixtureRoot) => {
     cwd: consumerRoot,
     stdio: 'inherit',
   });
+  execFileSync(
+    process.execPath,
+    [
+      '--openssl-legacy-provider',
+      join(scriptDir, 'verify-chart-consumers.mjs'),
+      consumer.root,
+      consumerRoot,
+    ],
+    { cwd: consumerRoot, stdio: 'inherit' },
+  );
 };
 
 const fixtureRoot = mkdtempSync(join(tmpdir(), 'sirius-next-consumers-'));
