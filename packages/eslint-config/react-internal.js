@@ -7,8 +7,7 @@ const project = resolve(process.cwd(), 'tsconfig.json');
  * internal (bundled by their consumer) libraries
  * that utilize React.
  *
- * This config extends the Vercel Engineering Style Guide.
- * For more information, see https://github.com/vercel/style-guide
+ * This config combines ESLint recommended, Prettier, and Turbo rules.
  *
  */
 
