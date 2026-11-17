@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.6.1
+
+### Patch Changes
+
+- c6ee602: Fix chart rendering in strict ESM consumers by normalizing the Highcharts React UMD default export while preserving chart refs.
+
 ## 0.6.0
 
 ### Minor Changes
