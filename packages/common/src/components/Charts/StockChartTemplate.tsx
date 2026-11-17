@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Highcharts from 'highcharts/highstock';
-import HighchartsReact from 'highcharts-react-official';
+import HighchartsReact, { type HighchartsReactRef } from './HighchartsReact';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import useSWR from 'swr';
@@ -25,7 +25,7 @@ Exporting(Highcharts);
 ExportData(Highcharts);
 
 export function StockChartTemplate({ options, request }: ChartsProps) {
-  const chart = useRef<HighchartsReact.RefObject>(null);
+  const chart = useRef<HighchartsReactRef>(null);
   const [limit, setLimit] = useState(request?.query?.limit || defaultLimit);
   const [intervalType, setIntervalType] = useState<keyof ScopeType>(
     (request?.query?.intervalType as keyof ScopeType) || defaultIntervalType,

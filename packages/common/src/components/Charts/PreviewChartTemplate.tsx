@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import Highcharts from 'highcharts/highstock';
-import HighchartsReact from 'highcharts-react-official';
+import HighchartsReact from './HighchartsReact';
 import useSWR from 'swr';
 import PreviewTitle from './PreviewTitle';
 import { sendRequestChart } from '../../utils/request';
