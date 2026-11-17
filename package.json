@@ -29,7 +29,8 @@
   "packageManager": "pnpm@9.5.0",
   "pnpm": {
     "overrides": {
-      "ws@>=8.0.0 <8.21.0": "8.23.0"
+      "ws@>=8.0.0 <8.21.0": "8.23.0",
+      "styled-jsx@3.4.7>loader-utils": "1.4.2"
     }
   },
   "engines": {
