@@ -18,7 +18,6 @@
   "devDependencies": {
     "@cfxjs/sirius-next-eslint-config": "workspace:*",
     "@cfxjs/sirius-next-typescript-config": "workspace:*",
-    "@turbo/gen": "^1.12.4",
     "typescript": "^5.4.2"
   },
   "publishConfig": {
