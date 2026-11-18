@@ -100,7 +100,7 @@ i18next、react-i18next 和 react-router-dom 保持 external，部分 UI 和链 
 公共 CSS，并维护 UnoCSS 主题所引用的 CSS 变量，不能假定应用的 Tailwind 会
 生成公共包类名。
 
-测试框架是 Vitest 3.2.3 + jsdom，测试与实现相邻，命名为 `*.test.ts(x)`；每个有
+测试框架是 Vitest 4.1.12 + jsdom，测试与实现相邻，命名为 `*.test.ts(x)`；每个有
 测试的 package 使用自己的 `vitest.config.ts`，根目录通过 Turbo 分发 `test` 和
 `test:coverage`，避免不同 package 的 `src` alias 相互覆盖。根目录不应重新引入
 指向 `common/src` 的全局 Vitest alias。Jest 配置及 common 的直接 Jest 测试依赖已

@@ -40,7 +40,7 @@ scan dependency upgrade, build, page regression check, or deployment check.
 - `pnpm test:coverage` dispatches each package’s coverage script through
   Turborepo; common uses V8 coverage and writes reports under
   `coverage/common/`.
-- Vitest `3.2.3` is the workspace test runner. Keep a package-local
+- Vitest `4.1.12` is the workspace test runner. Keep a package-local
   `vitest.config.ts` for each package that has tests; the former Jest config and
   direct Jest test dependencies were removed. Jest packages that arrive
   indirectly through lint presets are not a test configuration.

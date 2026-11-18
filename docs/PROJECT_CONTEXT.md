@@ -154,7 +154,7 @@ React `act(...)` warning，但不是失败。
 ## 4. 技术栈与常用命令
 
 工作区和 common 发布包要求 Node.js 22+，使用 pnpm 9.5.0、Turborepo、React 18、TypeScript、
-Vite、Vitest 3.2.3/jsdom、Prettier 和 ESLint。Vitest 是根目录和 common 的
+Vite、Vitest 4.1.12/jsdom、Prettier 和 ESLint。Vitest 是根目录和 common 的
 唯一直接测试运行器，Jest 配置已删除。`common` 还使用 SWR、Zustand、
 cive、js-conflux-sdk、ethers 5、viem 2、i18next、Highcharts、Radix UI 和
 UnoCSS。GitHub Actions 测试覆盖 Node.js 22.x/24.x，发布使用 Node.js 24.x，

@@ -16,8 +16,9 @@ component migration workflow, see
 
 ### Develop
 
-Use Node.js 22 or later and pnpm 9.5.0. `.nvmrc` pins Node.js 22.23.4 for
-local development; the published common package also requires Node.js >=22.
+Use pnpm 9.5.0 with the Node.js version in `.nvmrc` (22.23.4) for local
+development. The lint tools require Node.js 22.13.0 or later on the 22.x
+line, or Node.js 24 or later. The published common package requires Node.js >=22.
 Tests run on Node.js 22 and 24 in CI; releases use Node.js 24.
 
 To develop all apps and packages, run the following command:

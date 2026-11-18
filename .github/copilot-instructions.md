@@ -17,7 +17,7 @@ linked documents and update those sources before duplicating information here.
 - `packages/common` exposes generated deep paths. Do not casually move or rename
   source files, change peer dependency ownership, or restore a root Vitest alias.
 - Packages with tests own their `vitest.config.ts` and scripts. `common` uses
-  Vitest 3.2.3/jsdom; `useSimulateTrace` remains EVM-only with no log indexing.
+  Vitest 4.1.12/jsdom; `useSimulateTrace` remains EVM-only with no log indexing.
 - Preserve documented cache, RPC, SDK client, Zustand merge, ABI fallback,
   request/abort, and pubsub semantics before changing shared infrastructure.
 

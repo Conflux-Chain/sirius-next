@@ -36,7 +36,7 @@
 - **已确认**：Simulate Trace 请求/格式化 hook 已被 `sirius-eth` 的 Simulate
   页面使用，当前类型明确排除 Core Space；真实日志索引和排序仍待确认接口契约。
 - **已确认**：common 的 React、Router、i18n 上下文依赖已改为 peer dependency，
-  root/common 的直接测试运行器统一为 Vitest 3.2.3，common 的 Jest 配置及直接
+  root/common 的直接测试运行器统一为 Vitest 4.1.12，common 的 Jest 配置及直接
   Jest 依赖已删除。
 - **已确认**：request timeout/Abort 和 pubsub 取消订阅回归已修复并有相邻测试；
   两个 scan 本轮未修改，真实消费验证仍未完成。
