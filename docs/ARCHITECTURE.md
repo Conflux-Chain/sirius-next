@@ -100,6 +100,10 @@ i18next、react-i18next 和 react-router-dom 保持 external，部分 UI 和链 
 导致声明构建耗尽内存。下次升级 tsup 时，先不带补丁、使用默认 Node 内存构建，
 对比深路径入口及 `.d.ts` 清单，并运行 `pnpm test:consumers`；通过后再移除补丁。
 
+根包通过 pnpm override 将 `tsup@8.5.1` 使用的 esbuild 固定为 `0.28.2`，
+修复 Windows 开发服务器的文件读取漏洞（Dependabot #242）。升级 tsup 时，
+若其依赖范围已包含修复版，可移除此覆盖并复验构建和 watch。
+
 共享组件样式由 UnoCSS 扫描 `src/components/**/*.tsx`，输出
 `dist/uno.css`；应用自身使用 Tailwind。应用接入公共组件时，宿主必须明确加载
 公共 CSS，并维护 UnoCSS 主题所引用的 CSS 变量，不能假定应用的 Tailwind 会
