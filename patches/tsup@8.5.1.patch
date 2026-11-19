@@ -1,0 +1,12 @@
+diff --git a/dist/rollup.js b/dist/rollup.js
+--- a/dist/rollup.js
++++ b/dist/rollup.js
+@@ -4915,5 +4915,8 @@
+       } else {
+         logCache("HIT", cacheKey);
++        if (overrideConfigPath) {
++          dirName = path__namespace.dirname(path__namespace.resolve(process.cwd(), overrideConfigPath));
++        }
+       }
+       const { fileNames, options, errors } = configByPath.get(cacheKey);
+       dtsFiles = fileNames.filter((name) => DTS_EXTENSIONS.test(name));

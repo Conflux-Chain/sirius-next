@@ -95,6 +95,11 @@ i18next、react-i18next 和 react-router-dom 保持 external，部分 UI 和链 
 `@cfxjs/sirius-next-common/dist/...` 深路径消费，因此新增或移动文件可能影响
 包的公开入口。
 
+`tsup@8.5.1` 的 pnpm 补丁仅修正类型声明构建：显式指定的 `tsconfig` 命中缓存时，
+仍按配置文件所在目录分组。否则多个源码目录会重复创建 TypeScript 编译实例，
+导致声明构建耗尽内存。下次升级 tsup 时，先不带补丁、使用默认 Node 内存构建，
+对比深路径入口及 `.d.ts` 清单，并运行 `pnpm test:consumers`；通过后再移除补丁。
+
 共享组件样式由 UnoCSS 扫描 `src/components/**/*.tsx`，输出
 `dist/uno.css`；应用自身使用 Tailwind。应用接入公共组件时，宿主必须明确加载
 公共 CSS，并维护 UnoCSS 主题所引用的 CSS 变量，不能假定应用的 Tailwind 会
