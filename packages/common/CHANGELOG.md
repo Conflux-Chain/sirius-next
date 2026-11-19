@@ -1,5 +1,34 @@
 # @cfxjs/sirius-next-common
 
+## 0.7.0
+
+### Minor Changes
+
+- d4020c9: Remove the unused CookieTip component, its CookieIcon, and the cookie utility,
+  including the incomplete regular expression escaping reported by CodeQL.
+
+  The `dist/components/CookieTip/index`, `dist/components/CookieTip/CookieIcon`,
+  and `dist/utils/cookie` entry points are no longer available. Consumers must
+  remove any remaining imports before upgrading. The current Core Space and
+  eSpace scan sources have no active imports of these modules.
+
+### Patch Changes
+
+- 0c75d71: Update react-use to resolve a cookie attribute injection advisory in its js-cookie dependency.
+- 892e4a4: Fix exponential regular expression backtracking in validURL when checking long
+  invalid domains, while preserving the existing accepted URL syntax.
+- 2203dbd: Require lodash ^4.18.1 and refresh lodash-es to 4.18.1 in the workspace lockfile
+  to address template imports code injection and prototype property deletion.
+  Scan consumers must also refresh their transitive lodash-es resolution.
+- 535f619: Upgrade ethers to 5.8.0 and refresh elliptic to 6.6.1 in the workspace lockfile. Consumers must refresh their SDK transitive dependency; GHSA-848j-6mx2-7j84 remains unresolved.
+- fa5de41: Match Google Analytics targets only for confluxscan.org, confluxnetwork.org,
+  and their dot-delimited subdomains. Unrelated hosts containing either domain
+  name now use the development target. The confluxscan.org family uses the
+  production target (including testnet.confluxscan.org), and the
+  confluxnetwork.org family uses the test target.
+- ec3c1f1: Build the common package with tsup 8.5.1 while preserving its ESM and declaration entry points.
+- dc7189d: Upgrade Vite to the 6.4 line and align the UnoCSS toolchain with Vite 6.
+
 ## 0.6.1
 
 ### Patch Changes
