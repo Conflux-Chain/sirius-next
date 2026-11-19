@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { runInNewContext } from 'node:vm';
 import {
   toThousands,
   getEllipsStr,
@@ -14,8 +15,67 @@ import {
   mergeDeep,
   formatABI,
   decodeAANonce,
+  validURL,
 } from './index';
 import { test, expect, describe } from 'vitest';
+
+describe('validURL', () => {
+  test.each([
+    'example.com',
+    'a.co',
+    'a0.co',
+    '0a.co',
+    'a-b.example.com',
+    'a--b.example.com',
+    'https://EXAMPLE.COM',
+    'http://example.com:8080/path/to/file?q=one&x=2#part-1',
+    'https://example.com/a%20b_~+?q=a+b#part_1',
+    '127.0.0.1',
+    'http://127.0.0.1:8080/',
+    // Preserve legacy syntax checks; this helper does not validate IP ranges
+    // or port ranges, and does not impose DNS label length limits.
+    'http://999.999.999.999:99999',
+    `${'a'.repeat(100)}.com`,
+  ])('accepts the existing URL syntax: %s', value => {
+    expect(validURL(value)).toBe(true);
+  });
+
+  test.each([
+    '',
+    '0'.repeat(16),
+    'localhost',
+    'example.c',
+    '-example.com',
+    'example-.com',
+    'example..com',
+    'example.com.',
+    'https://example.com/with space',
+    'https://user:password@example.com',
+    'ftp://example.com',
+    '//example.com',
+    'http://[::1]',
+    'https://example.com:abc',
+    'https://example.com/#part.name',
+  ])('rejects unsupported URL syntax: %s', value => {
+    expect(validURL(value)).toBe(false);
+  });
+
+  test('rejects long invalid domains without excessive backtracking', () => {
+    // Execute the actual implementation in a VM so a regression is interrupted
+    // even when synchronous regexp evaluation blocks the test event loop.
+    const validate = `(${validURL.toString()})(input)`;
+    for (const input of [
+      '0'.repeat(32),
+      '0'.repeat(100_000),
+      `https://${'a'.repeat(100_000)}!`,
+      `https://${'a-'.repeat(50_000)}!`,
+    ]) {
+      expect(runInNewContext(validate, { input }, { timeout: 1000 })).toBe(
+        false,
+      );
+    }
+  });
+});
 
 describe('toThousands', () => {
   test('should format numbers with no decimals correctly', () => {
