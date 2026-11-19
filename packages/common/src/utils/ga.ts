@@ -15,9 +15,13 @@ export const devTargetId = 'G-VCXQ7FY6EV';
 // 用户同意与隐私要求，并定义地址切换、断开连接和跨网络场景的行为。
 
 export const getTrackId = () => {
-  return window.location.hostname.includes('confluxscan.org')
+  const hostname = window.location.hostname;
+  const matchesDomain = (domain: string) =>
+    hostname === domain || hostname.endsWith(`.${domain}`);
+
+  return matchesDomain('confluxscan.org')
     ? prodTargetId
-    : window.location.hostname.includes('confluxnetwork.org')
+    : matchesDomain('confluxnetwork.org')
       ? testTargetId
       : devTargetId;
 };

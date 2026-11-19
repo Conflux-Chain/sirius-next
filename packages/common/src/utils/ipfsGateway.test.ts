@@ -245,7 +245,7 @@ describe('ipfsGateway', () => {
 
   test('detects gateways in batches and returns fastest', async () => {
     const fetcher = vi.fn((url: string) => {
-      const delay = url.startsWith('https://slow.example') ? 20 : 5;
+      const delay = new URL(url).origin === 'https://slow.example' ? 20 : 5;
       return createResponse('Hello from IPFS Gateway Checker', {
         contentType: 'text/plain',
         delay,
