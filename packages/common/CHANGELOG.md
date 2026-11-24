@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.7.1
+
+### Patch Changes
+
+- 89651af: Fix the contract viewer crashing when a strict ESM consumer loads the CommonJS export of react-ace.
+
 ## 0.7.0
 
 ### Minor Changes
