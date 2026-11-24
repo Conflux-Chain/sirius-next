@@ -46,7 +46,7 @@
     "ace-builds": "1.4.12",
     "bignumber.js": "^9.1.2",
     "clsx": "^2.1.0",
-    "cive": "^0.8.1",
+    "cive": "^0.8.3",
     "copyfiles": "^2.4.1",
     "copy-to-clipboard": "3.3.3",
     "dayjs": "^1.11.10",
