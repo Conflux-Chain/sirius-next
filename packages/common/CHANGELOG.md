@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-common
 
+## 0.7.2
+
+### Patch Changes
+
+- f4a306c: Upgrade cive to 0.8.3 to use the patched Zod dependency and restore its ESM and type declaration entry points.
+
 ## 0.7.1
 
 ### Patch Changes
