@@ -1,4 +1,4 @@
-import AceEditorComponent, { ICommand } from 'react-ace';
+import ReactAce, { type ICommand } from 'react-ace';
 import React, {
   ComponentProps,
   forwardRef,
@@ -15,8 +15,13 @@ import { useI18n } from 'src/store';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '../Tooltip';
 
+// Strict ESM consumers receive the CommonJS exports object for react-ace.
+const AceEditorComponent =
+  (ReactAce as typeof ReactAce & { default?: typeof ReactAce }).default ??
+  ReactAce;
+
 export const AceEditor = forwardRef<
-  AceEditorComponent | null,
+  ReactAce | null,
   ComponentProps<typeof AceEditorComponent> & {
     onSearchTrigged?: () => void;
     onReplaceTrigged?: () => void;
@@ -51,7 +56,7 @@ export const AceEditor = forwardRef<
     const fullScreenLockRef = useRef(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [height, setHeight] = useState(_height);
-    const innerEditorRef = useRef<AceEditorComponent>(null);
+    const innerEditorRef = useRef<ReactAce>(null);
     const [measureRef, bounds] = useMeasure();
 
     // 当窗口大小改变时，自动退出全屏模式
