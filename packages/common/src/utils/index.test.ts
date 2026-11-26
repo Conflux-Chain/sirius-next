@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { runInNewContext } from 'node:vm';
 import {
+  toHex,
   toThousands,
   getEllipsStr,
   hex2utf8,
@@ -18,6 +19,21 @@ import {
   validURL,
 } from './index';
 import { test, expect, describe } from 'vitest';
+
+describe('toHex', () => {
+  test.each([
+    ['0', '0x0'],
+    ['123', '0x7b'],
+    ['0xABC', '0xabc'],
+    ['9007199254740993', '0x20000000000001'],
+  ])('converts %s to %s', (value, expected) => {
+    expect(toHex(value)).toBe(expected);
+  });
+
+  test.each(['abc', '0xzz', undefined])('returns undefined for %s', value => {
+    expect(toHex(value)).toBeUndefined();
+  });
+});
 
 describe('validURL', () => {
   test.each([

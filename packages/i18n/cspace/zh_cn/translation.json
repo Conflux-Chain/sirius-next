@@ -1189,11 +1189,17 @@
         "epochNumber": "纪元",
         "minEpochNumber": "最小纪元",
         "maxEpochNumber": "最大纪元",
-        "contractName": "合约名称"
+        "contractName": "合约名称",
+        "fromEpoch": "起始纪元",
+        "toEpoch": "结束纪元",
+        "topic0": "Topic0"
       },
       "error": {
         "invalidHash": "哈希值格式错误",
-        "invalidAddress": "地址格式错误"
+        "invalidAddress": "地址格式错误",
+        "invalidEpoch": "纪元必须是非负整数。",
+        "invalidTopic0": "请输入以 0x 开头的 32 字节十六进制哈希值。",
+        "fromEpochGtToEpoch": "结束纪元不能小于起始纪元。"
       },
       "placeholder": {
         "pleaseSelect": "请输入通证",
@@ -1422,6 +1428,8 @@
       }
     },
     "pagination": {
+      "previous": "上一页",
+      "next": "下一页",
       "labelPageSizeBefore": "每页",
       "labelPageSizeAfter": "条",
       "labelJumperBefore": "跳转到",
@@ -1700,7 +1708,8 @@
       "decode": "解码",
       "hex": "十六进制",
       "text": "文字",
-      "number": "数字"
+      "number": "数字",
+      "unknownEvent": "未知事件"
     },
     "pending": {
       "view": "查看详情",
@@ -2574,5 +2583,10 @@
     "newContractsDeployed": "过去 24 小时部署的合约数",
     "totalContractsVerified": "已验证合约总数",
     "newContractsVerified": "过去 24 小时验证的合约数"
+  },
+  "eventLogs": {
+    "events": "事件",
+    "logs": "日志",
+    "logTips": "事件日志可用于追踪和审计合约活动。"
   }
 }

@@ -177,8 +177,8 @@ importers:
         specifier: ^9.1.2
         version: 9.1.2
       cive:
-        specifier: ^0.8.3
-        version: 0.8.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
+        specifier: ^0.8.5
+        version: 0.8.5(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10)
       clsx:
         specifier: ^2.1.0
         version: 2.1.0
@@ -2545,8 +2545,8 @@ packages:
     resolution: {integrity: sha512-Mz9QMT5fJe7bKI7MH31UilT5cEK5EHHRCccw/YRFsRY47AuNgaV6HY3rscp0/I4Q+tTW/5zoqpSeRRI54TkDWA==}
     engines: {node: '>= 0.10'}
 
-  cive@0.8.3:
-    resolution: {integrity: sha512-cDUoxbKich3wyTldrivK+BALONXhCiNDZFp9HuO9NktBhqWOF+lvkt5zcYvsZ2DU0TbqKeDJXCj0SSY9raWNFw==}
+  cive@0.8.5:
+    resolution: {integrity: sha512-R+3cvh05g7GWC4mt+OBujFhnm+GwdxorDbBHoRfMd10Vc8biMX7jfcdSXItTu5bKkJqsNtYBXA5Qof+50I/+gg==}
 
   cli-cursor@5.0.0:
     resolution: {integrity: sha512-aCj4O5wKyszjMmDT4tZj93kxyydN/K5zPWSCe6/0AV/AA1pqe5ZBIw0a2ZfPQV7lL5/yb5HsUreJ6UFAF1tEQw==}
@@ -7406,7 +7406,7 @@ snapshots:
 
   acorn-globals@7.0.1:
     dependencies:
-      acorn: 8.19.0
+      acorn: 8.15.0
       acorn-walk: 8.3.5
     optional: true
 
@@ -7416,7 +7416,7 @@ snapshots:
 
   acorn-walk@8.3.5:
     dependencies:
-      acorn: 8.19.0
+      acorn: 8.15.0
     optional: true
 
   acorn@8.15.0: {}
@@ -7668,7 +7668,7 @@ snapshots:
       safe-buffer: 5.2.1
       to-buffer: 1.2.2
 
-  cive@0.8.3(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10):
+  cive@0.8.5(bufferutil@4.0.8)(typescript@5.4.3)(utf-8-validate@5.0.10):
     dependencies:
       '@noble/curves': 1.9.1
       '@noble/hashes': 1.8.0
@@ -8757,7 +8757,7 @@ snapshots:
   jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       abab: 2.0.6
-      acorn: 8.19.0
+      acorn: 8.15.0
       acorn-globals: 7.0.1
       cssom: 0.5.0
       cssstyle: 2.3.0
@@ -10034,7 +10034,7 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 26.6.6
-      acorn: 8.19.0
+      acorn: 8.15.0
       acorn-walk: 8.3.5
       arg: 4.1.3
       create-require: 1.1.1

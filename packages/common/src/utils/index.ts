@@ -444,6 +444,15 @@ export function isHex(num: string, withPrefix = true) {
   return Boolean(num.match(reg));
 }
 
+export function toHex(value: string | undefined) {
+  if (value === undefined) return undefined;
+  try {
+    return `0x${BigInt(value).toString(16)}`;
+  } catch {
+    return undefined;
+  }
+}
+
 export function isEvenLength(str: string) {
   const length = str.length;
   return length > 0 && length % 2 === 0;
