@@ -1,5 +1,11 @@
 # @cfxjs/sirius-next-i18n
 
+## 0.3.5
+
+### Patch Changes
+
+- 08e6b08: Add shared components and a hook for browsing Core Space and eSpace contract event logs with range filters, topic filters, and cursor pagination. Add English and Simplified Chinese labels and validation messages for the event log UI.
+
 ## 0.3.4
 
 ### Patch Changes
