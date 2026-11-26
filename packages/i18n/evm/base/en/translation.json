@@ -1037,11 +1037,17 @@
         "author": "Authority",
         "delegatedAddress": "Delegated Address",
         "txSender": "Tx Sender",
-        "contractName": "Contract Name"
+        "contractName": "Contract Name",
+        "fromBlock": "From Block",
+        "toBlock": "To Block",
+        "topic0": "Topic0"
       },
       "error": {
         "invalidHash": "Invalid hash format",
-        "invalidAddress": "Invalid address format"
+        "invalidAddress": "Invalid address format",
+        "invalidBlock": "Enter a non-negative integer for the block height.",
+        "invalidTopic0": "Enter a 32-byte hexadecimal hash starting with 0x.",
+        "fromBlockGtToBlock": "The ending block height must be greater than or equal to the starting block height."
       },
       "placeholder": {
         "pleaseSelect": "Search by Token",
@@ -1289,6 +1295,8 @@
       }
     },
     "pagination": {
+      "previous": "Previous",
+      "next": "Next",
       "labelPageSizeBefore": "Show",
       "labelPageSizeAfter": "Records",
       "labelJumperBefore": "Go to",
@@ -1581,7 +1589,8 @@
       "decode": "Decode",
       "hex": "Hex",
       "text": "Text",
-      "number": "Number"
+      "number": "Number",
+      "unknownEvent": "Unknown event"
     },
     "pending": {
       "view": "View detail",
@@ -2145,5 +2154,10 @@
     "newContractsDeployed": "Contracts Deployed (24h)",
     "totalContractsVerified": "Contracts Verified (Total)",
     "newContractsVerified": "Contracts Verified (24h)"
+  },
+  "eventLogs": {
+    "events": "Events",
+    "logs": "Logs",
+    "logTips": "Use event logs to track and audit contract activity."
   }
 }

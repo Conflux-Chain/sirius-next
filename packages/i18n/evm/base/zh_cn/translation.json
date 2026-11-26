@@ -1036,11 +1036,17 @@
         "author": "授权方",
         "delegatedAddress": "委托地址",
         "txSender": "交易发送方",
-        "contractName": "合约名称"
+        "contractName": "合约名称",
+        "fromBlock": "起始区块高度",
+        "toBlock": "结束区块高度",
+        "topic0": "Topic0"
       },
       "error": {
         "invalidHash": "哈希值格式错误",
-        "invalidAddress": "地址格式错误"
+        "invalidAddress": "地址格式错误",
+        "invalidBlock": "区块高度必须是非负整数。",
+        "invalidTopic0": "请输入以 0x 开头的 32 字节十六进制哈希值。",
+        "fromBlockGtToBlock": "结束区块高度不能小于起始区块高度。"
       },
       "placeholder": {
         "pleaseSelect": "请输入通证",
@@ -1286,6 +1292,8 @@
       }
     },
     "pagination": {
+      "previous": "上一页",
+      "next": "下一页",
       "labelPageSizeBefore": "每页",
       "labelPageSizeAfter": "条",
       "labelJumperBefore": "跳转到",
@@ -1570,7 +1578,8 @@
       "decode": "解码",
       "hex": "十六进制",
       "text": "文字",
-      "number": "数字"
+      "number": "数字",
+      "unknownEvent": "未知事件"
     },
     "pending": {
       "view": "查看详情",
@@ -2132,5 +2141,10 @@
     "newContractsDeployed": "过去 24 小时部署的合约数",
     "totalContractsVerified": "已验证合约总数",
     "newContractsVerified": "过去 24 小时验证的合约数"
+  },
+  "eventLogs": {
+    "events": "事件",
+    "logs": "日志",
+    "logTips": "事件日志可用于追踪和审计合约活动。"
   }
 }
